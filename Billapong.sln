@@ -5,11 +5,11 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Billapong.Core", "src\Billapong.Core\Billapong.Core.csproj", "{5159BE79-DE0E-4A12-8F2B-5771302714E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Billapong.Contract", "Billapong.Contract\Billapong.Contract.csproj", "{AA9FC87B-D90D-4415-8D27-448DEFC4E9F8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Billapong.Contract", "src\Billapong.Contract\Billapong.Contract.csproj", "{AA9FC87B-D90D-4415-8D27-448DEFC4E9F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Billapong.Implementation", "Billapong.Implementation\Billapong.Implementation.csproj", "{18F67450-C79B-4EBF-A0AD-23B3D87151F1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Billapong.Implementation", "src\Billapong.Implementation\Billapong.Implementation.csproj", "{18F67450-C79B-4EBF-A0AD-23B3D87151F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Billapong.ImplementationTest", "Billapong.ImplementationTest\Billapong.ImplementationTest.csproj", "{B202C4E9-FF39-4881-B182-A68E32CD0359}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Billapong.ImplementationTest", "src\Billapong.ImplementationTest\Billapong.ImplementationTest.csproj", "{B202C4E9-FF39-4881-B182-A68E32CD0359}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
