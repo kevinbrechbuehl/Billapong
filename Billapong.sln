@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Billapong.Core", "src\Billa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Billapong.Contract", "Billapong.Contract\Billapong.Contract.csproj", "{AA9FC87B-D90D-4415-8D27-448DEFC4E9F8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Billapong.Implementation", "Billapong.Implementation\Billapong.Implementation.csproj", "{18F67450-C79B-4EBF-A0AD-23B3D87151F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Billapong.ImplementationTest", "Billapong.ImplementationTest\Billapong.ImplementationTest.csproj", "{B202C4E9-FF39-4881-B182-A68E32CD0359}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{AA9FC87B-D90D-4415-8D27-448DEFC4E9F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA9FC87B-D90D-4415-8D27-448DEFC4E9F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA9FC87B-D90D-4415-8D27-448DEFC4E9F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18F67450-C79B-4EBF-A0AD-23B3D87151F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18F67450-C79B-4EBF-A0AD-23B3D87151F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18F67450-C79B-4EBF-A0AD-23B3D87151F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18F67450-C79B-4EBF-A0AD-23B3D87151F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B202C4E9-FF39-4881-B182-A68E32CD0359}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B202C4E9-FF39-4881-B182-A68E32CD0359}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B202C4E9-FF39-4881-B182-A68E32CD0359}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B202C4E9-FF39-4881-B182-A68E32CD0359}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
