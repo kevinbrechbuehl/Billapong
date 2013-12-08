@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Billapong.ImplementationTes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Billapong.Host", "src\Billapong.Host\Billapong.Host.csproj", "{E0348A2F-CC65-4008-852D-E9539409413A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Billapong.GameConsole", "src\Billapong.GameConsole\Billapong.GameConsole.csproj", "{9D2A3ED9-E7F8-4A4F-A34F-0B4421C70CB7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{E0348A2F-CC65-4008-852D-E9539409413A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0348A2F-CC65-4008-852D-E9539409413A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0348A2F-CC65-4008-852D-E9539409413A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D2A3ED9-E7F8-4A4F-A34F-0B4421C70CB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D2A3ED9-E7F8-4A4F-A34F-0B4421C70CB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D2A3ED9-E7F8-4A4F-A34F-0B4421C70CB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D2A3ED9-E7F8-4A4F-A34F-0B4421C70CB7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
