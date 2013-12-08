@@ -12,13 +12,20 @@ namespace Billapong.Host
     {
         static void Main(string[] args)
         {
-            ServiceHost host = null;
+            ServiceHost adminHost = null;
+            ServiceHost consoleHost = null;
             try
             {
-                host = new ServiceHost(typeof(AdministrationService));
-                host.Open();
+                adminHost = new ServiceHost(typeof(AdministrationService));
+                adminHost.Open();
 
                 Console.WriteLine("Administration Service is running");
+
+                consoleHost = new ServiceHost(typeof(ConsoleService));
+                consoleHost.Open();
+
+                Console.WriteLine("Console Service is running");
+
                 Console.ReadKey();
             }
             catch (Exception)
@@ -27,9 +34,14 @@ namespace Billapong.Host
             }
             finally
             {
-                if (host != null)
+                if (adminHost != null)
                 {
-                    host.Close();
+                    adminHost.Close();
+                }
+
+                if (consoleHost != null)
+                {
+                    consoleHost.Close();
                 }
             }
         }
