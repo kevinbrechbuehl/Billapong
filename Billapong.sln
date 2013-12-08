@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Billapong.Implementation", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Billapong.ImplementationTest", "src\Billapong.ImplementationTest\Billapong.ImplementationTest.csproj", "{B202C4E9-FF39-4881-B182-A68E32CD0359}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Billapong.Host", "src\Billapong.Host\Billapong.Host.csproj", "{E0348A2F-CC65-4008-852D-E9539409413A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{B202C4E9-FF39-4881-B182-A68E32CD0359}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B202C4E9-FF39-4881-B182-A68E32CD0359}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B202C4E9-FF39-4881-B182-A68E32CD0359}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0348A2F-CC65-4008-852D-E9539409413A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0348A2F-CC65-4008-852D-E9539409413A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0348A2F-CC65-4008-852D-E9539409413A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0348A2F-CC65-4008-852D-E9539409413A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
