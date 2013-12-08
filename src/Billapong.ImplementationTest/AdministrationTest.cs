@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using Billapong.Contract.Service;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Billapong.Implementation;
 
@@ -10,10 +12,10 @@ namespace Billapong.ImplementationTest
         [TestMethod]
         public void TestMethod1()
         {
-            var service = new AdministrationService();
-            var testName = service.Test("Kevin");
-            Assert.IsNotNull(testName);
-            StringAssert.Equals(testName, "Hello Kevin");
+            IAdministrationService service = new AdministrationService();
+            var maps = service.GetMaps();
+            Assert.IsNotNull(maps);
+            Assert.IsTrue(maps.Any());
         }
     }
 }

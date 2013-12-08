@@ -1,4 +1,5 @@
-﻿using Billapong.Contract.Service;
+﻿using Billapong.Contract.Data;
+using Billapong.Contract.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,10 @@ namespace Billapong.Implementation
 {
     public class AdministrationService : IAdministrationService
     {
-        public string Test(string name)
+        public IEnumerable<Map> GetMaps()
         {
-            return string.Format("Hello {0}", name);
+            yield return new Map { Id = 1, Name = "First map" };
+            yield return new Map { Id = 2, Name = "Second map" };
         }
     }
 }

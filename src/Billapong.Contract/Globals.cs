@@ -9,5 +9,7 @@ namespace Billapong.Contract
     public static class Globals
     {
         public const string ServiceContractNamespaceName = "http://billapong.net/ServiceContracts";
+
+        public const string DataContractNamespaceName = "http://billapong.net/DataContracts";
     }
 }
