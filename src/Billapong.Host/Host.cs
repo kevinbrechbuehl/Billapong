@@ -1,10 +1,8 @@
-﻿using System;
+﻿using Billapong.Implementation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
-using Billapong.Implementation;
 
 namespace Billapong.Host
 {
@@ -36,7 +34,9 @@ namespace Billapong.Host
             
             try
             {
+                WriteTitle();
                 Console.WriteLine("Console host up and running. Type {0} and enter for command list.", CommandHelp);
+                Console.WriteLine(string.Empty);
                 this.ManageService(CommandStart, AllServices);
                 string userInput;
 
@@ -55,8 +55,7 @@ namespace Billapong.Host
             {
                 if (this.serviceHosts != null)
                 {
-                    foreach (var serviceHost in serviceHosts
-                        .Where(serviceHost => serviceHost.Value != null))
+                    foreach (var serviceHost in serviceHosts.Where(serviceHost => serviceHost.Value != null))
                     {
                         serviceHost.Value.Close();
                     }
@@ -66,6 +65,8 @@ namespace Billapong.Host
 
         private void ParseCommand(string userInput)
         {
+            Console.WriteLine(string.Empty);
+            
             if (userInput == CommandExit)
             {
                 return;
@@ -75,50 +76,82 @@ namespace Billapong.Host
             {
                 WriteHelp();
             }
-
-            if (userInput == CommandStatus)
+            else if (userInput == CommandStatus)
             {
                 WriteStatus();
             }
-
-            if (userInput.StartsWith(CommandStart) || userInput.StartsWith(CommandStop))
+            else if (userInput.StartsWith(CommandStart) || userInput.StartsWith(CommandStop))
             {
                 var input = userInput.Split(' ');
                 if (input.Length != 2)
                 {
-                    Console.WriteLine("Invalid input");
+                    Console.WriteLine(" Invalid input :(");
+                    Console.WriteLine(string.Empty);
                     return;
                 }
 
                 if (input[1] != AllServices && !this.serviceHosts.ContainsKey(input[1]))
                 {
-                    Console.WriteLine("Service '{0}' does not exists", input[1]);
+                    Console.WriteLine(" Service '{0}' does not exists", input[1]);
+                    Console.WriteLine(string.Empty);
                     return;
                 }
 
                 this.ManageService(input[0], input[1]);
             }
+
+            Console.WriteLine(string.Empty);
         }
 
         private void WriteHelp()
         {
-            Console.WriteLine("Type one of the command followed by the enter key:");
-            Console.WriteLine("\t- {0}: Show this help", CommandHelp);
-            Console.WriteLine("\t- {0}: Exit the console service host", CommandExit);
-            Console.WriteLine("\t- {0}: Show status of the different services", CommandStatus);
-            Console.WriteLine("\t- {0} <{1}>: start the specific service", CommandStart, string.Join("|", this.serviceHosts.Keys.Select(i => i.ToString()).ToArray()));
-            Console.WriteLine("\t- {0} <{1}>: stop the specific service", CommandStop, string.Join("|", this.serviceHosts.Keys.Select(i => i.ToString()).ToArray()));
+            Console.WriteLine(" Type one of the command followed by the enter key:");
+            Console.WriteLine(string.Empty);
+            Console.WriteLine("   -> {0}:\t\tShow this help", CommandHelp);
+            Console.WriteLine("   -> {0}:\t\tExit the console service host", CommandExit);
+            Console.WriteLine("   -> {0}:\t\tShow status of the different services", CommandStatus);
+            Console.WriteLine("   -> {0} <service>:\tstart the specific service", CommandStart);
+            Console.WriteLine("   -> {0} <service>:\tstop the specific service", CommandStop);
+            Console.WriteLine(string.Empty);
+            Console.WriteLine(" Available services: {0}", string.Join(", ", this.serviceHosts.Keys.Select(i => i.ToString()).ToArray()));
         }
 
         private void WriteStatus()
         {
             foreach (var serviceHost in this.serviceHosts)
             {
-                Console.WriteLine("{0}: {1}", serviceHost.Key, (serviceHost.Value != null ? this.GetStatus(serviceHost.Value.State) : "null"));
+                Console.WriteLine(" Service '{0}': {1}", serviceHost.Key, (serviceHost.Value != null ? GetStatus(serviceHost.Value.State) : "null"));
             }
         }
 
-        private string GetStatus(CommunicationState state)
+        private void ManageService(string action, string serviceName)
+        {
+            if (serviceName == AllServices)
+            {
+                foreach (var service in this.serviceHosts)
+                {
+                    ManageService(action, service.Value, service.Key);
+                }
+
+                Console.WriteLine(string.Empty);
+                return;
+            }
+            
+            ManageService(action, this.serviceHosts[serviceName], serviceName);
+        }
+
+        private static void WriteTitle()
+        {
+            Console.WriteLine(string.Empty);
+            Console.WriteLine(@"       ____ ___ _     _        _    ____   ___  _   _  ____");
+            Console.WriteLine(@"      | __ )_ _| |   | |      / \  |  _ \ / _ \| \ | |/ ___|");
+            Console.WriteLine(@"      |  _ \| || |   | |     / _ \ | |_) | | | |  \| | |  _ ");
+            Console.WriteLine(@"      | |_) | || |___| |___ / ___ \|  __/| |_| | |\  | |_| |");
+            Console.WriteLine(@"      |____/___|_____|_____/_/   \_\_|    \___/|_| \_|\____|");
+            Console.WriteLine(string.Empty);
+        }
+
+        private static string GetStatus(CommunicationState state)
         {
             switch (state)
             {
@@ -130,59 +163,44 @@ namespace Billapong.Host
                 case CommunicationState.Opening:
                     return "started";
                 default:
-                    return "failed";
+                    return "failed"; // todo: handle failed status in the host
             }
         }
 
-        private void ManageService(string action, string serviceName)
-        {
-            if (serviceName == AllServices)
-            {
-                foreach (var service in this.serviceHosts)
-                {
-                    this.ManageService(action, service.Value, service.Key);
-                }
-
-                return;
-            }
-            
-            this.ManageService(action, this.serviceHosts[serviceName], serviceName);
-        }
-
-        private void ManageService(string action, ServiceHost service, string serviceName)
+        private static void ManageService(string action, ServiceHost service, string serviceName)
         {
             if (action == CommandStart)
             {
-                this.StartService(service, serviceName);
+                StartService(service, serviceName);
             }
             else
             {
-                this.StopService(service, serviceName);
+                StopService(service, serviceName);
             }
         }
 
-        private void StartService(ServiceHost service, string serviceName)
+        private static void StartService(ServiceHost service, string serviceName)
         {
             if (service.State == CommunicationState.Opened || service.State == CommunicationState.Opening)
             {
-                Console.WriteLine("Service '{0}' already running", serviceName);
+                Console.WriteLine(" Service '{0}' already running", serviceName);
                 return;
             }
 
             service.Open();
-            Console.WriteLine("Service '{0}' started", serviceName);
+            Console.WriteLine(" ... Service '{0}' started", serviceName);
         }
 
-        private void StopService(ServiceHost service, string serviceName)
+        private static void StopService(ServiceHost service, string serviceName)
         {
             if (service.State == CommunicationState.Closed || service.State == CommunicationState.Closing)
             {
-                Console.WriteLine("Service '{0}' not running", serviceName);
+                Console.WriteLine(" Service '{0}' not running", serviceName);
                 return;
             }
 
             service.Close();
-            Console.WriteLine("Service '{0}' stopped", serviceName);
+            Console.WriteLine(" ... Service '{0}' stopped", serviceName);
         }
     }
 }
