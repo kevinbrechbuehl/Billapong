@@ -66,6 +66,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ServiceClient.cs" />
     <Compile Include="GameWindow.xaml.cs">
       <DependentUpon>GameWindow.xaml</DependentUpon>
     </Compile>
@@ -102,6 +103,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Billapong.Core.Client\Billapong.Core.Client.csproj">
+      <Project>{2998c75f-9555-4732-b440-1766f55b7543}</Project>
+      <Name>Billapong.Core.Client</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Billapong.Contract\Billapong.Contract.csproj">
       <Project>{AA9FC87B-D90D-4415-8D27-448DEFC4E9F8}</Project>
       <Name>Billapong.Contract</Name>

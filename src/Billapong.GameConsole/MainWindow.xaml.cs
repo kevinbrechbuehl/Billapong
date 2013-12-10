@@ -22,19 +22,21 @@ namespace Billapong.GameConsole
     /// </summary>
     public partial class MainWindow : Window
     {
+        private ServiceClient client;
+        
         public MainWindow()
         {
             InitializeComponent();
+
+            this.client = new ServiceClient(
+                new NetTcpBinding(),
+                new EndpointAddress("net.tcp://localhost:4711"));
         }
 
         private void GetMaps_Clicked(object sender, RoutedEventArgs e)
         {
-            var proxy = ChannelFactory<IConsoleService>.CreateChannel(
-                new NetTcpBinding(),
-                new EndpointAddress("net.tcp://localhost:4711"));
-
-            var result = proxy.GetMaps();
-            tbMapCount.Text = result.Count().ToString();
+            var result = this.client.GetMaps();
+            MessageBox.Show(string.Format("Map count is: {0}", result.Count()));
         }
     }
 }
