@@ -187,9 +187,7 @@ namespace Billapong.Host
                 return;
             }
 
-            if (service.State == CommunicationState.Closed
-                || service.State == CommunicationState.Closing
-                || service.State == CommunicationState.Faulted)
+            if (service.State != CommunicationState.Created)
             {
                 var type = service.GetType();
                 service = new ServiceHost(type);
