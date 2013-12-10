@@ -140,7 +140,7 @@ namespace Billapong.Host
             ManageService(action, this.serviceHosts[serviceName], serviceName);
         }
 
-        private static void WriteTitle()
+        private void WriteTitle()
         {
             Console.WriteLine(string.Empty);
             Console.WriteLine(@"       ____ ___ _     _        _    ____   ___  _   _  ____");
@@ -151,7 +151,7 @@ namespace Billapong.Host
             Console.WriteLine(string.Empty);
         }
 
-        private static string GetStatus(CommunicationState state)
+        private string GetStatus(CommunicationState state)
         {
             switch (state)
             {
@@ -167,19 +167,19 @@ namespace Billapong.Host
             }
         }
 
-        private static void ManageService(string action, ServiceHost service, string serviceName)
+        private void ManageService(string action, ServiceHost service, string serviceName)
         {
             if (action == CommandStart)
             {
-                StartService(service, serviceName);
+                this.StartService(service, serviceName);
             }
             else
             {
-                StopService(service, serviceName);
+                this.StopService(service, serviceName);
             }
         }
 
-        private static void StartService(ServiceHost service, string serviceName)
+        private void StartService(ServiceHost service, string serviceName)
         {
             if (service.State == CommunicationState.Opened || service.State == CommunicationState.Opening)
             {
@@ -187,11 +187,20 @@ namespace Billapong.Host
                 return;
             }
 
+            if (service.State == CommunicationState.Closed
+                || service.State == CommunicationState.Closing
+                || service.State == CommunicationState.Faulted)
+            {
+                var type = service.GetType();
+                service = new ServiceHost(type);
+                this.serviceHosts[serviceName] = service;
+            }
+
             service.Open();
             Console.WriteLine(" ... Service '{0}' started", serviceName);
         }
 
-        private static void StopService(ServiceHost service, string serviceName)
+        private void StopService(ServiceHost service, string serviceName)
         {
             if (service.State == CommunicationState.Closed || service.State == CommunicationState.Closing)
             {
