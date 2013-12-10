@@ -99,6 +99,10 @@ namespace Billapong.Host
 
                 this.ManageService(input[0], input[1]);
             }
+            else
+            {
+                Console.WriteLine(" Invalid input :(");
+            }
 
             Console.WriteLine(string.Empty);
         }
