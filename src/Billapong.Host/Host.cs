@@ -6,6 +6,8 @@ using System.ServiceModel;
 
 namespace Billapong.Host
 {
+    using Core.Server.Services;
+
     public class Host
     {
         private const string CommandExit = "exit";
@@ -22,6 +24,7 @@ namespace Billapong.Host
         {
             this.serviceHosts = new Dictionary<string, ServiceHost>
             {
+                {"tracing", new ServiceHost(typeof (TracingService))},    
                 {"administration", new ServiceHost(typeof (AdministrationService))},
                 {"console", new ServiceHost(typeof (ConsoleService))}
             };
