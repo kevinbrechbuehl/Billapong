@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -13,22 +14,48 @@ namespace Billapong.GameConsole
     public partial class GameWindow : Window
     {
         private readonly Ellipse ballEllipse;
-        private Vector direction = new Vector(0, 0);
-        private const int EllipseDiameter = 20;
+        private readonly List<Ellipse> holes = new List<Ellipse>();
+        private Vector direction;
+        private int gridSizeX = 10;
+        private int gridSizeY = 10;
         private bool ballMoving;
-        private const float Speed = 10;
+        private double speed = 10;
         private int wallHits;
+        private readonly double ballDiameter;
 
         public GameWindow()
         {
             InitializeComponent();
 
+            double holeDiameter = mapCanvas.Width/gridSizeX;
+            ballDiameter = holeDiameter/2;
+            speed = mapCanvas.Width/30;
+
+            var random = new Random();
+
+            // Test holes
+            for (var i = 0; i < 5; i++)
+            {
+                var hole = new Ellipse()
+                {
+                    Fill = new SolidColorBrush(Colors.Black),
+                    Height = holeDiameter,
+                    Width = holeDiameter
+                };
+
+                mapCanvas.Children.Add(hole);
+                Canvas.SetLeft(hole, random.Next(0, Convert.ToInt32(mapCanvas.Height)));
+                Canvas.SetTop(hole, random.Next(0, Convert.ToInt32(mapCanvas.Height)));
+
+                holes.Add(hole);
+            }
+
             // Add ball to map
             ballEllipse = new Ellipse
             {
-                Fill = new SolidColorBrush(Colors.Black),
-                Height = EllipseDiameter,
-                Width = EllipseDiameter
+                Fill = new SolidColorBrush(Colors.Red),
+                Height = ballDiameter,
+                Width = ballDiameter
             };
             mapCanvas.Children.Add(ballEllipse);
 
@@ -41,37 +68,46 @@ namespace Billapong.GameConsole
             if (ballMoving)
             {
                 Point currentPosition = GetLocation(ballEllipse);
-                Point newPosition = currentPosition + (direction*Speed);
+                Point newPosition = currentPosition + (direction*speed);
 
                 // Fix border positions if out of bounds
                 if (newPosition.X < 0)
                 {
                     newPosition.X = 0;
                 }
-                else if (newPosition.X > mapCanvas.ActualWidth - EllipseDiameter)
+                else if (newPosition.X > mapCanvas.ActualWidth - ballDiameter)
                 {
-                    newPosition.X = mapCanvas.ActualWidth - EllipseDiameter;
+                    newPosition.X = mapCanvas.ActualWidth - ballDiameter;
                 }
 
                 if (newPosition.Y < 0)
                 {
                     newPosition.Y = 0;
                 }
-                else if (newPosition.Y > mapCanvas.Height - EllipseDiameter)
+                else if (newPosition.Y > mapCanvas.ActualHeight - ballDiameter)
                 {
-                    newPosition.Y = mapCanvas.Height - EllipseDiameter;
+                    newPosition.Y = mapCanvas.ActualHeight - ballDiameter;
                 }
 
                 // Check for wall hit and change ball direction
-                if (newPosition.X >= mapCanvas.ActualWidth - EllipseDiameter || newPosition.X <= 0)
+                if (newPosition.X >= mapCanvas.ActualWidth - ballDiameter || newPosition.X <= 0)
                 {
                     direction.X *= -1;
                     wallHits++;
                 }
-                if (newPosition.Y >= mapCanvas.ActualHeight - EllipseDiameter || newPosition.Y <= 0)
+                if (newPosition.Y >= mapCanvas.ActualHeight - ballDiameter || newPosition.Y <= 0)
                 {
                     direction.Y *= -1;
                     wallHits++;
+                }
+
+                foreach (var hole in holes)
+                {
+                    if (BallHitHole(ballEllipse, hole))
+                    {
+                        ballMoving = false;
+                        CompositionTarget.Rendering -= Render;
+                    }
                 }
 
                 SetLocation(ballEllipse,newPosition);
@@ -93,18 +129,55 @@ namespace Billapong.GameConsole
             return new Point(Canvas.GetLeft(frameworkElement), Canvas.GetTop(frameworkElement));
         }
 
+        private bool BallHitHole(Ellipse ball, Ellipse hole)
+        {
+
+            
+            Point centerOfBall = new Point(
+                  Canvas.GetLeft(ball) + (ball.Width / 2),
+                  Canvas.GetTop(ball) + (ball.Height / 2));
+
+            Point centerOfHole = new Point(
+                  Canvas.GetLeft(hole) + (hole.Width / 2),
+                  Canvas.GetTop(hole) + (hole.Height / 2));
+
+            double _xRadius = hole.Width / 2;
+            double _yRadius = hole.Height / 2;
+
+
+            if (_xRadius <= 0.0 || _yRadius <= 0.0)
+                return false;
+
+            Point normalized = new Point(centerOfHole.X - centerOfBall.X,
+                                         centerOfHole.Y - centerOfBall.Y);
+
+            return ((double)(normalized.X * normalized.X)
+                     / (_xRadius * _xRadius)) + ((double)(normalized.Y * normalized.Y) / (_yRadius * _yRadius))
+                <= 1.0;
+  
+        }
+
         private void MapCanvas_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
-            var ellipsePosition = GetLocation(ballEllipse);
-            var mousePosition = Mouse.GetPosition(mapCanvas);
-            direction = new Vector(mousePosition.X, mousePosition.Y) - new Vector(ellipsePosition.X, ellipsePosition.Y);
-            direction.Normalize();
-
             if (!ballMoving)
             {
+                if (direction == default(Vector))
+                {
+                    var ellipsePosition = GetLocation(ballEllipse);
+                    var mousePosition = Mouse.GetPosition(mapCanvas);
+                    direction = new Vector(mousePosition.X, mousePosition.Y) -
+                                new Vector(ellipsePosition.X, ellipsePosition.Y);
+                    direction.Normalize();
+                }
+
                 wallHits = 0;
                 ballMoving = true;
                 CompositionTarget.Rendering += Render;
+            }
+            else
+            {
+                ballMoving = false;
+                CompositionTarget.Rendering -= Render;
             }
         }
     }

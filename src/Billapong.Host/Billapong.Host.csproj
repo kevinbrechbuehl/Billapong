@@ -54,7 +54,7 @@
       <Project>{AA9FC87B-D90D-4415-8D27-448DEFC4E9F8}</Project>
       <Name>Billapong.Contract</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Billapong.Implementation\Billapong.Core.Server.csproj">
+    <ProjectReference Include="..\Billapong.Core.Server\Billapong.Core.Server.csproj">
       <Project>{18f67450-c79b-4ebf-a0ad-23b3d87151f1}</Project>
       <Name>Billapong.Core.Server</Name>
     </ProjectReference>
