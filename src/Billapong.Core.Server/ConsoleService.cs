@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Billapong.Contract.Data;
 using Billapong.Contract.Service;
 
-namespace Billapong.Implementation
+namespace Billapong.Core.Server
 {
     public class ConsoleService : IConsoleService
     {

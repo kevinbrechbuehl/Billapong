@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
-using System.Text;
-using System.Threading.Tasks;
 using Billapong.Contract.Data;
 using Billapong.Contract.Service;
 using Billapong.Core.Client;

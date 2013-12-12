@@ -54,9 +54,9 @@
       <Project>{AA9FC87B-D90D-4415-8D27-448DEFC4E9F8}</Project>
       <Name>Billapong.Contract</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Billapong.Implementation\Billapong.Implementation.csproj">
-      <Project>{18F67450-C79B-4EBF-A0AD-23B3D87151F1}</Project>
-      <Name>Billapong.Implementation</Name>
+    <ProjectReference Include="..\Billapong.Implementation\Billapong.Core.Server.csproj">
+      <Project>{18f67450-c79b-4ebf-a0ad-23b3d87151f1}</Project>
+      <Name>Billapong.Core.Server</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

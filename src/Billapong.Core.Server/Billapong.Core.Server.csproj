@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5159BE79-DE0E-4A12-8F2B-5771302714E8}</ProjectGuid>
+    <ProjectGuid>{18F67450-C79B-4EBF-A0AD-23B3D87151F1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Billapong.Core</RootNamespace>
-    <AssemblyName>Billapong.Core</AssemblyName>
+    <RootNamespace>Billapong.Core.Server</RootNamespace>
+    <AssemblyName>Billapong.Core.Server</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,7 +39,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdministrationService.cs" />
+    <Compile Include="ConsoleService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Billapong.Contract\Billapong.Contract.csproj">
+      <Project>{aa9fc87b-d90d-4415-8d27-448defc4e9f8}</Project>
+      <Name>Billapong.Contract</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
