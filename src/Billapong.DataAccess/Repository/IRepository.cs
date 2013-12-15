@@ -19,16 +19,16 @@
         void Add(TEntity entity);
 
         /// <summary>
-        /// Deletes the specified entity by id.
+        /// Removes the specified entity by id.
         /// </summary>
         /// <param name="id">The id.</param>
-        void Delete(object id);
+        void Remove(object id);
 
         /// <summary>
-        /// Deletes the specified entity.
+        /// Removes the specified entity.
         /// </summary>
         /// <param name="entityToDelete">The entity to delete.</param>
-        void Delete(TEntity entityToDelete);
+        void Remove(TEntity entityToDelete);
 
         /// <summary>
         /// Updates the specified entity.
@@ -43,7 +43,7 @@
         /// <param name="orderBy">The sort order.</param>
         /// <param name="includeProperties">The include properties which should be eager loaded.</param>
         /// <returns>List of entities</returns>
-        IEnumerable<TEntity> Get(
+        IQueryable<TEntity> Get(
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             string includeProperties = "");

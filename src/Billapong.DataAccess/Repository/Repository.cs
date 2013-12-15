@@ -17,14 +17,22 @@
         /// Disposed member.
         /// </summary>
         private bool disposed;
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Repository{TEntity}"/> class.
         /// </summary>
-        public Repository()
+        public Repository() : this(new BillapongDbContext())
         {
-            this.Context = BillapongDbContext.Instance;
-            this.DatabaseSet = this.Context.Set<TEntity>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Repository{TEntity}"/> class.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        public Repository(BillapongDbContext context)
+        {
+            this.context = context;
+            this.databaseSet = context.Set<TEntity>();
         }
 
         /// <summary>
@@ -33,7 +41,7 @@
         /// <value>
         /// The context.
         /// </value>
-        protected BillapongDbContext Context { get; set; }
+        private readonly BillapongDbContext context;
 
         /// <summary>
         /// Gets or sets the database set.
@@ -41,7 +49,7 @@
         /// <value>
         /// The database set.
         /// </value>
-        protected DbSet<TEntity> DatabaseSet { get; set; }
+        private readonly DbSet<TEntity> databaseSet;
 
         /// <summary>
         /// Inserts the specified entity.
@@ -49,31 +57,31 @@
         /// <param name="entity">The entity.</param>
         public virtual void Add(TEntity entity)
         {
-            this.DatabaseSet.Add(entity);
+            this.databaseSet.Add(entity);
         }
 
         /// <summary>
-        /// Deletes the specified entity by id.
+        /// Removes the specified entity by id.
         /// </summary>
         /// <param name="id">The id.</param>
-        public virtual void Delete(object id)
+        public virtual void Remove(object id)
         {
-            var entityToDelete = this.DatabaseSet.Find(id);
-            this.Delete(entityToDelete);
+            var entityToDelete = this.databaseSet.Find(id);
+            this.Remove(entityToDelete);
         }
 
         /// <summary>
-        /// Deletes the specified entity.
+        /// Removes the specified entity.
         /// </summary>
         /// <param name="entityToDelete">The entity to delete.</param>
-        public virtual void Delete(TEntity entityToDelete)
+        public virtual void Remove(TEntity entityToDelete)
         {
-            if (this.Context.Entry(entityToDelete).State == EntityState.Detached)
+            if (this.context.Entry(entityToDelete).State == EntityState.Detached)
             {
-                this.DatabaseSet.Attach(entityToDelete);
+                this.databaseSet.Attach(entityToDelete);
             }
 
-            this.DatabaseSet.Remove(entityToDelete);
+            this.databaseSet.Remove(entityToDelete);
         }
 
         /// <summary>
@@ -82,8 +90,8 @@
         /// <param name="entityToUpdate">The entity to update.</param>
         public virtual void Update(TEntity entityToUpdate)
         {
-            this.DatabaseSet.Attach(entityToUpdate);
-            this.Context.Entry(entityToUpdate).State = EntityState.Modified;
+            this.databaseSet.Attach(entityToUpdate);
+            this.context.Entry(entityToUpdate).State = EntityState.Modified;
         }
 
         /// <summary>
@@ -93,29 +101,24 @@
         /// <param name="orderBy">The sort order.</param>
         /// <param name="includeProperties">The include properties which should be eager loaded.</param>
         /// <returns>List of entities</returns>
-        public virtual IEnumerable<TEntity> Get(
+        public virtual IQueryable<TEntity> Get(
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             string includeProperties = "")
         {
-            IQueryable<TEntity> query = this.DatabaseSet;
+            IQueryable<TEntity> query = this.databaseSet;
 
             if (filter != null)
             {
                 query = query.Where(filter);
             }
 
-            foreach (string includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            foreach (var includeProperty in includeProperties.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
             {
                 query = query.Include(includeProperty);
             }
 
-            if (orderBy != null)
-            {
-                return orderBy(query).ToList();
-            }
-
-            return query.ToList();
+            return orderBy != null ? orderBy(query) : query;
         }
 
         /// <summary>
@@ -125,7 +128,7 @@
         /// <returns>The entity with this id</returns>
         public virtual TEntity GetById(object id)
         {
-            return this.DatabaseSet.Find(id);
+            return this.databaseSet.Find(id);
         }
 
         /// <summary>
@@ -133,7 +136,7 @@
         /// </summary>
         public virtual void Save()
         {
-            this.Context.SaveChanges();
+            this.context.SaveChanges();
         }
 
         /// <summary>
@@ -155,7 +158,7 @@
             {
                 if (disposing)
                 {
-                    this.Context.Dispose();
+                    this.context.Dispose();
                 }
             }
 
