@@ -50,9 +50,10 @@
       <Project>{aa9fc87b-d90d-4415-8d27-448defc4e9f8}</Project>
       <Name>Billapong.Contract</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
+    <ProjectReference Include="..\Billapong.DataAccess\Billapong.DataAccess.csproj">
+      <Project>{80157a62-73ec-4a78-bfd7-422ff16e49a8}</Project>
+      <Name>Billapong.DataAccess</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

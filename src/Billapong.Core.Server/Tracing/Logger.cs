@@ -3,32 +3,41 @@
 namespace Billapong.Core.Server.Tracing
 {
     using Contract.Data.Tracing;
-    using System.Diagnostics;
+    using DataAccess.Repository;
+    using LogMessage = DataAccess.Model.Tracing.LogMessage;
 
     public class Logger
     {
-        public static void LogMessage(DateTime timestamp, LogLevel logLevel, string module, string message)
+        #region Singleton Implementation
+
+        public static Logger Instance { get; private set; }
+
+        static Logger()
         {
-            switch (logLevel)
-            {
-                 case LogLevel.Debug:
-                    WriteLog(timestamp, "DEBUG", module, message);
-                    break;
-                 case LogLevel.Info:
-                    WriteLog(timestamp, "INFO", module, message);
-                    break;
-                 case LogLevel.Warn:
-                    WriteLog(timestamp, "WARN", module, message);
-                    break;
-                 case LogLevel.Error:
-                    WriteLog(timestamp, "ERROR", module, message);
-                    break;
-            }
+            Instance = new Logger();
         }
 
-        private static void WriteLog(DateTime timestamp, string logLevel, string module, string message)
+        private Logger()
         {
-            Trace.WriteLine(string.Format("{0} - {1} - {2} :: {3}", timestamp, logLevel, module, message));
+            this.repository = new Repository<LogMessage>();
+        }
+
+        #endregion
+
+        private readonly IRepository<LogMessage> repository; 
+        
+        public void LogMessage(DateTime timestamp, LogLevel logLevel, string module, string message)
+        {
+            var logMessage = new LogMessage
+            {
+                Timestamp = timestamp,
+                LogLevel = logLevel.ToString(),
+                Module = module,
+                Message = message
+            };
+
+            this.repository.Add(logMessage);
+            this.repository.Save();
         }
     }
 }

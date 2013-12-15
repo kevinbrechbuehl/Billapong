@@ -16,7 +16,7 @@ namespace Billapong.Core.Server.Services
         {
             foreach (var message in messages)
             {
-                Logger.LogMessage(message.Timestamp, message.LogLevel, message.Module, message.Message);
+                Logger.Instance.LogMessage(message.Timestamp, message.LogLevel, message.Module, message.Message);
             }
         }
 
