@@ -7,7 +7,7 @@ using Billapong.Core.Client;
 
 namespace Billapong.GameConsole
 {
-    public class ServiceClient : RichClientBase<IConsoleService>, IConsoleService
+    /*public class ServiceClient : RichClientBase<IConsoleService>, IConsoleService
     {
         public ServiceClient(Binding binding, EndpointAddress endpointAddress) : base(binding, endpointAddress)
         {
@@ -18,5 +18,5 @@ namespace Billapong.GameConsole
         {
             return base.Execute(() => base.Proxy.GetMaps());
         }
-    }
+    }*/
 }
