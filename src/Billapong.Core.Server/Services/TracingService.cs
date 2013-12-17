@@ -7,9 +7,16 @@
     using System.ServiceModel;
     using Tracing;
 
+    /// <summary>
+    /// The tracing service implementation.
+    /// </summary>
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
     public class TracingService : ITracingService
     {
+        /// <summary>
+        /// Logs the specified messages.
+        /// </summary>
+        /// <param name="messages">The messages.</param>
         public void Log(IEnumerable<LogMessage> messages)
         {
             foreach (var message in messages)
