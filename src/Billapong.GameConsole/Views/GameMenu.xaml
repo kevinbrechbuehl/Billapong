@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Billapong Menu" Height="400" Width="600">
     <Grid>
-        <TextBlock FontFamily="Consolas" xml:space="preserve" HorizontalAlignment="Center">
+        <TextBlock FontFamily="Consolas" xml:space="preserve" HorizontalAlignment="Center" Height="100" VerticalAlignment="Top">
  ____ ___ _     _        _    ____   ___  _   _  ____
 | __ )_ _| |   | |      / \  |  _ \ / _ \| \ | |/ ___|
 |  _ \| || |   | |     / _ \ | |_) | | | |  \| | |  _
