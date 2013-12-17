@@ -2,6 +2,7 @@
 
 namespace Billapong.Core.Server.Tracing
 {
+    using System.Diagnostics;
     using Contract.Data.Tracing;
     using DataAccess.Repository;
     using LogMessage = DataAccess.Model.Tracing.LogMessage;
@@ -38,6 +39,8 @@ namespace Billapong.Core.Server.Tracing
 
             this.repository.Add(logMessage);
             this.repository.Save();
+
+            Trace.WriteLine(string.Format("{0} - {1} - {2}", timestamp, logLevel, message), module);
         }
     }
 }
