@@ -37,13 +37,13 @@
         public string Component { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the sender.
+        /// Gets or sets the sender.
         /// </summary>
         /// <value>
-        /// The name of the sender.
+        /// The sender.
         /// </value>
         [DataMember(Name = "Sender", Order = 1)]
-        public string SenderName { get; set; }
+        public string Sender { get; set; }
 
         /// <summary>
         /// Gets or sets the message.

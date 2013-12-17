@@ -27,21 +27,21 @@ namespace Billapong.Core.Server.Tracing
 
         private readonly IRepository<LogMessage> repository; 
         
-        public void LogMessage(DateTime timestamp, LogLevel logLevel, string component, string senderName, string message)
+        public void LogMessage(DateTime timestamp, LogLevel logLevel, string component, string sender, string message)
         {
             var logMessage = new LogMessage
             {
                 Timestamp = timestamp,
                 LogLevel = logLevel.ToString(),
                 Component = component,
-                SenderName = senderName,
+                Sender = sender,
                 Message = message
             };
 
             this.repository.Add(logMessage);
             this.repository.Save();
 
-            Trace.WriteLine(string.Format("{0} - {1} - {2}", timestamp, logLevel, message), string.Format("{0} ({1})", component, senderName));
+            Trace.WriteLine(string.Format("{0} - {1} - {2}", timestamp, logLevel, message), string.Format("{0} ({1})", component, sender));
         }
     }
 }
