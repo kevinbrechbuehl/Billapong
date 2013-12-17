@@ -101,6 +101,8 @@ namespace Billapong.GameConsole
                     wallHits++;
                 }
 
+                SetLocation(ballEllipse,newPosition);
+
                 foreach (var hole in holes)
                 {
                     if (BallHitHole(ballEllipse, hole))
@@ -109,8 +111,6 @@ namespace Billapong.GameConsole
                         CompositionTarget.Rendering -= Render;
                     }
                 }
-
-                SetLocation(ballEllipse,newPosition);
             }
             else
             {
@@ -130,9 +130,7 @@ namespace Billapong.GameConsole
         }
 
         private bool BallHitHole(Ellipse ball, Ellipse hole)
-        {
-
-            
+        {   
             Point centerOfBall = new Point(
                   Canvas.GetLeft(ball) + (ball.Width / 2),
                   Canvas.GetTop(ball) + (ball.Height / 2));

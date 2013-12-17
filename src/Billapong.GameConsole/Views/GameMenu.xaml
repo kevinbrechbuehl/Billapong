@@ -1,0 +1,17 @@
+﻿<Window x:Class="Billapong.GameConsole.Views.GameMenu"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Billapong Menu" Height="400" Width="600">
+    <Grid>
+        <TextBlock FontFamily="Consolas" xml:space="preserve" HorizontalAlignment="Center">
+ ____ ___ _     _        _    ____   ___  _   _  ____
+| __ )_ _| |   | |      / \  |  _ \ / _ \| \ | |/ ___|
+|  _ \| || |   | |     / _ \ | |_) | | | |  \| | |  _
+| |_) | || |___| |___ / ___ \|  __/| |_| | |\  | |_| |
+|____/___|_____|_____/_/   \_\_|    \___/|_| \_|\____|
+        </TextBlock>
+
+        <Button Name="openGameWindow" Command="{Binding OpenGameWindowCommand}" Height="20" Width="200">Open Game Window</Button>
+        <Button Name="doLog" Command="{Binding Log}" Height="20" Width="200" Margin="0,50,0,0">Kevins Log</Button>
+    </Grid>
+</Window>
