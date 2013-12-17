@@ -12,6 +12,6 @@
         </TextBlock>
 
         <Button Name="openGameWindow" Command="{Binding OpenGameWindowCommand}" Height="20" Width="200">Open Game Window</Button>
-        <Button Name="doLog" Command="{Binding Log}" Height="20" Width="200" Margin="0,50,0,0">Kevins Log</Button>
+        <Button Name="doLog" Command="{Binding LogCommand}" Height="20" Width="200" Margin="0,50,0,0">Kevins Log</Button>
     </Grid>
 </Window>
