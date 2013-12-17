@@ -24,9 +24,7 @@ namespace Billapong.Host
         {
             this.serviceHosts = new Dictionary<string, ServiceHost>
             {
-                {"tracing", new ServiceHost(typeof (TracingService))},    
-                {"administration", new ServiceHost(typeof (AdministrationService))},
-                {"console", new ServiceHost(typeof (ConsoleService))}
+                {"tracing", new ServiceHost(typeof (TracingService))}
             };
         }
         
