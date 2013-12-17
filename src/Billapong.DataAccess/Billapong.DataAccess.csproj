@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BillapongDbContext.cs" />
+    <Compile Include="Initialize\BillapongDbInitializer.cs" />
     <Compile Include="Model\IEntity.cs" />
     <Compile Include="Model\Tracing\LogMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

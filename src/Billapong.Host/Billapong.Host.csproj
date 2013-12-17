@@ -69,6 +69,10 @@
       <Project>{18f67450-c79b-4ebf-a0ad-23b3d87151f1}</Project>
       <Name>Billapong.Core.Server</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Billapong.DataAccess\Billapong.DataAccess.csproj">
+      <Project>{80157a62-73ec-4a78-bfd7-422ff16e49a8}</Project>
+      <Name>Billapong.DataAccess</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

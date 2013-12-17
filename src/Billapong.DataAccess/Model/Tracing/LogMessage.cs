@@ -36,13 +36,22 @@
         public string LogLevel { get; set; }
 
         /// <summary>
-        /// Gets or sets the module.
+        /// Gets or sets the component.
         /// </summary>
         /// <value>
-        /// The module.
+        /// The component.
         /// </value>
         [Required]
-        public string Module { get; set; }
+        public string Component { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the sender.
+        /// </summary>
+        /// <value>
+        /// The name of the sender.
+        /// </value>
+        [Required]
+        public string SenderName { get; set; }
 
         /// <summary>
         /// Gets or sets the message.

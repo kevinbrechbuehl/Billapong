@@ -28,13 +28,22 @@
         public DateTime Timestamp { get; set; }
 
         /// <summary>
-        /// Gets or sets the module.
+        /// Gets or sets the component.
         /// </summary>
         /// <value>
-        /// The module.
+        /// The component.
         /// </value>
-        [DataMember(Name = "Module", Order = 1)]
-        public string Module { get; set; }
+        [DataMember(Name = "Component", Order = 1)]
+        public string Component { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the sender.
+        /// </summary>
+        /// <value>
+        /// The name of the sender.
+        /// </value>
+        [DataMember(Name = "Sender", Order = 1)]
+        public string SenderName { get; set; }
 
         /// <summary>
         /// Gets or sets the message.

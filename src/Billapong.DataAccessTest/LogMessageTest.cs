@@ -20,7 +20,7 @@ namespace Billapong.DataAccessTest
             {
                 LogLevel = "Debug",
                 Message = "This is a test debug message.",
-                Module = "Unit Test",
+                Component = "Unit Test",
                 Timestamp = DateTime.Now
             };
 
