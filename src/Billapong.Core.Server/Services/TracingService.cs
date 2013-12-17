@@ -14,7 +14,7 @@
         {
             foreach (var message in messages)
             {
-                Logger.Instance.LogMessage(message.Timestamp, message.LogLevel, message.Component, message.Sender, message.Message);
+                Logger.Current.LogMessage(message.Timestamp, message.LogLevel, message.Component, message.Sender, message.Message);
             }
         }
 

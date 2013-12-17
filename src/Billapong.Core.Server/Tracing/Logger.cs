@@ -11,11 +11,11 @@ namespace Billapong.Core.Server.Tracing
     {
         #region Singleton Implementation
 
-        public static Logger Instance { get; private set; }
+        public static Logger Current { get; private set; }
 
         static Logger()
         {
-            Instance = new Logger();
+            Current = new Logger();
         }
 
         private Logger()
