@@ -43,6 +43,14 @@
   <ItemGroup>
     <Compile Include="RichClientBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tracing\Tracer.cs" />
+    <Compile Include="Tracing\TracingServiceClient.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Billapong.Contract\Billapong.Contract.csproj">
+      <Project>{aa9fc87b-d90d-4415-8d27-448defc4e9f8}</Project>
+      <Name>Billapong.Contract</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
