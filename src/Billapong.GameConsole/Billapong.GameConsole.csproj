@@ -68,6 +68,7 @@
     </Compile>
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="ViewModels\GameMenuViewModel.cs" />
+    <Compile Include="ViewModels\GameWindowViewModel.cs" />
     <Compile Include="Views\GameMenu.xaml.cs">
       <DependentUpon>GameMenu.xaml</DependentUpon>
     </Compile>

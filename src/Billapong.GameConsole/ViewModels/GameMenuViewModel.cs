@@ -28,8 +28,30 @@
 
         public void OpenGameWindow(object parameter)
         {
-            var gameWindow = new GameWindow();
-            gameWindow.Show();
+            var viewModel = new GameWindowViewModel();
+
+            int yPos = 10;
+            int xPos = 200;
+            for (var i = 0; i < 12; i++)
+            {
+                if (i > 0 && i%4 == 0)
+                {
+                    yPos += 325;
+                    xPos = 200;
+                }
+
+                var gameWindow = new GameWindow();
+                gameWindow.Left = xPos;
+                gameWindow.Top = yPos;
+                gameWindow.DataContext = viewModel;
+                gameWindow.Show();
+
+                    xPos += 305;
+            }
+
+
+            //var gameWindow = new GameWindow();
+            //gameWindow.Show();
         }
 
         private void Log(object parameter)

@@ -20,8 +20,8 @@ namespace Billapong.GameConsole
         private readonly List<Ellipse> holes = new List<Ellipse>();
         private readonly Line line;
         private Vector direction;
-        private int gridSizeX = 10;
-        private int gridSizeY = 10;
+        private int gridSizeX = 15;
+        private int gridSizeY = 15;
         private bool ballMoving;
         private double speed = 10;
         private int wallHits;
@@ -32,7 +32,7 @@ namespace Billapong.GameConsole
             InitializeComponent();
 
             double holeDiameter = mapCanvas.Width/gridSizeX;
-            ballDiameter = holeDiameter/2;
+            ballDiameter = holeDiameter * 0.667;
             speed = mapCanvas.Width/30;
 
             var random = new Random();
@@ -48,8 +48,8 @@ namespace Billapong.GameConsole
                 };
 
                 mapCanvas.Children.Add(hole);
-                Canvas.SetLeft(hole, random.Next(0, Convert.ToInt32(mapCanvas.Height)));
-                Canvas.SetTop(hole, random.Next(0, Convert.ToInt32(mapCanvas.Height)));
+                Canvas.SetLeft(hole, random.Next(0, gridSizeX-1)*hole.Width);
+                Canvas.SetTop(hole, random.Next(0, gridSizeY-1)*hole.Height);
 
                 holes.Add(hole);
             }
