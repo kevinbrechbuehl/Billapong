@@ -8,6 +8,9 @@ using System.Windows.Shapes;
 
 namespace Billapong.GameConsole
 {
+    using System.Diagnostics;
+    using System.ServiceModel.Channels;
+
     /// <summary>
     /// Interaction logic for GameWindow.xaml
     /// </summary>
@@ -15,6 +18,7 @@ namespace Billapong.GameConsole
     {
         private readonly Ellipse ballEllipse;
         private readonly List<Ellipse> holes = new List<Ellipse>();
+        private readonly Line line;
         private Vector direction;
         private int gridSizeX = 10;
         private int gridSizeY = 10;
@@ -50,6 +54,13 @@ namespace Billapong.GameConsole
                 holes.Add(hole);
             }
 
+            line = new Line();
+            line.Stroke = System.Windows.Media.Brushes.Black;
+            line.HorizontalAlignment = HorizontalAlignment.Left;
+            line.VerticalAlignment = VerticalAlignment.Center;
+            line.StrokeThickness = 3;
+            mapCanvas.Children.Add(line);
+
             // Add ball to map
             ballEllipse = new Ellipse
             {
@@ -61,6 +72,10 @@ namespace Billapong.GameConsole
 
             Canvas.SetLeft(ballEllipse, 150);
             Canvas.SetTop(ballEllipse, 90);
+
+            
+
+            CompositionTarget.Rendering += Render;
         }
 
         private void Render(object sender, EventArgs e)
@@ -108,13 +123,33 @@ namespace Billapong.GameConsole
                     if (BallHitHole(ballEllipse, hole))
                     {
                         ballMoving = false;
-                        CompositionTarget.Rendering -= Render;
+                        //CompositionTarget.Rendering -= Render;
                     }
                 }
             }
             else
             {
-                CompositionTarget.Rendering -= Render;
+                var mousePosition = Mouse.GetPosition(mapCanvas);
+                var ballPosition = GetLocation(ballEllipse);
+
+                var x = ballPosition.X + ballEllipse.Width/2;
+                var y = ballPosition.Y + ballEllipse.Height/2;
+
+                double xLength = mousePosition.X - x;
+                double yLength = mousePosition.Y - y;
+
+                double strokeLength = Math.Sqrt(Math.Pow(xLength, 2) + Math.Pow(yLength, 2));
+
+                double multiplicator = Math.Abs(1/strokeLength*50);
+
+                
+                line.X1 = x;
+                line.X2 = x + (xLength * multiplicator);
+                line.Y1 = y;
+                line.Y2 = y+ (yLength * multiplicator);
+
+
+                //CompositionTarget.Rendering -= Render;
             }
         }
 
@@ -166,16 +201,18 @@ namespace Billapong.GameConsole
                     direction = new Vector(mousePosition.X, mousePosition.Y) -
                                 new Vector(ellipsePosition.X, ellipsePosition.Y);
                     direction.Normalize();
+                    direction.Negate();
                 }
 
                 wallHits = 0;
                 ballMoving = true;
-                CompositionTarget.Rendering += Render;
+                line.Visibility = Visibility.Hidden;
+                //CompositionTarget.Rendering += Render;
             }
             else
             {
                 ballMoving = false;
-                CompositionTarget.Rendering -= Render;
+                //CompositionTarget.Rendering -= Render;
             }
         }
     }
