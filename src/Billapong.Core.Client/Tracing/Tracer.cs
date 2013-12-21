@@ -120,6 +120,7 @@
         private void InitializeConfig(string component)
         {
             this.component = component;
+            this.messageRetentionCount = 100;
 
             // load the config async, so the client can start in this time
             Task.Factory.StartNew(() =>
@@ -138,13 +139,6 @@
         /// <param name="message">The message.</param>
         private void Log(LogLevel logLevel, string message)
         {
-            // only log if the client has been initialized.
-            if (!this.isInitialized)
-            {
-                Trace.TraceWarning("Tracer has not yet been initialized");
-                return;
-            }
-
             if ((int)logLevel >= (int)this.logLevel)
             {
                 lock (LockObject)
@@ -161,6 +155,13 @@
                     // only send to the server if message retention count is reached
                     if (this.logMessages.Count >= this.messageRetentionCount)
                     {
+                        // warn because tracer has not yet been initialized
+                        if (!this.isInitialized)
+                        {
+                            Trace.TraceWarning("Tracer has not yet been initialized, so messages could not be sent.");
+                            return;
+                        }
+                        
                         this.proxy.Log(this.logMessages.ToList());
                         this.logMessages.Clear();
                     }
