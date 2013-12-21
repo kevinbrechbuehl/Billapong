@@ -1,5 +1,7 @@
 ﻿namespace Billapong.Core.Server.Services
 {
+    using System.Configuration;
+    using System.Linq;
     using Contract.Data.Tracing;
     using Contract.Service;
     using System;
@@ -19,7 +21,8 @@
         /// <param name="messages">The messages.</param>
         public void Log(IEnumerable<LogMessage> messages)
         {
-            foreach (var message in messages)
+            var config = this.GetConfig();
+            foreach (var message in messages.Where(message => (int)message.LogLevel >= (int)config.LogLevel))
             {
                 Logger.Current.LogMessage(message.Timestamp, message.LogLevel, message.Component, message.Sender, message.Message);
             }
@@ -27,7 +30,19 @@
 
         public TracingConfiguration GetConfig()
         {
-            throw new NotImplementedException();
+            LogLevel logLevel;
+            if (!Enum.TryParse(ConfigurationManager.AppSettings["Tracing.LogLevel"], out logLevel))
+            {
+                logLevel = LogLevel.Debug;
+            }
+
+            int messageRetentionCount;
+            if (!int.TryParse(ConfigurationManager.AppSettings["Tracing.MessageRetentionCount"], out messageRetentionCount))
+            {
+                messageRetentionCount = 100;
+            }
+
+            return new TracingConfiguration {LogLevel = logLevel, MessageRetentionCount = messageRetentionCount};
         }
     }
 }

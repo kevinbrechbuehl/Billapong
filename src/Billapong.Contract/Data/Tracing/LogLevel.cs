@@ -12,21 +12,21 @@
         /// The debug log level
         /// </summary>
         [EnumMember]
-        Debug,
+        Debug = 1,
         /// <summary>
         /// The information log level
         /// </summary>
         [EnumMember]
-        Info,
+        Info = 2,
         /// <summary>
         /// The warn log level
         /// </summary>
         [EnumMember]
-        Warn,
+        Warn = 3,
         /// <summary>
         /// The error log level
         /// </summary>
         [EnumMember]
-        Error
+        Error = 4
     }
 }

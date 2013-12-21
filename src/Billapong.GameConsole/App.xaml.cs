@@ -2,6 +2,8 @@
 
 namespace Billapong.GameConsole
 {
+    using Core.Client.Tracing;
+
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
@@ -12,6 +14,8 @@ namespace Billapong.GameConsole
             base.OnStartup(e);
 
             this.DispatcherUnhandledException += App_DispatcherUnhandledException;
+
+            Tracer.Initialize("Game Console");
 
             // todo: refactore
         }

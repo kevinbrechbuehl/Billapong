@@ -24,7 +24,7 @@ namespace Billapong.Core.Client.Tracing
 
         public TracingConfiguration GetConfig()
         {
-            throw new NotImplementedException();
+            return base.Execute(() => base.Proxy.GetConfig());
         }
     }
 }
