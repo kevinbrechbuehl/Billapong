@@ -4,6 +4,8 @@ using System.ServiceModel.Channels;
 
 namespace Billapong.Core.Client
 {
+    using System.Threading.Tasks;
+
     public class RichClientBase<TService>
     {
         protected TService Proxy { get; private set; }
@@ -34,6 +36,11 @@ namespace Billapong.Core.Client
                 
                 throw;
             }
+        }
+
+        protected void ExecuteAsync(Action delegatedAction)
+        {
+            Task.Factory.StartNew(() => this.Execute(delegatedAction));
         }
 
         protected TResult Execute<TResult>(Func<TResult> delegatedFunction)

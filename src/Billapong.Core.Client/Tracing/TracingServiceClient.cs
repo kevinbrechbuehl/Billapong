@@ -19,7 +19,7 @@ namespace Billapong.Core.Client.Tracing
 
         public void Log(IEnumerable<LogMessage> messages)
         {
-            base.Execute(() => base.Proxy.Log(messages));
+            base.ExecuteAsync(() => base.Proxy.Log(messages));
         }
 
         public TracingConfiguration GetConfig()

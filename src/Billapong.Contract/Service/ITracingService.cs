@@ -14,7 +14,7 @@
         /// Logs the specified messages.
         /// </summary>
         /// <param name="messages">The messages.</param>
-        [OperationContract(Name = "Log")]
+        [OperationContract(Name = "Log", IsOneWay = true)]
         void Log(IEnumerable<LogMessage> messages);
 
         /// <summary>
