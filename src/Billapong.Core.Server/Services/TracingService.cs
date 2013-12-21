@@ -28,6 +28,12 @@
             }
         }
 
+        /// <summary>
+        /// Gets the tracing configuration.
+        /// </summary>
+        /// <returns>
+        /// Configuration based on server configuration for tracing.
+        /// </returns>
         public TracingConfiguration GetConfig()
         {
             LogLevel logLevel;
