@@ -1,12 +1,11 @@
-﻿using Billapong.Core.Server;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ServiceModel;
-
-namespace Billapong.Host
+﻿namespace Billapong.Host
 {
     using Core.Server.Services;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.ServiceModel;
 
     public class Host
     {
@@ -31,9 +30,6 @@ namespace Billapong.Host
         
         public void Start()
         {
-            
-            // todo: refactoring
-            
             try
             {
                 WriteTitle();
@@ -41,7 +37,7 @@ namespace Billapong.Host
                 Console.WriteLine(string.Empty);
                 this.ManageService(CommandStart, AllServices);
                 string userInput;
-
+                
                 do
                 {
                     userInput = Console.ReadLine();
@@ -50,8 +46,7 @@ namespace Billapong.Host
             }
             catch (Exception ex)
             {
-                // todo: log exception
-                throw;
+                Trace.TraceError(string.Format("{0}{1}", ex.Message, ex.StackTrace));
             }
             finally
             {
@@ -169,7 +164,7 @@ namespace Billapong.Host
                 case CommunicationState.Opening:
                     return "started";
                 default:
-                    return "failed"; // todo: handle failed status in the host
+                    return "failed";
             }
         }
 

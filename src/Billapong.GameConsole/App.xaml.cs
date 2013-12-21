@@ -16,8 +16,6 @@ namespace Billapong.GameConsole
             this.DispatcherUnhandledException += App_DispatcherUnhandledException;
 
             Tracer.Initialize("Game Console");
-
-            // todo: refactore
         }
 
         private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
