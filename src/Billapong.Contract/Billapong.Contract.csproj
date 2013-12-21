@@ -41,11 +41,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Editor\Hole.cs" />
+    <Compile Include="Data\Editor\Map.cs" />
+    <Compile Include="Data\Editor\Window.cs" />
     <Compile Include="Data\Tracing\LogMessage.cs" />
     <Compile Include="Data\Tracing\TracingConfiguration.cs" />
     <Compile Include="Data\Tracing\LogLevel.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\IEditorService.cs" />
     <Compile Include="Service\ITracingService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

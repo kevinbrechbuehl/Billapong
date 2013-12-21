@@ -1,5 +1,6 @@
 ﻿namespace Billapong.DataAccess
 {
+    using Model.Editor;
     using Model.Tracing;
     using System.Data.Entity;
 
@@ -15,5 +16,13 @@
         /// The log messages.
         /// </value>
         public DbSet<LogMessage> LogMessages { get; set; }
+
+        /// <summary>
+        /// Gets or sets the maps.
+        /// </summary>
+        /// <value>
+        /// The maps.
+        /// </value>
+        public DbSet<Map> Maps { get; set; }
     }
 }
