@@ -21,8 +21,7 @@
 
         private Tracer()
         {
-            // todo: in config auslagern
-            this.proxy = new TracingServiceClient(new NetTcpBinding(), new EndpointAddress("net.tcp://localhost:4710"));
+            this.proxy = new TracingServiceClient();
         }
 
         #endregion

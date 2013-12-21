@@ -10,20 +10,6 @@ namespace Billapong.Core.Client
     {
         protected TService Proxy { get; private set; }
 
-        private Binding binding;
-
-        private EndpointAddress endpointAddress;
-
-        public RichClientBase(Binding binding, EndpointAddress endpointAddress)
-        {
-            // todo: refactore
-
-            // todo: implement idisposable
-            
-            this.binding = binding;
-            this.endpointAddress = endpointAddress;
-        }
-
         protected void Execute(Action delegatedAction)
         {
             try
@@ -80,7 +66,7 @@ namespace Billapong.Core.Client
 
         private void CreateProxy()
         {
-            this.Proxy = ChannelFactory<TService>.CreateChannel(this.binding, this.endpointAddress);
+            this.Proxy = new ChannelFactory<TService>("*").CreateChannel();
         }
     }
 }
