@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Data.Entity;
-    using Model.Editor;
+    using Model.Map;
 
     /// <summary>
     /// Billapong database initializer.

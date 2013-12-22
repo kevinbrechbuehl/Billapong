@@ -1,9 +1,13 @@
-﻿namespace Billapong.DataAccess.Model.Editor
+﻿namespace Billapong.Contract.Data.Map
 {
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
+    using System.Runtime.Serialization;
 
-    public class Window : IEntity
+    /// <summary>
+    /// The datacontract for a window.
+    /// </summary>
+    [DataContract(Name = "Window", Namespace = Globals.DataContractNamespaceName)]
+    public class Window
     {
         /// <summary>
         /// Gets or sets the identifier.
@@ -11,7 +15,7 @@
         /// <value>
         /// The identifier.
         /// </value>
-        [Required]
+        [DataMember(Name = "Id", Order = 1)]
         public long Id { get; set; }
 
         /// <summary>
@@ -20,7 +24,7 @@
         /// <value>
         /// The x coordinate.
         /// </value>
-        [Required]
+        [DataMember(Name = "X", Order = 1)]
         public int X { get; set; }
 
         /// <summary>
@@ -29,7 +33,7 @@
         /// <value>
         /// The y coordinate.
         /// </value>
-        [Required]
+        [DataMember(Name = "Y", Order = 1)]
         public int Y { get; set; }
 
         /// <summary>
@@ -38,6 +42,7 @@
         /// <value>
         /// The holes.
         /// </value>
-        public virtual ICollection<Hole> Holes { get; set; }
+        [DataMember(Name = "Holes", Order = 1)]
+        public IList<Hole> Holes { get; set; }
     }
 }

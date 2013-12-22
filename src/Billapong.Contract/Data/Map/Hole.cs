@@ -1,11 +1,12 @@
-﻿namespace Billapong.DataAccess.Model.Editor
+﻿namespace Billapong.Contract.Data.Map
 {
-    using System.ComponentModel.DataAnnotations;
+    using System.Runtime.Serialization;
 
     /// <summary>
-    /// The hole entity.
+    /// The datacontract for a hole.
     /// </summary>
-    public class Hole : IEntity
+    [DataContract(Name = "Hole", Namespace = Globals.DataContractNamespaceName)]
+    public class Hole
     {
         /// <summary>
         /// Gets or sets the identifier.
@@ -13,7 +14,7 @@
         /// <value>
         /// The identifier.
         /// </value>
-        [Required]
+        [DataMember(Name = "Id", Order = 1)]
         public long Id { get; set; }
 
         /// <summary>
@@ -22,7 +23,7 @@
         /// <value>
         /// The x coordinate.
         /// </value>
-        [Required]
+        [DataMember(Name = "X", Order = 1)]
         public int X { get; set; }
 
         /// <summary>
@@ -31,7 +32,7 @@
         /// <value>
         /// The y coordinate.
         /// </value>
-        [Required]
+        [DataMember(Name = "Y", Order = 1)]
         public int Y { get; set; }
     }
 }

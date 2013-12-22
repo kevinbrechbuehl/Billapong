@@ -42,10 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converter\Editor\MapConverter.cs" />
-    <Compile Include="Editor\MapController.cs" />
+    <Compile Include="Converter\Map\MapConverter.cs" />
+    <Compile Include="Map\MapController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\EditorService.cs" />
+    <Compile Include="Services\GameConsoleService.cs" />
     <Compile Include="Services\TracingService.cs" />
     <Compile Include="Tracing\Logger.cs" />
   </ItemGroup>

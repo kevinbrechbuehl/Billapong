@@ -1,6 +1,7 @@
-﻿namespace Billapong.Core.Server.Converter.Editor
+﻿namespace Billapong.Core.Server.Converter.Map
 {
     using System.Linq;
+    using DataAccess.Model.Map;
 
     /// <summary>
     /// Converter extensions for the map objet.
@@ -12,9 +13,9 @@
         /// </summary>
         /// <param name="source">The source.</param>
         /// <returns>The entity object</returns>
-        public static DataAccess.Model.Editor.Map ToEntity(this Contract.Data.Editor.Map source)
+        public static Map ToEntity(this Contract.Data.Map.Map source)
         {
-            return new DataAccess.Model.Editor.Map
+            return new Map
             {
                 Id = source.Id,
                 Name = source.Name,
@@ -27,9 +28,9 @@
         /// </summary>
         /// <param name="source">The source.</param>
         /// <returns>The contract object</returns>
-        public static Contract.Data.Editor.Map ToContract(this DataAccess.Model.Editor.Map source)
+        public static Contract.Data.Map.Map ToContract(this Map source)
         {
-            return new Contract.Data.Editor.Map
+            return new Contract.Data.Map.Map
             {
                 Id = source.Id,
                 Name = source.Name,
@@ -42,9 +43,9 @@
         /// </summary>
         /// <param name="source">The source.</param>
         /// <returns>The entity object</returns>
-        private static DataAccess.Model.Editor.Window ToEntity(this Contract.Data.Editor.Window source)
+        private static Window ToEntity(this Contract.Data.Map.Window source)
         {
-            return new DataAccess.Model.Editor.Window
+            return new Window
             {
                 Id = source.Id,
                 X = source.X,
@@ -58,9 +59,9 @@
         /// </summary>
         /// <param name="source">The source.</param>
         /// <returns>The contract object</returns>
-        private static Contract.Data.Editor.Window ToContract(this DataAccess.Model.Editor.Window source)
+        private static Contract.Data.Map.Window ToContract(this Window source)
         {
-            return new Contract.Data.Editor.Window
+            return new Contract.Data.Map.Window
             {
                 Id = source.Id,
                 X = source.X,
@@ -74,9 +75,9 @@
         /// </summary>
         /// <param name="source">The source.</param>
         /// <returns>The entity object</returns>
-        private static DataAccess.Model.Editor.Hole ToEntity(this Contract.Data.Editor.Hole source)
+        private static Hole ToEntity(this Contract.Data.Map.Hole source)
         {
-            return new DataAccess.Model.Editor.Hole
+            return new Hole
             {
                 Id = source.Id,
                 X = source.X,
@@ -89,9 +90,9 @@
         /// </summary>
         /// <param name="source">The source.</param>
         /// <returns>The contract object</returns>
-        private static Contract.Data.Editor.Hole ToContract(this DataAccess.Model.Editor.Hole source)
+        private static Contract.Data.Map.Hole ToContract(this Hole source)
         {
-            return new Contract.Data.Editor.Hole
+            return new Contract.Data.Map.Hole
             {
                 Id = source.Id,
                 X = source.X,

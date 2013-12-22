@@ -1,13 +1,9 @@
-﻿namespace Billapong.Contract.Data.Editor
+﻿namespace Billapong.DataAccess.Model.Map
 {
     using System.Collections.Generic;
-    using System.Runtime.Serialization;
+    using System.ComponentModel.DataAnnotations;
 
-    /// <summary>
-    /// The datacontract for a map.
-    /// </summary>
-    [DataContract(Name = "Map", Namespace = Globals.DataContractNamespaceName)]
-    public class Map
+    public class Map : IEntity
     {
         /// <summary>
         /// Gets or sets the identifier.
@@ -15,7 +11,7 @@
         /// <value>
         /// The identifier.
         /// </value>
-        [DataMember(Name = "Id", Order = 1)]
+        [Required]
         public long Id { get; set; }
 
         /// <summary>
@@ -24,7 +20,7 @@
         /// <value>
         /// The name.
         /// </value>
-        [DataMember(Name = "Name", Order = 1)]
+        [Required]
         public string Name { get; set; }
 
         /// <summary>
@@ -33,7 +29,6 @@
         /// <value>
         /// The windows.
         /// </value>
-        [DataMember(Name = "Windows", Order = 1)]
-        public IList<Window> Windows { get; set; }
+        public virtual ICollection<Window> Windows { get; set; }
     }
 }

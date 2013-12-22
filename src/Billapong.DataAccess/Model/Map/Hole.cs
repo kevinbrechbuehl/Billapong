@@ -1,9 +1,11 @@
-﻿namespace Billapong.DataAccess.Model.Editor
+﻿namespace Billapong.DataAccess.Model.Map
 {
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public class Map : IEntity
+    /// <summary>
+    /// The hole entity.
+    /// </summary>
+    public class Hole : IEntity
     {
         /// <summary>
         /// Gets or sets the identifier.
@@ -15,20 +17,21 @@
         public long Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the name.
+        /// Gets or sets the x coordinate.
         /// </summary>
         /// <value>
-        /// The name.
+        /// The x coordinate.
         /// </value>
         [Required]
-        public string Name { get; set; }
+        public int X { get; set; }
 
         /// <summary>
-        /// Gets or sets the windows.
+        /// Gets or sets the y coordinate.
         /// </summary>
         /// <value>
-        /// The windows.
+        /// The y coordinate.
         /// </value>
-        public virtual ICollection<Window> Windows { get; set; }
+        [Required]
+        public int Y { get; set; }
     }
 }

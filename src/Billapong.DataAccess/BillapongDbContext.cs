@@ -1,6 +1,6 @@
 ﻿namespace Billapong.DataAccess
 {
-    using Model.Editor;
+    using Model.Map;
     using Model.Tracing;
     using System.Data.Entity;
 

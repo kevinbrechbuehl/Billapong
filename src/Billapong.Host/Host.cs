@@ -24,7 +24,7 @@
             this.serviceHosts = new Dictionary<string, ServiceHost>
             {
                 {"tracing", new ServiceHost(typeof (TracingService))},
-                {"editor", new ServiceHost(typeof (EditorService))}
+                {"gameconsole", new ServiceHost(typeof (GameConsoleService))}
             };
         }
         

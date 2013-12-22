@@ -1,9 +1,9 @@
-﻿namespace Billapong.Core.Server.Editor
+﻿namespace Billapong.Core.Server.Map
 {
-    using DataAccess.Model.Editor;
-    using DataAccess.Repository;
     using System.Collections.Generic;
     using System.Linq;
+    using DataAccess.Model.Map;
+    using DataAccess.Repository;
 
     public class MapController
     {
@@ -43,9 +43,11 @@
         /// <summary>
         /// Gets the maps.
         /// </summary>
-        /// <param name="includeUnplayable">if set to <c>true</c> unplayable maps will also returned.</param>
-        /// <returns>Available maps in the database</returns>
-        public IEnumerable<Map> GetMaps(bool includeUnplayable = false)
+        /// <param name="onlyPlayable">if set to <c>true</c> only currently playable maps will be returned.</param>
+        /// <returns>
+        /// Available maps in the database
+        /// </returns>
+        public IEnumerable<Map> GetMaps(bool onlyPlayable = false)
         {
             return this.repository.Get(includeProperties: "Windows, Windows.Holes").ToList();
         }

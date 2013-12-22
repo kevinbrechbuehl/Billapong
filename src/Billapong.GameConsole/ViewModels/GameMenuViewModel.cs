@@ -63,7 +63,7 @@
 
         private void GetMaps(object parameter)
         {
-            var client = new EditorServiceClient();
+            var client = new GameConsoleServiceClient();
             var maps = client.GetMaps().ToList();
 
             var mapsInfo = new List<string> { "Number of maps: " + maps.Count };

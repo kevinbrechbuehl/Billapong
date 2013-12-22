@@ -52,9 +52,9 @@
   <ItemGroup>
     <Compile Include="BillapongDbContext.cs" />
     <Compile Include="Initialize\BillapongDbInitializer.cs" />
-    <Compile Include="Model\Editor\Hole.cs" />
-    <Compile Include="Model\Editor\Map.cs" />
-    <Compile Include="Model\Editor\Window.cs" />
+    <Compile Include="Model\Map\Hole.cs" />
+    <Compile Include="Model\Map\Map.cs" />
+    <Compile Include="Model\Map\Window.cs" />
     <Compile Include="Model\IEntity.cs" />
     <Compile Include="Model\Tracing\LogMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

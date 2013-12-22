@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Billapong.GameConsole.Service
 {
-    using Contract.Data.Editor;
+    using Contract.Data.Map;
     using Contract.Service;
     using Core.Client;
 
-    public class EditorServiceClient : RichClientBase<IEditorService>, IEditorService
+    public class GameConsoleServiceClient : RichClientBase<IGameConsoleService>, IGameConsoleService
     {
-        public IEnumerable<Map> GetMaps(bool includeUnplayable = false)
+        public IEnumerable<Map> GetMaps()
         {
             return base.Execute(() => base.Proxy.GetMaps());
         }
