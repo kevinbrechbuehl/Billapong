@@ -30,13 +30,13 @@
         {
             var viewModel = new GameWindowViewModel();
 
-            int yPos = 10;
+            /*int yPos = 100;
             int xPos = 200;
             for (var i = 0; i < 12; i++)
             {
                 if (i > 0 && i%4 == 0)
                 {
-                    yPos += 325;
+                    yPos += 300;
                     xPos = 200;
                 }
 
@@ -44,14 +44,15 @@
                 gameWindow.Left = xPos;
                 gameWindow.Top = yPos;
                 gameWindow.DataContext = viewModel;
+                gameWindow.WindowStyle = WindowStyle.None;
                 gameWindow.Show();
 
-                    xPos += 305;
-            }
+                    xPos += 300;
+            }*/
 
 
-            //var gameWindow = new GameWindow();
-            //gameWindow.Show();
+            var gameWindow = new GameWindow();
+            gameWindow.Show();
         }
 
         private void Log(object parameter)
