@@ -24,6 +24,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Billapong.DataAccess", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Billapong.DataAccessTest", "src\Billapong.DataAccessTest\Billapong.DataAccessTest.csproj", "{44B92C8A-244D-4345-A100-0538D01F02AB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Billapong.Administration", "src\Billapong.Administration\Billapong.Administration.csproj", "{42133150-DE3D-4B7C-A6CC-99CEA1398863}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,10 @@ Global
 		{44B92C8A-244D-4345-A100-0538D01F02AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44B92C8A-244D-4345-A100-0538D01F02AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44B92C8A-244D-4345-A100-0538D01F02AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42133150-DE3D-4B7C-A6CC-99CEA1398863}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42133150-DE3D-4B7C-A6CC-99CEA1398863}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42133150-DE3D-4B7C-A6CC-99CEA1398863}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42133150-DE3D-4B7C-A6CC-99CEA1398863}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
