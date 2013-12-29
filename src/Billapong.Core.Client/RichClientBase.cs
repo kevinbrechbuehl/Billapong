@@ -19,7 +19,7 @@ namespace Billapong.Core.Client
             }
             catch (Exception)
             {
-                
+                // todo: handle this error -> i.e. when host is not running
                 throw;
             }
         }
@@ -38,7 +38,7 @@ namespace Billapong.Core.Client
             }
             catch (Exception)
             {
-                
+                // todo: handle this error -> i.e. when host is not running
                 throw;
             }
         }
