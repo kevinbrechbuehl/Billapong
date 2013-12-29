@@ -1,5 +1,6 @@
 ﻿namespace Billapong.Core.Client.Tracing
 {
+    using System.ComponentModel;
     using Contract.Data.Tracing;
     using System;
     using System.Collections.Generic;
@@ -111,6 +112,23 @@
             }
 
             Current.Log(LogLevel.Error, message);
+        }
+
+        /// <summary>
+        /// Gets the log messages.
+        /// </summary>
+        /// <param name="logLevel">The minimum log level.</param>
+        /// <param name="component">The component to filter by.</param>
+        /// <param name="numberOfMessages">The number of messages.</param>
+        /// <returns>List of log messages</returns>
+        public static IEnumerable<LogMessage> GetLogMessages(string component = "", LogLevel logLevel = LogLevel.Debug, int numberOfMessages = 0)
+        {
+            return Current.proxy.GetLogMessages(new LogListener
+            {
+                Component = component,
+                LogLevel = logLevel,
+                NumberOfMessages = numberOfMessages
+            });
         }
 
         /// <summary>

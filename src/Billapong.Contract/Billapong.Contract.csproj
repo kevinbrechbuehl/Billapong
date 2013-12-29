@@ -44,6 +44,7 @@
     <Compile Include="Data\Map\Hole.cs" />
     <Compile Include="Data\Map\Map.cs" />
     <Compile Include="Data\Map\Window.cs" />
+    <Compile Include="Data\Tracing\LogListener.cs" />
     <Compile Include="Data\Tracing\LogMessage.cs" />
     <Compile Include="Data\Tracing\TracingConfiguration.cs" />
     <Compile Include="Data\Tracing\LogLevel.cs" />

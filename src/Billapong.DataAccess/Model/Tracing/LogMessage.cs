@@ -33,7 +33,7 @@
         /// The log level.
         /// </value>
         [Required]
-        public string LogLevel { get; set; }
+        public int LogLevel { get; set; }
 
         /// <summary>
         /// Gets or sets the component.
