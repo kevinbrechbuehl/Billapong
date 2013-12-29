@@ -1,219 +1,222 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Shapes;
-
-namespace Billapong.GameConsole
+﻿namespace Billapong.GameConsole.Views
 {
-    using System.Diagnostics;
-    using System.ServiceModel.Channels;
+    using System;
+    using System.Collections.Concurrent;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Input;
+    using System.Windows.Media;
+    using System.Windows.Media.Animation;
+    using System.Windows.Shapes;
+
+    using Billapong.GameConsole.Animation;
 
     /// <summary>
     /// Interaction logic for GameWindow.xaml
     /// </summary>
     public partial class GameWindow : Window
     {
-        private readonly Ellipse ballEllipse;
-        private readonly List<Ellipse> holes = new List<Ellipse>();
-        private readonly Line line;
-        private Vector direction;
-        private int gridSizeX = 10;
-        private int gridSizeY = 10;
-        private bool ballMoving;
-        private double speed = 10;
-        private int wallHits;
-        private readonly double ballDiameter;
+        private readonly ConcurrentQueue<BallAnimationTask> ballAnimationQueue =
+            new ConcurrentQueue<BallAnimationTask>();
 
+        private Storyboard ballStoryboard;
+
+        private Path ballPath;
+
+        private readonly List<Ellipse> holes = new List<Ellipse>();
+
+        private const int GridSizeX = 15;
+
+        private const int GridSizeY = 15;
+
+        private const double BaseAnimationDuration = 2;
+
+        private readonly double ballRadius;
+
+        private readonly double holeDiameter;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GameWindow"/> class.
+        /// </summary>
         public GameWindow()
         {
             InitializeComponent();
 
-            double holeDiameter = mapCanvas.Width/gridSizeX;
-            ballDiameter = holeDiameter/2;
-            speed = mapCanvas.Width/30;
+            this.holeDiameter = this.MapCanvas.Width / GridSizeX;
+            this.ballRadius = this.holeDiameter * 0.667 / 2;
 
-            var random = new Random();
+            this.FillBallAnimationQueue();
+            this.InitializeHoles();
+            this.InitializeBall();
+            this.InitializeStoryboard();
+        }
 
-            // Test holes
+        /// <summary>
+        /// Fills the ball animation queue.
+        /// </summary>
+        private void FillBallAnimationQueue()
+        {
+            var task = new BallAnimationTask
+                       {
+                           NewPosition = new Point(this.ballRadius, 150),
+                           Duration = TimeSpan.FromSeconds(1)
+                       };
+            this.ballAnimationQueue.Enqueue(task);
+
+            task = new BallAnimationTask { NewPosition = new Point(300, 200), Duration = TimeSpan.FromSeconds(2) };
+            this.ballAnimationQueue.Enqueue(task);
+
+            task = new BallAnimationTask
+                   {
+                       NewPosition = new Point(40, this.ballRadius),
+                       Duration = TimeSpan.FromSeconds(3)
+                   };
+            this.ballAnimationQueue.Enqueue(task);
+
+            task = new BallAnimationTask
+                   {
+                       NewPosition = new Point(220, 300 - this.ballRadius),
+                       Duration = TimeSpan.FromSeconds(4)
+                   };
+            this.ballAnimationQueue.Enqueue(task);
+        }
+
+        /// <summary>
+        /// Initializes the holes.
+        /// </summary>
+        private void InitializeHoles()
+        {
+            var random = new Random(DateTime.Now.GetHashCode());
+
             for (var i = 0; i < 5; i++)
             {
                 var hole = new Ellipse()
-                {
-                    Fill = new SolidColorBrush(Colors.Black),
-                    Height = holeDiameter,
-                    Width = holeDiameter
-                };
+                           {
+                               Fill = new SolidColorBrush(Colors.Black),
+                               Height = this.holeDiameter,
+                               Width = this.holeDiameter
+                           };
 
-                mapCanvas.Children.Add(hole);
-                Canvas.SetLeft(hole, random.Next(0, Convert.ToInt32(mapCanvas.Height)));
-                Canvas.SetTop(hole, random.Next(0, Convert.ToInt32(mapCanvas.Height)));
+                this.holes.Add(hole);
+                this.MapCanvas.Children.Add(hole);
 
-                holes.Add(hole);
+                SetLocation(
+                    hole,
+                    new Point(random.Next(0, GridSizeX - 1) * hole.Width, random.Next(0, GridSizeY - 1) * hole.Height));
             }
-
-            line = new Line();
-            line.Stroke = System.Windows.Media.Brushes.Black;
-            line.HorizontalAlignment = HorizontalAlignment.Left;
-            line.VerticalAlignment = VerticalAlignment.Center;
-            line.StrokeThickness = 3;
-            mapCanvas.Children.Add(line);
-
-            // Add ball to map
-            ballEllipse = new Ellipse
-            {
-                Fill = new SolidColorBrush(Colors.Red),
-                Height = ballDiameter,
-                Width = ballDiameter
-            };
-            mapCanvas.Children.Add(ballEllipse);
-
-            Canvas.SetLeft(ballEllipse, 150);
-            Canvas.SetTop(ballEllipse, 90);
-
-            
-
-            CompositionTarget.Rendering += Render;
         }
 
-        private void Render(object sender, EventArgs e)
+        /// <summary>
+        /// Initializes the ball.
+        /// </summary>
+        private void InitializeBall()
         {
-            if (ballMoving)
+            var ellipseGeometry = new EllipseGeometry();
+            ellipseGeometry.Center = new Point(200, 100);
+            ellipseGeometry.RadiusX = this.ballRadius;
+            ellipseGeometry.RadiusY = this.ballRadius;
+
+            this.ballPath = new Path { Fill = Brushes.Red, Data = ellipseGeometry };
+
+            NameScope.SetNameScope(this, new NameScope());
+            this.RegisterName("BallEllipseGeometry", ellipseGeometry);
+            this.MapCanvas.Children.Add(this.ballPath);
+        }
+
+        /// <summary>
+        /// Initializes the storyboard.
+        /// </summary>
+        private void InitializeStoryboard()
+        {
+            this.ballStoryboard = new Storyboard();
+
+            var pointAnimation = new PointAnimation();
+            pointAnimation.By = new Point(200, 100);
+            pointAnimation.To = new Point(50, this.ballRadius);
+            pointAnimation.Duration = TimeSpan.FromSeconds(1);
+            Storyboard.SetTargetName(pointAnimation, "BallEllipseGeometry");
+            Storyboard.SetTargetProperty(pointAnimation, new PropertyPath(EllipseGeometry.CenterProperty));
+
+            this.ballStoryboard.Children.Add(pointAnimation);
+            this.ballStoryboard.Completed += this.BallAnimation_Finished;
+        }
+
+        /// <summary>
+        /// Handles the Finished event of the BallAnimation control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void BallAnimation_Finished(object sender, EventArgs e)
+        {
+            if (!this.ballAnimationQueue.IsEmpty)
             {
-                Point currentPosition = GetLocation(ballEllipse);
-                Point newPosition = currentPosition + (direction*speed);
-
-                // Fix border positions if out of bounds
-                if (newPosition.X < 0)
+                BallAnimationTask task;
+                if (this.ballAnimationQueue.TryDequeue(out task))
                 {
-                    newPosition.X = 0;
+                    var animation = (PointAnimation)this.ballStoryboard.Children.ElementAt(0);
+                    animation.By = animation.To;
+                    animation.To = task.NewPosition;
+                    animation.Duration = task.Duration;
+                    this.ballStoryboard.Begin(this);
                 }
-                else if (newPosition.X > mapCanvas.ActualWidth - ballDiameter)
-                {
-                    newPosition.X = mapCanvas.ActualWidth - ballDiameter;
-                }
-
-                if (newPosition.Y < 0)
-                {
-                    newPosition.Y = 0;
-                }
-                else if (newPosition.Y > mapCanvas.ActualHeight - ballDiameter)
-                {
-                    newPosition.Y = mapCanvas.ActualHeight - ballDiameter;
-                }
-
-                // Check for wall hit and change ball direction
-                if (newPosition.X >= mapCanvas.ActualWidth - ballDiameter || newPosition.X <= 0)
-                {
-                    direction.X *= -1;
-                    wallHits++;
-                }
-                if (newPosition.Y >= mapCanvas.ActualHeight - ballDiameter || newPosition.Y <= 0)
-                {
-                    direction.Y *= -1;
-                    wallHits++;
-                }
-
-                SetLocation(ballEllipse,newPosition);
-
-                foreach (var hole in holes)
-                {
-                    if (BallHitHole(ballEllipse, hole))
-                    {
-                        ballMoving = false;
-                        //CompositionTarget.Rendering -= Render;
-                    }
-                }
-            }
-            else
-            {
-                var mousePosition = Mouse.GetPosition(mapCanvas);
-                var ballPosition = GetLocation(ballEllipse);
-
-                var x = ballPosition.X + ballEllipse.Width/2;
-                var y = ballPosition.Y + ballEllipse.Height/2;
-
-                double xLength = mousePosition.X - x;
-                double yLength = mousePosition.Y - y;
-
-                double strokeLength = Math.Sqrt(Math.Pow(xLength, 2) + Math.Pow(yLength, 2));
-
-                double multiplicator = Math.Abs(1/strokeLength*50);
-
-                
-                line.X1 = x;
-                line.X2 = x + (xLength * multiplicator);
-                line.Y1 = y;
-                line.Y2 = y+ (yLength * multiplicator);
-
-
-                //CompositionTarget.Rendering -= Render;
             }
         }
 
-        private void SetLocation(FrameworkElement child, Point point)
+        /// <summary>
+        /// Balls the hit hole.
+        /// </summary>
+        /// <param name="ball">The ball.</param>
+        /// <param name="hole">The hole.</param>
+        /// <returns></returns>
+        private bool BallHitHole(EllipseGeometry ball, Ellipse hole)
+        {
+            var centerOfBall = ball.Center;
+
+            var holePosition = GetLocation(hole);
+            var centerOfHole = new Point(holePosition.X + (hole.Width / 2), holePosition.Y + (hole.Height / 2));
+
+            var xRadius = hole.Width / 2;
+            var yRadius = hole.Height / 2;
+
+            if (xRadius <= 0.0 || yRadius <= 0.0) return false;
+
+            var normalizedPoint = new Point(centerOfHole.X - centerOfBall.X, centerOfHole.Y - centerOfBall.Y);
+
+            return ((normalizedPoint.X * normalizedPoint.X) / (xRadius * xRadius))
+                   + ((normalizedPoint.Y * normalizedPoint.Y) / (yRadius * yRadius)) <= 1.0;
+        }
+
+        /// <summary>
+        /// Handles the OnMouseDown event of the MapCanvas control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="MouseButtonEventArgs"/> instance containing the event data.</param>
+        private void MapCanvas_OnMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.ballStoryboard.Begin(this);
+        }
+
+        /// <summary>
+        /// Sets the location.
+        /// </summary>
+        /// <param name="child">The child.</param>
+        /// <param name="point">The point.</param>
+        private static void SetLocation(UIElement child, Point point)
         {
             Canvas.SetLeft(child, point.X);
             Canvas.SetTop(child, point.Y);
         }
 
-        private Point GetLocation(FrameworkElement frameworkElement)
+        /// <summary>
+        /// Gets the location.
+        /// </summary>
+        /// <param name="frameworkElement">The framework element.</param>
+        /// <returns></returns>
+        private static Point GetLocation(UIElement frameworkElement)
         {
             return new Point(Canvas.GetLeft(frameworkElement), Canvas.GetTop(frameworkElement));
-        }
-
-        private bool BallHitHole(Ellipse ball, Ellipse hole)
-        {   
-            Point centerOfBall = new Point(
-                  Canvas.GetLeft(ball) + (ball.Width / 2),
-                  Canvas.GetTop(ball) + (ball.Height / 2));
-
-            Point centerOfHole = new Point(
-                  Canvas.GetLeft(hole) + (hole.Width / 2),
-                  Canvas.GetTop(hole) + (hole.Height / 2));
-
-            double _xRadius = hole.Width / 2;
-            double _yRadius = hole.Height / 2;
-
-
-            if (_xRadius <= 0.0 || _yRadius <= 0.0)
-                return false;
-
-            Point normalized = new Point(centerOfHole.X - centerOfBall.X,
-                                         centerOfHole.Y - centerOfBall.Y);
-
-            return ((double)(normalized.X * normalized.X)
-                     / (_xRadius * _xRadius)) + ((double)(normalized.Y * normalized.Y) / (_yRadius * _yRadius))
-                <= 1.0;
-  
-        }
-
-        private void MapCanvas_OnMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (!ballMoving)
-            {
-                if (direction == default(Vector))
-                {
-                    var ellipsePosition = GetLocation(ballEllipse);
-                    var mousePosition = Mouse.GetPosition(mapCanvas);
-                    direction = new Vector(mousePosition.X, mousePosition.Y) -
-                                new Vector(ellipsePosition.X, ellipsePosition.Y);
-                    direction.Normalize();
-                    direction.Negate();
-                }
-
-                wallHits = 0;
-                ballMoving = true;
-                line.Visibility = Visibility.Hidden;
-                //CompositionTarget.Rendering += Render;
-            }
-            else
-            {
-                ballMoving = false;
-                //CompositionTarget.Rendering -= Render;
-            }
         }
     }
 }

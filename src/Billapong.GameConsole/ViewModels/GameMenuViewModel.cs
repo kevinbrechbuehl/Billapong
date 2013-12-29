@@ -6,6 +6,9 @@
     using System.ServiceModel;
     using System.Windows;
     using System.Windows.Input;
+
+    using Billapong.GameConsole.Views;
+
     using Contract.Data.Tracing;
     using Contract.Service;
     using Core.Client.Tracing;
@@ -39,6 +42,26 @@
 
         public void OpenGameWindow(object parameter)
         {
+            /*int yPos = 100;
+            int xPos = 200;
+            for (var i = 0; i < 12; i++)
+            {
+                if (i > 0 && i%4 == 0)
+                {
+                    yPos += 300;
+                    xPos = 200;
+                }
+
+                var gameWindow = new GameWindow();
+                gameWindow.Left = xPos;
+                gameWindow.Top = yPos;
+                gameWindow.WindowStyle = WindowStyle.None;
+                gameWindow.Show();
+
+                    xPos += 300;
+            }*/
+
+
             var gameWindow = new GameWindow();
             gameWindow.Show();
         }
