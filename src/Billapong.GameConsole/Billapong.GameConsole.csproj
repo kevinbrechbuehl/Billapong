@@ -62,13 +62,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Compile Include="Animation\BallAnimationTask.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="ViewModels\GameMenuViewModel.cs" />
-    <Compile Include="ViewModels\GameWindowViewModel.cs" />
     <Compile Include="Views\GameMenu.xaml.cs">
       <DependentUpon>GameMenu.xaml</DependentUpon>
     </Compile>

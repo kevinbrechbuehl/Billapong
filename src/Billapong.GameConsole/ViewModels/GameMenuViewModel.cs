@@ -4,6 +4,9 @@
     using System.Collections.Generic;
     using System.ServiceModel;
     using System.Windows.Input;
+
+    using Billapong.GameConsole.Views;
+
     using Contract.Data.Tracing;
     using Contract.Service;
     using Core.Client.Tracing;
@@ -28,8 +31,6 @@
 
         public void OpenGameWindow(object parameter)
         {
-            var viewModel = new GameWindowViewModel();
-
             /*int yPos = 100;
             int xPos = 200;
             for (var i = 0; i < 12; i++)
@@ -43,7 +44,6 @@
                 var gameWindow = new GameWindow();
                 gameWindow.Left = xPos;
                 gameWindow.Top = yPos;
-                gameWindow.DataContext = viewModel;
                 gameWindow.WindowStyle = WindowStyle.None;
                 gameWindow.Show();
 
