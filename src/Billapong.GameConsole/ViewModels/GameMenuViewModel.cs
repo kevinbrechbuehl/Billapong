@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.ServiceModel;
+    using System.ServiceModel.Channels;
     using System.Windows;
     using System.Windows.Input;
 
@@ -82,6 +83,9 @@
             Tracer.Info("this is a info via tracer");
             Tracer.Warn("WARNING");
             Tracer.Error("WOHO, error", exception);
+
+            var messages = Tracer.GetLogMessages();
+            MessageBox.Show(string.Format("Current number of log messages saved on server: {0}", messages.Count()));
         }
 
         private void GetMaps(object parameter)

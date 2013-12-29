@@ -18,7 +18,7 @@ namespace Billapong.DataAccessTest
 
             var message = new LogMessage
             {
-                LogLevel = "Debug",
+                LogLevel = 1,
                 Message = "This is a test debug message.",
                 Component = "Unit Test",
                 Timestamp = DateTime.Now

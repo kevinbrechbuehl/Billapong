@@ -1,10 +1,11 @@
-﻿using System;
-
-namespace Billapong.Core.Server.Tracing
+﻿namespace Billapong.Core.Server.Tracing
 {
-    using System.Diagnostics;
     using Contract.Data.Tracing;
     using DataAccess.Repository;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
     using LogMessage = DataAccess.Model.Tracing.LogMessage;
 
     /// <summary>
@@ -58,7 +59,7 @@ namespace Billapong.Core.Server.Tracing
             var logMessage = new LogMessage
             {
                 Timestamp = timestamp,
-                LogLevel = logLevel.ToString(),
+                LogLevel = (int)logLevel,
                 Component = component,
                 Sender = sender,
                 Message = message
@@ -70,6 +71,35 @@ namespace Billapong.Core.Server.Tracing
 
             // Also trace the message, to use this feature as well :)
             Trace.WriteLine(string.Format("{0} - {1} - {2}", timestamp, logLevel, message), string.Format("{0} ({1})", component, sender));
+        }
+
+        /// <summary>
+        /// Gets the log messages.
+        /// </summary>
+        /// <param name="logLevel">The minimum log level.</param>
+        /// <param name="component">The component to filter by.</param>
+        /// <param name="numberOfMessages">The number of messages.</param>
+        /// <returns>List of log messages</returns>
+        public IEnumerable<LogMessage> GetLogMessages(LogLevel logLevel, string component, int numberOfMessages)
+        {
+            var messages = this.repository.Get(filter: message => message.LogLevel >= (int)logLevel);
+
+            // filter component
+            if (!string.IsNullOrWhiteSpace(component))
+            {
+                messages = messages.Where(message => message.Component == component);
+            }
+
+            // sort descending by date
+            messages = messages.OrderByDescending(message => message.Timestamp);
+
+            // get only specific number of entries
+            if (numberOfMessages > 0)
+            {
+                messages = messages.Take(numberOfMessages);
+            }
+
+            return messages;
         }
     }
 }
