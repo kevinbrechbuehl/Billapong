@@ -14,9 +14,25 @@
     using Contract.Service;
     using Core.Client.Tracing;
     using Service;
+    using Billapong.GameConsole.Models;
 
-    public class GameMenuViewModel
+    public class GameMenuViewModel : UserControlViewModelBase
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GameMenuViewModel"/> class.
+        /// </summary>
+        public GameMenuViewModel()
+        {
+            this.WindowHeight = 300;
+            this.WindowWidth = 400;
+        }
+
+        /// <summary>
+        /// Gets the open game window command.
+        /// </summary>
+        /// <value>
+        /// The open game window command.
+        /// </value>
         public ICommand OpenGameWindowCommand
         {
             get
@@ -25,6 +41,26 @@
             }
         }
 
+        /// <summary>
+        /// Gets the open map selection command.
+        /// </summary>
+        /// <value>
+        /// The open map selection command.
+        /// </value>
+        public ICommand OpenMapSelectionCommand
+        {
+            get
+            {
+                return new DelegateCommand(OpenMapSelection);
+            }
+        }
+
+        /// <summary>
+        /// Gets the log command.
+        /// </summary>
+        /// <value>
+        /// The log command.
+        /// </value>
         public ICommand LogCommand
         {
             get
@@ -33,6 +69,12 @@
             }
         }
 
+        /// <summary>
+        /// Gets the get maps command.
+        /// </summary>
+        /// <value>
+        /// The get maps command.
+        /// </value>
         public ICommand GetMapsCommand
         {
             get
@@ -41,32 +83,30 @@
             }
         }
 
+        /// <summary>
+        /// Opens the map selection.
+        /// </summary>
+        /// <param name="parameter">The parameter.</param>
+        public void OpenMapSelection(object parameter)
+        {
+            var viewModel = new MapSelectionViewModel();
+            base.OnWindowContentSwapRequested(new WindowContentSwapRequestedEventArgs(viewModel));
+        }
+
+        /// <summary>
+        /// Opens the game window.
+        /// </summary>
+        /// <param name="parameter">The parameter.</param>
         public void OpenGameWindow(object parameter)
         {
-            /*int yPos = 100;
-            int xPos = 200;
-            for (var i = 0; i < 12; i++)
-            {
-                if (i > 0 && i%4 == 0)
-                {
-                    yPos += 300;
-                    xPos = 200;
-                }
-
-                var gameWindow = new GameWindow();
-                gameWindow.Left = xPos;
-                gameWindow.Top = yPos;
-                gameWindow.WindowStyle = WindowStyle.None;
-                gameWindow.Show();
-
-                    xPos += 300;
-            }*/
-
-
             var gameWindow = new GameWindow();
             gameWindow.Show();
         }
 
+        /// <summary>
+        /// Test logging method
+        /// </summary>
+        /// <param name="parameter">The parameter.</param>
         private void Log(object parameter)
         {
             var exception = new Exception();
@@ -88,6 +128,10 @@
             MessageBox.Show(string.Format("Current number of log messages saved on server: {0}", messages.Count()));
         }
 
+        /// <summary>
+        /// Gets the maps.
+        /// </summary>
+        /// <param name="parameter">The parameter.</param>
         private void GetMaps(object parameter)
         {
             var client = new GameConsoleServiceClient();

@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="Billapong.GameConsole.Views.MapSelection"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <DockPanel>
+        <TextBlock DockPanel.Dock="Top">Hier kommen dann die verfügbaren Maps hin</TextBlock>
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Height="20">
+            <Button Command="{Binding BackToMenuCommand}">Back to menu</Button>
+            <Button Command="{Binding OpenWindowSelectionCommand}">Choose windows</Button>
+        </StackPanel>
+    </DockPanel>
+</UserControl>

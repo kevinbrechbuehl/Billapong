@@ -54,7 +54,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\WindowContentSwapRequestedEventArgs.cs" />
+    <Compile Include="ViewModels\GameMainWindowViewModel.cs" />
+    <Compile Include="ViewModels\WindowSelectionViewModel.cs" />
+    <Compile Include="ViewModels\MapSelectionViewModel.cs" />
+    <Compile Include="ViewModels\UserControlViewModelBase.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\WindowSelection.xaml.cs">
+      <DependentUpon>WindowSelection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MapSelection.xaml.cs">
+      <DependentUpon>MapSelection.xaml</DependentUpon>
+    </Compile>
     <Page Include="Views\GameMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GameMainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -73,9 +89,20 @@
     <Compile Include="Views\GameMenu.xaml.cs">
       <DependentUpon>GameMenu.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\GameMainWindow.xaml.cs">
+      <DependentUpon>GameMainWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GameWindow.xaml.cs">
       <DependentUpon>GameWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\WindowSelection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MapSelection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -114,9 +141,7 @@
       <Name>Billapong.Contract</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
