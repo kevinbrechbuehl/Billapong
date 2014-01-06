@@ -1,15 +1,16 @@
 ﻿using Billapong.GameConsole.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Billapong.GameConsole.ViewModels
 {
+    using System.Collections.ObjectModel;
+    using System.Linq;
+    using Service;
+
     public class MapSelectionViewModel : UserControlViewModelBase
     {
+        public ObservableCollection<string> Maps { get; set; }
+
         /// <summary>
         /// Gets the back to menu command.
         /// </summary>
@@ -45,6 +46,21 @@ namespace Billapong.GameConsole.ViewModels
         {
             this.WindowHeight = 400;
             this.WindowWidth = 500;
+
+            Maps = new ObservableCollection<string>();
+            /*Maps.Add("Map 1");
+            Maps.Add("Map 2");
+            Maps.Add("Map 3");
+            Maps.Add("Map 4");
+            Maps.Add("Map 5");*/
+
+            var client = new GameConsoleServiceClient();
+            var maps = client.GetMaps().ToList();
+
+            foreach (var map in maps)
+            {
+                Maps.Add(map.Name);
+            }
         }
 
         /// <summary>
