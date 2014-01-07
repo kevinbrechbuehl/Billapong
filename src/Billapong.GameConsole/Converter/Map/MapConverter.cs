@@ -4,7 +4,7 @@
 
     public static class MapConverter
     {
-        public static Map ToEntity(Contract.Data.Map.Map contractMap)
+        public static Map ToEntity(this Contract.Data.Map.Map contractMap)
         {
             var map = new Map {Id = contractMap.Id, Name = contractMap.Name};
             foreach (var contractWindow in contractMap.Windows)
@@ -15,7 +15,7 @@
             return map;
         }
 
-        public static Window ToEntity(Contract.Data.Map.Window contractWindow)
+        public static Window ToEntity(this Contract.Data.Map.Window contractWindow)
         {
             var window = new Window {Id = contractWindow.Id, X = contractWindow.X, Y = contractWindow.Y};
 
@@ -27,7 +27,7 @@
             return window;
         }
 
-        public static Hole ToEntity(Contract.Data.Map.Hole contractHole)
+        public static Hole ToEntity(this Contract.Data.Map.Hole contractHole)
         {
             return new Hole()
             {

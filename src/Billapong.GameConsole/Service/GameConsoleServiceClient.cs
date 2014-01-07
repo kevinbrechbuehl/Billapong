@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Billapong.GameConsole.Service
 {
+    using System.Threading;
     using Contract.Data.Map;
     using Contract.Service;
     using Core.Client;
@@ -14,7 +15,12 @@ namespace Billapong.GameConsole.Service
     {
         public IEnumerable<Map> GetMaps()
         {
-            return base.Execute(() => base.Proxy.GetMaps());
+            return this.Execute(() => this.Proxy.GetMaps());
+        }
+
+        public async Task<IEnumerable<Map>> GetMapsAsync()
+        {
+            return await this.ExecuteAsync(() => this.Proxy.GetMaps());
         }
     }
 }

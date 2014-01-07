@@ -24,11 +24,6 @@ namespace Billapong.Core.Client
             }
         }
 
-        protected void ExecuteAsync(Action delegatedAction)
-        {
-            Task.Factory.StartNew(() => this.Execute(delegatedAction));
-        }
-
         protected TResult Execute<TResult>(Func<TResult> delegatedFunction)
         {
             try
@@ -41,6 +36,16 @@ namespace Billapong.Core.Client
                 // todo: handle this error -> i.e. when host is not running
                 throw;
             }
+        }
+
+        protected async Task ExecuteAsync(Action delegatedAction)
+        {
+            await Task.Run(() => this.Execute(delegatedAction));
+        }
+
+        protected async Task<TResult> ExecuteAsync<TResult>(Func<TResult> delgatedFunction)
+        {
+            return await Task.Run(() => this.Execute(delgatedFunction));
         }
 
         private void ValidateProxy()

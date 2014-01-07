@@ -2,6 +2,7 @@
 {
     using System.Collections.ObjectModel;
     using System.Linq;
+    using System.ServiceModel;
     using Converter.Map;
     using Models;
     using Service;
@@ -44,23 +45,27 @@
             }
         }
 
+        private readonly GameConsoleServiceClient proxy;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MapSelectionViewModel"/> class.
         /// </summary>
         public MapSelectionViewModel()
         {
+            this.proxy = new GameConsoleServiceClient();
+            
             this.WindowHeight = 400;
             this.WindowWidth = 500;
-
             this.Maps = new ObservableCollection<Map>();
-            
+            this.LoadMaps();
+        }
 
-            var client = new GameConsoleServiceClient();
-            var maps = client.GetMaps().ToList();
-
+        private async void LoadMaps()
+        {
+            var maps = await proxy.GetMapsAsync();
             foreach (var map in maps)
             {
-                Maps.Add(MapConverter.ToEntity(map));
+                this.Maps.Add(map.ToEntity());
             }
         }
 
