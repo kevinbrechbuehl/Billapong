@@ -3,6 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="Views\GameMainWindow.xaml">
     <Application.Resources>
-         
+        <Style x:Key="NavigationButton" TargetType="{x:Type Button}">
+            <Setter Property="Margin" Value="5 5 5 5"/>
+            <Setter Property="Padding" Value="5 2 5 2"/>
+            <Setter Property="Width" Value="auto"/>
+        </Style>
+        
+        <Style x:Key="MenuButton" TargetType="{x:Type Button}">
+            <Setter Property="Margin" Value="5 5 5 5"/>
+            <Setter Property="Width" Value="200"/>
+        </Style>
     </Application.Resources>
 </Application>

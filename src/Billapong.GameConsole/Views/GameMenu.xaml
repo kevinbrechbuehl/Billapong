@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
+    <StackPanel>
         <TextBlock FontFamily="Consolas" xml:space="preserve" HorizontalAlignment="Center" Height="100" VerticalAlignment="Top">
  ____ ___ _     _        _    ____   ___  _   _  ____
 | __ )_ _| |   | |      / \  |  _ \ / _ \| \ | |/ ___|
@@ -13,10 +13,12 @@
 | |_) | || |___| |___ / ___ \|  __/| |_| | |\  | |_| |
 |____/___|_____|_____/_/   \_\_|    \___/|_| \_|\____|
         </TextBlock>
-
-        <Button Name="startSinglePlayerTraining" Command="{Binding OpenMapSelectionCommand}" CommandParameter="type=single" Height="20" Width="200">Start single player training</Button>
-        
-        <Button Name="doLog" Command="{Binding LogCommand}" Height="20" Width="200" Margin="0,100,0,0">Kevins Log</Button>
-        <Button Name="getMaps" Command="{Binding GetMapsCommand}" Height="20" Width="200" Margin="0,150,0,0">Get Maps</Button>
-    </Grid>
+       
+        <Button Name="startSinglePlayerTraining" Command="{Binding OpenMapSelectionCommand}" CommandParameter="training" Style="{StaticResource MenuButton}">Start singleplayer training</Button>
+        <Button Name="startSinglePlayerGame" Command="{Binding OpenMapSelectionCommand}" CommandParameter="single" Style="{StaticResource MenuButton}">Start singleplayer game</Button>
+        <Button Name="startMultiplayerGame" Command="{Binding OpenMapSelectionCommand}" CommandParameter="multiplayer" Style="{StaticResource MenuButton}">Start multiplayer game</Button>
+        <Button Name="joinMultiplayerGame" Command="{Binding OpenMapSelectionCommand}" Style="{StaticResource MenuButton}">Join multiplayer game</Button>
+        <Button Name="doLog" Command="{Binding LogCommand}" Style="{StaticResource MenuButton}" Background="Bisque">Kevins Log</Button>
+        <Button Name="getMaps" Command="{Binding GetMapsCommand}" Style="{StaticResource MenuButton}" Background="Bisque">Get Maps</Button>
+    </StackPanel>
 </UserControl>

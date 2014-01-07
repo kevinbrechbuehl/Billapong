@@ -23,7 +23,7 @@
         /// </summary>
         public GameMenuViewModel()
         {
-            this.WindowHeight = 300;
+            this.WindowHeight = 350;
             this.WindowWidth = 400;
         }
 

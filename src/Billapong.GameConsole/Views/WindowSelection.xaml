@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <DockPanel>
+    <DockPanel LastChildFill="False">  
         <ListView ItemsSource="{Binding Windows}" x:Name="WindowList" DockPanel.Dock="Top" Height="auto">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -19,9 +19,9 @@
             </ListView.ItemTemplate>
         </ListView>
         
-        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Height="20">
-            <Button Command="{Binding BackToMapSelectionCommand}">Back to map selection</Button>
-            <Button Command="{Binding StartGameCommand}">Start game</Button>
-        </StackPanel>
+        <Grid DockPanel.Dock="Bottom">
+            <Button Command="{Binding BackToMapSelectionCommand}" HorizontalAlignment="Left" Style="{StaticResource NavigationButton}">« Back to map selection</Button>
+            <Button Command="{Binding StartGameCommand}" HorizontalAlignment="Right" Style="{StaticResource NavigationButton}">Start game »</Button>
+        </Grid>
     </DockPanel>
 </UserControl>

@@ -5,24 +5,23 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <DockPanel>
+        <DockPanel LastChildFill="False">
 
-        <ListView ItemsSource="{Binding Maps}" x:Name="MapList" DockPanel.Dock="Top" Height="auto">
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel IsItemsHost="True" Width="480" />
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Button Content="{Binding Name}" Command="{Binding ElementName=MapList, Path=DataContext.OpenWindowSelectionCommand}" CommandParameter="{Binding}" Height="60" Width="105" />
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-
-        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Height="20">
-            <Button Command="{Binding BackToMenuCommand}">Back to menu</Button>
-            <Button Command="{Binding OpenWindowSelectionCommand}">Choose windows</Button>
-        </StackPanel>
-    </DockPanel>
+            <ListView ItemsSource="{Binding Maps}" x:Name="MapList" DockPanel.Dock="Top" Height="auto">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel IsItemsHost="True" Width="480" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Button Content="{Binding Name}" Command="{Binding ElementName=MapList, Path=DataContext.OpenWindowSelectionCommand}" CommandParameter="{Binding}" Height="60" Width="105" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            
+            <Grid DockPanel.Dock="Bottom">
+                <Button Command="{Binding BackToMenuCommand}" HorizontalAlignment="Left" Style="{StaticResource NavigationButton}">« Back to menu</Button>
+            </Grid>
+        </DockPanel>
 </UserControl>
