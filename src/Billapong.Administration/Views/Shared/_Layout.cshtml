@@ -2,26 +2,37 @@
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title - Billapong</title>
+    <link href="@Url.Content("~/Styles/main.css")" rel="stylesheet" type="text/css" />
 </head>
 <body>
 
     <div class="logo">
         <a href="~/">
             <pre>
-                 ____ ___ _     _        _    ____   ___  _   _  ____
-                | __ )_ _| |   | |      / \  |  _ \ / _ \| \ | |/ ___|
-                |  _ \| || |   | |     / _ \ | |_) | | | |  \| | |  _
-                | |_) | || |___| |___ / ___ \|  __/| |_| | |\  | |_| |
-                |____/___|_____|_____/_/   \_\_|    \___/|_| \_|\____|
+ ____ ___ _     _        _    ____   ___  _   _  ____
+| __ )_ _| |   | |      / \  |  _ \ / _ \| \ | |/ ___|
+|  _ \| || |   | |     / _ \ | |_) | | | |  \| | |  _
+| |_) | || |___| |___ / ___ \|  __/| |_| | |\  | |_| |
+|____/___|_____|_____/_/   \_\_|    \___/|_| \_|\____|
             </pre>
         </a>
     </div>
 
     <div class="wrapper">
         <div class="navigation">
-
+            <ul id="nav">
+                <li>@Html.ActionLink("Home", "Index", "Home", new { @class = "active" })</li>
+                <li><a href="#">Seite 2</a></li>
+                <li>
+                    <a href="#">Seite 3</a>
+                    <ul>
+                        <li><a href="#">Seite 3.1</a></li>
+                        <li><a href="#">Seite 3.2</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Seite 4</a></li>
+            </ul>
         </div>
 
         <div class="content">
