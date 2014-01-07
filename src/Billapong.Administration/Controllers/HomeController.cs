@@ -12,7 +12,7 @@ namespace Billapong.Administration.Controllers
         // GET: /Home/
         public ActionResult Index()
         {
-            return Content("Hello World");
+            return View();
         }
 	}
 }
