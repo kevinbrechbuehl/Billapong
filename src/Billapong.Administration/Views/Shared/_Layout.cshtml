@@ -22,16 +22,8 @@
     <div class="wrapper">
         <div class="navigation">
             <ul id="nav">
-                <li>@Html.ActionLink("Home", "Index", "Home", new { @class = "active" })</li>
-                <li><a href="#">Seite 2</a></li>
-                <li>
-                    <a href="#">Seite 3</a>
-                    <ul>
-                        <li><a href="#">Seite 3.1</a></li>
-                        <li><a href="#">Seite 3.2</a></li>
-                    </ul>
-                </li>
-                <li><a href="#">Seite 4</a></li>
+                <li>@Html.MenuLink(@Resources.Global.HomeTitle, "Index", "Home")</li>
+                <li>@Html.MenuLink(@Resources.Global.TracingTitle, "Index", "Tracing")</li>
             </ul>
         </div>
 
