@@ -28,26 +28,12 @@
         }
 
         /// <summary>
-        /// Gets the open game window command.
-        /// </summary>
-        /// <value>
-        /// The open game window command.
-        /// </value>
-        public ICommand OpenGameWindowCommand
-        {
-            get
-            {
-                return new DelegateCommand(OpenGameWindow);
-            }
-        }
-
-        /// <summary>
         /// Gets the open map selection command.
         /// </summary>
         /// <value>
         /// The open map selection command.
         /// </value>
-        public ICommand OpenMapSelectionCommand
+        public DelegateCommand OpenMapSelectionCommand
         {
             get
             {
@@ -61,7 +47,7 @@
         /// <value>
         /// The log command.
         /// </value>
-        public ICommand LogCommand
+        public DelegateCommand LogCommand
         {
             get
             {
@@ -75,7 +61,7 @@
         /// <value>
         /// The get maps command.
         /// </value>
-        public ICommand GetMapsCommand
+        public DelegateCommand GetMapsCommand
         {
             get
             {
@@ -91,16 +77,6 @@
         {
             var viewModel = new MapSelectionViewModel();
             base.OnWindowContentSwapRequested(new WindowContentSwapRequestedEventArgs(viewModel));
-        }
-
-        /// <summary>
-        /// Opens the game window.
-        /// </summary>
-        /// <param name="parameter">The parameter.</param>
-        public void OpenGameWindow(object parameter)
-        {
-            var gameWindow = new GameWindow();
-            gameWindow.Show();
         }
 
         /// <summary>

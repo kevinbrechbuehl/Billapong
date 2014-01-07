@@ -6,10 +6,22 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <DockPanel>
-        <TextBlock DockPanel.Dock="Top">Hier kommen dann die verfügbaren Fenster hin</TextBlock>
+        <ListView ItemsSource="{Binding Windows}" x:Name="WindowList" DockPanel.Dock="Top" Height="auto">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel IsItemsHost="True" Width="480" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ToggleButton Content="{Binding DisplayName}" Command="{Binding ElementName=WindowList, Path=DataContext.ToggleWindowButtonCommand}" IsChecked="{Binding IsVisible}"  Height="60" Width="105" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Height="20">
             <Button Command="{Binding BackToMapSelectionCommand}">Back to map selection</Button>
-            <Button>Start game</Button>
+            <Button Command="{Binding StartGameCommand}">Start game</Button>
         </StackPanel>
     </DockPanel>
 </UserControl>

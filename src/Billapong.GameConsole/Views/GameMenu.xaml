@@ -16,7 +16,6 @@
 
         <Button Name="startSinglePlayerTraining" Command="{Binding OpenMapSelectionCommand}" CommandParameter="type=single" Height="20" Width="200">Start single player training</Button>
         
-        <Button Name="openGameWindow" Command="{Binding OpenGameWindowCommand}" Height="20" Width="200" Margin="0,50,0,0">Open Game Window</Button>
         <Button Name="doLog" Command="{Binding LogCommand}" Height="20" Width="200" Margin="0,100,0,0">Kevins Log</Button>
         <Button Name="getMaps" Command="{Binding GetMapsCommand}" Height="20" Width="200" Margin="0,150,0,0">Get Maps</Button>
     </Grid>

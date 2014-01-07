@@ -1,15 +1,20 @@
-﻿using Billapong.GameConsole.Models;
-using System.Windows.Input;
-
-namespace Billapong.GameConsole.ViewModels
+﻿namespace Billapong.GameConsole.ViewModels
 {
     using System.Collections.ObjectModel;
     using System.Linq;
+    using Converter.Map;
+    using Models;
     using Service;
 
     public class MapSelectionViewModel : UserControlViewModelBase
     {
-        public ObservableCollection<string> Maps { get; set; }
+        /// <summary>
+        /// Gets the maps.
+        /// </summary>
+        /// <value>
+        /// The maps.
+        /// </value>
+        public ObservableCollection<Map> Maps { get; private set; }
 
         /// <summary>
         /// Gets the back to menu command.
@@ -17,7 +22,7 @@ namespace Billapong.GameConsole.ViewModels
         /// <value>
         /// The back to menu command.
         /// </value>
-        public ICommand BackToMenuCommand
+        public DelegateCommand BackToMenuCommand
         {
             get
             {
@@ -31,7 +36,7 @@ namespace Billapong.GameConsole.ViewModels
         /// <value>
         /// The open window selection command.
         /// </value>
-        public ICommand OpenWindowSelectionCommand
+        public DelegateCommand OpenWindowSelectionCommand
         {
             get
             {
@@ -47,19 +52,15 @@ namespace Billapong.GameConsole.ViewModels
             this.WindowHeight = 400;
             this.WindowWidth = 500;
 
-            Maps = new ObservableCollection<string>();
-            /*Maps.Add("Map 1");
-            Maps.Add("Map 2");
-            Maps.Add("Map 3");
-            Maps.Add("Map 4");
-            Maps.Add("Map 5");*/
+            this.Maps = new ObservableCollection<Map>();
+            
 
             var client = new GameConsoleServiceClient();
             var maps = client.GetMaps().ToList();
 
             foreach (var map in maps)
             {
-                Maps.Add(map.Name);
+                Maps.Add(MapConverter.ToEntity(map));
             }
         }
 
@@ -79,7 +80,7 @@ namespace Billapong.GameConsole.ViewModels
         /// <param name="properties">The properties.</param>
         private void OpenWindowSelection(object properties)
         {
-            var viewModel = new WindowSelectionViewModel();
+            var viewModel = new WindowSelectionViewModel((Map)properties);
             this.OnWindowContentSwapRequested(new WindowContentSwapRequestedEventArgs(viewModel));
         }
     }

@@ -15,6 +15,8 @@ using System.Windows.Shapes;
 
 namespace Billapong.GameConsole.Views
 {
+    using Contract.Data.Map;
+
     /// <summary>
     /// Interaction logic for MapSelection.xaml
     /// </summary>

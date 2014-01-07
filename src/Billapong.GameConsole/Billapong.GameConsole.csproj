@@ -54,6 +54,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converter\Map\MapConverter.cs" />
+    <Compile Include="Models\Hole.cs" />
+    <Compile Include="Models\Map.cs" />
+    <Compile Include="Models\Window.cs" />
     <Compile Include="Models\WindowContentSwapRequestedEventArgs.cs" />
     <Compile Include="ViewModels\GameMainWindowViewModel.cs" />
     <Compile Include="ViewModels\WindowSelectionViewModel.cs" />

@@ -7,7 +7,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <DockPanel>
 
-        <ListView ItemsSource="{Binding Maps}" DockPanel.Dock="Top" Height="auto">
+        <ListView ItemsSource="{Binding Maps}" x:Name="MapList" DockPanel.Dock="Top" Height="auto">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel IsItemsHost="True" Width="480" />
@@ -15,12 +15,10 @@
             </ListView.ItemsPanel>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Button Content="{Binding}" Height="60" Width="105" />
+                    <Button Content="{Binding Name}" Command="{Binding ElementName=MapList, Path=DataContext.OpenWindowSelectionCommand}" CommandParameter="{Binding}" Height="60" Width="105" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-
-
 
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Height="20">
             <Button Command="{Binding BackToMenuCommand}">Back to menu</Button>
