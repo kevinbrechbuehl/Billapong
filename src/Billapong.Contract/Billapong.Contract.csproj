@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Tracing\Component.cs" />
     <Compile Include="Data\Map\Hole.cs" />
     <Compile Include="Data\Map\Map.cs" />
     <Compile Include="Data\Map\Window.cs" />

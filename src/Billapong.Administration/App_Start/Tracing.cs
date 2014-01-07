@@ -1,5 +1,6 @@
 ﻿namespace Billapong.Administration.App_Start
 {
+    using Contract.Data.Tracing;
     using Core.Client.Tracing;
 
     /// <summary>
@@ -12,7 +13,7 @@
         /// </summary>
         public static void InitializeTracing()
         {
-            Tracer.Initialize("Administration");
+            Tracer.Initialize(Component.Administration);
         }
 
         /// <summary>

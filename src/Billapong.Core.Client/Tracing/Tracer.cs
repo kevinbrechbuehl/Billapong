@@ -8,6 +8,7 @@
     using System.Diagnostics;
     using System.Linq;
     using System.Threading.Tasks;
+    using Component = Contract.Data.Tracing.Component;
 
     /// <summary>
     /// The Tracer implementation for the client.
@@ -48,7 +49,7 @@
         /// <summary>
         /// The current component name
         /// </summary>
-        private string component;
+        private Component component;
 
         /// <summary>
         /// The log level
@@ -69,7 +70,7 @@
         /// Initializes the tracer and load the configuration.
         /// </summary>
         /// <param name="component">The component name.</param>
-        public static void Initialize(string component)
+        public static void Initialize(Component component)
         {
             Current.InitializeConfig(component);
         }
@@ -132,7 +133,7 @@
         /// <param name="component">The component to filter by.</param>
         /// <param name="numberOfMessages">The number of messages.</param>
         /// <returns>List of log messages</returns>
-        public static IEnumerable<LogMessage> GetLogMessages(string component = "", LogLevel logLevel = LogLevel.Debug, int numberOfMessages = 0)
+        public static IEnumerable<LogMessage> GetLogMessages(Component component = Component.All, LogLevel logLevel = LogLevel.Debug, int numberOfMessages = 0)
         {
             return Current.proxy.GetLogMessages(new LogListener
             {
@@ -146,7 +147,7 @@
         /// Initializes the configuration.
         /// </summary>
         /// <param name="component">The component name.</param>
-        private void InitializeConfig(string component)
+        private void InitializeConfig(Component component)
         {
             this.component = component;
 

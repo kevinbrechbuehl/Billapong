@@ -2,6 +2,7 @@
 
 namespace Billapong.GameConsole
 {
+    using Contract.Data.Tracing;
     using Core.Client.Tracing;
 
     /// <summary>
@@ -15,7 +16,7 @@ namespace Billapong.GameConsole
 
             this.DispatcherUnhandledException += App_DispatcherUnhandledException;
 
-            Tracer.Initialize("Game Console");
+            Tracer.Initialize(Component.GameConsole);
         }
 
         private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)

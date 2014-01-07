@@ -54,13 +54,13 @@
         /// <param name="component">The component.</param>
         /// <param name="sender">The sender.</param>
         /// <param name="message">The message.</param>
-        public void LogMessage(DateTime timestamp, LogLevel logLevel, string component, string sender, string message)
+        public void LogMessage(DateTime timestamp, LogLevel logLevel, Component component, string sender, string message)
         {
             var logMessage = new LogMessage
             {
                 Timestamp = timestamp,
                 LogLevel = (int)logLevel,
-                Component = component,
+                Component = component.ToString(),
                 Sender = sender,
                 Message = message
             };
@@ -80,14 +80,14 @@
         /// <param name="component">The component to filter by.</param>
         /// <param name="numberOfMessages">The number of messages.</param>
         /// <returns>List of log messages</returns>
-        public IEnumerable<LogMessage> GetLogMessages(LogLevel logLevel, string component, int numberOfMessages)
+        public IEnumerable<LogMessage> GetLogMessages(LogLevel logLevel, Component component, int numberOfMessages)
         {
             var messages = this.repository.Get(filter: message => message.LogLevel >= (int)logLevel);
 
             // filter component
-            if (!string.IsNullOrWhiteSpace(component))
+            if (component != Component.All)
             {
-                messages = messages.Where(message => message.Component == component);
+                messages = messages.Where(message => message.Component == component.ToString());
             }
 
             // sort descending by date

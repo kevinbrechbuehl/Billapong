@@ -1,5 +1,7 @@
 ﻿namespace Billapong.Core.Server.Converter.Tracing
 {
+    using System;
+
     /// <summary>
     /// Log message converter
     /// </summary>
@@ -15,7 +17,7 @@
             return new Contract.Data.Tracing.LogMessage
             {
                 LogLevel = (Contract.Data.Tracing.LogLevel) source.LogLevel,
-                Component = source.Component,
+                Component = (Contract.Data.Tracing.Component)Enum.Parse(typeof(Contract.Data.Tracing.Component), source.Component),
                 Message = source.Message,
                 Sender = source.Sender,
                 Timestamp = source.Timestamp

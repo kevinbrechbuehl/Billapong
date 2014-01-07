@@ -34,7 +34,7 @@
         /// The component.
         /// </value>
         [DataMember(Name = "Component", Order = 1)]
-        public string Component { get; set; }
+        public Component Component { get; set; }
 
         /// <summary>
         /// Gets or sets the sender.
