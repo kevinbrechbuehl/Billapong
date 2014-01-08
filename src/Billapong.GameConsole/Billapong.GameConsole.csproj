@@ -54,16 +54,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Configuration\GameConfiguration.cs" />
     <Compile Include="Converter\Map\MapConverter.cs" />
     <Compile Include="Models\Hole.cs" />
     <Compile Include="Models\Map.cs" />
     <Compile Include="Models\Window.cs" />
-    <Compile Include="Models\WindowContentSwapRequestedEventArgs.cs" />
+    <Compile Include="Models\WindowContentSwitchRequestedEventArgs.cs" />
     <Compile Include="ViewModels\GameMainWindowViewModel.cs" />
-    <Compile Include="ViewModels\WindowSelectionViewModel.cs" />
+    <Compile Include="ViewModels\IMainWindowContentViewModel.cs" />
+    <Compile Include="ViewModels\WindowSelection\IWindowSelectionViewModel.cs" />
+    <Compile Include="ViewModels\WindowSelection\MpWindowSelectionViewModel.cs" />
+    <Compile Include="ViewModels\WindowSelection\SpTrainingWindowSelectionViewModel.cs" />
     <Compile Include="ViewModels\MapSelectionViewModel.cs" />
-    <Compile Include="ViewModels\UserControlViewModelBase.cs" />
+    <Compile Include="ViewModels\MainWindowContentViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="ViewModels\WindowSelection\SpWindowSelectionViewModel.cs" />
+    <Compile Include="ViewModels\WindowSelection\WindowSelectionViewModelBase.cs" />
+    <Compile Include="ViewModels\WindowSelection\WindowSelectionViewModelFactory.cs" />
     <Compile Include="Views\WindowSelection.xaml.cs">
       <DependentUpon>WindowSelection.xaml</DependentUpon>
     </Compile>

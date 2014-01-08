@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Billapong.GameConsole.Models
 {
-    public class WindowContentSwapRequestedEventArgs : EventArgs
+    public class WindowContentSwitchRequestedEventArgs : EventArgs
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="WindowContentSwapRequestedEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="WindowContentSwitchRequestedEventArgs"/> class.
         /// </summary>
         /// <param name="viewModel">The view model.</param>
-        public WindowContentSwapRequestedEventArgs(UserControlViewModelBase viewModel)
+        public WindowContentSwitchRequestedEventArgs(IMainWindowContentViewModel viewModel)
         {
             this.ViewModel = viewModel;
         }
@@ -24,6 +24,6 @@ namespace Billapong.GameConsole.Models
         /// <value>
         /// The view model.
         /// </value>
-        public UserControlViewModelBase ViewModel { get; private set; }
+        public IMainWindowContentViewModel ViewModel { get; private set; }
     }
 }

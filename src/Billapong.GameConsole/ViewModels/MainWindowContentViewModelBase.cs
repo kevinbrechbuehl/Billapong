@@ -3,12 +3,12 @@ using System;
 
 namespace Billapong.GameConsole.ViewModels
 {
-    public abstract class UserControlViewModelBase : ViewModelBase
+    public abstract class MainWindowContentViewModelBase : ViewModelBase, IMainWindowContentViewModel
     {
         /// <summary>
         /// Occurs when the content of the window should change
         /// </summary>
-        public event EventHandler<WindowContentSwapRequestedEventArgs> WindowContentSwapRequested = delegate {};
+        public event EventHandler<WindowContentSwitchRequestedEventArgs> WindowContentSwitchRequested = delegate {};
 
         /// <summary>
         /// Gets or sets the height of the window.
@@ -27,14 +27,14 @@ namespace Billapong.GameConsole.ViewModels
         public int WindowWidth { get;  protected set; }
 
         /// <summary>
-        /// Raises the <see cref="E:WindowContentSwapRequested" /> event.
+        /// Raises the <see cref="E:WindowContentSwitchRequested" /> event.
         /// </summary>
-        /// <param name="e">The <see cref="WindowContentSwapRequestedEventArgs"/> instance containing the event data.</param>
-        protected void OnWindowContentSwapRequested(WindowContentSwapRequestedEventArgs e)
+        /// <param name="e">The <see cref="WindowContentSwitchRequestedEventArgs"/> instance containing the event data.</param>
+        protected void OnWindowContentSwapRequested(WindowContentSwitchRequestedEventArgs e)
         {
-            if (WindowContentSwapRequested != null)
+            if (this.WindowContentSwitchRequested != null)
             {
-                WindowContentSwapRequested(this, e);
+                this.WindowContentSwitchRequested(this, e);
             }
         }
     }

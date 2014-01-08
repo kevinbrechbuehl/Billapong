@@ -1,20 +1,22 @@
-﻿using Billapong.GameConsole.Models;
-using Billapong.GameConsole.Views;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-
-namespace Billapong.GameConsole.ViewModels
+﻿namespace Billapong.GameConsole.ViewModels
 {
+    using Billapong.GameConsole.Models;
+
     public class GameMainWindowViewModel : ViewModelBase
     {
+        /// <summary>
+        /// The current view
+        /// </summary>
         private object currentView;
+
+        /// <summary>
+        /// The window height
+        /// </summary>
         private int windowHeight;
+
+        /// <summary>
+        /// The window width
+        /// </summary>
         private int windowWidth;
 
         /// <summary>
@@ -70,28 +72,28 @@ namespace Billapong.GameConsole.ViewModels
         /// </summary>
         public GameMainWindowViewModel()
         {
-            this.SwapWindowContent(new GameMenuViewModel());
+            this.SwitchWindowContent(new GameMenuViewModel());
         }
 
         /// <summary>
         /// Swaps the wîndow content to the requested view model
         /// </summary>
         /// <param name="sender">The sender.</param>
-        /// <param name="args">The <see cref="WindowContentSwapRequestedEventArgs"/> instance containing the event data.</param>
-        public void WindowContentSwapRequested(object sender, WindowContentSwapRequestedEventArgs args) {
-            this.SwapWindowContent(args.ViewModel);
+        /// <param name="args">The <see cref="WindowContentSwitchRequestedEventArgs"/> instance containing the event data.</param>
+        public void WindowContentSwitchRequested(object sender, WindowContentSwitchRequestedEventArgs args) {
+            this.SwitchWindowContent(args.ViewModel);
         }
 
         /// <summary>
         /// Swaps the content of the window.
         /// </summary>
         /// <param name="viewModel">The view model.</param>
-        private void SwapWindowContent(UserControlViewModelBase viewModel)
+        private void SwitchWindowContent(IMainWindowContentViewModel viewModel)
         {
             this.CurrentView = viewModel;
             this.WindowWidth = viewModel.WindowWidth;
             this.WindowHeight = viewModel.WindowHeight;
-            viewModel.WindowContentSwapRequested += WindowContentSwapRequested;
+            viewModel.WindowContentSwitchRequested += this.WindowContentSwitchRequested;
         }
     }
 }

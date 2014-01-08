@@ -1,22 +1,14 @@
 ﻿namespace Billapong.GameConsole.ViewModels
 {
+    using Billapong.GameConsole.Models;
+    using Core.Client.Tracing;
+    using Service;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.ServiceModel;
-    using System.ServiceModel.Channels;
     using System.Windows;
-    using System.Windows.Input;
 
-    using Billapong.GameConsole.Views;
-
-    using Contract.Data.Tracing;
-    using Contract.Service;
-    using Core.Client.Tracing;
-    using Service;
-    using Billapong.GameConsole.Models;
-
-    public class GameMenuViewModel : UserControlViewModelBase
+    public class GameMenuViewModel : MainWindowContentViewModelBase
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GameMenuViewModel"/> class.
@@ -76,7 +68,7 @@
         public void OpenMapSelection(object parameter)
         {
             var viewModel = new MapSelectionViewModel();
-            base.OnWindowContentSwapRequested(new WindowContentSwapRequestedEventArgs(viewModel));
+            base.OnWindowContentSwapRequested(new WindowContentSwitchRequestedEventArgs(viewModel));
         }
 
         /// <summary>

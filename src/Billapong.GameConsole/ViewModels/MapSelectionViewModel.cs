@@ -1,13 +1,13 @@
 ﻿namespace Billapong.GameConsole.ViewModels
 {
     using System.Collections.ObjectModel;
-    using System.Linq;
-    using System.ServiceModel;
+    using Billapong.GameConsole.Configuration;
+    using Billapong.GameConsole.ViewModels.WindowSelection;
     using Converter.Map;
     using Models;
     using Service;
 
-    public class MapSelectionViewModel : UserControlViewModelBase
+    public class MapSelectionViewModel : MainWindowContentViewModelBase
     {
         /// <summary>
         /// Gets the maps.
@@ -52,10 +52,10 @@
         /// </summary>
         public MapSelectionViewModel()
         {
-            this.proxy = new GameConsoleServiceClient();
-            
             this.WindowHeight = 400;
             this.WindowWidth = 500;
+
+            this.proxy = new GameConsoleServiceClient();
             this.Maps = new ObservableCollection<Map>();
             this.LoadMaps();
         }
@@ -76,7 +76,7 @@
         private void BackToMenu(object properties)
         {
             var viewModel = new GameMenuViewModel();
-            this.OnWindowContentSwapRequested(new WindowContentSwapRequestedEventArgs(viewModel));
+            this.OnWindowContentSwapRequested(new WindowContentSwitchRequestedEventArgs(viewModel));
         }
 
         /// <summary>
@@ -85,8 +85,9 @@
         /// <param name="properties">The properties.</param>
         private void OpenWindowSelection(object properties)
         {
-            var viewModel = new WindowSelectionViewModel((Map)properties);
-            this.OnWindowContentSwapRequested(new WindowContentSwapRequestedEventArgs(viewModel));
+            var map = properties as Map;
+            var viewModel = WindowSelectionViewModelFactory.CreateInstance(GameConfiguration.GameType.MultiPlayerGame, map);
+            this.OnWindowContentSwapRequested(new WindowContentSwitchRequestedEventArgs(viewModel));
         }
     }
 }
