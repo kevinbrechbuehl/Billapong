@@ -3,6 +3,9 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
+    /// <summary>
+    /// Represents a window in a map
+    /// </summary>
     public class Window : IEntity
     {
         /// <summary>

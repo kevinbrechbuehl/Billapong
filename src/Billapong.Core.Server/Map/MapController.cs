@@ -5,20 +5,20 @@
     using DataAccess.Model.Map;
     using DataAccess.Repository;
 
+    /// <summary>
+    /// The map controller
+    /// </summary>
     public class MapController
     {
+        /// <summary>
+        /// The repository
+        /// </summary>
+        private readonly IRepository<Map> repository;
+
         #region Singleton Implementation
 
         /// <summary>
-        /// Gets the current instance.
-        /// </summary>
-        /// <value>
-        /// The current instance.
-        /// </value>
-        public static MapController Current { get; private set; }
-
-        /// <summary>
-        /// Initializes the <see cref="MapController"/> class.
+        /// Initializes static members of the <see cref="MapController"/> class.
         /// </summary>
         static MapController()
         {
@@ -33,12 +33,15 @@
             this.repository = new Repository<Map>();
         }
 
-        #endregion
-
         /// <summary>
-        /// The repository
+        /// Gets the current instance.
         /// </summary>
-        private readonly IRepository<Map> repository;
+        /// <value>
+        /// The current instance.
+        /// </value>
+        public static MapController Current { get; private set; }
+
+        #endregion
 
         /// <summary>
         /// Gets the maps.

@@ -1,17 +1,18 @@
 ﻿namespace Billapong.GameConsole.Views
 {
-    using System.Windows;
     using System.Windows.Controls;
-    using ViewModels;
 
     /// <summary>
     /// Interaction logic for GameMenu.xaml
     /// </summary>
     public partial class GameMenu : UserControl
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GameMenu"/> class.
+        /// </summary>
         public GameMenu()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

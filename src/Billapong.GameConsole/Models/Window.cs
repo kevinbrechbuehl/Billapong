@@ -1,8 +1,20 @@
-﻿using System.Collections.Generic;
-namespace Billapong.GameConsole.Models
+﻿namespace Billapong.GameConsole.Models
 {
+    using System.Collections.Generic;
+
+    /// <summary>
+    /// Represents a window within a map
+    /// </summary>
     public class Window
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Window"/> class.
+        /// </summary>
+        public Window()
+        {
+            this.Holes = new List<Hole>();
+        }
+
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>
@@ -27,6 +39,12 @@ namespace Billapong.GameConsole.Models
         /// </value>
         public int Y { get; set; }
 
+        /// <summary>
+        /// Gets the display name.
+        /// </summary>
+        /// <value>
+        /// The display name.
+        /// </value>
         public string DisplayName
         {
             get
@@ -52,16 +70,11 @@ namespace Billapong.GameConsole.Models
         public bool IsVisible { get; set; }
 
         /// <summary>
-        /// Gets or sets the holes.
+        /// Gets the holes.
         /// </summary>
         /// <value>
         /// The holes.
         /// </value>
         public IList<Hole> Holes { get; private set; }
-
-        public Window()
-        {
-            this.Holes = new List<Hole>();
-        }
     }
 }

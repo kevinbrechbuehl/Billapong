@@ -13,16 +13,19 @@
         /// </summary>
         [EnumMember]
         Debug = 1,
+
         /// <summary>
         /// The information log level
         /// </summary>
         [EnumMember]
         Info = 2,
+
         /// <summary>
         /// The warn log level
         /// </summary>
         [EnumMember]
         Warn = 3,
+
         /// <summary>
         /// The error log level
         /// </summary>

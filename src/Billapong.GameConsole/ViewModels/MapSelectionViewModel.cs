@@ -7,8 +7,29 @@
     using Models;
     using Service;
 
+    /// <summary>
+    /// The map selection view model
+    /// </summary>
     public class MapSelectionViewModel : MainWindowContentViewModelBase
     {
+        /// <summary>
+        /// The proxy
+        /// </summary>
+        private readonly GameConsoleServiceClient proxy;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MapSelectionViewModel"/> class.
+        /// </summary>
+        public MapSelectionViewModel()
+        {
+            this.WindowHeight = 400;
+            this.WindowWidth = 500;
+
+            this.proxy = new GameConsoleServiceClient();
+            this.Maps = new ObservableCollection<Map>();
+            this.LoadMaps();
+        }
+
         /// <summary>
         /// Gets the maps.
         /// </summary>
@@ -27,7 +48,7 @@
         {
             get
             {
-                return new DelegateCommand(BackToMenu);
+                return new DelegateCommand(this.BackToMenu);
             }
         }
 
@@ -41,28 +62,16 @@
         {
             get
             {
-                return new DelegateCommand(OpenWindowSelection);
+                return new DelegateCommand(this.OpenWindowSelection);
             }
         }
 
-        private readonly GameConsoleServiceClient proxy;
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="MapSelectionViewModel"/> class.
+        /// Loads the maps.
         /// </summary>
-        public MapSelectionViewModel()
-        {
-            this.WindowHeight = 400;
-            this.WindowWidth = 500;
-
-            this.proxy = new GameConsoleServiceClient();
-            this.Maps = new ObservableCollection<Map>();
-            this.LoadMaps();
-        }
-
         private async void LoadMaps()
         {
-            var maps = await proxy.GetMapsAsync();
+            var maps = await this.proxy.GetMapsAsync();
             foreach (var map in maps)
             {
                 this.Maps.Add(map.ToEntity());

@@ -3,6 +3,9 @@
     using System;
     using Billapong.GameConsole.Models;
 
+    /// <summary>
+    /// Interface for all view models that represents some controls within the main window
+    /// </summary>
     public interface IMainWindowContentViewModel
     {
         /// <summary>
@@ -11,7 +14,7 @@
         event EventHandler<WindowContentSwitchRequestedEventArgs> WindowContentSwitchRequested;
 
         /// <summary>
-        /// Gets or sets the height of the window.
+        /// Gets the height of the window.
         /// </summary>
         /// <value>
         /// The height of the window.
@@ -19,7 +22,7 @@
         int WindowHeight { get; }
 
         /// <summary>
-        /// Gets or sets the width of the window.
+        /// Gets the width of the window.
         /// </summary>
         /// <value>
         /// The width of the window.

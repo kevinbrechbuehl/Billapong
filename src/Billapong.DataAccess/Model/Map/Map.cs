@@ -3,6 +3,9 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
+    /// <summary>
+    /// Represents a map
+    /// </summary>
     public class Map : IEntity
     {
         /// <summary>

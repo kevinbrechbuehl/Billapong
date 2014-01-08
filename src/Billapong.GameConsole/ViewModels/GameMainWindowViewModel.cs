@@ -2,6 +2,9 @@
 {
     using Billapong.GameConsole.Models;
 
+    /// <summary>
+    /// The game main window view model
+    /// </summary>
     public class GameMainWindowViewModel : ViewModelBase
     {
         /// <summary>
@@ -20,54 +23,6 @@
         private int windowWidth;
 
         /// <summary>
-        /// Gets the current view.
-        /// </summary>
-        /// <value>
-        /// The current view.
-        /// </value>
-        public object CurrentView
-        {
-            get { return currentView; }
-            private set
-            {
-                currentView = value;
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the height of the window.
-        /// </summary>
-        /// <value>
-        /// The height of the window.
-        /// </value>
-        public int WindowHeight
-        {
-            get { return windowHeight; }
-            set 
-            {
-                windowHeight = value;
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the width of the window.
-        /// </summary>
-        /// <value>
-        /// The width of the window.
-        /// </value>
-        public int WindowWidth
-        {
-            get { return windowWidth; }
-            set
-            {
-                windowWidth = value;
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="GameMainWindowViewModel"/> class.
         /// </summary>
         public GameMainWindowViewModel()
@@ -76,11 +31,72 @@
         }
 
         /// <summary>
+        /// Gets the current view.
+        /// </summary>
+        /// <value>
+        /// The current view.
+        /// </value>
+        public object CurrentView
+        {
+            get
+            {
+                return this.currentView;
+            }
+
+            private set
+            {
+                this.currentView = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Gets the height of the window.
+        /// </summary>
+        /// <value>
+        /// The height of the window.
+        /// </value>
+        public int WindowHeight
+        {
+            get
+            {
+                return this.windowHeight;
+            }
+
+            private set 
+            {
+                this.windowHeight = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Gets the width of the window.
+        /// </summary>
+        /// <value>
+        /// The width of the window.
+        /// </value>
+        public int WindowWidth
+        {
+            get
+            {
+                return this.windowWidth;
+            }
+            
+            private set
+            {
+                this.windowWidth = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
         /// Swaps the wîndow content to the requested view model
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="args">The <see cref="WindowContentSwitchRequestedEventArgs"/> instance containing the event data.</param>
-        public void WindowContentSwitchRequested(object sender, WindowContentSwitchRequestedEventArgs args) {
+        public void WindowContentSwitchRequested(object sender, WindowContentSwitchRequestedEventArgs args) 
+        {
             this.SwitchWindowContent(args.ViewModel);
         }
 

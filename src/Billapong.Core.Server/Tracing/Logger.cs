@@ -1,11 +1,11 @@
 ﻿namespace Billapong.Core.Server.Tracing
 {
-    using Contract.Data.Tracing;
-    using DataAccess.Repository;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
+    using Contract.Data.Tracing;
+    using DataAccess.Repository;
     using LogMessage = DataAccess.Model.Tracing.LogMessage;
 
     /// <summary>
@@ -13,18 +13,15 @@
     /// </summary>
     public class Logger
     {
+        /// <summary>
+        /// The repository
+        /// </summary>
+        private readonly IRepository<LogMessage> repository;
+
         #region Singleton Implementation
 
         /// <summary>
-        /// Gets the current instance.
-        /// </summary>
-        /// <value>
-        /// The current instance.
-        /// </value>
-        public static Logger Current { get; private set; }
-
-        /// <summary>
-        /// Initializes the <see cref="Logger"/> class.
+        /// Initializes static members of the <see cref="Logger"/> class.
         /// </summary>
         static Logger()
         {
@@ -39,12 +36,15 @@
             this.repository = new Repository<LogMessage>();
         }
 
-        #endregion
-
         /// <summary>
-        /// The repository
+        /// Gets the current instance.
         /// </summary>
-        private readonly IRepository<LogMessage> repository;
+        /// <value>
+        /// The current instance.
+        /// </value>
+        public static Logger Current { get; private set; }
+
+        #endregion
 
         /// <summary>
         /// Logs the message.

@@ -26,9 +26,9 @@
                         Y = 0,
                         Holes = new List<Hole>
                         {
-                            new Hole {X = 3, Y = 3},
-                            new Hole {X = 6, Y = 7},
-                            new Hole {X = 2, Y = 6}
+                            new Hole { X = 3, Y = 3 },
+                            new Hole { X = 6, Y = 7 },
+                            new Hole { X = 2, Y = 6 }
                         }
                     }
                 }
@@ -45,9 +45,9 @@
                         Y = 0,
                         Holes = new List<Hole>
                         {
-                            new Hole {X = 1, Y = 8},
-                            new Hole {X = 3, Y = 2},
-                            new Hole {X = 7, Y = 5}
+                            new Hole { X = 1, Y = 8 },
+                            new Hole { X = 3, Y = 2 },
+                            new Hole { X = 7, Y = 5 }
                         }
                     },
                     new Window
@@ -56,10 +56,10 @@
                         Y = 1,
                         Holes = new List<Hole>
                         {
-                            new Hole {X = 1, Y = 4},
-                            new Hole {X = 5, Y = 2},
-                            new Hole {X = 2, Y = 6},
-                            new Hole {X = 9, Y = 3}
+                            new Hole { X = 1, Y = 4 },
+                            new Hole { X = 5, Y = 2 },
+                            new Hole { X = 2, Y = 6 },
+                            new Hole { X = 9, Y = 3 }
                         }
                     },
                     new Window
@@ -68,7 +68,7 @@
                         Y = 2,
                         Holes = new List<Hole>
                         {
-                            new Hole {X = 3, Y = 8}
+                            new Hole { X = 3, Y = 8 }
                         }
                     },
                     new Window
@@ -77,11 +77,11 @@
                         Y = 1,
                         Holes = new List<Hole>
                         {
-                            new Hole {X = 3, Y = 3},
-                            new Hole {X = 6, Y = 7},
-                            new Hole {X = 0, Y = 0},
-                            new Hole {X = 1, Y = 3},
-                            new Hole {X = 4, Y = 7}
+                            new Hole { X = 3, Y = 3 },
+                            new Hole { X = 6, Y = 7 },
+                            new Hole { X = 0, Y = 0 },
+                            new Hole { X = 1, Y = 3 },
+                            new Hole { X = 4, Y = 7 }
                         }
                     }
                 }

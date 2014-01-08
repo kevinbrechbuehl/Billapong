@@ -1,11 +1,10 @@
 ﻿namespace Billapong.DataAccess.Repository
 {
-    using Model;
     using System;
-    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
     using System.Linq.Expressions;
+    using Model;
 
     /// <summary>
     /// Repository pattern implementation
@@ -14,10 +13,26 @@
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
     {
         /// <summary>
+        /// Gets or sets the context.
+        /// </summary>
+        /// <value>
+        /// The context.
+        /// </value>
+        private readonly BillapongDbContext context;
+
+        /// <summary>
+        /// Gets or sets the database set.
+        /// </summary>
+        /// <value>
+        /// The database set.
+        /// </value>
+        private readonly DbSet<TEntity> databaseSet;
+        
+        /// <summary>
         /// Disposed member.
         /// </summary>
         private bool disposed;
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="Repository{TEntity}"/> class.
         /// </summary>
@@ -34,22 +49,6 @@
             this.context = context;
             this.databaseSet = context.Set<TEntity>();
         }
-
-        /// <summary>
-        /// Gets or sets the context.
-        /// </summary>
-        /// <value>
-        /// The context.
-        /// </value>
-        private readonly BillapongDbContext context;
-
-        /// <summary>
-        /// Gets or sets the database set.
-        /// </summary>
-        /// <value>
-        /// The database set.
-        /// </value>
-        private readonly DbSet<TEntity> databaseSet;
 
         /// <summary>
         /// Inserts the specified entity.

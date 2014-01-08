@@ -1,15 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Billapong.Contract
+﻿namespace Billapong.Contract
 {
+    /// <summary>
+    /// Provides constant values
+    /// </summary>
     public static class Globals
     {
+        /// <summary>
+        /// The service contract namespace name
+        /// </summary>
         public const string ServiceContractNamespaceName = "http://billapong.net/ServiceContracts";
 
+        /// <summary>
+        /// The data contract namespace name
+        /// </summary>
         public const string DataContractNamespaceName = "http://billapong.net/DataContracts";
     }
 }

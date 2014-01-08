@@ -1,11 +1,11 @@
 ﻿namespace Billapong.Core.Server.Services
 {
-    using Contract.Data.Map;
-    using Contract.Service;
-    using Converter.Map;
     using System.Collections.Generic;
     using System.Linq;
     using System.ServiceModel;
+    using Contract.Data.Map;
+    using Contract.Service;
+    using Converter.Map;
     using Map;
 
     /// <summary>

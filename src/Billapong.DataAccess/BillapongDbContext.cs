@@ -1,8 +1,8 @@
 ﻿namespace Billapong.DataAccess
 {
+    using System.Data.Entity;
     using Model.Map;
     using Model.Tracing;
-    using System.Data.Entity;
 
     /// <summary>
     /// The database context for Billapong

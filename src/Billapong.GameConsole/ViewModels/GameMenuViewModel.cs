@@ -1,13 +1,16 @@
 ﻿namespace Billapong.GameConsole.ViewModels
 {
-    using Billapong.GameConsole.Models;
-    using Core.Client.Tracing;
-    using Service;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows;
+    using Billapong.GameConsole.Models;
+    using Core.Client.Tracing;
+    using Service;
 
+    /// <summary>
+    /// The game menu view model
+    /// </summary>
     public class GameMenuViewModel : MainWindowContentViewModelBase
     {
         /// <summary>
@@ -29,7 +32,7 @@
         {
             get
             {
-                return new DelegateCommand(OpenMapSelection);
+                return new DelegateCommand(this.OpenMapSelection);
             }
         }
 
@@ -43,7 +46,7 @@
         {
             get
             {
-                return new DelegateCommand(Log);
+                return new DelegateCommand(this.Log);
             }
         }
 
@@ -57,7 +60,7 @@
         {
             get
             {
-                return new DelegateCommand(GetMaps);
+                return new DelegateCommand(this.GetMaps);
             }
         }
 
@@ -68,7 +71,7 @@
         public void OpenMapSelection(object parameter)
         {
             var viewModel = new MapSelectionViewModel();
-            base.OnWindowContentSwapRequested(new WindowContentSwitchRequestedEventArgs(viewModel));
+            this.OnWindowContentSwapRequested(new WindowContentSwitchRequestedEventArgs(viewModel));
         }
 
         /// <summary>

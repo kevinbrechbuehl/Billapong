@@ -14,7 +14,7 @@
         /// <returns>The entity</returns>
         public static Map ToEntity(this Contract.Data.Map.Map contractMap)
         {
-            var map = new Map {Id = contractMap.Id, Name = contractMap.Name};
+            var map = new Map { Id = contractMap.Id, Name = contractMap.Name };
             foreach (var contractWindow in contractMap.Windows)
             {
                 map.Windows.Add(ToEntity(contractWindow));
@@ -30,7 +30,7 @@
         /// <returns>The entity</returns>
         public static Window ToEntity(this Contract.Data.Map.Window contractWindow)
         {
-            var window = new Window {Id = contractWindow.Id, X = contractWindow.X, Y = contractWindow.Y};
+            var window = new Window { Id = contractWindow.Id, X = contractWindow.X, Y = contractWindow.Y };
 
             foreach (var contractHole in contractWindow.Holes)
             {

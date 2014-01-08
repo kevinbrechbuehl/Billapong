@@ -1,12 +1,12 @@
-﻿using Billapong.GameConsole.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Billapong.GameConsole.Models
+﻿namespace Billapong.GameConsole.Models
 {
+    using System;
+
+    using Billapong.GameConsole.ViewModels;
+
+    /// <summary>
+    /// The arguments of a WindowContentSwitchRequested event
+    /// </summary>
     public class WindowContentSwitchRequestedEventArgs : EventArgs
     {
         /// <summary>
@@ -19,7 +19,7 @@ namespace Billapong.GameConsole.Models
         }
 
         /// <summary>
-        /// Gets or sets the view model.
+        /// Gets the view model.
         /// </summary>
         /// <value>
         /// The view model.

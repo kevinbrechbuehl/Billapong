@@ -1,14 +1,18 @@
-﻿using Billapong.GameConsole.Models;
-using System;
-
-namespace Billapong.GameConsole.ViewModels
+﻿namespace Billapong.GameConsole.ViewModels
 {
+    using System;
+
+    using Billapong.GameConsole.Models;
+
+    /// <summary>
+    /// Provides some basic properties and methods for the main window content view models
+    /// </summary>
     public abstract class MainWindowContentViewModelBase : ViewModelBase, IMainWindowContentViewModel
     {
         /// <summary>
         /// Occurs when the content of the window should change
         /// </summary>
-        public event EventHandler<WindowContentSwitchRequestedEventArgs> WindowContentSwitchRequested = delegate {};
+        public event EventHandler<WindowContentSwitchRequestedEventArgs> WindowContentSwitchRequested = delegate { };
 
         /// <summary>
         /// Gets or sets the height of the window.

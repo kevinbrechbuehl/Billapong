@@ -1,29 +1,19 @@
-﻿using Billapong.GameConsole.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-
-namespace Billapong.GameConsole.Views
+﻿namespace Billapong.GameConsole.Views
 {
+    using System.Windows;
+    using Billapong.GameConsole.ViewModels;
+
     /// <summary>
     /// Interaction logic for GameMainWindow.xaml
     /// </summary>
     public partial class GameMainWindow : Window
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GameMainWindow"/> class.
+        /// </summary>
         public GameMainWindow()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             this.DataContext = new GameMainWindowViewModel();
         }
     }

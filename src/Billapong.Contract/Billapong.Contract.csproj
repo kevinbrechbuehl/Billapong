@@ -50,7 +50,9 @@
     <Compile Include="Data\Tracing\TracingConfiguration.cs" />
     <Compile Include="Data\Tracing\LogLevel.cs" />
     <Compile Include="Globals.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+	  <ExcludeFromStyleCop>true</ExcludeFromStyleCop> 
+	</Compile>
     <Compile Include="Service\IGameConsoleService.cs" />
     <Compile Include="Service\ITracingService.cs" />
   </ItemGroup>

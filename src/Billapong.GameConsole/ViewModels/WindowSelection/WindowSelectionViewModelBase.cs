@@ -5,12 +5,31 @@
     using Billapong.GameConsole.Models;
     using Billapong.GameConsole.Views;
 
+    /// <summary>
+    /// The base implementation of the window selection view model
+    /// </summary>
     public abstract class WindowSelectionViewModelBase : MainWindowContentViewModelBase, IWindowSelectionViewModel
     {
         /// <summary>
         /// The start game command
         /// </summary>
         private DelegateCommand startGameCommand;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WindowSelectionViewModelBase" /> class.
+        /// </summary>
+        /// <param name="map">The map.</param>
+        protected WindowSelectionViewModelBase(Map map)
+        {
+            this.WindowHeight = 400;
+            this.WindowWidth = 500;
+
+            this.Windows = new ObservableCollection<Window>();
+            foreach (var window in map.Windows)
+            {
+                this.Windows.Add(window);
+            }
+        }
 
         /// <summary>
         /// Gets the start game command.
@@ -61,21 +80,6 @@
         /// The windows.
         /// </value>
         public ObservableCollection<Window> Windows { get; private set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="WindowSelectionViewModelBase"/> class.
-        /// </summary>
-        protected WindowSelectionViewModelBase(Map map)
-        {
-            this.WindowHeight = 400;
-            this.WindowWidth = 500;
-
-            this.Windows = new ObservableCollection<Window>();
-            foreach (var window in map.Windows)
-            {
-                this.Windows.Add(window);
-            }
-        }
 
         /// <summary>
         /// Changes the window back to the map selection

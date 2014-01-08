@@ -18,31 +18,58 @@
     /// </summary>
     public partial class GameWindow : Window
     {
+        /// <summary>
+        /// The horizontal grid size
+        /// </summary>
+        private const int GridSizeX = 15;
+
+        /// <summary>
+        /// The vertical grid size
+        /// </summary>
+        private const int GridSizeY = 15;
+
+        /// <summary>
+        /// The base animation duration
+        /// </summary>
+        private const double BaseAnimationDuration = 2;
+
+        /// <summary>
+        /// The holes
+        /// </summary>
+        private readonly List<Ellipse> holes = new List<Ellipse>();
+
+        /// <summary>
+        /// The ball radius
+        /// </summary>
+        private readonly double ballRadius;
+
+        /// <summary>
+        /// The hole diameter
+        /// </summary>
+        private readonly double holeDiameter;
+
+        /// <summary>
+        /// The ball animation queue
+        /// </summary>
         private readonly ConcurrentQueue<BallAnimationTask> ballAnimationQueue =
             new ConcurrentQueue<BallAnimationTask>();
 
+        /// <summary>
+        /// The ball storyboard
+        /// </summary>
         private Storyboard ballStoryboard;
 
+        /// <summary>
+        /// The ball path
+        /// </summary>
         private Path ballPath;
-
-        private readonly List<Ellipse> holes = new List<Ellipse>();
-
-        private const int GridSizeX = 15;
-
-        private const int GridSizeY = 15;
-
-        private const double BaseAnimationDuration = 2;
-
-        private readonly double ballRadius;
-
-        private readonly double holeDiameter;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GameWindow"/> class.
         /// </summary>
         public GameWindow()
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
             this.holeDiameter = this.MapCanvas.Width / GridSizeX;
             this.ballRadius = this.holeDiameter * 0.667 / 2;
@@ -51,6 +78,27 @@
             this.InitializeHoles();
             this.InitializeBall();
             this.InitializeStoryboard();
+        }
+
+        /// <summary>
+        /// Sets the location.
+        /// </summary>
+        /// <param name="child">The child.</param>
+        /// <param name="point">The point.</param>
+        private static void SetLocation(UIElement child, Point point)
+        {
+            Canvas.SetLeft(child, point.X);
+            Canvas.SetTop(child, point.Y);
+        }
+
+        /// <summary>
+        /// Gets the location.
+        /// </summary>
+        /// <param name="frameworkElement">The framework element.</param>
+        /// <returns>The location.</returns>
+        private static Point GetLocation(UIElement frameworkElement)
+        {
+            return new Point(Canvas.GetLeft(frameworkElement), Canvas.GetTop(frameworkElement));
         }
 
         /// <summary>
@@ -169,7 +217,7 @@
         /// </summary>
         /// <param name="ball">The ball.</param>
         /// <param name="hole">The hole.</param>
-        /// <returns></returns>
+        /// <returns>The collision detection result</returns>
         private bool BallHitHole(EllipseGeometry ball, Ellipse hole)
         {
             var centerOfBall = ball.Center;
@@ -177,15 +225,14 @@
             var holePosition = GetLocation(hole);
             var centerOfHole = new Point(holePosition.X + (hole.Width / 2), holePosition.Y + (hole.Height / 2));
 
-            var xRadius = hole.Width / 2;
-            var yRadius = hole.Height / 2;
+            var radius = hole.Width / 2;
 
-            if (xRadius <= 0.0 || yRadius <= 0.0) return false;
+            if (radius <= 0.0) return false;
 
             var normalizedPoint = new Point(centerOfHole.X - centerOfBall.X, centerOfHole.Y - centerOfBall.Y);
 
-            return ((normalizedPoint.X * normalizedPoint.X) / (xRadius * xRadius))
-                   + ((normalizedPoint.Y * normalizedPoint.Y) / (yRadius * yRadius)) <= 1.0;
+            return ((normalizedPoint.X * normalizedPoint.X) / (radius * radius))
+                   + ((normalizedPoint.Y * normalizedPoint.Y) / (radius * radius)) <= 1.0;
         }
 
         /// <summary>
@@ -196,27 +243,6 @@
         private void MapCanvas_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             this.ballStoryboard.Begin(this);
-        }
-
-        /// <summary>
-        /// Sets the location.
-        /// </summary>
-        /// <param name="child">The child.</param>
-        /// <param name="point">The point.</param>
-        private static void SetLocation(UIElement child, Point point)
-        {
-            Canvas.SetLeft(child, point.X);
-            Canvas.SetTop(child, point.Y);
-        }
-
-        /// <summary>
-        /// Gets the location.
-        /// </summary>
-        /// <param name="frameworkElement">The framework element.</param>
-        /// <returns></returns>
-        private static Point GetLocation(UIElement frameworkElement)
-        {
-            return new Point(Canvas.GetLeft(frameworkElement), Canvas.GetTop(frameworkElement));
         }
     }
 }

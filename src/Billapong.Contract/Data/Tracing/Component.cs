@@ -9,7 +9,7 @@
     public enum Component
     {
         /// <summary>
-        /// All
+        /// All components
         /// </summary>
         [EnumMember]
         All,

@@ -1,8 +1,8 @@
 ﻿namespace Billapong.Core.Client.Tracing
 {
+    using System.Collections.Generic;
     using Contract.Data.Tracing;
     using Contract.Service;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Service client for the tracing service
@@ -15,7 +15,7 @@
         /// <param name="messages">The messages.</param>
         public void Log(IEnumerable<LogMessage> messages)
         {
-            base.ExecuteAsync(() => base.Proxy.Log(messages));
+            this.ExecuteAsync(() => this.Proxy.Log(messages));
         }
 
         /// <summary>
@@ -26,7 +26,7 @@
         /// </returns>
         public TracingConfiguration GetConfig()
         {
-            return base.Execute(() => base.Proxy.GetConfig());
+            return this.Execute(() => this.Proxy.GetConfig());
         }
 
         /// <summary>
@@ -38,7 +38,7 @@
         /// </returns>
         public IEnumerable<LogMessage> GetLogMessages(LogListener logListener)
         {
-            return base.Execute(() => base.Proxy.GetLogMessages(logListener));
+            return this.Execute(() => this.Proxy.GetLogMessages(logListener));
         }
     }
 }

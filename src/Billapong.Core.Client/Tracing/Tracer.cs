@@ -1,13 +1,11 @@
 ﻿namespace Billapong.Core.Client.Tracing
 {
-    using System.ComponentModel;
-    using System.Runtime.CompilerServices;
-    using Contract.Data.Tracing;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
     using System.Threading.Tasks;
+    using Contract.Data.Tracing;
     using Component = Contract.Data.Tracing.Component;
 
     /// <summary>
@@ -15,27 +13,16 @@
     /// </summary>
     public class Tracer
     {
-        #region Singleton Implementation
-
+        /// <summary>
+        /// The Tracer instance
+        /// </summary>
         private static readonly Tracer Current;
-
-        static Tracer()
-        {
-            Current = new Tracer();
-        }
-
-        private Tracer()
-        {
-            this.proxy = new TracingServiceClient();
-        }
-
-        #endregion
 
         /// <summary>
         /// The lock object
         /// </summary>
         private static readonly object LockObject = new object();
-        
+
         /// <summary>
         /// The proxy
         /// </summary>
@@ -65,6 +52,26 @@
         /// Value indicated if the current Tracer has been initialized yet
         /// </summary>
         private bool isInitialized;
+
+        #region Singleton Implementation
+
+        /// <summary>
+        /// Initializes static members of the <see cref="Tracer"/> class.
+        /// </summary>
+        static Tracer()
+        {
+            Current = new Tracer();
+        }
+
+        /// <summary>
+        /// Prevents a default instance of the <see cref="Tracer"/> class from being created.
+        /// </summary>
+        private Tracer()
+        {
+            this.proxy = new TracingServiceClient();
+        }
+
+        #endregion
 
         /// <summary>
         /// Initializes the tracer and load the configuration.
@@ -116,6 +123,7 @@
         /// Logs an error message
         /// </summary>
         /// <param name="message">The message.</param>
+        /// <param name="exception">The exception.</param>
         public static void Error(string message, Exception exception = null)
         {
             if (exception != null)
@@ -129,8 +137,8 @@
         /// <summary>
         /// Gets the log messages.
         /// </summary>
-        /// <param name="logLevel">The minimum log level.</param>
         /// <param name="component">The component to filter by.</param>
+        /// <param name="logLevel">The minimum log level.</param>
         /// <param name="numberOfMessages">The number of messages.</param>
         /// <returns>List of log messages</returns>
         public static IEnumerable<LogMessage> GetLogMessages(Component component = Component.All, LogLevel logLevel = LogLevel.Debug, int numberOfMessages = 0)

@@ -1,5 +1,8 @@
 ﻿namespace Billapong.GameConsole.Models
 {
+    /// <summary>
+    /// Represents a hole within a window
+    /// </summary>
     public class Hole
     {
         /// <summary>

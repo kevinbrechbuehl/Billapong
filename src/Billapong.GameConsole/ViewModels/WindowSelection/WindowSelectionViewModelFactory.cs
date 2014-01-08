@@ -3,8 +3,17 @@
     using Billapong.GameConsole.Configuration;
     using Billapong.GameConsole.Models;
 
+    /// <summary>
+    /// Factory for instantiating the corresponding window selection view model based on the game type
+    /// </summary>
     public static class WindowSelectionViewModelFactory
     {
+        /// <summary>
+        /// Creates the instance.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <param name="map">The map.</param>
+        /// <returns>The instance.</returns>
         public static IWindowSelectionViewModel CreateInstance(GameConfiguration.GameType type, Map map)
         {
             switch (type)

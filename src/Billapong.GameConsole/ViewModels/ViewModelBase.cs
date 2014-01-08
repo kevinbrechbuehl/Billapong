@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Billapong.GameConsole.ViewModels
+﻿namespace Billapong.GameConsole.ViewModels
 {
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
+
+    /// <summary>
+    /// Provides basic functionality to view models
+    /// </summary>
     public abstract class ViewModelBase : INotifyPropertyChanged
     {
         /// <summary>
@@ -21,7 +19,7 @@ namespace Billapong.GameConsole.ViewModels
         /// <param name="propertyName">Name of the property.</param>
         protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

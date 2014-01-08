@@ -1,8 +1,15 @@
-﻿using System.Collections.Generic;
-namespace Billapong.GameConsole.Models
+﻿namespace Billapong.GameConsole.Models
 {
+    using System.Collections.Generic;
+
+    /// <summary>
+    /// Represents a map
+    /// </summary>
     public class Map
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Map"/> class.
+        /// </summary>
         public Map()
         {
             this.Windows = new List<Window>();
@@ -25,7 +32,7 @@ namespace Billapong.GameConsole.Models
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the windows.
+        /// Gets the windows.
         /// </summary>
         /// <value>
         /// The windows.

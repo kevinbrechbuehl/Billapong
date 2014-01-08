@@ -1,15 +1,20 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-
-namespace Billapong.DataAccessTest
+﻿namespace Billapong.DataAccessTest
 {
+    using System;
+    using System.Linq;
     using DataAccess.Model.Tracing;
     using DataAccess.Repository;
-    using System.Linq;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+    /// <summary>
+    /// Tests The LogMessage class
+    /// </summary>
     [TestClass]
     public class LogMessageTest
     {
+        /// <summary>
+        /// Tests the repository
+        /// </summary>
         [TestMethod]
         public void RepositoryTest()
         {

@@ -1,8 +1,8 @@
 ﻿namespace Billapong.Contract.Service
 {
-    using Data.Tracing;
     using System.Collections.Generic;
     using System.ServiceModel;
+    using Data.Tracing;
 
     /// <summary>
     /// The tracing service.
