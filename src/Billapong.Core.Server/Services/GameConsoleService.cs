@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.ServiceModel;
+    using Contract.Data.GamePlay;
     using Contract.Data.Map;
     using Contract.Service;
     using Converter.Map;
@@ -39,6 +40,11 @@
         public Guid OpenGame(long mapId, IEnumerable<long> visibleWindows, string username)
         {
             return GameController.Current.OpenGame(mapId, visibleWindows, username, this.GetCallback());
+        }
+
+        public IEnumerable<LobbyGame> GetLobbyGames()
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>

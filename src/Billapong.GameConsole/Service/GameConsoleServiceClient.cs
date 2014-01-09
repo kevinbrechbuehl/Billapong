@@ -5,6 +5,7 @@
     using System.Runtime.Remoting.Messaging;
     using System.ServiceModel;
     using System.Threading.Tasks;
+    using Contract.Data.GamePlay;
     using Contract.Data.Map;
     using Contract.Service;
     using Core.Client;
@@ -32,6 +33,11 @@
         public Guid OpenGame(long mapId, IEnumerable<long> visibleWindows, string username)
         {
             return this.Execute(() => this.Proxy.OpenGame(mapId, visibleWindows, username));
+        }
+
+        public IEnumerable<LobbyGame> GetLobbyGames()
+        {
+            throw new NotImplementedException();
         }
 
         public void JoinGame(Guid gameId, string username)
