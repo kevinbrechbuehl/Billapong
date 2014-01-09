@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Contract.Service;
 
@@ -49,6 +50,14 @@
             }
 
             return game.Id;
+        }
+
+        public IEnumerable<Game> GetOpenGames()
+        {
+            lock (LockObject)
+            {
+                return this.games.Values.ToList();
+            }
         }
 
         public void JoinGame(Guid gameId, string username, IGameConsoleCallback callback)

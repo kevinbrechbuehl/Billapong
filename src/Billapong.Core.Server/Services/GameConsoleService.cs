@@ -7,6 +7,7 @@
     using Contract.Data.GamePlay;
     using Contract.Data.Map;
     using Contract.Service;
+    using Converter.GamePlay;
     using Converter.Map;
     using GamePlay;
     using Map;
@@ -42,9 +43,15 @@
             return GameController.Current.OpenGame(mapId, visibleWindows, username, this.GetCallback());
         }
 
+        /// <summary>
+        /// Gets the lobby games.
+        /// </summary>
+        /// <returns>
+        /// All open games in the lobby
+        /// </returns>
         public IEnumerable<LobbyGame> GetLobbyGames()
         {
-            throw new NotImplementedException();
+            return GameController.Current.GetOpenGames().Select(game => game.ToContract()).ToList();
         }
 
         /// <summary>
