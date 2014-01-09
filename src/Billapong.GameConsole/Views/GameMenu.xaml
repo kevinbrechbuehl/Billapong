@@ -18,7 +18,5 @@
         <Button Name="startSinglePlayerGame" Command="{Binding OpenMapSelectionCommand}" CommandParameter="single" Style="{StaticResource MenuButton}">Start singleplayer game</Button>
         <Button Name="startMultiplayerGame" Command="{Binding OpenMapSelectionCommand}" CommandParameter="multiplayer" Style="{StaticResource MenuButton}">Start multiplayer game</Button>
         <Button Name="joinMultiplayerGame" Command="{Binding OpenMapSelectionCommand}" Style="{StaticResource MenuButton}">Join multiplayer game</Button>
-        <Button Name="doLog" Command="{Binding LogCommand}" Style="{StaticResource MenuButton}" Background="Bisque">Kevins Log</Button>
-        <Button Name="getMaps" Command="{Binding GetMapsCommand}" Style="{StaticResource MenuButton}" Background="Bisque">Get Maps</Button>
     </StackPanel>
 </UserControl>
