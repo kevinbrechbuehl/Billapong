@@ -1,5 +1,6 @@
 ﻿namespace Billapong.Core.Server.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.ServiceModel;
@@ -23,6 +24,16 @@
         public IEnumerable<Map> GetMaps()
         {
             return MapController.Current.GetMaps(true).Select(map => map.ToContract()).ToList();
+        }
+
+        public Guid OpenGame(long mapId, IEnumerable<int> visibleWindows, string username)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void JoinGame(Guid gameId, string username)
+        {
+            throw new NotImplementedException();
         }
     }
 }

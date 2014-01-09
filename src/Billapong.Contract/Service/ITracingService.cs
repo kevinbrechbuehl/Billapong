@@ -7,7 +7,7 @@
     /// <summary>
     /// The tracing service.
     /// </summary>
-    [ServiceContract(Name = "Tracing", Namespace = Globals.ServiceContractNamespaceName)]
+    [ServiceContract(Name = "Tracing", CallbackContract = typeof(IGameConsoleCallback), Namespace = Globals.ServiceContractNamespaceName)]
     public interface ITracingService
     {
         /// <summary>

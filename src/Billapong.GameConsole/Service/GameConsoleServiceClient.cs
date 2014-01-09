@@ -1,5 +1,6 @@
 ﻿namespace Billapong.GameConsole.Service
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Contract.Data.Map;
@@ -20,6 +21,16 @@
         public IEnumerable<Map> GetMaps()
         {
             return this.Execute(() => this.Proxy.GetMaps());
+        }
+
+        public Guid OpenGame(long mapId, IEnumerable<int> visibleWindows, string username)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void JoinGame(Guid gameId, string username)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
