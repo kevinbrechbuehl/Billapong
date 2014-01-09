@@ -77,6 +77,14 @@
             }
         }
 
+        public virtual DelegateCommand JoinGameCommand
+        {
+            get
+            {
+                return new DelegateCommand(this.JoinGame);
+            }
+        }
+
         /// <summary>
         /// Gets the windows.
         /// </summary>
@@ -122,6 +130,10 @@
         protected virtual bool CanStartGame(object properties)
         {
             return this.Windows.Any(x => x.IsVisible);
+        }
+
+        protected virtual void JoinGame(object properties)
+        {
         }
     }
 }

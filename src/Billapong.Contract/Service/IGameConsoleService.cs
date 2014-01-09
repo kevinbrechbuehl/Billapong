@@ -33,7 +33,7 @@
         /// </summary>
         /// <param name="gameId">The game identifier / correlation id of the game.</param>
         /// <param name="username">The username.</param>
-        [OperationContract(Name = "JoinGame")]
+        [OperationContract(Name = "JoinGame", IsOneWay = true)]
         void JoinGame(Guid gameId, string username);
     }
 }

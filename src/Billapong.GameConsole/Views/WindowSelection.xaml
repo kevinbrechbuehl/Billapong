@@ -21,6 +21,8 @@
         
         <Grid DockPanel.Dock="Bottom">
             <Button Command="{Binding BackToMapSelectionCommand}" HorizontalAlignment="Left" Style="{StaticResource NavigationButton}">« Back to map selection</Button>
+
+            <Button Command="{Binding JoinGameCommand}" HorizontalAlignment="Right" Margin="0 0 100 0" Style="{StaticResource NavigationButton}">Join game</Button>
             <Button Command="{Binding StartGameCommand}" HorizontalAlignment="Right" Style="{StaticResource NavigationButton}">Start game »</Button>
         </Grid>
     </DockPanel>

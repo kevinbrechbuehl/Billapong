@@ -2,6 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Runtime.Remoting.Messaging;
+    using System.ServiceModel;
     using System.Threading.Tasks;
     using Contract.Data.Map;
     using Contract.Service;

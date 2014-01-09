@@ -1,5 +1,6 @@
 ﻿namespace Billapong.GameConsole.ViewModels.WindowSelection
 {
+    using System;
     using System.Linq;
     using System.Windows;
     using Billapong.GameConsole.Models;
@@ -28,6 +29,12 @@
             var client = new GameConsoleServiceClient();
             var gameId = client.OpenGame(this.Map.Id, new long[]{this.Map.Windows.First().Id}, "Pascal");
             MessageBox.Show("Game started with guid: " + gameId);
+        }
+
+        protected override void JoinGame(object properties)
+        {
+            var client = new GameConsoleServiceClient();
+            client.JoinGame(new Guid(), "Kevin");
         }
     }
 }
