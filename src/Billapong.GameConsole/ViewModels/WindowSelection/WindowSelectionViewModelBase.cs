@@ -2,8 +2,8 @@
 {
     using System.Collections.ObjectModel;
     using System.Linq;
-    using Billapong.GameConsole.Models;
-    using Billapong.GameConsole.Views;
+    using Models;
+    using Views;
 
     /// <summary>
     /// The base implementation of the window selection view model
@@ -15,6 +15,12 @@
         /// </summary>
         private DelegateCommand startGameCommand;
 
+        /// <summary>
+        /// Gets the map.
+        /// </summary>
+        /// <value>
+        /// The map.
+        /// </value>
         protected Map Map { get; private set; }
 
         /// <summary>
@@ -77,14 +83,6 @@
             }
         }
 
-        public virtual DelegateCommand JoinGameCommand
-        {
-            get
-            {
-                return new DelegateCommand(this.JoinGame);
-            }
-        }
-
         /// <summary>
         /// Gets the windows.
         /// </summary>
@@ -99,8 +97,10 @@
         /// <param name="properties">The properties.</param>
         protected virtual void BackToMapSelection(object properties)
         {
-            var viewModel = new MapSelectionViewModel();
-            this.OnWindowContentSwitchRequested(new WindowContentSwitchRequestedEventArgs(viewModel));
+            if (this.PreviousViewModel != null)
+            {
+                this.OnWindowContentSwitchRequested(new WindowContentSwitchRequestedEventArgs(this.PreviousViewModel));
+            }
         }
 
         /// <summary>
@@ -130,10 +130,6 @@
         protected virtual bool CanStartGame(object properties)
         {
             return this.Windows.Any(x => x.IsVisible);
-        }
-
-        protected virtual void JoinGame(object properties)
-        {
         }
     }
 }

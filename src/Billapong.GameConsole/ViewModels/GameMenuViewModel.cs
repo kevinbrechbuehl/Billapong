@@ -1,5 +1,6 @@
 ﻿namespace Billapong.GameConsole.ViewModels
 {
+    using Configuration;
     using Models;
 
     /// <summary>
@@ -36,7 +37,8 @@
         /// <param name="parameter">The parameter.</param>
         public void OpenMapSelection(object parameter)
         {
-            var viewModel = new MapSelectionViewModel();
+            var viewModel = new MapSelectionViewModel(GameConfiguration.GameType.MultiPlayerGame);
+            viewModel.PreviousViewModel = this;
             this.OnWindowContentSwitchRequested(new WindowContentSwitchRequestedEventArgs(viewModel));
         }
     }

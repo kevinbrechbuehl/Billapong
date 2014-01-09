@@ -1,19 +1,19 @@
 ﻿<Window x:Class="Billapong.GameConsole.Views.GameMainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:ViewModel="clr-namespace:Billapong.GameConsole.ViewModels"
-        xmlns:View="clr-namespace:Billapong.GameConsole.Views"
+        xmlns:viewModel="clr-namespace:Billapong.GameConsole.ViewModels"
+        xmlns:view="clr-namespace:Billapong.GameConsole.Views"
         xmlns:windowSelection="clr-namespace:Billapong.GameConsole.ViewModels.WindowSelection"
         Title="Billapong" Height="{Binding WindowHeight}" MinHeight="{Binding WindowHeight}" MaxHeight="{Binding WindowHeight}" Width="{Binding WindowWidth}" MinWidth="{Binding WindowWidth}" MaxWidth="{Binding WindowWidth}">
     <Window.Resources>
-        <DataTemplate DataType="{x:Type ViewModel:GameMenuViewModel}">
-            <View:GameMenu />
+        <DataTemplate DataType="{x:Type viewModel:GameMenuViewModel}">
+            <view:GameMenu />
         </DataTemplate>
-        <DataTemplate DataType="{x:Type ViewModel:MapSelectionViewModel}">
-            <View:MapSelection />
+        <DataTemplate DataType="{x:Type viewModel:MapSelectionViewModel}">
+            <view:MapSelection />
         </DataTemplate>
         <DataTemplate DataType="{x:Type windowSelection:WindowSelectionViewModelBase}">
-            <View:WindowSelection />
+            <view:WindowSelection />
         </DataTemplate>
     </Window.Resources>
     

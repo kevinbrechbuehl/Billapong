@@ -18,13 +18,19 @@
         private readonly GameConsoleServiceClient proxy;
 
         /// <summary>
+        /// The game type
+        /// </summary>
+        private readonly GameConfiguration.GameType gameType;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="MapSelectionViewModel"/> class.
         /// </summary>
-        public MapSelectionViewModel()
+        public MapSelectionViewModel(GameConfiguration.GameType gameType)
         {
             this.WindowHeight = 400;
             this.WindowWidth = 500;
 
+            this.gameType = gameType;
             this.proxy = new GameConsoleServiceClient();
             this.Maps = new ObservableCollection<Map>();
             this.LoadMaps();
@@ -84,8 +90,10 @@
         /// <param name="properties">The properties.</param>
         private void BackToMenu(object properties)
         {
-            var viewModel = new GameMenuViewModel();
-            this.OnWindowContentSwitchRequested(new WindowContentSwitchRequestedEventArgs(viewModel));
+            if (this.PreviousViewModel != null)
+            {
+                this.OnWindowContentSwitchRequested(new WindowContentSwitchRequestedEventArgs(this.PreviousViewModel));
+            }
         }
 
         /// <summary>
@@ -95,7 +103,8 @@
         private void OpenWindowSelection(object properties)
         {
             var map = properties as Map;
-            var viewModel = WindowSelectionViewModelFactory.CreateInstance(GameConfiguration.GameType.MultiPlayerGame, map);
+            var viewModel = WindowSelectionViewModelFactory.CreateInstance(this.gameType, map);
+            viewModel.PreviousViewModel = this;
             this.OnWindowContentSwitchRequested(new WindowContentSwitchRequestedEventArgs(viewModel));
         }
     }

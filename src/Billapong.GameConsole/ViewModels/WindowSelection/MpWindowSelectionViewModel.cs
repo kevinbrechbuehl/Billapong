@@ -27,14 +27,8 @@
         protected override void StartGame(object properties)
         {
             var client = new GameConsoleServiceClient();
-            var gameId = client.OpenGame(this.Map.Id, new long[]{this.Map.Windows.First().Id}, "Pascal");
-            MessageBox.Show("Game started with guid: " + gameId);
-        }
-
-        protected override void JoinGame(object properties)
-        {
-            var client = new GameConsoleServiceClient();
-            client.JoinGame(new Guid(), "Kevin");
+            var gameId = client.OpenGame(this.Map.Id, new []{this.Map.Windows.First().Id}, "Pascal");
+            MessageBox.Show("Game opened with guid: " + gameId);
         }
     }
 }

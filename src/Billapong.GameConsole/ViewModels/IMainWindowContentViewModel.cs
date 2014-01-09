@@ -28,5 +28,13 @@
         /// The width of the window.
         /// </value>
         int WindowWidth { get; }
+
+        /// <summary>
+        /// Gets or sets the previous view model.
+        /// </summary>
+        /// <value>
+        /// The previous view model.
+        /// </value>
+        IMainWindowContentViewModel PreviousViewModel { get; set; }
     }
 }

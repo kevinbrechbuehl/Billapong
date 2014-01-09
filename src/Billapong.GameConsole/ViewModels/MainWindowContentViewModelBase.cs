@@ -1,8 +1,7 @@
 ﻿namespace Billapong.GameConsole.ViewModels
 {
     using System;
-
-    using Billapong.GameConsole.Models;
+    using Models;
 
     /// <summary>
     /// Provides some basic properties and methods for the main window content view models
@@ -29,6 +28,14 @@
         /// The width of the window.
         /// </value>
         public int WindowWidth { get;  protected set; }
+
+        /// <summary>
+        /// Gets or sets the previous view model.
+        /// </summary>
+        /// <value>
+        /// The previous view model.
+        /// </value>
+        public IMainWindowContentViewModel PreviousViewModel { get; set; }
 
         /// <summary>
         /// Raises the <see cref="E:WindowContentSwitchRequested" /> event.
