@@ -15,6 +15,9 @@
         <DataTemplate DataType="{x:Type windowSelection:WindowSelectionViewModelBase}">
             <view:WindowSelection />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:GameLobbyViewModel}">
+            <view:GameLobby />
+        </DataTemplate>
     </Window.Resources>
     
     <ContentControl Content="{Binding CurrentView}" />

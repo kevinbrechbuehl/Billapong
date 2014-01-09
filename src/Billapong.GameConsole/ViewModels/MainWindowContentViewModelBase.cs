@@ -2,7 +2,6 @@
 {
     using System;
     using System.Windows;
-
     using Models;
 
     /// <summary>
@@ -76,6 +75,20 @@
         }
 
         /// <summary>
+        /// Switches the content of the window.
+        /// </summary>
+        /// <param name="viewModel">The view model.</param>
+        protected void SwitchWindowContent(IMainWindowContentViewModel viewModel)
+        {
+            if (viewModel.PreviousViewModel == null)
+            {
+                viewModel.PreviousViewModel = this;
+            }
+
+            this.OnWindowContentSwitchRequested(new WindowContentSwitchRequestedEventArgs(viewModel));
+        }
+
+        /// <summary>
         /// Raises the <see cref="E:WindowContentSwitchRequested" /> event.
         /// </summary>
         /// <param name="e">The <see cref="WindowContentSwitchRequestedEventArgs"/> instance containing the event data.</param>
@@ -95,7 +108,7 @@
         {
             if (this.PreviousViewModel != null)
             {
-                this.OnWindowContentSwitchRequested(new WindowContentSwitchRequestedEventArgs(this.PreviousViewModel));
+                this.SwitchWindowContent(this.PreviousViewModel);
             }
         }
     }

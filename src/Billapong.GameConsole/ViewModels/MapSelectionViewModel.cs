@@ -80,8 +80,7 @@
         {
             var map = properties as Map;
             var viewModel = WindowSelectionViewModelFactory.CreateInstance(this.gameType, map);
-            viewModel.PreviousViewModel = this;
-            this.OnWindowContentSwitchRequested(new WindowContentSwitchRequestedEventArgs(viewModel));
+            this.SwitchWindowContent(viewModel);
         }
     }
 }

@@ -27,7 +27,7 @@
         protected override void StartGame(object properties)
         {
             var client = new GameConsoleServiceClient();
-            var gameId = client.OpenGame(this.Map.Id, new []{this.Map.Windows.First().Id}, "Pascal");
+            var gameId = client.OpenGame(this.Map.Id, new[] { this.Map.Windows.First().Id }, "Pascal");
             MessageBox.Show("Game opened with guid: " + gameId);
         }
     }

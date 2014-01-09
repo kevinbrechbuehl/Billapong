@@ -61,9 +61,9 @@
     <Compile Include="Models\Window.cs" />
     <Compile Include="Models\WindowContentSwitchRequestedEventArgs.cs" />
     <Compile Include="Service\GameConsoleCallbackClient.cs" />
+    <Compile Include="ViewModels\GameLobbyViewModel.cs" />
     <Compile Include="ViewModels\GameMainWindowViewModel.cs" />
     <Compile Include="ViewModels\IMainWindowContentViewModel.cs" />
-    <Compile Include="ViewModels\WindowSelection\IWindowSelectionViewModel.cs" />
     <Compile Include="ViewModels\WindowSelection\MpWindowSelectionViewModel.cs" />
     <Compile Include="ViewModels\WindowSelection\SpTrainingWindowSelectionViewModel.cs" />
     <Compile Include="ViewModels\MapSelectionViewModel.cs" />
@@ -72,12 +72,19 @@
     <Compile Include="ViewModels\WindowSelection\SpWindowSelectionViewModel.cs" />
     <Compile Include="ViewModels\WindowSelection\WindowSelectionViewModelBase.cs" />
     <Compile Include="ViewModels\WindowSelection\WindowSelectionViewModelFactory.cs" />
+    <Compile Include="Views\GameLobby.xaml.cs">
+      <DependentUpon>GameLobby.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\WindowSelection.xaml.cs">
       <DependentUpon>WindowSelection.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MapSelection.xaml.cs">
       <DependentUpon>MapSelection.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\GameLobby.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\GameMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

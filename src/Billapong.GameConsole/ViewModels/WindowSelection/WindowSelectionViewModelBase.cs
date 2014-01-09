@@ -8,7 +8,7 @@
     /// <summary>
     /// The base implementation of the window selection view model
     /// </summary>
-    public abstract class WindowSelectionViewModelBase : MainWindowContentViewModelBase, IWindowSelectionViewModel
+    public abstract class WindowSelectionViewModelBase : MainWindowContentViewModelBase
     {
         /// <summary>
         /// The start game command

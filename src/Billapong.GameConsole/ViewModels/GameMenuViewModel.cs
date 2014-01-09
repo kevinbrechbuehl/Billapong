@@ -32,14 +32,52 @@
         }
 
         /// <summary>
+        /// Gets the open game lobby command.
+        /// </summary>
+        /// <value>
+        /// The open game lobby command.
+        /// </value>
+        public DelegateCommand OpenGameLobbyCommand
+        {
+            get
+            {
+                return new DelegateCommand(this.OpenGameLobby);
+            }
+        }
+
+        /// <summary>
         /// Opens the map selection.
         /// </summary>
         /// <param name="parameter">The parameter.</param>
         public void OpenMapSelection(object parameter)
         {
-            var viewModel = new MapSelectionViewModel(GameConfiguration.GameType.MultiPlayerGame);
-            viewModel.PreviousViewModel = this;
-            this.OnWindowContentSwitchRequested(new WindowContentSwitchRequestedEventArgs(viewModel));
+            GameConfiguration.GameType gameType;
+
+            switch (parameter != null ? parameter.ToString() : string.Empty)
+            {
+                case "training":
+                    gameType = GameConfiguration.GameType.SinglePlayerTraining;
+                    break;
+                case "multiplayer":
+                    gameType = GameConfiguration.GameType.MultiPlayerGame;
+                    break;
+                default:
+                    gameType = GameConfiguration.GameType.SinglePlayerGame;
+                    break;
+            }
+
+            var viewModel = new MapSelectionViewModel(gameType);
+            this.SwitchWindowContent(viewModel);
+        }
+
+        /// <summary>
+        /// Opens the game lobby.
+        /// </summary>
+        /// <param name="parameters">The parameters.</param>
+        public void OpenGameLobby(object parameters)
+        {
+            var viewModel = new GameLobbyViewModel();
+            this.SwitchWindowContent(viewModel);
         }
     }
 }
