@@ -85,7 +85,7 @@
         private void BackToMenu(object properties)
         {
             var viewModel = new GameMenuViewModel();
-            this.OnWindowContentSwapRequested(new WindowContentSwitchRequestedEventArgs(viewModel));
+            this.OnWindowContentSwitchRequested(new WindowContentSwitchRequestedEventArgs(viewModel));
         }
 
         /// <summary>
@@ -96,7 +96,7 @@
         {
             var map = properties as Map;
             var viewModel = WindowSelectionViewModelFactory.CreateInstance(GameConfiguration.GameType.MultiPlayerGame, map);
-            this.OnWindowContentSwapRequested(new WindowContentSwitchRequestedEventArgs(viewModel));
+            this.OnWindowContentSwitchRequested(new WindowContentSwitchRequestedEventArgs(viewModel));
         }
     }
 }

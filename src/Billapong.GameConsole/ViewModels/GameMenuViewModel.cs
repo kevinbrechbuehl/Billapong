@@ -71,7 +71,7 @@
         public void OpenMapSelection(object parameter)
         {
             var viewModel = new MapSelectionViewModel();
-            this.OnWindowContentSwapRequested(new WindowContentSwitchRequestedEventArgs(viewModel));
+            this.OnWindowContentSwitchRequested(new WindowContentSwitchRequestedEventArgs(viewModel));
         }
 
         /// <summary>

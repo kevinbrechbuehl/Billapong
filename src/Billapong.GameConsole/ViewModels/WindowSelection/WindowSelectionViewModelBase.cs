@@ -88,7 +88,7 @@
         protected virtual void BackToMapSelection(object properties)
         {
             var viewModel = new MapSelectionViewModel();
-            this.OnWindowContentSwapRequested(new WindowContentSwitchRequestedEventArgs(viewModel));
+            this.OnWindowContentSwitchRequested(new WindowContentSwitchRequestedEventArgs(viewModel));
         }
 
         /// <summary>

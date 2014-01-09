@@ -34,7 +34,7 @@
         /// Raises the <see cref="E:WindowContentSwitchRequested" /> event.
         /// </summary>
         /// <param name="e">The <see cref="WindowContentSwitchRequestedEventArgs"/> instance containing the event data.</param>
-        protected void OnWindowContentSwapRequested(WindowContentSwitchRequestedEventArgs e)
+        protected void OnWindowContentSwitchRequested(WindowContentSwitchRequestedEventArgs e)
         {
             if (this.WindowContentSwitchRequested != null)
             {
