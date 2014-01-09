@@ -15,6 +15,8 @@
         /// </summary>
         private DelegateCommand startGameCommand;
 
+        protected Map Map { get; private set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="WindowSelectionViewModelBase" /> class.
         /// </summary>
@@ -23,6 +25,8 @@
         {
             this.WindowHeight = 400;
             this.WindowWidth = 500;
+
+            this.Map = map;
 
             this.Windows = new ObservableCollection<Window>();
             foreach (var window in map.Windows)

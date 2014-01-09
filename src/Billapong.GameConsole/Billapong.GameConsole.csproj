@@ -60,6 +60,7 @@
     <Compile Include="Models\Map.cs" />
     <Compile Include="Models\Window.cs" />
     <Compile Include="Models\WindowContentSwitchRequestedEventArgs.cs" />
+    <Compile Include="Service\GameConsoleCallbackClient.cs" />
     <Compile Include="ViewModels\GameMainWindowViewModel.cs" />
     <Compile Include="ViewModels\IMainWindowContentViewModel.cs" />
     <Compile Include="ViewModels\WindowSelection\IWindowSelectionViewModel.cs" />
@@ -117,8 +118,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
-	  <ExcludeFromStyleCop>true</ExcludeFromStyleCop> 
-	</Compile>
+      <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

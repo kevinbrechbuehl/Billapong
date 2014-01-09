@@ -1,7 +1,9 @@
 ﻿namespace Billapong.GameConsole.ViewModels.WindowSelection
 {
+    using System.Linq;
     using System.Windows;
     using Billapong.GameConsole.Models;
+    using Service;
 
     /// <summary>
     /// The window selection view model for a multiplayer game
@@ -23,7 +25,9 @@
         /// <param name="properties">The properties.</param>
         protected override void StartGame(object properties)
         {
-            MessageBox.Show("Nun würden wir auf einen Gegner warten");
+            var client = new GameConsoleServiceClient();
+            var gameId = client.OpenGame(this.Map.Id, new long[]{this.Map.Windows.First().Id}, "Pascal");
+            MessageBox.Show("Game started with guid: " + gameId);
         }
     }
 }

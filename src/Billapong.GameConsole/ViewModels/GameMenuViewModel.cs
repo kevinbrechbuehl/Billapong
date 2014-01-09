@@ -1,12 +1,6 @@
 ﻿namespace Billapong.GameConsole.ViewModels
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Windows;
-    using Billapong.GameConsole.Models;
-    using Core.Client.Tracing;
-    using Service;
+    using Models;
 
     /// <summary>
     /// The game menu view model

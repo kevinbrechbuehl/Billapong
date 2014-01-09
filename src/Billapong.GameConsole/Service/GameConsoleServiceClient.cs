@@ -10,8 +10,12 @@
     /// <summary>
     /// Game console service client
     /// </summary>
-    public class GameConsoleServiceClient : RichClientBase<IGameConsoleService>, IGameConsoleService
+    public class GameConsoleServiceClient : CallbackClientBase<IGameConsoleService, IGameConsoleCallback>, IGameConsoleService
     {
+        public GameConsoleServiceClient() : base(new GameConsoleCallbackClient())
+        {
+        }
+
         /// <summary>
         /// Gets the maps.
         /// </summary>
@@ -23,14 +27,14 @@
             return this.Execute(() => this.Proxy.GetMaps());
         }
 
-        public Guid OpenGame(long mapId, IEnumerable<int> visibleWindows, string username)
+        public Guid OpenGame(long mapId, IEnumerable<long> visibleWindows, string username)
         {
-            throw new NotImplementedException();
+            return this.Execute(() => this.Proxy.OpenGame(mapId, visibleWindows, username));
         }
 
         public void JoinGame(Guid gameId, string username)
         {
-            throw new NotImplementedException();
+            this.Execute(() => this.Proxy.JoinGame(gameId, username));
         }
 
         /// <summary>
@@ -40,6 +44,11 @@
         public async Task<IEnumerable<Map>> GetMapsAsync()
         {
             return await this.ExecuteAsync(() => this.Proxy.GetMaps());
+        }
+
+        public void StartGame(Guid gameId, string firstPlayer, string secondPlayer)
+        {
+            throw new NotImplementedException();
         }
     }
 }
