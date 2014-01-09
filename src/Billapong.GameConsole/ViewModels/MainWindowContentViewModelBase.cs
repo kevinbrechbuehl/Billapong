@@ -1,6 +1,8 @@
 ﻿namespace Billapong.GameConsole.ViewModels
 {
     using System;
+    using System.Windows;
+
     using Models;
 
     /// <summary>
@@ -38,6 +40,42 @@
         public IMainWindowContentViewModel PreviousViewModel { get; set; }
 
         /// <summary>
+        /// Gets the back button visibility.
+        /// </summary>
+        /// <value>
+        /// The back button visibility.
+        /// </value>
+        public Visibility BackButtonVisibility
+        {
+            get
+            {
+                return this.PreviousViewModel != null ? Visibility.Visible : Visibility.Hidden;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the content of the back button.
+        /// </summary>
+        /// <value>
+        /// The content of the back button.
+        /// </value>
+        public string BackButtonContent { get; set; }
+
+        /// <summary>
+        /// Gets the navigate back command.
+        /// </summary>
+        /// <value>
+        /// The navigate back command.
+        /// </value>
+        public virtual DelegateCommand NavigateBackCommand
+        {
+            get
+            {
+                return new DelegateCommand(this.NavigateBack);
+            }
+        }
+
+        /// <summary>
         /// Raises the <see cref="E:WindowContentSwitchRequested" /> event.
         /// </summary>
         /// <param name="e">The <see cref="WindowContentSwitchRequestedEventArgs"/> instance containing the event data.</param>
@@ -46,6 +84,18 @@
             if (this.WindowContentSwitchRequested != null)
             {
                 this.WindowContentSwitchRequested(this, e);
+            }
+        }
+
+        /// <summary>
+        /// Navigates back to the preview view
+        /// </summary>
+        /// <param name="properties">The properties.</param>
+        protected virtual void NavigateBack(object properties)
+        {
+            if (this.PreviousViewModel != null)
+            {
+                this.OnWindowContentSwitchRequested(new WindowContentSwitchRequestedEventArgs(this.PreviousViewModel));
             }
         }
     }

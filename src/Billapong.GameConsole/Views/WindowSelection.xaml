@@ -20,7 +20,7 @@
         </ListView>
         
         <Grid DockPanel.Dock="Bottom">
-            <Button Command="{Binding BackToMapSelectionCommand}" HorizontalAlignment="Left" Style="{StaticResource NavigationButton}">« Back to map selection</Button>
+            <Button Command="{Binding NavigateBackCommand}" Visibility="{Binding BackButtonVisibility}" HorizontalAlignment="Left" Style="{StaticResource NavigationButton}" Content="{Binding Path=BackButtonContent, FallbackValue=Previous view}"/>
             <Button Command="{Binding StartGameCommand}" HorizontalAlignment="Right" Style="{StaticResource NavigationButton}">Start game »</Button>
         </Grid>
     </DockPanel>

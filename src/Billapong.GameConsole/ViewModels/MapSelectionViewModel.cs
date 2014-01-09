@@ -23,12 +23,14 @@
         private readonly GameConfiguration.GameType gameType;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MapSelectionViewModel"/> class.
+        /// Initializes a new instance of the <see cref="MapSelectionViewModel" /> class.
         /// </summary>
+        /// <param name="gameType">Type of the game.</param>
         public MapSelectionViewModel(GameConfiguration.GameType gameType)
         {
             this.WindowHeight = 400;
             this.WindowWidth = 500;
+            this.BackButtonContent = "Back to menu";
 
             this.gameType = gameType;
             this.proxy = new GameConsoleServiceClient();
@@ -43,20 +45,6 @@
         /// The maps.
         /// </value>
         public ObservableCollection<Map> Maps { get; private set; }
-
-        /// <summary>
-        /// Gets the back to menu command.
-        /// </summary>
-        /// <value>
-        /// The back to menu command.
-        /// </value>
-        public DelegateCommand BackToMenuCommand
-        {
-            get
-            {
-                return new DelegateCommand(this.BackToMenu);
-            }
-        }
 
         /// <summary>
         /// Gets the open window selection command.
@@ -82,19 +70,7 @@
             {
                 this.Maps.Add(map.ToEntity());
             }
-        }
-
-        /// <summary>
-        /// Changes the view back to the menu
-        /// </summary>
-        /// <param name="properties">The properties.</param>
-        private void BackToMenu(object properties)
-        {
-            if (this.PreviousViewModel != null)
-            {
-                this.OnWindowContentSwitchRequested(new WindowContentSwitchRequestedEventArgs(this.PreviousViewModel));
-            }
-        }
+        } 
 
         /// <summary>
         /// Opens the window selection.

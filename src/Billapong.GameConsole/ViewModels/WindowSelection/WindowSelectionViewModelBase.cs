@@ -16,14 +16,6 @@
         private DelegateCommand startGameCommand;
 
         /// <summary>
-        /// Gets the map.
-        /// </summary>
-        /// <value>
-        /// The map.
-        /// </value>
-        protected Map Map { get; private set; }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="WindowSelectionViewModelBase" /> class.
         /// </summary>
         /// <param name="map">The map.</param>
@@ -31,9 +23,8 @@
         {
             this.WindowHeight = 400;
             this.WindowWidth = 500;
-
+            this.BackButtonContent = "Back to map selection";
             this.Map = map;
-
             this.Windows = new ObservableCollection<Window>();
             foreach (var window in map.Windows)
             {
@@ -70,20 +61,6 @@
         }
 
         /// <summary>
-        /// Gets the back to map selection command.
-        /// </summary>
-        /// <value>
-        /// The back to map selection command.
-        /// </value>
-        public virtual DelegateCommand BackToMapSelectionCommand
-        {
-            get
-            {
-                return new DelegateCommand(this.BackToMapSelection);
-            }
-        }
-
-        /// <summary>
         /// Gets the windows.
         /// </summary>
         /// <value>
@@ -92,16 +69,12 @@
         public ObservableCollection<Window> Windows { get; private set; }
 
         /// <summary>
-        /// Changes the window back to the map selection
+        /// Gets the map.
         /// </summary>
-        /// <param name="properties">The properties.</param>
-        protected virtual void BackToMapSelection(object properties)
-        {
-            if (this.PreviousViewModel != null)
-            {
-                this.OnWindowContentSwitchRequested(new WindowContentSwitchRequestedEventArgs(this.PreviousViewModel));
-            }
-        }
+        /// <value>
+        /// The map.
+        /// </value>
+        protected Map Map { get; private set; }
 
         /// <summary>
         /// Toggles the window button.

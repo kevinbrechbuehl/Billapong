@@ -21,7 +21,7 @@
             </ListView>
             
             <Grid DockPanel.Dock="Bottom">
-                <Button Command="{Binding BackToMenuCommand}" HorizontalAlignment="Left" Style="{StaticResource NavigationButton}">« Back to menu</Button>
+                <Button Command="{Binding NavigateBackCommand}" Visibility="{Binding BackButtonVisibility}" HorizontalAlignment="Left" Style="{StaticResource NavigationButton}" Content="{Binding Path=BackButtonContent, FallbackValue=Previous view}"/>
             </Grid>
         </DockPanel>
 </UserControl>
