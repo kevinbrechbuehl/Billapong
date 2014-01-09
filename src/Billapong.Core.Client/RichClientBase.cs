@@ -78,6 +78,11 @@
             return await Task.Run(() => this.Execute(delgatedFunction));
         }
 
+        protected virtual TService CreateChannel()
+        {
+            return new ChannelFactory<TService>("*").CreateChannel();
+        }
+
         /// <summary>
         /// Validates the proxy.
         /// </summary>
@@ -108,7 +113,8 @@
         /// </summary>
         private void CreateProxy()
         {
-            this.Proxy = new ChannelFactory<TService>("*").CreateChannel();
+            this.Proxy = this.CreateChannel();
+            ((IChannel)this.Proxy).Open();
         }
     }
 }

@@ -41,10 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CallbackClientBase.cs" />
+    <Compile Include="ICallback.cs" />
     <Compile Include="RichClientBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
-	  <ExcludeFromStyleCop>true</ExcludeFromStyleCop> 
-	</Compile>
+      <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Tracing\Tracer.cs" />
     <Compile Include="Tracing\TracingServiceClient.cs" />
   </ItemGroup>
