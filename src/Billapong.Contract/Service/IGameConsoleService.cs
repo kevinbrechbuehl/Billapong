@@ -8,7 +8,7 @@
     /// <summary>
     /// The game console service contract
     /// </summary>
-    [ServiceContract(Name = "GameConsole", Namespace = Globals.ServiceContractNamespaceName)]
+    [ServiceContract(Name = "GameConsole", CallbackContract = typeof(IGameConsoleCallback), Namespace = Globals.ServiceContractNamespaceName)]
     public interface IGameConsoleService
     {
         /// <summary>
@@ -26,7 +26,7 @@
         /// <param name="username">The username.</param>
         /// <returns>Id of the game, used as correlation id</returns>
         [OperationContract(Name = "OpenGame")]
-        Guid OpenGame(long mapId, IEnumerable<int> visibleWindows, string username);
+        Guid OpenGame(long mapId, IEnumerable<long> visibleWindows, string username);
 
         /// <summary>
         /// Joins a game.
