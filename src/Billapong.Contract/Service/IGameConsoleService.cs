@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.ServiceModel;
+    using Data.GamePlay;
     using Data.Map;
 
     /// <summary>
@@ -29,6 +30,13 @@
         Guid OpenGame(long mapId, IEnumerable<long> visibleWindows, string username);
 
         /// <summary>
+        /// Gets the lobby games.
+        /// </summary>
+        /// <returns>All open games in the lobby</returns>
+        [OperationContract(Name = "GetLobbyGames")]
+        IEnumerable<LobbyGame> GetLobbyGames();
+
+            /// <summary>
         /// Joins a game.
         /// </summary>
         /// <param name="gameId">The game identifier / correlation id of the game.</param>

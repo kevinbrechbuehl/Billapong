@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using Contract.Service;
 
     public class GameController
@@ -34,16 +35,16 @@
 
         #endregion
 
-        private static object lockObject = new object();
+        private static readonly object LockObject = new object();
         
-        private IDictionary<Guid, Game> games = new Dictionary<Guid, Game>();
+        private readonly IDictionary<Guid, Game> games = new Dictionary<Guid, Game>();
 
         public Guid OpenGame(long mapId, IEnumerable<long> visibleWindows, string username, IGameConsoleCallback callback)
         {
-            var game = new Game {Id = new Guid(), MapId = mapId};
+            var game = new Game {Id = Guid.NewGuid(), MapId = mapId};
             game.Callbacks.Add(callback);
 
-            lock (lockObject)
+            lock (LockObject)
             {
                 games.Add(game.Id, game);
             }
@@ -51,10 +52,18 @@
             return game.Id;
         }
 
+        public IEnumerable<Game> GetOpenGames()
+        {
+            lock (LockObject)
+            {
+                return this.games.Values.ToList();
+            }
+        }
+
         public void JoinGame(Guid gameId, string username, IGameConsoleCallback callback)
         {
             Game game = null;
-            lock (lockObject)
+            lock (LockObject)
             {
                 if (!games.ContainsKey(gameId))
                 {
@@ -66,7 +75,7 @@
             }
 
             game.Callbacks.Add(callback);
-            this.StartGame(game);
+            Task.Run(() => this.StartGame(game));
         }
 
         private void StartGame(Game game)
