@@ -23,7 +23,7 @@
             return this.Execute(() => this.Proxy.GetMaps());
         }
 
-        public Guid OpenGame(long mapId, IEnumerable<int> visibleWindows, string username)
+        public Guid OpenGame(long mapId, IEnumerable<long> visibleWindows, string username)
         {
             throw new NotImplementedException();
         }

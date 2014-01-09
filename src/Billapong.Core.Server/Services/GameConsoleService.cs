@@ -7,6 +7,7 @@
     using Contract.Data.Map;
     using Contract.Service;
     using Converter.Map;
+    using GamePlay;
     using Map;
 
     /// <summary>
@@ -26,14 +27,37 @@
             return MapController.Current.GetMaps(true).Select(map => map.ToContract()).ToList();
         }
 
-        public Guid OpenGame(long mapId, IEnumerable<int> visibleWindows, string username)
+        /// <summary>
+        /// Opens a new game and go into the lobby.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <param name="visibleWindows">The visible windows.</param>
+        /// <param name="username">The username.</param>
+        /// <returns>
+        /// Id of the game, used as correlation id
+        /// </returns>
+        public Guid OpenGame(long mapId, IEnumerable<long> visibleWindows, string username)
         {
-            throw new NotImplementedException();
+            return GameController.Current.OpenGame(mapId, visibleWindows, username, this.GetCallback());
         }
 
+        /// <summary>
+        /// Joins a game.
+        /// </summary>
+        /// <param name="gameId">The game identifier / correlation id of the game.</param>
+        /// <param name="username">The username.</param>
         public void JoinGame(Guid gameId, string username)
         {
-            throw new NotImplementedException();
+            GameController.Current.JoinGame(gameId, username, this.GetCallback());
+        }
+
+        /// <summary>
+        /// Gets the callback.
+        /// </summary>
+        /// <returns>Callback channel for the current context</returns>
+        private IGameConsoleCallback GetCallback()
+        {
+            return OperationContext.Current.GetCallbackChannel<IGameConsoleCallback>();
         }
     }
 }

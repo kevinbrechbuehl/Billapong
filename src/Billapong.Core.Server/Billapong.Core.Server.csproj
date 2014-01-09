@@ -44,10 +44,12 @@
   <ItemGroup>
     <Compile Include="Converter\Map\MapConverter.cs" />
     <Compile Include="Converter\Tracing\LogMessageConverter.cs" />
+    <Compile Include="GamePlay\Game.cs" />
+    <Compile Include="GamePlay\GameController.cs" />
     <Compile Include="Map\MapController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
-	  <ExcludeFromStyleCop>true</ExcludeFromStyleCop> 
-	</Compile>
+      <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Services\GameConsoleService.cs" />
     <Compile Include="Services\TracingService.cs" />
     <Compile Include="Tracing\Logger.cs" />
