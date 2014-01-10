@@ -61,6 +61,7 @@
         /// <param name="username">The username.</param>
         public void JoinGame(Guid gameId, string username)
         {
+            // todo: handle exception and return fault exception
             GameController.Current.JoinGame(gameId, username, this.GetCallback());
         }
 

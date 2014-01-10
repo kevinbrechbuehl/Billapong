@@ -1,6 +1,7 @@
 ﻿namespace Billapong.GameConsole.Service
 {
     using System;
+    using System.Collections.Generic;
     using System.ServiceModel;
     using System.Windows;
     using Contract.Service;
@@ -11,15 +12,21 @@
     [CallbackBehavior(UseSynchronizationContext = true)]
     public class GameConsoleCallbackClient : IGameConsoleCallback
     {
-        /// <summary>
-        /// Starts the game with a specific id.
-        /// </summary>
-        /// <param name="gameId">The game identifier.</param>
-        /// <param name="firstPlayer">The first player, who starts the game.</param>
-        /// <param name="secondPlayer">The second player.</param>
-        public void StartGame(Guid gameId, string firstPlayer, string secondPlayer)
+        public void StartGame(Guid gameId, string opponentName, IEnumerable<long> visibleWindows, bool startGame)
         {
-            MessageBox.Show("Starting game!");
+            MessageBox.Show(string.Format("Start Game: {0}{1}Opponent Name: {2}{3}Visible Windows:{4}{5}I start the game: {6}",
+                gameId,
+                Environment.NewLine,
+                opponentName,
+                Environment.NewLine,
+                string.Join(", ", visibleWindows),
+                Environment.NewLine,
+                startGame));
+        }
+
+        public void GameError(Guid gameId)
+        {
+            MessageBox.Show("Upps something went wrong, need to cancel the game...");
         }
     }
 }
