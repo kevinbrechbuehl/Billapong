@@ -9,9 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Billapong.Core.Server", "sr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Billapong.DataAccess", "src\Billapong.DataAccess\Billapong.DataAccess.csproj", "{80157A62-73EC-4A78-BFD7-422FF16E49A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Billapong.DataAccessTest", "src\Billapong.DataAccessTest\Billapong.DataAccessTest.csproj", "{44B92C8A-244D-4345-A100-0538D01F02AB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Billapong.DataAccessTest", "tests\Billapong.DataAccessTest\Billapong.DataAccessTest.csproj", "{44B92C8A-244D-4345-A100-0538D01F02AB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Billapong.Host", "src\Billapong.Host\Billapong.Host.csproj", "{E0348A2F-CC65-4008-852D-E9539409413A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{BCCA4E08-2EAB-4E70-BE5B-01526BED7C20}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,5 +44,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{44B92C8A-244D-4345-A100-0538D01F02AB} = {BCCA4E08-2EAB-4E70-BE5B-01526BED7C20}
 	EndGlobalSection
 EndGlobal

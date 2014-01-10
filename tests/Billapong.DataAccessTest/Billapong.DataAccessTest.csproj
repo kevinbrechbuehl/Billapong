@@ -62,11 +62,11 @@
   <ItemGroup>
     <Compile Include="LogMessageTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
-	  <ExcludeFromStyleCop>true</ExcludeFromStyleCop> 
-	</Compile>
+      <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Billapong.DataAccess\Billapong.DataAccess.csproj">
+    <ProjectReference Include="..\..\src\Billapong.DataAccess\Billapong.DataAccess.csproj">
       <Project>{80157A62-73EC-4A78-BFD7-422FF16E49A8}</Project>
       <Name>Billapong.DataAccess</Name>
     </ProjectReference>
