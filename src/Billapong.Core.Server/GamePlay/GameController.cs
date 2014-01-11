@@ -160,7 +160,7 @@
                 return;
             }
 
-            player1Callback.StartGame(game.Id, game.Player1Name, game.Player2VisibleWindows, !player1Start);
+            player2Callback.StartGame(game.Id, game.Player1Name, game.Player2VisibleWindows, !player1Start);
         }
 
         /// <summary>
