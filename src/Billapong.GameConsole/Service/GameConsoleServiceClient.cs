@@ -32,6 +32,18 @@
         }
 
         /// <summary>
+        /// Gets the map by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        /// The map, if valid map is found, null otheriwse
+        /// </returns>
+        public Map GetMapById(long id)
+        {
+            return this.Execute(() => this.Proxy.GetMapById(id));
+        }
+
+        /// <summary>
         /// Opens a new game and go into the lobby.
         /// </summary>
         /// <param name="mapId">The map identifier.</param>

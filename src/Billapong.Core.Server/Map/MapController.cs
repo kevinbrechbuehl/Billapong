@@ -52,7 +52,22 @@
         /// </returns>
         public IEnumerable<Map> GetMaps(bool onlyPlayable = false)
         {
+            // todo: handle onlyPlayable parameter
+            
             return this.repository.Get(includeProperties: "Windows, Windows.Holes").ToList();
+        }
+
+        /// <summary>
+        /// Gets the map by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="onlyPlayable">if set to <c>true</c> only currently playable maps will be returned.</param>
+        /// <returns>Map object from the database</returns>
+        public Map GetMapById(long id, bool onlyPlayable = false)
+        {
+            // todo: handle onlyPlayable parameter
+
+            return this.repository.Get(filter: map => map.Id == id, includeProperties: "Windows, Windows.Holes").FirstOrDefault();
         }
     }
 }

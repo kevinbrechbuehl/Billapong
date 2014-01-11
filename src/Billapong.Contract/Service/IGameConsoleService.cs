@@ -5,6 +5,7 @@
     using System.ServiceModel;
     using Data.GamePlay;
     using Data.Map;
+    using Exceptions;
 
     /// <summary>
     /// The game console service contract
@@ -18,6 +19,14 @@
         /// <returns>Playable maps in the database</returns>
         [OperationContract(Name = "GetMaps")]
         IEnumerable<Map> GetMaps();
+
+        /// <summary>
+        /// Gets the map by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>The map, if valid map is found, null otheriwse</returns>
+        [OperationContract(Name = "GetMapById")]
+        Map GetMapById(long id);
 
         /// <summary>
         /// Opens a new game and go into the lobby.
