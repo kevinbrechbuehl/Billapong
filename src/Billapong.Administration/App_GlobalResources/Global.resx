@@ -117,11 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="All" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="ComponentLabel" xml:space="preserve">
+    <value>Component:</value>
+  </data>
   <data name="HomeIntroduction" xml:space="preserve">
     <value>&lt;p&gt;Welcome to the Administration Interface for Billapong. Please choose an action in the navigation on the left.&lt;/p&gt;</value>
   </data>
   <data name="HomeTitle" xml:space="preserve">
     <value>Home</value>
+  </data>
+  <data name="LogLevelLabel" xml:space="preserve">
+    <value>Log Level:</value>
+  </data>
+  <data name="NumberOfEntriesLabel" xml:space="preserve">
+    <value>Number of Entries:</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Refresh</value>
   </data>
   <data name="TracingTitle" xml:space="preserve">
     <value>Tracing</value>

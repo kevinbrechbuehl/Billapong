@@ -101,4 +101,22 @@
         padding-left: 1.16em;
         width: 12.5em;
     }
+
+    /* ----- FORM ----- */
+
+    .form {
+        clear: both;
+        overflow: hidden;
+    }
+
+    .form .field {
+        float: left;
+        margin-right: 20px;
+    }
+
+    .loading {
+        /* loading gif from http://spiffygif.com/ */
+        text-align: center;
+        padding-top: 100px;
+    }
 }

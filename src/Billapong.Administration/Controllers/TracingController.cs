@@ -1,21 +1,47 @@
 ﻿namespace Billapong.Administration.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Web.Mvc;
+    using Contract.Data.Tracing;
+    using Models.Tracing;
 
     /// <summary>
     /// The tracing controller
     /// </summary>
     public class TracingController : Controller
     {
-        // GET: /Tracing/
-
         /// <summary>
-        /// The index action
+        /// The index action which shows the tracing entries from the server's database.
         /// </summary>
-        /// <returns>The result.</returns>
+        /// <returns>The result view.</returns>
         public ActionResult Index()
         {
-            return this.View();
+            var model = new IndexViewModel();
+
+            // add loglevels
+            var logLevels = Enum.GetValues(typeof (LogLevel)).Cast<LogLevel>();
+            model.LogLevelList = logLevels.Select(level => new SelectListItem { Text = level.ToString(), Value = ((int)level).ToString() });
+
+            // add components
+            var components = Enum.GetValues(typeof (Component)).Cast<Component>();
+            model.ComponentList = components.Select(component => new SelectListItem { Text = component.ToString(), Value = component.ToString() });
+
+            // add number of entries
+            // this is not that nice, but for easier usage it's ok for now :)
+            var numberOfEntries = new List<SelectListItem>
+            {
+                new SelectListItem { Text = Resources.Global.All, Value = "0" },
+                new SelectListItem { Text = "10", Value = "10" },
+                new SelectListItem { Text = "100", Value = "100" },
+                new SelectListItem { Text = "1000", Value = "1000" },
+            };
+
+            model.NumberOfEntriesList = numberOfEntries;
+            model.NumberOfEntriesId = 100;
+
+            return this.View(model);
         }
     }
 }

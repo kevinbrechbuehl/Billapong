@@ -1,6 +1,37 @@
-﻿@{
+﻿@model Billapong.Administration.Models.Tracing.IndexViewModel
+
+@{
     ViewBag.Title = @Resources.Global.TracingTitle;
 }
 
-Please refresh...
+<div class="form">
+    @using (Html.BeginForm())
+    {
+        <div class="field">
+            @Html.LabelFor(model => model.LogLevelId)
+            @Html.DropDownListFor(model => model.LogLevelId, Model.LogLevelList)
+        </div>
 
+        <div class="field">
+            @Html.LabelFor(model => model.ComponentId)
+            @Html.DropDownListFor(model => model.ComponentId, Model.ComponentList)
+        </div>
+
+        <div class="field">
+            @Html.LabelFor(model => model.NumberOfEntriesId)
+            @Html.DropDownListFor(model => model.NumberOfEntriesId, Model.NumberOfEntriesList)
+        </div>
+
+        <div class="field">
+            <input type="submit" value="@Resources.Global.Refresh" />
+        </div>
+    }
+</div>
+
+<div class="loading">
+    <img src="~/Images/spinner.gif" />
+</div>
+
+<div class="result">
+    
+</div>
