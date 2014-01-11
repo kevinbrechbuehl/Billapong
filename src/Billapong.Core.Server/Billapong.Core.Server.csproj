@@ -47,7 +47,6 @@
     <Compile Include="Converter\Tracing\LogMessageConverter.cs" />
     <Compile Include="GamePlay\Game.cs" />
     <Compile Include="GamePlay\GameController.cs" />
-    <Compile Include="GamePlay\GameNotOpenException.cs" />
     <Compile Include="GamePlay\GameStatus.cs" />
     <Compile Include="Map\MapController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

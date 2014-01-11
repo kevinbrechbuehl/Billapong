@@ -1,4 +1,4 @@
-﻿namespace Billapong.Core.Server.GamePlay
+﻿namespace Billapong.Contract.Exceptions
 {
     using System;
 

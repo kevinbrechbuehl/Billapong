@@ -41,6 +41,9 @@
         /// </summary>
         /// <param name="gameId">The game identifier / correlation id of the game.</param>
         /// <param name="username">The username.</param>
+        /// <exception cref="GameNotOpenException">
+        /// The game was not found on the server or the game is not open
+        /// </exception>
         [OperationContract(Name = "JoinGame", IsOneWay = true)]
         void JoinGame(Guid gameId, string username);
     }

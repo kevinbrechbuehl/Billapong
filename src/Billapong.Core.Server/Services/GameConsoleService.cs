@@ -6,6 +6,7 @@
     using System.ServiceModel;
     using Contract.Data.GamePlay;
     using Contract.Data.Map;
+    using Contract.Exceptions;
     using Contract.Service;
     using Converter.GamePlay;
     using Converter.Map;
@@ -59,9 +60,11 @@
         /// </summary>
         /// <param name="gameId">The game identifier / correlation id of the game.</param>
         /// <param name="username">The username.</param>
+        /// <exception cref="GameNotOpenException">
+        /// The game was not found on the server or the game is not open
+        /// </exception>
         public void JoinGame(Guid gameId, string username)
         {
-            // todo: handle exception and return fault exception
             GameController.Current.JoinGame(gameId, username, this.GetCallback());
         }
 

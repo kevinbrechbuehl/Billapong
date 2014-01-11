@@ -5,6 +5,7 @@
     using System.Linq;
     using System.ServiceModel;
     using System.Threading.Tasks;
+    using Contract.Exceptions;
     using Contract.Service;
     using DataAccess.Model.Map;
     using DataAccess.Repository;
