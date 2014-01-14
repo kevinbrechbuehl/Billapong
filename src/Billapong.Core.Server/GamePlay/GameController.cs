@@ -119,6 +119,8 @@
                 {
                     throw new GameNotOpenException("The game is not open");
                 }
+
+                game.Status = GameStatus.Playing;
             }
 
             game.Player2Name = username;
