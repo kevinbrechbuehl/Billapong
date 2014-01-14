@@ -109,9 +109,8 @@
         /// <param name="gameId">The game identifier.</param>
         /// <param name="username">The username.</param>
         /// <param name="callback">The callback.</param>
-        /// <exception cref="GameNotOpenException">
-        /// The game was not found on the server or the game is not open
-        /// </exception>
+        /// <exception cref="GameNotFoundException">The game was not found on the server</exception>
+        /// <exception cref="GameNotOpenException">The game is not open</exception>
         public void JoinGame(Guid gameId, string username, IGameConsoleCallback callback)
         {
             Game game = null;
@@ -119,13 +118,13 @@
             {
                 if (!this.games.ContainsKey(gameId))
                 {
-                    throw new GameNotOpenException("The game was not found on the server"); 
+                    throw new GameNotFoundException(gameId);
                 }
 
                 game = this.games[gameId];
-                if (game == null || game.Status != GameStatus.Open)
+                if (game.Status != GameStatus.Open)
                 {
-                    throw new GameNotOpenException("The game is not open");
+                    throw new GameNotOpenException(gameId);
                 }
 
                 game.Status = GameStatus.Playing;

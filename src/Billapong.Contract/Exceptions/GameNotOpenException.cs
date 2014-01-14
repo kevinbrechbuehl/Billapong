@@ -8,7 +8,8 @@
         {
         }
 
-        public GameNotOpenException(string message) : base(message)
+        public GameNotOpenException(Guid gameId)
+            : base(string.Format("The game with id '{0}' is not in opening state", gameId))
         {
         }
     }

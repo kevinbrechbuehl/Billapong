@@ -50,6 +50,7 @@
     <Compile Include="Data\Tracing\LogMessage.cs" />
     <Compile Include="Data\Tracing\TracingConfiguration.cs" />
     <Compile Include="Data\Tracing\LogLevel.cs" />
+    <Compile Include="Exceptions\GameNotFoundException.cs" />
     <Compile Include="Exceptions\GameNotOpenException.cs" />
     <Compile Include="Exceptions\MapNotFoundException.cs" />
     <Compile Include="Globals.cs" />

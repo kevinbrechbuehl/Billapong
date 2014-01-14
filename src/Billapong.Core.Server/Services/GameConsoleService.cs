@@ -73,9 +73,8 @@
         /// </summary>
         /// <param name="gameId">The game identifier / correlation id of the game.</param>
         /// <param name="username">The username.</param>
-        /// <exception cref="GameNotOpenException">
-        /// The game was not found on the server or the game is not open
-        /// </exception>
+        /// <exception cref="GameNotFoundException">The game was not found on the server</exception>
+        /// <exception cref="GameNotOpenException">The game is not open</exception>
         public void JoinGame(Guid gameId, string username)
         {
             GameController.Current.JoinGame(gameId, username, this.GetCallback());
