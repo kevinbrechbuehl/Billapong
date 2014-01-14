@@ -64,6 +64,7 @@
     <Compile Include="ViewModels\GameLobbyViewModel.cs" />
     <Compile Include="ViewModels\GameMainWindowViewModel.cs" />
     <Compile Include="ViewModels\IMainWindowContentViewModel.cs" />
+    <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\WindowSelection\MpWindowSelectionViewModel.cs" />
     <Compile Include="ViewModels\WindowSelection\SpTrainingWindowSelectionViewModel.cs" />
     <Compile Include="ViewModels\MapSelectionViewModel.cs" />
@@ -74,6 +75,9 @@
     <Compile Include="ViewModels\WindowSelection\WindowSelectionViewModelFactory.cs" />
     <Compile Include="Views\GameLobby.xaml.cs">
       <DependentUpon>GameLobby.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Settings.xaml.cs">
+      <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\WindowSelection.xaml.cs">
       <DependentUpon>WindowSelection.xaml</DependentUpon>
@@ -114,6 +118,10 @@
     <Compile Include="Views\GameWindow.xaml.cs">
       <DependentUpon>GameWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\Settings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\WindowSelection.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

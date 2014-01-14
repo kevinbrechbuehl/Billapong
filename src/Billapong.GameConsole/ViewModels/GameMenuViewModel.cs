@@ -45,29 +45,44 @@
             }
         }
 
+        public DelegateCommand OpenSettingsCommand
+        {
+            get
+            {
+                return new DelegateCommand(this.OpenSettings);
+            }
+        }
+
         /// <summary>
         /// Opens the map selection.
         /// </summary>
         /// <param name="parameter">The parameter.</param>
         public void OpenMapSelection(object parameter)
         {
-            GameConfiguration.GameType gameType;
-
-            switch (parameter != null ? parameter.ToString() : string.Empty)
+            if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.PlayerName))
             {
-                case "training":
-                    gameType = GameConfiguration.GameType.SinglePlayerTraining;
-                    break;
-                case "multiplayer":
-                    gameType = GameConfiguration.GameType.MultiPlayerGame;
-                    break;
-                default:
-                    gameType = GameConfiguration.GameType.SinglePlayerGame;
-                    break;
-            }
+                GameConfiguration.GameType gameType;
 
-            var viewModel = new MapSelectionViewModel(gameType);
-            this.SwitchWindowContent(viewModel);
+                switch (parameter != null ? parameter.ToString() : string.Empty)
+                {
+                    case "training":
+                        gameType = GameConfiguration.GameType.SinglePlayerTraining;
+                        break;
+                    case "multiplayer":
+                        gameType = GameConfiguration.GameType.MultiPlayerGame;
+                        break;
+                    default:
+                        gameType = GameConfiguration.GameType.SinglePlayerGame;
+                        break;
+                }
+
+                var viewModel = new MapSelectionViewModel(gameType);
+                this.SwitchWindowContent(viewModel);
+            }
+            else
+            {
+                this.OpenSettings(parameter);
+            }
         }
 
         /// <summary>
@@ -77,6 +92,16 @@
         public void OpenGameLobby(object parameters)
         {
             var viewModel = new GameLobbyViewModel();
+            this.SwitchWindowContent(viewModel);
+        }
+
+        /// <summary>
+        /// Opens the settings.
+        /// </summary>
+        /// <param name="parameters">The parameters.</param>
+        public void OpenSettings(object parameters)
+        {
+            var viewModel = new SettingsViewModel();
             this.SwitchWindowContent(viewModel);
         }
     }
