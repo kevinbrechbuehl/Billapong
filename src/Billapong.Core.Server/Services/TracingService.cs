@@ -61,7 +61,7 @@
         /// </returns>
         public IEnumerable<LogMessage> GetLogMessages(LogListener logListener)
         {
-            // todo (kevin): This should only be possible if administrator role is authenticated
+            // todo (kevin): This should only be possible if administrator role is authenticated -> move to AdministrationService to make this possible
             return Logger.Current.GetLogMessages(logListener.LogLevel, logListener.Component, logListener.NumberOfMessages).Select(message => message.ToContract()).ToList();
         }
     }
