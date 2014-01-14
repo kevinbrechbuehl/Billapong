@@ -3,6 +3,7 @@
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Windows;
+    using System.Windows.Navigation;
     using Billapong.Contract.Data.GamePlay;
     using Billapong.GameConsole.Service;
 
@@ -20,6 +21,23 @@
         /// The selected lobby game
         /// </summary>
         private LobbyGame selectedLobbyGame;
+
+        private DelegateCommand joinGameCommand;
+
+        public LobbyGame SelectedLobbyGame
+        {
+            get
+            {
+                return this.selectedLobbyGame;
+            }
+
+            set
+            {
+                this.selectedLobbyGame = value;
+                OnPropertyChanged();
+                this.JoinGameCommand.RaiseCanExecuteChanged();
+            }
+        }
 
         /// <summary>
         /// The is data loading
@@ -70,22 +88,17 @@
         {
             get
             {
-                return new DelegateCommand(this.JoinGame);
-            }
-        }
+                if (this.joinGameCommand == null)
+                {
+                    this.JoinGameCommand = new DelegateCommand(this.JoinGame, delegate(object o) { return this.SelectedLobbyGame != null; } );
+                }
 
-        /// <summary>
-        /// Gets the game selected command.
-        /// </summary>
-        /// <value>
-        /// The game selected command.
-        /// </value>
-        public DelegateCommand GameSelectedCommand
-        {
-            get
+                return this.joinGameCommand;
+            }
+
+            private set
             {
-                // Todo (mathp2): Korrekt auslösen
-                return new DelegateCommand(this.SetSelectedLobbyGame);
+                this.joinGameCommand = value;
             }
         }
 
@@ -117,17 +130,7 @@
         /// <param name="properties">The properties.</param>
         private void JoinGame(object properties)
         {
-            // Todo (mathp2): Join the selected game
-            this.proxy.JoinGame(this.OpenGames.First().Id, Properties.Settings.Default.PlayerName);
-        }
-
-        /// <summary>
-        /// Sets the selected lobby game.
-        /// </summary>
-        /// <param name="properties">The properties.</param>
-        private void SetSelectedLobbyGame(object properties)
-        {
-            this.selectedLobbyGame = properties as LobbyGame;
+            this.proxy.JoinGame(this.SelectedLobbyGame.Id, Properties.Settings.Default.PlayerName);
         }
 
         /// <summary>
