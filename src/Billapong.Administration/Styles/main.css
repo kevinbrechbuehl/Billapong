@@ -129,6 +129,7 @@
     table.list {
         border-spacing: 0;
         border-collapse: separate;
+        width: 100%;
     }
 
     table.list tr.odd {
