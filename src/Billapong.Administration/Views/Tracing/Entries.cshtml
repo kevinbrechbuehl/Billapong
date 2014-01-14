@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Billapong.Contract.Data.Tracing.LogMessage>
+
+@if (Model.Any())
+{
+    <table class="list">
+        <tr>
+            <th width="180px">@Resources.Global.Timestamp</th>
+            <th width="100px">@Resources.Global.Sender</th>
+            <th width="130px">@Resources.Global.Component</th>
+            <th width="80px">@Resources.Global.LogLevel</th>
+            <th>@Resources.Global.LogMessage</th>
+        </tr>
+        
+        @{ var odd = true; }
+        @foreach (var message in Model)
+        {
+            <tr class="@(odd ? "odd" : "even")">
+                <td>@message.Timestamp.ToString("dd.MM.yyyy hh:mm:ss.fff tt")</td>
+                <td>@message.Sender</td>
+                <td>@message.Component</td>
+                <td>@message.LogLevel</td>
+                <td>@Html.Raw(@message.Message.Replace(Environment.NewLine, "<br/>").Replace("  ", "&nbsp;&nbsp;&nbsp;&nbsp;"))</td>
+            </tr>
+            
+            odd = !odd;
+        }
+
+    </table>
+}
+else
+{
+    @Html.Raw(Resources.Global.TracingNoEntries)
+}

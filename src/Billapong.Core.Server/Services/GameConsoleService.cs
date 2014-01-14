@@ -16,7 +16,7 @@
     /// <summary>
     /// The game console service implementation.
     /// </summary>
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, IncludeExceptionDetailInFaults = true)]
     public class GameConsoleService : IGameConsoleService
     {
         /// <summary>

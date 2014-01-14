@@ -24,9 +24,9 @@
 
             var message = new LogMessage
             {
-                LogLevel = 1,
+                LogLevel = (int)Contract.Data.Tracing.LogLevel.Debug,
                 Message = "This is a test debug message.",
-                Component = "Unit Test",
+                Component = Contract.Data.Tracing.Component.Server.ToString(),
                 Sender = "Unit Test Method",
                 Timestamp = DateTime.Now
             };

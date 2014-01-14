@@ -49,6 +49,10 @@
         border:0;
     }
 
+    .error {
+        color: red;
+    }
+
     /* ----- NAVIGATION ----- */
 
     #nav {
@@ -107,6 +111,7 @@
     .form {
         clear: both;
         overflow: hidden;
+        margin-bottom: 20px;
     }
 
     .form .field {
@@ -118,5 +123,23 @@
         /* loading gif from http://spiffygif.com/ */
         text-align: center;
         padding-top: 100px;
+    }
+
+    /* ----- FORM ----- */
+    table.list {
+        border-spacing: 0;
+        border-collapse: separate;
+    }
+
+    table.list tr.odd {
+        background-color: #ddd;
+    }
+
+    table.list tr th,
+    table.list tr td {
+        text-align: left;
+        vertical-align: top;
+        border-bottom: 1px solid gray;
+        padding: 5px;
     }
 }

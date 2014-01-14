@@ -70,11 +70,29 @@ namespace Billapong.Administration.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Component.
+        /// </summary>
+        public static string Component {
+            get {
+                return ResourceManager.GetString("Component", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Component:.
         /// </summary>
         public static string ComponentLabel {
             get {
                 return ResourceManager.GetString("ComponentLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;An error occurred. Please try again later.&lt;/p&gt;.
+        /// </summary>
+        public static string ErrorOccurred {
+            get {
+                return ResourceManager.GetString("ErrorOccurred", resourceCulture);
             }
         }
         
@@ -97,11 +115,29 @@ namespace Billapong.Administration.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Log Level.
+        /// </summary>
+        public static string LogLevel {
+            get {
+                return ResourceManager.GetString("LogLevel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Log Level:.
         /// </summary>
         public static string LogLevelLabel {
             get {
                 return ResourceManager.GetString("LogLevelLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log Message.
+        /// </summary>
+        public static string LogMessage {
+            get {
+                return ResourceManager.GetString("LogMessage", resourceCulture);
             }
         }
         
@@ -120,6 +156,33 @@ namespace Billapong.Administration.Resources {
         public static string Refresh {
             get {
                 return ResourceManager.GetString("Refresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sender.
+        /// </summary>
+        public static string Sender {
+            get {
+                return ResourceManager.GetString("Sender", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Timestamp.
+        /// </summary>
+        public static string Timestamp {
+            get {
+                return ResourceManager.GetString("Timestamp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;No entries available for your selection.&lt;/p&gt;.
+        /// </summary>
+        public static string TracingNoEntries {
+            get {
+                return ResourceManager.GetString("TracingNoEntries", resourceCulture);
             }
         }
         

@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Web.Mvc;
     using Contract.Data.Tracing;
+    using Core.Client.Tracing;
     using Models.Tracing;
 
     /// <summary>
@@ -42,6 +43,18 @@
             model.NumberOfEntriesId = 100;
 
             return this.View(model);
+        }
+
+        /// <summary>
+        /// Get log entries over the WCF service
+        /// </summary>
+        /// <param name="component">The component.</param>
+        /// <param name="logLevel">The log level.</param>
+        /// <param name="numberOfEntries">The number of entries.</param>
+        /// <returns>Partial view with a table containing all requested log entries</returns>
+        public ActionResult Entries(Component component = Component.All, LogLevel logLevel = LogLevel.Debug, int numberOfEntries = 0)
+        {
+            return this.PartialView(Tracer.GetLogMessages(component, logLevel, numberOfEntries));
         }
     }
 }

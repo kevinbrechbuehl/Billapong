@@ -83,6 +83,8 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="Images\spinner.gif" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\main.js" />
     <Content Include="Styles\main.css" />
     <Content Include="Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
@@ -135,6 +137,9 @@
       <LastGenOutput>Global.designer.cs</LastGenOutput>
       <CustomToolNamespace>Billapong.Administration.Resources</CustomToolNamespace>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Tracing\Entries.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

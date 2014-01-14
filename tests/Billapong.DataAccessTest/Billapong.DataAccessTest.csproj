@@ -66,6 +66,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Billapong.Contract\Billapong.Contract.csproj">
+      <Project>{aa9fc87b-d90d-4415-8d27-448defc4e9f8}</Project>
+      <Name>Billapong.Contract</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Billapong.DataAccess\Billapong.DataAccess.csproj">
       <Project>{80157A62-73EC-4A78-BFD7-422FF16E49A8}</Project>
       <Name>Billapong.DataAccess</Name>

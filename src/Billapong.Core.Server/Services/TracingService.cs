@@ -13,7 +13,7 @@
     /// <summary>
     /// The tracing service implementation.
     /// </summary>
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall, IncludeExceptionDetailInFaults = true)]
     public class TracingService : ITracingService
     {
         /// <summary>

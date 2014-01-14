@@ -87,7 +87,8 @@
             // filter component
             if (component != Component.All)
             {
-                messages = messages.Where(message => message.Component == component.ToString());
+                var componentString = component.ToString();
+                messages = messages.Where(message => message.Component == componentString);
             }
 
             // sort descending by date
