@@ -146,7 +146,9 @@
             var player1Start = (new Random()).Next(0, 2) == 0;
             
             // calculate the visible windows for player 2
-            game.Player2VisibleWindows.AddRange(game.Map.Windows.Select(map => map.Id).Where(id => !game.Player1VisibleWindows.Contains(id)));
+            game.Player2VisibleWindows.AddRange(game.Map.Windows.Count > 1
+                ? game.Map.Windows.Select(map => map.Id).Where(id => !game.Player1VisibleWindows.Contains(id))
+                : game.Player1VisibleWindows);
 
             // send callback to player 1
             var player1Callback = game.Callbacks.FirstOrDefault();
