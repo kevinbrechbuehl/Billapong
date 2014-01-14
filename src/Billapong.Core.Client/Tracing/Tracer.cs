@@ -135,23 +135,6 @@
         }
 
         /// <summary>
-        /// Gets the log messages.
-        /// </summary>
-        /// <param name="component">The component to filter by.</param>
-        /// <param name="logLevel">The minimum log level.</param>
-        /// <param name="numberOfMessages">The number of messages.</param>
-        /// <returns>List of log messages</returns>
-        public static IEnumerable<LogMessage> GetLogMessages(Component component = Component.All, LogLevel logLevel = LogLevel.Debug, int numberOfMessages = 0)
-        {
-            return Current.proxy.GetLogMessages(new LogListener
-            {
-                Component = component,
-                LogLevel = logLevel,
-                NumberOfMessages = numberOfMessages
-            });
-        }
-
-        /// <summary>
         /// Initializes the configuration.
         /// </summary>
         /// <param name="component">The component name.</param>

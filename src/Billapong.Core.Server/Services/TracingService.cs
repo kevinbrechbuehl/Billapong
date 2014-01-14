@@ -1,13 +1,12 @@
 ﻿namespace Billapong.Core.Server.Services
 {
+    using Billapong.Contract.Data.Tracing;
+    using Billapong.Contract.Service;
     using System;
     using System.Collections.Generic;
     using System.Configuration;
     using System.Linq;
     using System.ServiceModel;
-    using Billapong.Contract.Data.Tracing;
-    using Billapong.Contract.Service;
-    using Billapong.Core.Server.Converter.Tracing;
     using Tracing;
 
     /// <summary>
@@ -50,19 +49,6 @@
             }
 
             return new TracingConfiguration { LogLevel = logLevel, MessageRetentionCount = messageRetentionCount };
-        }
-
-        /// <summary>
-        /// Gets the log messages from the database.
-        /// </summary>
-        /// <param name="logListener">The log listener with the config which log messages to retrieve.</param>
-        /// <returns>
-        /// Log messages based on the listener configuration
-        /// </returns>
-        public IEnumerable<LogMessage> GetLogMessages(LogListener logListener)
-        {
-            // todo (kevin): This should only be possible if administrator role is authenticated -> move to AdministrationService to make this possible
-            return Logger.Current.GetLogMessages(logListener.LogLevel, logListener.Component, logListener.NumberOfMessages).Select(message => message.ToContract()).ToList();
         }
     }
 }

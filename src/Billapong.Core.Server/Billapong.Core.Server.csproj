@@ -52,6 +52,7 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="Services\AdministrationService.cs" />
     <Compile Include="Services\GameConsoleService.cs" />
     <Compile Include="Services\TracingService.cs" />
     <Compile Include="Tracing\Logger.cs" />

@@ -23,13 +23,5 @@
         /// <returns>Configuration based on server configuration for tracing.</returns>
         [OperationContract(Name = "GetConfig")]
         TracingConfiguration GetConfig();
-
-        /// <summary>
-        /// Gets the log messages from the database.
-        /// </summary>
-        /// <param name="logListener">The log listener with the config which log messages to retrieve.</param>
-        /// <returns>Log messages based on the listener configuration</returns>
-        [OperationContract(Name = "GetLogMessages")]
-        IEnumerable<LogMessage> GetLogMessages(LogListener logListener);
     }
 }

@@ -109,6 +109,7 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="Service\AdministrationServiceClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
