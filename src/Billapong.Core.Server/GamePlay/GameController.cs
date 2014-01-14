@@ -68,10 +68,18 @@
         /// <returns>The id (guid) of the new game</returns>
         public Guid OpenGame(long mapId, IEnumerable<long> visibleWindows, string username, IGameConsoleCallback callback)
         {
+            // load the map
+            var map = this.mapRepository.GetById(mapId);
+            if (map == null)
+            {
+                throw new MapNotFoundException(mapId);
+            }
+            
+            // generate game
             var game = new Game
             {
                 Id = Guid.NewGuid(),
-                MapId = mapId,
+                Map = map,
                 Player1Name = username
             };
 
@@ -137,9 +145,6 @@
             // evaluate if player one would start
             var player1Start = (new Random()).Next(0, 2) == 0;
             
-            // load the map because we need the informations in it
-            game.Map = this.mapRepository.GetById(game.MapId);
-
             // calculate the visible windows for player 2
             game.Player2VisibleWindows.AddRange(game.Map.Windows.Select(map => map.Id).Where(id => !game.Player1VisibleWindows.Contains(id)));
 

@@ -7,8 +7,8 @@
             return new Contract.Data.GamePlay.LobbyGame
             {
                 Id = source.Id,
-                Map = "lala",
-                Username = "pascal"
+                Map = source.Map.Name,
+                Username = source.Player1Name
             };
         }
     }

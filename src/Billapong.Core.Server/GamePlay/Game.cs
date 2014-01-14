@@ -20,8 +20,6 @@ namespace Billapong.Core.Server.GamePlay
         }
         
         public Guid Id { get; set; }
-        
-        public long MapId { get; set; }
 
         public Map Map { get; set; }
 
