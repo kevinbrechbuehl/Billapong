@@ -1,8 +1,9 @@
 ﻿namespace Billapong.GameConsole.ViewModels
 {
+    using System;
     using System.Collections.ObjectModel;
-    using Billapong.GameConsole.Configuration;
-    using Billapong.GameConsole.ViewModels.WindowSelection;
+    using Configuration;
+    using WindowSelection;
     using Converter.Map;
     using Models;
     using Service;
@@ -21,6 +22,31 @@
         /// The game type
         /// </summary>
         private readonly GameConfiguration.GameType gameType;
+
+        /// <summary>
+        /// The is data loading
+        /// </summary>
+        private bool isDataLoading = false;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the view data is loading.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if the view data is loading; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsDataLoading
+        {
+            get
+            {
+                return this.isDataLoading;
+            }
+
+            set
+            {
+                this.isDataLoading = value;
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MapSelectionViewModel" /> class.
@@ -65,11 +91,14 @@
         /// </summary>
         private async void LoadMaps()
         {
+            this.IsDataLoading = true;
             var maps = await this.proxy.GetMapsAsync();
             foreach (var map in maps)
             {
                 this.Maps.Add(map.ToEntity());
             }
+
+            this.IsDataLoading = false;
         } 
 
         /// <summary>

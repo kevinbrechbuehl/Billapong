@@ -6,7 +6,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <DockPanel LastChildFill="False">  
-        <ListView ItemsSource="{Binding Windows}" x:Name="WindowList" DockPanel.Dock="Top" Height="auto">
+        <ListView ItemsSource="{Binding Windows}" x:Name="WindowList" DockPanel.Dock="Top" Height="auto" BorderThickness="0">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel IsItemsHost="True" Width="480" />

@@ -5,9 +5,32 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Name="GameLobbyUserControl">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+    </UserControl.Resources>
     <Grid>
         <DockPanel LastChildFill="False">
-            <ListView ItemsSource="{Binding OpenGames}" SelectionMode="Single" x:Name="GameList" DockPanel.Dock="Top" Height="auto">
+            <TextBlock DockPanel.Dock="Top" Visibility="{Binding Path=IsDataLoading, Converter={StaticResource BooleanToVisibility}}">Searching for open games...</TextBlock>
+            <ListView ItemsSource="{Binding OpenGames}" SelectionMode="Single" x:Name="GameList" DockPanel.Dock="Top" Height="auto" BorderThickness="0">
+                <ListView.Style>
+                    <Style TargetType="ListView">
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Path=IsDataLoading}" Value="False" />
+                                    <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=HasItems}" Value="False" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListView">
+                                            <TextBlock Text="No open games found"/>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.Style>
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel IsItemsHost="True" Width="480" />
