@@ -66,6 +66,7 @@
         /// <param name="username">The username.</param>
         /// <param name="callback">The callback.</param>
         /// <returns>The id (guid) of the new game</returns>
+        /// <exception cref="MapNotFoundException">Map was not found on the server</exception>
         public Guid OpenGame(long mapId, IEnumerable<long> visibleWindows, string username, IGameConsoleCallback callback)
         {
             // load the map

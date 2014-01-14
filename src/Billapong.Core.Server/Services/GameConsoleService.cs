@@ -16,7 +16,7 @@
     /// <summary>
     /// The game console service implementation.
     /// </summary>
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, IncludeExceptionDetailInFaults = true)]
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class GameConsoleService : IGameConsoleService
     {
         /// <summary>
@@ -54,7 +54,14 @@
         /// </returns>
         public Guid OpenGame(long mapId, IEnumerable<long> visibleWindows, string username)
         {
-            return GameController.Current.OpenGame(mapId, visibleWindows, username, this.GetCallback());
+            try
+            {
+                return GameController.Current.OpenGame(mapId, visibleWindows, username, this.GetCallback());
+            }
+            catch (MapNotFoundException exception)
+            {
+                throw new FaultException<MapNotFoundException>(exception);
+            }
         }
 
         /// <summary>
@@ -73,11 +80,20 @@
         /// </summary>
         /// <param name="gameId">The game identifier / correlation id of the game.</param>
         /// <param name="username">The username.</param>
-        /// <exception cref="GameNotFoundException">The game was not found on the server</exception>
-        /// <exception cref="GameNotOpenException">The game is not open</exception>
         public void JoinGame(Guid gameId, string username)
         {
-            GameController.Current.JoinGame(gameId, username, this.GetCallback());
+            try
+            {
+                GameController.Current.JoinGame(gameId, username, this.GetCallback());
+            }
+            catch (GameNotFoundException exception)
+            {
+                throw new FaultException<GameNotFoundException>(exception);
+            }
+            catch (GameNotOpenException exception)
+            {
+                throw new FaultException<GameNotOpenException>(exception);
+            }
         }
 
         /// <summary>

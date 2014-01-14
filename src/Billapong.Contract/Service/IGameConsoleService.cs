@@ -36,6 +36,7 @@
         /// <param name="username">The username.</param>
         /// <returns>Id of the game, used as correlation id</returns>
         [OperationContract(Name = "OpenGame")]
+        [FaultContract(typeof(MapNotFoundException))]
         Guid OpenGame(long mapId, IEnumerable<long> visibleWindows, string username);
 
         /// <summary>
@@ -45,14 +46,14 @@
         [OperationContract(Name = "GetLobbyGames")]
         IEnumerable<LobbyGame> GetLobbyGames();
 
-            /// <summary>
+        /// <summary>
         /// Joins a game.
         /// </summary>
         /// <param name="gameId">The game identifier / correlation id of the game.</param>
         /// <param name="username">The username.</param>
-        /// <exception cref="GameNotFoundException">The game was not found on the server</exception>
-        /// <exception cref="GameNotOpenException">The game is not open</exception>
         [OperationContract(Name = "JoinGame")]
+        [FaultContract(typeof(GameNotOpenException))]
+        [FaultContract(typeof(GameNotFoundException))]
         void JoinGame(Guid gameId, string username);
     }
 }
