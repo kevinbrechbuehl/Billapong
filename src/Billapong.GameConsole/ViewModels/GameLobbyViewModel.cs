@@ -21,6 +21,31 @@
         private LobbyGame selectedLobbyGame;
 
         /// <summary>
+        /// The is data loading
+        /// </summary>
+        private bool isDataLoading = false;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the view data is loading.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if the view data is loading; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsDataLoading
+        {
+            get
+            {
+                return this.isDataLoading;
+            }
+
+            set
+            {
+                this.isDataLoading = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="GameLobbyViewModel"/> class.
         /// </summary>
         public GameLobbyViewModel()
@@ -110,12 +135,14 @@
         /// <param name="properties">The properties.</param>
         private async void LoadOpenGames(object properties = null)
         {
+            this.IsDataLoading = true;
             this.OpenGames.Clear();
             var games = await this.proxy.GetLobbyGamesAsync();
             foreach (var game in games)
             {
                 this.OpenGames.Add(game);
             }
+            this.IsDataLoading = false;
         }
     }
 }
