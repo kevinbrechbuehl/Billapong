@@ -18,6 +18,9 @@
         <DataTemplate DataType="{x:Type viewModel:GameLobbyViewModel}">
             <view:GameLobby />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:SettingsViewModel}">
+            <view:Settings />
+        </DataTemplate>
     </Window.Resources>
     
     <ContentControl Content="{Binding CurrentView}" />

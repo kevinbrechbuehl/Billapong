@@ -18,5 +18,6 @@
         <Button Name="startSinglePlayerGame" Command="{Binding OpenMapSelectionCommand}" CommandParameter="single" Style="{StaticResource MenuButton}">Start singleplayer game</Button>
         <Button Name="startMultiplayerGame" Command="{Binding OpenMapSelectionCommand}" CommandParameter="multiplayer" Style="{StaticResource MenuButton}">Start multiplayer game</Button>
         <Button Name="joinMultiplayerGame" Command="{Binding OpenGameLobbyCommand}" Style="{StaticResource MenuButton}">Join multiplayer game</Button>
+        <Button Name="openSettings" Command="{Binding OpenSettingsCommand}" Style="{StaticResource MenuButton}">Settings</Button>
     </StackPanel>
 </UserControl>

@@ -2,6 +2,7 @@
 {
     using System.Collections.ObjectModel;
     using System.Linq;
+    using System.Windows;
     using Billapong.Contract.Data.GamePlay;
     using Billapong.GameConsole.Service;
 
@@ -117,7 +118,7 @@
         private void JoinGame(object properties)
         {
             // Todo (mathp2): Join the selected game
-            this.proxy.JoinGame(this.OpenGames.First().Id, "Second player :)");
+            this.proxy.JoinGame(this.OpenGames.First().Id, Properties.Settings.Default.PlayerName);
         }
 
         /// <summary>
