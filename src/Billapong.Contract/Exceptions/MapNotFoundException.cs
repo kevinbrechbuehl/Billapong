@@ -1,27 +1,20 @@
 ﻿namespace Billapong.Contract.Exceptions
 {
-    using System;
     using System.Runtime.Serialization;
 
-    [DataContract]
-    public class MapNotFoundException : Exception
+    [DataContract(Name = "MapNotFoundException", Namespace = Globals.ExceptionContractNamespaceName)]
+    public class MapNotFoundException
     {
-        [DataMember]
+        [DataMember(Name = "MapId", Order = 1)]
         public long MapId { get; set; }
 
-        [DataMember]
-        public string ErrorMessage
-        {
-            get
-            {
-                return this.Message;
-            }
-        }
+        [DataMember(Name = "Message", Order = 1)]
+        public string Message { get; set; }
 
         public MapNotFoundException(long mapId)
-            : base(string.Format("Map with id '{0}' not found.", mapId))
         {
             this.MapId = mapId;
+            this.Message = string.Format("Map with id '{0}' not found.", mapId);
         }
     }
 }

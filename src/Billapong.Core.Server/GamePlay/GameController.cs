@@ -74,7 +74,7 @@
             var map = this.mapRepository.GetById(mapId);
             if (map == null)
             {
-                throw new MapNotFoundException(mapId);
+                throw new FaultException<MapNotFoundException>(new MapNotFoundException(mapId), "Map not found");
             }
             
             // generate game
@@ -120,13 +120,13 @@
             {
                 if (!this.games.ContainsKey(gameId))
                 {
-                    throw new GameNotFoundException(gameId);
+                    throw new FaultException<GameNotFoundException>(new GameNotFoundException(gameId), "Game not found");
                 }
 
                 game = this.games[gameId];
                 if (game.Status != GameStatus.Open)
                 {
-                    throw new GameNotOpenException(gameId);
+                    throw new FaultException<GameNotOpenException>(new GameNotOpenException(gameId), "Game is not is opening state");
                 }
 
                 game.Status = GameStatus.Playing;

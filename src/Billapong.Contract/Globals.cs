@@ -14,5 +14,10 @@
         /// The data contract namespace name
         /// </summary>
         public const string DataContractNamespaceName = "http://billapong.net/DataContracts";
+
+        /// <summary>
+        /// The exception contract namespace name
+        /// </summary>
+        public const string ExceptionContractNamespaceName = "http://billapong.net/ExceptionContracts";
     }
 }

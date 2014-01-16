@@ -3,25 +3,19 @@
     using System;
     using System.Runtime.Serialization;
 
-    [DataContract]
-    public class GameNotFoundException : Exception
+    [DataContract(Name = "GameNotFoundException", Namespace = Globals.ExceptionContractNamespaceName)]
+    public class GameNotFoundException
     {
-        [DataMember]
+        [DataMember(Name = "GameId", Order = 1)]
         public Guid GameId { get; set; }
 
-        [DataMember]
-        public string ErrorMessage
-        {
-            get
-            {
-                return this.Message;
-            }
-        }
+        [DataMember(Name = "Message", Order = 1)]
+        public string Message { get; set; }
 
         public GameNotFoundException(Guid gameId)
-            : base(string.Format("The game with id '{0}' was not found in the lobby", gameId))
         {
             this.GameId = gameId;
+            this.Message = string.Format("The game with id '{0}' was not found in the lobby", gameId);
         }
     }
 }

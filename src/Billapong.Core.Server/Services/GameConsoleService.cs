@@ -54,14 +54,7 @@
         /// </returns>
         public Guid OpenGame(long mapId, IEnumerable<long> visibleWindows, string username)
         {
-            try
-            {
-                return GameController.Current.OpenGame(mapId, visibleWindows, username, this.GetCallback());
-            }
-            catch (MapNotFoundException exception)
-            {
-                throw new FaultException<MapNotFoundException>(exception);
-            }
+            return GameController.Current.OpenGame(mapId, visibleWindows, username, this.GetCallback());
         }
 
         /// <summary>
@@ -82,18 +75,7 @@
         /// <param name="username">The username.</param>
         public void JoinGame(Guid gameId, string username)
         {
-            try
-            {
-                GameController.Current.JoinGame(gameId, username, this.GetCallback());
-            }
-            catch (GameNotFoundException exception)
-            {
-                throw new FaultException<GameNotFoundException>(exception);
-            }
-            catch (GameNotOpenException exception)
-            {
-                throw new FaultException<GameNotOpenException>(exception);
-            }
+            GameController.Current.JoinGame(gameId, username, this.GetCallback());
         }
 
         /// <summary>
