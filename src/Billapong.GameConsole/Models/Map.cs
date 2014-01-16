@@ -1,6 +1,7 @@
 ﻿namespace Billapong.GameConsole.Models
 {
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Represents a map
@@ -13,6 +14,14 @@
         public Map()
         {
             this.Windows = new List<Window>();
+        }
+
+        public IDictionary<int, IEnumerable<Window>> Rows
+        {
+            get
+            {
+               return this.Windows.GroupBy(w => w.X).OrderBy(w => w.First().X).ToDictionary(w => w.Key, y => (IEnumerable<Window>)y.OrderBy(z => z.Y).ToList());
+            }
         }
 
         /// <summary>

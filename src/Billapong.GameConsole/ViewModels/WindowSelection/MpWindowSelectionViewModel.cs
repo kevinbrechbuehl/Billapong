@@ -1,9 +1,8 @@
 ﻿namespace Billapong.GameConsole.ViewModels.WindowSelection
 {
-    using System;
     using System.Linq;
     using System.Windows;
-    using Billapong.GameConsole.Models;
+    using Models;
     using Service;
 
     /// <summary>
@@ -26,9 +25,16 @@
         /// <param name="properties">The properties.</param>
         protected override void StartGame(object properties)
         {
-            var client = new GameConsoleServiceClient();
+            var callbackClient = new GameConsoleCallbackClient();
+            callbackClient.GameStarted += (sender, args) => MessageBox.Show("Started as initiator");
+
+            var client = new GameConsoleServiceClient(callbackClient);
             var gameId = client.OpenGame(this.Map.Id, new[] { this.Map.Windows.First().Id }, Properties.Settings.Default.PlayerName);
-            MessageBox.Show("Game opened with guid: " + gameId);
+
+            var loadingScreen = new LoadingScreenViewModel("Waiting for opponent...");
+            this.SwitchWindowContent(loadingScreen);
         }
+
+
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Billapong.GameConsole.ViewModels
 {
-    using Billapong.GameConsole.Models;
+    using Models.Events;
 
     /// <summary>
     /// The game main window view model

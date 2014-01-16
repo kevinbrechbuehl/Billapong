@@ -1,5 +1,8 @@
 ﻿namespace Billapong.GameConsole.Converter.Map
 {
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
     using Models;
 
     /// <summary>
@@ -11,13 +14,32 @@
         /// Converts the map contract to the corresponding entity
         /// </summary>
         /// <param name="contractMap">The contract map.</param>
-        /// <returns>The entity</returns>
+        /// <returns>
+        /// The entity
+        /// </returns>
         public static Map ToEntity(this Contract.Data.Map.Map contractMap)
         {
+           return ToEntity(contractMap, Enumerable.Empty<long>());
+        }
+
+        /// <summary>
+        /// Converts the map contract to the corresponding entity
+        /// </summary>
+        /// <param name="contractMap">The contract map.</param>
+        /// <param name="visibleWindows">The visible windows.</param>
+        /// <returns>
+        /// The entity
+        /// </returns>
+        public static Map ToEntity(this Contract.Data.Map.Map contractMap, IEnumerable<long> visibleWindows)
+        {
             var map = new Map { Id = contractMap.Id, Name = contractMap.Name };
+            var ownedWindows = visibleWindows as long[] ?? visibleWindows.ToArray();
+
             foreach (var contractWindow in contractMap.Windows)
             {
-                map.Windows.Add(ToEntity(contractWindow));
+                var entityWindow = ToEntity(contractWindow);
+                entityWindow.IsOwnWindow = ownedWindows.Contains(entityWindow.Id);
+                map.Windows.Add(entityWindow);
             }
 
             return map;

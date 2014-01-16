@@ -21,6 +21,14 @@
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="GameConsoleServiceClient"/> class.
+        /// </summary>
+        /// <param name="callback">The callback.</param>
+        public GameConsoleServiceClient(IGameConsoleCallback callback) : base(callback)
+        {
+        }
+
+        /// <summary>
         /// Gets the maps.
         /// </summary>
         /// <returns>

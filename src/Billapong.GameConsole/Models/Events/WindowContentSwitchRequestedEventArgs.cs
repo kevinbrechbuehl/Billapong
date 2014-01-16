@@ -1,8 +1,7 @@
-﻿namespace Billapong.GameConsole.Models
+﻿namespace Billapong.GameConsole.Models.Events
 {
     using System;
-
-    using Billapong.GameConsole.ViewModels;
+    using ViewModels;
 
     /// <summary>
     /// The arguments of a WindowContentSwitchRequested event

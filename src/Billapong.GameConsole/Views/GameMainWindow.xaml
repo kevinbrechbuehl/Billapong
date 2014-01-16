@@ -21,6 +21,9 @@
         <DataTemplate DataType="{x:Type viewModel:SettingsViewModel}">
             <view:Settings />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:LoadingScreenViewModel}">
+            <view:LoadingScreen />
+        </DataTemplate>
     </Window.Resources>
     
     <ContentControl Content="{Binding CurrentView}" />
