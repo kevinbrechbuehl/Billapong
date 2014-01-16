@@ -7,6 +7,7 @@
     using System.Threading.Tasks;
     using Contract.Exceptions;
     using Contract.Service;
+    using Converter.Map;
     using DataAccess.Model.Map;
     using DataAccess.Repository;
 
@@ -159,7 +160,7 @@
                 return; 
             }
 
-            player1Callback.StartGame(game.Id, game.Player2Name, game.Player1VisibleWindows, player1Start);
+            player1Callback.StartGame(game.Id, game.Map.ToContract(), game.Player2Name, game.Player1VisibleWindows, player1Start);
 
             // send callback to player 2
             var player2Callback = game.Callbacks.Skip(1).FirstOrDefault();
@@ -170,7 +171,7 @@
                 return;
             }
 
-            player2Callback.StartGame(game.Id, game.Player1Name, game.Player2VisibleWindows, !player1Start);
+            player2Callback.StartGame(game.Id, game.Map.ToContract(), game.Player1Name, game.Player2VisibleWindows, !player1Start);
         }
 
         /// <summary>

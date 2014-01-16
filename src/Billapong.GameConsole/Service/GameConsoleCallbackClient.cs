@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.ServiceModel;
     using System.Windows;
+    using Contract.Data.Map;
     using Contract.Service;
 
     /// <summary>
@@ -12,7 +13,7 @@
     [CallbackBehavior(UseSynchronizationContext = true)]
     public class GameConsoleCallbackClient : IGameConsoleCallback
     {
-        public void StartGame(Guid gameId, string opponentName, IEnumerable<long> visibleWindows, bool startGame)
+        public void StartGame(Guid gameId, Map map, string opponentName, IEnumerable<long> visibleWindows, bool startGame)
         {
             MessageBox.Show(string.Format("Start Game: {0}{1}Opponent Name: {2}{3}Visible Windows:{4}{5}I start the game: {6}",
                 gameId,
