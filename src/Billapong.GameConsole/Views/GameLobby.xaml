@@ -10,9 +10,7 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
     </UserControl.Resources>
     <Grid>
-        <DockPanel LastChildFill="False">
-            <TextBlock DockPanel.Dock="Top" Visibility="{Binding Path=IsDataLoading, Converter={StaticResource BooleanToVisibility}}">Searching for open games...</TextBlock>
-
+        <DockPanel>
             <ListBox ItemsSource="{Binding OpenGames}" SelectedItem="{Binding SelectedLobbyGame, Mode=TwoWay}" DockPanel.Dock="Top">
                 <ListBox.Style>
                     <Style TargetType="ListBox">
@@ -51,6 +49,8 @@
                 <Button Grid.Column="2" Command="{Binding RefreshGamesCommand}" Style="{StaticResource NavigationButton}" Content="Refresh"/>
                 <Button Grid.Column="3" Command="{Binding JoinGameCommand}" Style="{StaticResource NavigationButton}" Content="Join game"/>
             </Grid>
+
+            <TextBlock DockPanel.Dock="Top" Visibility="{Binding Path=IsDataLoading, Converter={StaticResource BooleanToVisibility}}" HorizontalAlignment="Center" VerticalAlignment="Center">Searching for open games...</TextBlock>
         </DockPanel>
     </Grid>
 </UserControl>

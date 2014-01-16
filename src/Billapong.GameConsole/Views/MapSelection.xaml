@@ -9,44 +9,43 @@
             <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
         </UserControl.Resources>
     
-        <DockPanel LastChildFill="False">
-
-            <TextBlock DockPanel.Dock="Top" Visibility="{Binding Path=IsDataLoading, Converter={StaticResource BooleanToVisibility}}">Loading maps...</TextBlock>
-            
-            <ListView ItemsSource="{Binding Maps}" x:Name="MapList" DockPanel.Dock="Top" Height="auto" BorderThickness="0">
-                <ListView.Style>
-                    <Style TargetType="ListView">
-                       <Style.Triggers>
-                           <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding Path=IsDataLoading}" Value="False" />
-                                    <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=HasItems}" Value="False" />
-                                </MultiDataTrigger.Conditions>
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="ListView">
-                                            <TextBlock Text="No maps found"/>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </MultiDataTrigger>
-                       </Style.Triggers>
-                    </Style>
-                </ListView.Style>
+    <DockPanel>
+        <Grid DockPanel.Dock="Bottom">
+            <Button Command="{Binding NavigateBackCommand}" Visibility="{Binding BackButtonVisibility}" HorizontalAlignment="Left" Style="{StaticResource NavigationButton}" Content="{Binding Path=BackButtonContent, FallbackValue=Previous view}"/>
+        </Grid>
+        
+        <ListView ItemsSource="{Binding Maps}" DockPanel.Dock="Top" x:Name="MapList" BorderThickness="0">
+            <ListView.Style>
+                <Style TargetType="ListView">
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=IsDataLoading}" Value="False" />
+                                <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=HasItems}" Value="False" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListView">
+                                        <TextBlock Text="No maps found"/>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.Style>
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
-                        <WrapPanel IsItemsHost="True" Width="480" />
-                    </ItemsPanelTemplate>
-                </ListView.ItemsPanel>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Button Content="{Binding Name}" Command="{Binding ElementName=MapList, Path=DataContext.OpenWindowSelectionCommand}" CommandParameter="{Binding}" Height="60" Width="105" />
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            
-            <Grid DockPanel.Dock="Bottom">
-                <Button Command="{Binding NavigateBackCommand}" Visibility="{Binding BackButtonVisibility}" HorizontalAlignment="Left" Style="{StaticResource NavigationButton}" Content="{Binding Path=BackButtonContent, FallbackValue=Previous view}"/>
-            </Grid>
-        </DockPanel>
+                    <WrapPanel IsItemsHost="True" Width="480" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Button Content="{Binding Name}" Command="{Binding ElementName=MapList, Path=DataContext.OpenWindowSelectionCommand}" CommandParameter="{Binding}" Height="60" Width="105" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <TextBlock Visibility="{Binding Path=IsDataLoading, Converter={StaticResource BooleanToVisibility}}" HorizontalAlignment="Center" VerticalAlignment="Center">Loading maps...</TextBlock>
+    </DockPanel>
 </UserControl>
