@@ -149,7 +149,7 @@
             }
             catch (FaultException<GameNotOpenException> ex)
             {
-                MessageBox.Show("Game already opened!" + ex.Detail.ErrorMessage, "Error");
+                MessageBox.Show("Game already opened!" + ex.Detail.Message, "Error");
             }
         }
 

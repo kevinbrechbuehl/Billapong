@@ -78,6 +78,12 @@
             GameController.Current.JoinGame(gameId, username, this.GetCallback());
         }
 
+        public void CancelGame(Guid gameId)
+        {
+            // todo (keb): implement
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Gets the callback.
         /// </summary>

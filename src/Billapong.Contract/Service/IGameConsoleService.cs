@@ -55,5 +55,12 @@
         [FaultContract(typeof(GameNotOpenException))]
         [FaultContract(typeof(GameNotFoundException))]
         void JoinGame(Guid gameId, string username);
+
+        /// <summary>
+        /// Cancels a game.
+        /// </summary>
+        /// <param name="gameId">The game identifier.</param>
+        [OperationContract(Name = "CancelGame")]
+        void CancelGame(Guid gameId);
     }
 }
