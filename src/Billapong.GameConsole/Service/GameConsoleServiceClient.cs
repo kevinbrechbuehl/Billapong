@@ -94,6 +94,15 @@
         }
 
         /// <summary>
+        /// Cancels a game.
+        /// </summary>
+        /// <param name="gameId">The game identifier.</param>
+        public void CancelGame(Guid gameId)
+        {
+            this.Execute(() => this.Proxy.CancelGame(gameId));
+        }
+
+        /// <summary>
         /// Gets the maps asynchronous.
         /// </summary>
         /// <returns>The maps.</returns>

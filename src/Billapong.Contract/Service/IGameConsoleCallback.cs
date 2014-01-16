@@ -27,5 +27,12 @@
         /// <param name="gameId">The game identifier.</param>
         [OperationContract(Name = "GameError")]
         void GameError(Guid gameId);
+
+        /// <summary>
+        /// Cancels the game.
+        /// </summary>
+        /// <param name="gameId">The game identifier.</param>
+        [OperationContract(Name = "CancelGame")]
+        void CancelGame(Guid gameId);
     }
 }

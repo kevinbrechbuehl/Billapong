@@ -33,5 +33,10 @@
         {
             MessageBox.Show("Upps something went wrong, need to cancel the game...");
         }
+
+        public void CancelGame(Guid gameId)
+        {
+            MessageBox.Show("Someone/-thing has canceled the game...");
+        }
     }
 }
