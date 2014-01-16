@@ -6,6 +6,8 @@
     using System.Windows;
     using Contract.Data.Map;
     using Contract.Service;
+    using Converter.Map;
+    using Models.Events;
 
     /// <summary>
     /// The callback client for the game console service
@@ -13,16 +15,18 @@
     [CallbackBehavior(UseSynchronizationContext = true)]
     public class GameConsoleCallbackClient : IGameConsoleCallback
     {
+        /// <summary>
+        /// Occurs when the game starts.
+        /// </summary>
+        public event EventHandler<GameStartedEventArgs> GameStarted = delegate { };
+
         public void StartGame(Guid gameId, Map map, string opponentName, IEnumerable<long> visibleWindows, bool startGame)
         {
-            MessageBox.Show(string.Format("Start Game: {0}{1}Opponent Name: {2}{3}Visible Windows:{4}{5}I start the game: {6}",
-                gameId,
-                Environment.NewLine,
-                opponentName,
-                Environment.NewLine,
-                string.Join(", ", visibleWindows),
-                Environment.NewLine,
-                startGame));
+            if (this.GameStarted != null)
+            {
+                var args = new GameStartedEventArgs(gameId, map.ToEntity(visibleWindows), opponentName, startGame);
+                this.GameStarted(this, args);
+            }
         }
 
         public void GameError(Guid gameId)

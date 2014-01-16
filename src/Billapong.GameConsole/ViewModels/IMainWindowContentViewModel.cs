@@ -2,6 +2,7 @@
 {
     using System;
     using Billapong.GameConsole.Models;
+    using Models.Events;
 
     /// <summary>
     /// Interface for all view models that represents some controls within the main window

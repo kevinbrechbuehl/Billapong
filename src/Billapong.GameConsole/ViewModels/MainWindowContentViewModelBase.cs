@@ -2,7 +2,7 @@
 {
     using System;
     using System.Windows;
-    using Models;
+    using Models.Events;
 
     /// <summary>
     /// Provides some basic properties and methods for the main window content view models
@@ -89,18 +89,6 @@
         }
 
         /// <summary>
-        /// Raises the <see cref="E:WindowContentSwitchRequested" /> event.
-        /// </summary>
-        /// <param name="e">The <see cref="WindowContentSwitchRequestedEventArgs"/> instance containing the event data.</param>
-        protected void OnWindowContentSwitchRequested(WindowContentSwitchRequestedEventArgs e)
-        {
-            if (this.WindowContentSwitchRequested != null)
-            {
-                this.WindowContentSwitchRequested(this, e);
-            }
-        }
-
-        /// <summary>
         /// Navigates back to the preview view
         /// </summary>
         /// <param name="properties">The properties.</param>
@@ -109,6 +97,18 @@
             if (this.PreviousViewModel != null)
             {
                 this.SwitchWindowContent(this.PreviousViewModel);
+            }
+        }
+
+        /// <summary>
+        /// Raises the <see cref="E:WindowContentSwitchRequested" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="WindowContentSwitchRequestedEventArgs"/> instance containing the event data.</param>
+        private void OnWindowContentSwitchRequested(WindowContentSwitchRequestedEventArgs e)
+        {
+            if (this.WindowContentSwitchRequested != null)
+            {
+                this.WindowContentSwitchRequested(this, e);
             }
         }
     }

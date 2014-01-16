@@ -56,14 +56,17 @@
     </ApplicationDefinition>
     <Compile Include="Configuration\GameConfiguration.cs" />
     <Compile Include="Converter\Map\MapConverter.cs" />
+    <Compile Include="Game\GameManager.cs" />
+    <Compile Include="Models\Events\GameStartedEventArgs.cs" />
     <Compile Include="Models\Hole.cs" />
     <Compile Include="Models\Map.cs" />
     <Compile Include="Models\Window.cs" />
-    <Compile Include="Models\WindowContentSwitchRequestedEventArgs.cs" />
+    <Compile Include="Models\Events\WindowContentSwitchRequestedEventArgs.cs" />
     <Compile Include="Service\GameConsoleCallbackClient.cs" />
     <Compile Include="ViewModels\GameLobbyViewModel.cs" />
     <Compile Include="ViewModels\GameMainWindowViewModel.cs" />
     <Compile Include="ViewModels\IMainWindowContentViewModel.cs" />
+    <Compile Include="ViewModels\LoadingScreenViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\WindowSelection\MpWindowSelectionViewModel.cs" />
     <Compile Include="ViewModels\WindowSelection\SpTrainingWindowSelectionViewModel.cs" />
@@ -75,6 +78,9 @@
     <Compile Include="ViewModels\WindowSelection\WindowSelectionViewModelFactory.cs" />
     <Compile Include="Views\GameLobby.xaml.cs">
       <DependentUpon>GameLobby.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LoadingScreen.xaml.cs">
+      <DependentUpon>LoadingScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
@@ -118,6 +124,10 @@
     <Compile Include="Views\GameWindow.xaml.cs">
       <DependentUpon>GameWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\LoadingScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Settings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

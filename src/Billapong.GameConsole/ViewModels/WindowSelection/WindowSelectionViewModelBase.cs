@@ -1,5 +1,7 @@
 ﻿namespace Billapong.GameConsole.ViewModels.WindowSelection
 {
+
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using Models;
@@ -25,10 +27,10 @@
             this.WindowWidth = 500;
             this.BackButtonContent = "Back to map selection";
             this.Map = map;
-            this.Windows = new ObservableCollection<Window>();
-            foreach (var window in map.Windows)
+            this.WindowRows = new ObservableCollection<KeyValuePair<int, IEnumerable<Window>>>();
+            foreach (var row in map.Rows)
             {
-                this.Windows.Add(window);
+                this.WindowRows.Add(row);
             }
         }
 
@@ -66,7 +68,7 @@
         /// <value>
         /// The windows.
         /// </value>
-        public ObservableCollection<Window> Windows { get; private set; }
+        public ObservableCollection<KeyValuePair<int, IEnumerable<Window>>> WindowRows { get; private set; }
 
         /// <summary>
         /// Gets the map.
@@ -102,7 +104,7 @@
         /// <returns>The check result</returns>
         protected virtual bool CanStartGame(object properties)
         {
-            return this.Windows.Any(x => x.IsVisible);
+            return this.WindowRows.Any(x => x.Value.Any(w => w.IsVisible));
         }
     }
 }

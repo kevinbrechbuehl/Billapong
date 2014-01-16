@@ -1,11 +1,15 @@
 ﻿namespace Billapong.GameConsole.ViewModels
 {
+    using System;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using System.ServiceModel;
+    using System.ServiceModel.Channels;
     using System.Windows;
     using System.Windows.Navigation;
     using Billapong.Contract.Data.GamePlay;
     using Billapong.GameConsole.Service;
+    using Contract.Exceptions;
 
     /// <summary>
     /// The game lobby view model
@@ -16,6 +20,11 @@
         /// The proxy
         /// </summary>
         private readonly GameConsoleServiceClient proxy;
+
+        /// <summary>
+        /// The callback client
+        /// </summary>
+        private readonly GameConsoleCallbackClient callbackClient;
 
         /// <summary>
         /// The selected lobby game
@@ -74,7 +83,8 @@
             this.BackButtonContent = "Back to menu";
             this.OpenGames = new ObservableCollection<LobbyGame>();
 
-            this.proxy = new GameConsoleServiceClient();
+            this.callbackClient = new GameConsoleCallbackClient();
+            this.proxy = new GameConsoleServiceClient(callbackClient);
             this.LoadOpenGames();
         }
 
@@ -90,7 +100,7 @@
             {
                 if (this.joinGameCommand == null)
                 {
-                    this.JoinGameCommand = new DelegateCommand(this.JoinGame, delegate(object o) { return this.SelectedLobbyGame != null; } );
+                    this.JoinGameCommand = new DelegateCommand(this.JoinGame, o => this.SelectedLobbyGame != null);
                 }
 
                 return this.joinGameCommand;
@@ -130,7 +140,17 @@
         /// <param name="properties">The properties.</param>
         private void JoinGame(object properties)
         {
-            this.proxy.JoinGame(this.SelectedLobbyGame.Id, Properties.Settings.Default.PlayerName);
+            try
+            {
+                callbackClient.GameStarted += (sender, args) => MessageBox.Show("Started as opponent");
+                this.proxy.JoinGame(this.SelectedLobbyGame.Id, Properties.Settings.Default.PlayerName);
+                var loadingScreen = new LoadingScreenViewModel("Joining game. Please wait...");
+                this.SwitchWindowContent(loadingScreen);
+            }
+            catch (FaultException<GameNotOpenException> ex)
+            {
+                MessageBox.Show("Game already opened!" + ex.Detail.ErrorMessage, "Error");
+            }
         }
 
         /// <summary>

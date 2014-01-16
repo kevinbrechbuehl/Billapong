@@ -3,21 +3,28 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:models="clr-namespace:Billapong.GameConsole.Models"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <DockPanel LastChildFill="False">  
-        <ListView ItemsSource="{Binding Windows}" x:Name="WindowList" DockPanel.Dock="Top" Height="auto" BorderThickness="0">
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel IsItemsHost="True" Width="480" />
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-            <ListView.ItemTemplate>
+             d:DesignHeight="300" d:DesignWidth="300" Name="WindowSelectionUserControl">
+    <DockPanel LastChildFill="False">
+        <ItemsControl ItemsSource="{Binding WindowRows}" DockPanel.Dock="Top">
+            <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <ToggleButton Content="{Binding DisplayName}" Command="{Binding ElementName=WindowList, Path=DataContext.ToggleWindowButtonCommand}" IsChecked="{Binding IsVisible}"  Height="60" Width="105" />
+                    <ItemsControl ItemsSource="{Binding Value}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <ToggleButton Content="{Binding DisplayName}" Command="{Binding ElementName=WindowSelectionUserControl, Path=DataContext.ToggleWindowButtonCommand}" IsChecked="{Binding IsVisible}"  Height="60" Width="105" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
 
         <Grid DockPanel.Dock="Bottom">
             <Grid.ColumnDefinitions>
