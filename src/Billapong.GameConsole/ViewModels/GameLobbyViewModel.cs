@@ -1,15 +1,11 @@
 ﻿namespace Billapong.GameConsole.ViewModels
 {
-    using System;
     using System.Collections.ObjectModel;
-    using System.Linq;
     using System.ServiceModel;
-    using System.ServiceModel.Channels;
     using System.Windows;
-    using System.Windows.Navigation;
-    using Billapong.Contract.Data.GamePlay;
-    using Billapong.GameConsole.Service;
+    using Contract.Data.GamePlay;
     using Contract.Exceptions;
+    using Service;
 
     /// <summary>
     /// The game lobby view model
@@ -142,14 +138,14 @@
         {
             try
             {
-                callbackClient.GameStarted += (sender, args) => MessageBox.Show("Started as opponent");
-                this.proxy.JoinGame(this.SelectedLobbyGame.Id, Properties.Settings.Default.PlayerName);
                 var loadingScreen = new LoadingScreenViewModel("Joining game. Please wait...");
+                callbackClient.GameStarted += loadingScreen.StartGame;
+                this.proxy.JoinGame(this.SelectedLobbyGame.Id, Properties.Settings.Default.PlayerName);
                 this.SwitchWindowContent(loadingScreen);
             }
             catch (FaultException<GameNotOpenException> ex)
             {
-                MessageBox.Show("Game already opened!" + ex.Detail.ErrorMessage, "Error");
+                MessageBox.Show("Game already opened!" + ex.Detail.Message, "Error");
             }
         }
 

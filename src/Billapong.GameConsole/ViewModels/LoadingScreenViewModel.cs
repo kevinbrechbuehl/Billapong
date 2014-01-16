@@ -1,6 +1,9 @@
 ﻿namespace Billapong.GameConsole.ViewModels
 {
     using System.Windows;
+    using Game;
+    using Models;
+    using Models.Events;
     using Service;
 
     /// <summary>
@@ -31,6 +34,14 @@
             this.BackButtonContent = "Cancel";
 
             this.isGameOwner = isGameOwner;
+        }
+
+        public void StartGame(object sender, GameStartedEventArgs args)
+        {
+            var game = new Game();
+            game.Init(args.GameId, args.Map, args.Opponent, args.StartGame);
+
+            GameManager.Instance.StartGame(game);
         }
 
         protected override void NavigateBack(object properties)

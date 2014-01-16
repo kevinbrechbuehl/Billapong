@@ -18,7 +18,7 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <ToggleButton Content="{Binding DisplayName}" Command="{Binding ElementName=WindowSelectionUserControl, Path=DataContext.ToggleWindowButtonCommand}" IsChecked="{Binding IsVisible}"  Height="60" Width="105" />
+                                <ToggleButton Content="{Binding DisplayName}" Command="{Binding ElementName=WindowSelectionUserControl, Path=DataContext.ToggleWindowButtonCommand}" IsChecked="{Binding IsOwnWindow}"  Height="60" Width="105" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>

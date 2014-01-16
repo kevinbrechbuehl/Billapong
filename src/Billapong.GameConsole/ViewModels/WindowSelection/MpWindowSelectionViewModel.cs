@@ -25,13 +25,13 @@
         /// <param name="properties">The properties.</param>
         protected override void StartGame(object properties)
         {
+            var loadingScreen = new LoadingScreenViewModel("Waiting for opponent...");
             var callbackClient = new GameConsoleCallbackClient();
-            callbackClient.GameStarted += (sender, args) => MessageBox.Show("Started as initiator");
+            callbackClient.GameStarted += loadingScreen.StartGame;
 
             var client = new GameConsoleServiceClient(callbackClient);
-            var gameId = client.OpenGame(this.Map.Id, new[] { this.Map.Windows.First().Id }, Properties.Settings.Default.PlayerName);
+            var gameId = client.OpenGame(this.Map.Id, this.Map.Windows.Where(window => window.IsOwnWindow).Select(window => window.Id), Properties.Settings.Default.PlayerName);
 
-            var loadingScreen = new LoadingScreenViewModel("Waiting for opponent...");
             this.SwitchWindowContent(loadingScreen);
         }
 

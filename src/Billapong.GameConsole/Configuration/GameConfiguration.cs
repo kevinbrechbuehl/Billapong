@@ -3,7 +3,7 @@
     /// <summary>
     /// The game configuration
     /// </summary>
-    public class GameConfiguration
+    public static class GameConfiguration
     {
         /// <summary>
         /// The game types
@@ -25,5 +25,13 @@
             /// </summary>
             MultiPlayerGame
         }
+
+        public const int GameWindowWidth = 300;
+
+        public const int GameWindowHeight = 300;
+
+        public const int MaxNumberOfHorizontalGameWindows = 4;
+
+        public const int MaxNumberOfVerticalWindows = 3;
     }
 }

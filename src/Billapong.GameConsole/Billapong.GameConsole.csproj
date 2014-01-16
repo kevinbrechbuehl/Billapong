@@ -57,7 +57,9 @@
     <Compile Include="Configuration\GameConfiguration.cs" />
     <Compile Include="Converter\Map\MapConverter.cs" />
     <Compile Include="Game\GameManager.cs" />
+    <Compile Include="ViewModels\GameWindowViewModel.cs" />
     <Compile Include="Models\Events\GameStartedEventArgs.cs" />
+    <Compile Include="Models\Game.cs" />
     <Compile Include="Models\Hole.cs" />
     <Compile Include="Models\Map.cs" />
     <Compile Include="Models\Window.cs" />

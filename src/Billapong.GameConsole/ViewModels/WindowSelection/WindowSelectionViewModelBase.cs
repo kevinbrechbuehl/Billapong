@@ -104,7 +104,7 @@
         /// <returns>The check result</returns>
         protected virtual bool CanStartGame(object properties)
         {
-            return this.WindowRows.Any(x => x.Value.Any(w => w.IsVisible));
+            return this.WindowRows.Any(x => x.Value.Any(w => w.IsOwnWindow));
         }
     }
 }

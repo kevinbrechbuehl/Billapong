@@ -1,6 +1,5 @@
 ﻿namespace Billapong.GameConsole.Converter.Map
 {
-    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using Models;
