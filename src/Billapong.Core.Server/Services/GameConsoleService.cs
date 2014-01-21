@@ -78,10 +78,13 @@
             GameController.Current.JoinGame(gameId, username, this.GetCallback());
         }
 
+        /// <summary>
+        /// Cancels a game.
+        /// </summary>
+        /// <param name="gameId">The game identifier.</param>
         public void CancelGame(Guid gameId)
         {
-            // todo (keb): implement
-            throw new NotImplementedException();
+            GameController.Current.CancelGame(gameId);
         }
 
         /// <summary>
