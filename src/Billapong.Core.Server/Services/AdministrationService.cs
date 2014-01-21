@@ -26,5 +26,14 @@
             // todo (kevin): This should only be possible if administrator role is authenticated
             return Logger.Current.GetLogMessages(logListener.LogLevel, logListener.Component, logListener.NumberOfMessages).Select(message => message.ToContract()).ToList();
         }
+
+        /// <summary>
+        /// Clears the log.
+        /// </summary>
+        public void ClearLog()
+        {
+            // todo (kevin): This should only be possible if administrator role is authenticated
+            Logger.Current.ClearLog();
+        }
     }
 }

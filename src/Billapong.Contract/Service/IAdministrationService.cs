@@ -17,5 +17,11 @@
         /// <returns>Log messages based on the listener configuration</returns>
         [OperationContract(Name = "GetLogMessages")]
         IEnumerable<LogMessage> GetLogMessages(LogListener logListener);
+
+        /// <summary>
+        /// Clears the log.
+        /// </summary>
+        [OperationContract(Name = "ClearLog")]
+        void ClearLog();
     }
 }

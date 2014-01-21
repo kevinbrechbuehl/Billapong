@@ -120,6 +120,9 @@
   <data name="All" xml:space="preserve">
     <value>All</value>
   </data>
+  <data name="ClearLog" xml:space="preserve">
+    <value>Clear Log</value>
+  </data>
   <data name="Component" xml:space="preserve">
     <value>Component</value>
   </data>

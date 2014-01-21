@@ -70,6 +70,15 @@ namespace Billapong.Administration.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clear Log.
+        /// </summary>
+        public static string ClearLog {
+            get {
+                return ResourceManager.GetString("ClearLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Component.
         /// </summary>
         public static string Component {

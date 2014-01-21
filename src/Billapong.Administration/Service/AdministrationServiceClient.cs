@@ -21,5 +21,13 @@
         {
             return this.Execute(() => this.Proxy.GetLogMessages(logListener));
         }
+
+        /// <summary>
+        /// Clears the log.
+        /// </summary>
+        public void ClearLog()
+        {
+            this.Execute(() => this.Proxy.ClearLog());
+        }
     }
 }

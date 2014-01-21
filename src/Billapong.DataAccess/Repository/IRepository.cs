@@ -30,6 +30,11 @@
         void Remove(TEntity entityToDelete);
 
         /// <summary>
+        /// Removes all entities in the database.
+        /// </summary>
+        void RemoveAll();
+
+        /// <summary>
         /// Updates the specified entity.
         /// </summary>
         /// <param name="entityToUpdate">The entity to update.</param>

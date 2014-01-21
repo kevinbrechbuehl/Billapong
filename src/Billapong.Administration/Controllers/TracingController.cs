@@ -3,6 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net;
+    using System.Web;
     using System.Web.Mvc;
     using Contract.Data.Tracing;
     using Core.Client.Tracing;
@@ -63,6 +65,26 @@
                 LogLevel = logLevel,
                 NumberOfMessages = numberOfEntries
             }));
+        }
+
+        /// <summary>
+        /// Clears this instance.
+        /// </summary>
+        /// <returns>Http status code for the result.</returns>
+        public ActionResult Clear()
+        {
+            try
+            {
+                var proxy = new AdministrationServiceClient();
+                proxy.ClearLog();
+                return new HttpStatusCodeResult(HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                Tracer.Error("Error while clearing log", ex);
+            }
+            
+            return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
         }
     }
 }
