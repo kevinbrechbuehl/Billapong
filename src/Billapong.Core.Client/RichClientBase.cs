@@ -1,6 +1,7 @@
 ﻿namespace Billapong.Core.Client
 {
     using System;
+    using System.Diagnostics;
     using System.ServiceModel;
     using System.ServiceModel.Channels;
     using System.Threading.Tasks;
@@ -30,9 +31,9 @@
                 this.ValidateProxy();
                 delegatedAction();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // todo: handle this error -> i.e. when host is not running
+                Trace.TraceError(string.Format("Error while executing WCF request: {0}{1}", ex.Message, ex.StackTrace));
                 throw;
             }
         }
@@ -50,9 +51,9 @@
                 this.ValidateProxy();
                 return delegatedFunction();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // todo: handle this error -> i.e. when host is not running
+                Trace.TraceError(string.Format("Error while executing WCF request: {0}{1}", ex.Message, ex.StackTrace));
                 throw;
             }
         }
