@@ -67,7 +67,6 @@
         /// <param name="username">The username.</param>
         /// <param name="callback">The callback.</param>
         /// <returns>The id (guid) of the new game</returns>
-        /// <exception cref="MapNotFoundException">Map was not found on the server</exception>
         public Guid OpenGame(long mapId, IEnumerable<long> visibleWindows, string username, IGameConsoleCallback callback)
         {
             // load the map
@@ -111,8 +110,6 @@
         /// <param name="gameId">The game identifier.</param>
         /// <param name="username">The username.</param>
         /// <param name="callback">The callback.</param>
-        /// <exception cref="GameNotFoundException">The game was not found on the server</exception>
-        /// <exception cref="GameNotOpenException">The game is not open</exception>
         public void JoinGame(Guid gameId, string username, IGameConsoleCallback callback)
         {
             Game game = null;
@@ -134,14 +131,35 @@
 
             game.Player2Name = username;
             game.Callbacks.Add(callback);
-            Task.Run(() => this.StartGame(game));
+            Task.Run(() => this.StartGameCallback(game));
+        }
+
+        /// <summary>
+        /// Cancels the game with a specific id.
+        /// </summary>
+        /// <param name="gameId">The game identifier.</param>
+        public void CancelGame(Guid gameId)
+        {
+            Game game = null;
+            lock (LockObject)
+            {
+                if (!this.games.ContainsKey(gameId))
+                {
+                    throw new FaultException<GameNotFoundException>(new GameNotFoundException(gameId), "Game not found");
+                }
+
+                game = this.games[gameId];
+                game.Status = GameStatus.Canceled;
+            }
+
+            Task.Run(() => this.CancelGameCallback(game));
         }
 
         /// <summary>
         /// Starts the game and send a callback to both players that the game now starts.
         /// </summary>
         /// <param name="game">The game.</param>
-        private void StartGame(Game game)
+        private void StartGameCallback(Game game)
         {
             // evaluate if player one would start
             var player1Start = (new Random()).Next(0, 2) == 0;
@@ -175,6 +193,38 @@
         }
 
         /// <summary>
+        /// Cancels the game with sending callback to all clients and removing the game at the end.
+        /// </summary>
+        /// <param name="game">The game.</param>
+        private void CancelGameCallback(Game game)
+        {
+            // send callback to player 1
+            var player1Callback = game.Callbacks.FirstOrDefault();
+            if (player1Callback == null || ((ICommunicationObject)player1Callback).State != CommunicationState.Opened)
+            {
+                game.Callbacks.Remove(player1Callback);
+                this.HandleGameError(game);
+                return;
+            }
+
+            player1Callback.CancelGame(game.Id);
+
+            // send callback to player 2
+            var player2Callback = game.Callbacks.Skip(1).FirstOrDefault();
+            if (player2Callback == null || ((ICommunicationObject)player2Callback).State != CommunicationState.Opened)
+            {
+                game.Callbacks.Remove(player2Callback);
+                this.HandleGameError(game);
+                return;
+            }
+
+            player2Callback.CancelGame(game.Id);
+
+            // remove the game from collection
+            this.RemoveGame(game.Id);
+        }
+
+        /// <summary>
         /// Handles a game error and sends a callback to all still connected clients.
         /// </summary>
         /// <param name="game">The game.</param>
@@ -187,6 +237,21 @@
                 {
                     callback.GameError(game.Id);
                 }
+            }
+
+            // remote the game from collection
+            this.RemoveGame(game.Id);
+        }
+
+        /// <summary>
+        /// Removes the game from the game collection.
+        /// </summary>
+        /// <param name="gameId">The game identifier.</param>
+        private void RemoveGame(Guid gameId)
+        {
+            lock (LockObject)
+            {
+                this.games.Remove(gameId);
             }
         }
 
