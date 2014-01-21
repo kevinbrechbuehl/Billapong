@@ -2,6 +2,7 @@
 {
     using System.Linq;
     using System.Windows;
+    using System.Windows.Media;
     using ViewModels;
     using Views;
     using Game = Models.Game;
@@ -42,7 +43,6 @@
         /// <param name="game">The game.</param>
         public void StartGame(Game game)
         {
-            MessageBox.Show("Starting game " + game.StartGame);
             this.currentGame = game;
             this.OpenGameField();
         }
@@ -52,30 +52,37 @@
         /// </summary>
         private void OpenGameField()
         {
-            var maxWindowRow = this.currentGame.Map.Windows.Where(window => window.IsOwnWindow).Max(window => window.X);
-            var maxWindowCol = this.currentGame.Map.Windows.Where(window => window.IsOwnWindow).Max(window => window.Y);
+            const int windowBorderOffset = 16;
 
-            // Todo (mathp2): Die Höhe und Breite des Spielfeldes muss in das initiale offset des obersten linken Fenster fliessen
+            double maxWindowRow = this.currentGame.Map.Windows.Max(window => window.X);
+            double maxWindowCol = this.currentGame.Map.Windows.Max(window => window.Y);
+
             var gameFieldHeight = (maxWindowRow+1)*Configuration.GameConfiguration.GameWindowHeight;
             var gameFieldWidth = (maxWindowCol+1)*Configuration.GameConfiguration.GameWindowWidth;
 
-            var verticalOffset = 100;
-            const int windowBorderOffset = 12;
+            var initialVerticalOffset = (SystemParameters.PrimaryScreenHeight/2) - (gameFieldHeight/2) - ((maxWindowRow * windowBorderOffset) / 2);
+            var initialHorizontalOffset = (SystemParameters.PrimaryScreenWidth / 2) - (gameFieldWidth / 2) - ((maxWindowCol * windowBorderOffset) / 2);
+
+            var verticalOffset = initialVerticalOffset;
 
             for (var currentRow = 0; currentRow <= maxWindowRow; currentRow++)
             {
-                var horizontalOffset = 100;
-                var windowsInRow = this.currentGame.Map.Windows.Where(window => window.X == currentRow).Where(window => window.IsOwnWindow).OrderBy(window => window.Y).ToList();
+                var horizontalOffset = initialHorizontalOffset;
+                var windowsInRow = this.currentGame.Map.Windows.Where(window => window.X == currentRow).OrderBy(window => window.Y).ToList();
 
                 for (var currentCol = 0; currentCol <= maxWindowCol; currentCol++)
                 {
-                    var currentWindow = windowsInRow.FirstOrDefault(window => window.Y == currentCol);
+                    var currentWindow = windowsInRow.FirstOrDefault(window => window.Y == currentCol && window.IsOwnWindow);
                     if (currentWindow != null)
                     {
                         var gameWindow = new GameWindow();
                         gameWindow.Top = verticalOffset;
                         gameWindow.Left = horizontalOffset;
+                        
+                        // Todo (mathp2): Remove client color separation somewhen in the future
                         gameWindow.WindowStyle = WindowStyle.None;
+                        gameWindow.BorderBrush = new SolidColorBrush(this.currentGame.StartGame ? Colors.Red : Colors.Blue);
+                        gameWindow.BorderThickness = new Thickness(2, 2, 2, 2);
 
                         var gameWindowViewModel = new GameWindowViewModel();
                         gameWindow.DataContext = gameWindowViewModel;
