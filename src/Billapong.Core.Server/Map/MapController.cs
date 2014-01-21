@@ -52,9 +52,13 @@
         /// </returns>
         public IEnumerable<Map> GetMaps(bool onlyPlayable = false)
         {
-            // todo: handle onlyPlayable parameter
-            
-            return this.repository.Get(includeProperties: "Windows, Windows.Holes").ToList();
+            var maps = this.repository.Get(includeProperties: "Windows, Windows.Holes");
+            if (onlyPlayable)
+            {
+                maps = maps.Where(map => map.IsPlayable);
+            }
+    
+            return maps.ToList();
         }
 
         /// <summary>
@@ -65,9 +69,13 @@
         /// <returns>Map object from the database</returns>
         public Map GetMapById(long id, bool onlyPlayable = false)
         {
-            // todo: handle onlyPlayable parameter
-
-            return this.repository.Get(filter: map => map.Id == id, includeProperties: "Windows, Windows.Holes").FirstOrDefault();
+            var maps = this.repository.Get(filter: map => map.Id == id, includeProperties: "Windows, Windows.Holes");
+            if (onlyPlayable)
+            {
+                maps = maps.Where(map => map.IsPlayable);
+            }
+            
+            return maps.FirstOrDefault();
         }
     }
 }
