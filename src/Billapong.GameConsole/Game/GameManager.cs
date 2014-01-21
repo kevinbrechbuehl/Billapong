@@ -42,6 +42,7 @@
         /// <param name="game">The game.</param>
         public void StartGame(Game game)
         {
+            MessageBox.Show("Starting game " + game.StartGame);
             this.currentGame = game;
             this.OpenGameField();
         }
