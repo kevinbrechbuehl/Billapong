@@ -23,6 +23,16 @@
         }
 
         /// <summary>
+        /// Raises the <see cref="E:System.Windows.Application.Exit" /> event.
+        /// </summary>
+        /// <param name="e">An <see cref="T:System.Windows.ExitEventArgs" /> that contains the event data.</param>
+        protected override void OnExit(ExitEventArgs e)
+        {
+            Tracer.Shutdown();
+            base.OnExit(e);
+        }
+
+        /// <summary>
         /// Handles the DispatcherUnhandledException event of the App control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
