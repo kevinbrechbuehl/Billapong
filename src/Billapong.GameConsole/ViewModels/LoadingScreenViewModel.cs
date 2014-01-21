@@ -4,7 +4,6 @@
     using Game;
     using Models;
     using Models.Events;
-    using Service;
 
     /// <summary>
     /// The loading screen view model

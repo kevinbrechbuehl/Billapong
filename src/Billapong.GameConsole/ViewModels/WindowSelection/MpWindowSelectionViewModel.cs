@@ -26,10 +26,10 @@
         protected override void StartGame(object properties)
         {
             var loadingScreen = new LoadingScreenViewModel("Waiting for opponent...");
-            var callbackClient = new GameConsoleCallbackClient();
-            callbackClient.GameStarted += loadingScreen.StartGame;
+            var callback = new GameConsoleCallback();
+            callback.GameStarted += loadingScreen.StartGame;
 
-            var client = new GameConsoleServiceClient(callbackClient);
+            var client = new GameConsoleServiceClient(callback);
             var gameId = client.OpenGame(this.Map.Id, this.Map.Windows.Where(window => window.IsOwnWindow).Select(window => window.Id), Properties.Settings.Default.PlayerName);
 
             this.SwitchWindowContent(loadingScreen);

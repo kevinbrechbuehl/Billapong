@@ -13,7 +13,7 @@
     /// The callback client for the game console service
     /// </summary>
     [CallbackBehavior(UseSynchronizationContext = true)]
-    public class GameConsoleCallbackClient : IGameConsoleCallback
+    public class GameConsoleCallback : IGameConsoleCallback
     {
         /// <summary>
         /// Occurs when the game starts.

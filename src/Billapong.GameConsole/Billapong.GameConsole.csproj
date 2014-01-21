@@ -64,7 +64,7 @@
     <Compile Include="Models\Map.cs" />
     <Compile Include="Models\Window.cs" />
     <Compile Include="Models\Events\WindowContentSwitchRequestedEventArgs.cs" />
-    <Compile Include="Service\GameConsoleCallbackClient.cs" />
+    <Compile Include="Service\GameConsoleCallback.cs" />
     <Compile Include="ViewModels\GameLobbyViewModel.cs" />
     <Compile Include="ViewModels\GameMainWindowViewModel.cs" />
     <Compile Include="ViewModels\IMainWindowContentViewModel.cs" />

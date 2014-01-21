@@ -16,7 +16,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="GameConsoleServiceClient"/> class.
         /// </summary>
-        public GameConsoleServiceClient() : base(new GameConsoleCallbackClient())
+        public GameConsoleServiceClient() : base(new GameConsoleCallback())
         {
         }
 

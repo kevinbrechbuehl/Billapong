@@ -20,7 +20,7 @@
         /// <summary>
         /// The callback client
         /// </summary>
-        private readonly GameConsoleCallbackClient callbackClient;
+        private readonly GameConsoleCallback callback;
 
         /// <summary>
         /// The selected lobby game
@@ -79,8 +79,8 @@
             this.BackButtonContent = "Back to menu";
             this.OpenGames = new ObservableCollection<LobbyGame>();
 
-            this.callbackClient = new GameConsoleCallbackClient();
-            this.proxy = new GameConsoleServiceClient(callbackClient);
+            this.callback = new GameConsoleCallback();
+            this.proxy = new GameConsoleServiceClient(callback);
             this.LoadOpenGames();
         }
 
@@ -139,7 +139,7 @@
             try
             {
                 var loadingScreen = new LoadingScreenViewModel("Joining game. Please wait...");
-                callbackClient.GameStarted += loadingScreen.StartGame;
+                callback.GameStarted += loadingScreen.StartGame;
                 this.proxy.JoinGame(this.SelectedLobbyGame.Id, Properties.Settings.Default.PlayerName);
                 this.SwitchWindowContent(loadingScreen);
             }
