@@ -26,7 +26,7 @@
         /// </returns>
         public IEnumerable<LogMessage> GetLogMessages(LogListener logListener)
         {
-            // todo (kevin): This should only be possible if administrator role is authenticated
+            // todo (breck1): This should only be possible if administrator role is authenticated
             return Logger.Current.GetLogMessages(logListener.LogLevel, logListener.Component, logListener.NumberOfMessages).Select(message => message.ToContract()).ToList();
         }
 
@@ -35,7 +35,7 @@
         /// </summary>
         public void ClearLog()
         {
-            // todo (kevin): This should only be possible if administrator role is authenticated
+            // todo (breck1): This should only be possible if administrator role is authenticated
             Logger.Current.ClearLog();
         }
 
@@ -45,7 +45,7 @@
         /// <returns>All current available games on the server</returns>
         public IEnumerable<Game> GetGames()
         {
-            // todo (kevin): This should only be possible if administrator role is authenticated
+            // todo (breck1): This should only be possible if administrator role is authenticated
             return GameController.Current.GetAllGames().Select(game => game.ToContract());
         }
     }
