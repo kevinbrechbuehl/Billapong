@@ -2,6 +2,11 @@
 
 $(document).ready(function () {
     
+    $("#refreshgames").click(function (e) {
+        e.preventDefault();
+        refreshGames();
+    });
+
     $("#refreshlogentries").click(function (e) {
         e.preventDefault();
         refreshLogEntries();
@@ -12,11 +17,34 @@ $(document).ready(function () {
         clearLog();
     });
     
+    if ($("#games").length > 0) {
+        refreshGames();
+    }
+    
     if ($("#tracing").length > 0) {
         refreshLogEntries();
     }
 
 });
+
+function refreshGames() {
+    $("#games .loading").show();
+    $("#games .result").hide();
+    $("#games .error").hide();
+    
+    var url = "/game/games";
+    $.get(url, function (data) {
+        $("#games .result").html(data);
+    }).done(function () {
+        $("#games .loading").hide();
+        $("#games .error").hide();
+        $("#games .result").show();
+    }).fail(function () {
+        $("#games .loading").hide();
+        $("#games .error").show();
+        $("#games .result").hide();
+    });
+}
 
 function refreshLogEntries() {
     $("#tracing .loading").show();

@@ -5,8 +5,11 @@
     using System.ServiceModel;
     using Contract.Data.Tracing;
     using Contract.Service;
+    using Converter.GamePlay;
     using Converter.Tracing;
+    using GamePlay;
     using Tracing;
+    using Game = Contract.Data.GamePlay.Game;
 
     /// <summary>
     /// Administration service implementation
@@ -34,6 +37,16 @@
         {
             // todo (kevin): This should only be possible if administrator role is authenticated
             Logger.Current.ClearLog();
+        }
+
+        /// <summary>
+        /// Gets the games.
+        /// </summary>
+        /// <returns>All current available games on the server</returns>
+        public IEnumerable<Game> GetGames()
+        {
+            // todo (kevin): This should only be possible if administrator role is authenticated
+            return GameController.Current.GetAllGames().Select(game => game.ToContract());
         }
     }
 }

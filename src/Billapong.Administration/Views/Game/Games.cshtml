@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Billapong.Contract.Data.GamePlay.Game>
+    
+@if (Model.Any())
+{
+    <table class="list">
+        <tr>
+            <th width="300px">@Global.GameId</th>
+            <th>@Global.GameStatus</th>
+            <th>@Global.MapName</th>
+            <th>@Global.Player1Name</th>
+            <th>@Global.Player2Name</th>
+        </tr>
+
+        @{ var odd = true; }
+        @foreach (var game in Model)
+        {
+            <tr class="@(odd ? "odd" : "even")">
+                <td>@game.Id</td>
+                <td>@game.Status.ToString()</td>
+                <td>@game.Map</td>
+                <td>@game.Player1Name</td>
+                <td>@game.Player2Name</td>
+            </tr>
+
+            odd = !odd;
+        }
+
+    </table>
+}
+else
+{
+    @Html.Raw(Global.CurrentlyNoGames)
+}

@@ -65,7 +65,7 @@
         /// </returns>
         public IEnumerable<LobbyGame> GetLobbyGames()
         {
-            return GameController.Current.GetOpenGames().Select(game => game.ToContract()).ToList();
+            return GameController.Current.GetOpenGames().Select(game => game.ToLobbyContract()).ToList();
         }
 
         /// <summary>

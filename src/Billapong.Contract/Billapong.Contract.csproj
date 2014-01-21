@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\GamePlay\Game.cs" />
+    <Compile Include="Data\GamePlay\GameStatus.cs" />
     <Compile Include="Data\GamePlay\LobbyGame.cs" />
     <Compile Include="Data\Tracing\Component.cs" />
     <Compile Include="Data\Map\Hole.cs" />

@@ -105,6 +105,18 @@
         }
 
         /// <summary>
+        /// Gets all games.
+        /// </summary>
+        /// <returns>All games, converted to a list</returns>
+        public IEnumerable<Game> GetAllGames()
+        {
+            lock (LockObject)
+            {
+                return this.games.Values.ToList();
+            }
+        }
+
+        /// <summary>
         /// Joins an existing game.
         /// </summary>
         /// <param name="gameId">The game identifier.</param>
@@ -252,18 +264,6 @@
             lock (LockObject)
             {
                 this.games.Remove(gameId);
-            }
-        }
-
-        /// <summary>
-        /// Gets all games.
-        /// </summary>
-        /// <returns>All games, converted to a list</returns>
-        private IEnumerable<Game> GetAllGames()
-        {
-            lock (LockObject)
-            {
-                return this.games.Values.ToList();
             }
         }
     }

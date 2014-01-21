@@ -59,6 +59,8 @@
         {
             try
             {
+                Tracer.Debug("Refreshing log entries");
+
                 var proxy = new AdministrationServiceClient();
                 return this.PartialView(proxy.GetLogMessages(new LogListener
                 {
@@ -83,6 +85,8 @@
         {
             try
             {
+                Tracer.Debug("Clearing log entries");
+
                 var proxy = new AdministrationServiceClient();
                 proxy.ClearLog();
                 return new HttpStatusCodeResult(HttpStatusCode.OK);
