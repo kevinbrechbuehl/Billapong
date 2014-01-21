@@ -1,7 +1,7 @@
 ﻿@model Billapong.Administration.Models.Tracing.IndexViewModel
 
 @{
-    ViewBag.Title = @Resources.Global.TracingTitle;
+    ViewBag.Title = @Global.TracingTitle;
 }
 
 <div id="tracing">
@@ -24,11 +24,11 @@
             </div>
 
             <div class="field">
-                <input type="submit" id="refreshlogentries" value="@Resources.Global.Refresh" />
+                <input type="submit" id="refreshlogentries" value="@Global.Refresh" />
             </div>
             
             <div class="field">
-                <input type="submit" id="clearlog" value="@Resources.Global.ClearLog" />
+                <input type="submit" id="clearlog" value="@Global.ClearLog" />
             </div>
         }
     </div>
@@ -42,6 +42,6 @@
     </div>
     
     <div class="error">
-        @Html.Raw(Resources.Global.ErrorOccurred)
+        @Html.Raw(Global.ErrorOccurred)
     </div>
 </div>

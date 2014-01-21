@@ -106,6 +106,15 @@ namespace Billapong.Administration.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Lobby Games.
+        /// </summary>
+        public static string GamesTitle {
+            get {
+                return ResourceManager.GetString("GamesTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;p&gt;Welcome to the Administration Interface for Billapong. Please choose an action in the navigation on the left.&lt;/p&gt;.
         /// </summary>
         public static string HomeIntroduction {

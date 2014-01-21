@@ -4,11 +4,11 @@
 {
     <table class="list">
         <tr>
-            <th width="180px">@Resources.Global.Timestamp</th>
-            <th width="100px">@Resources.Global.Sender</th>
-            <th width="130px">@Resources.Global.Component</th>
-            <th width="80px">@Resources.Global.LogLevel</th>
-            <th>@Resources.Global.LogMessage</th>
+            <th width="180px">@Global.Timestamp</th>
+            <th width="100px">@Global.Sender</th>
+            <th width="130px">@Global.Component</th>
+            <th width="80px">@Global.LogLevel</th>
+            <th>@Global.LogMessage</th>
         </tr>
         
         @{ var odd = true; }
@@ -29,5 +29,5 @@
 }
 else
 {
-    @Html.Raw(Resources.Global.TracingNoEntries)
+    @Html.Raw(Global.TracingNoEntries)
 }

@@ -132,6 +132,9 @@
   <data name="ErrorOccurred" xml:space="preserve">
     <value>&lt;p&gt;An error occurred. Please try again later.&lt;/p&gt;</value>
   </data>
+  <data name="GamesTitle" xml:space="preserve">
+    <value>Lobby Games</value>
+  </data>
   <data name="HomeIntroduction" xml:space="preserve">
     <value>&lt;p&gt;Welcome to the Administration Interface for Billapong. Please choose an action in the navigation on the left.&lt;/p&gt;</value>
   </data>
