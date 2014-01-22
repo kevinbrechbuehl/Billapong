@@ -87,8 +87,277 @@
                 }
             };
 
+            var fullMap = new Map
+            {
+                Name = "Full Map",
+                Windows = new List<Window>
+                {
+                    new Window
+                    {
+                        X = 0,
+                        Y = 0,
+                        Holes = new List<Hole>
+                        {
+                            new Hole { X = 1, Y = 8 },
+                            new Hole { X = 3, Y = 2 },
+                            new Hole { X = 7, Y = 5 }
+                        }
+                    },
+                    new Window
+                    {
+                        X = 0,
+                        Y = 1,
+                        Holes = new List<Hole>
+                        {
+                            new Hole { X = 1, Y = 4 },
+                            new Hole { X = 5, Y = 2 },
+                            new Hole { X = 2, Y = 6 },
+                            new Hole { X = 9, Y = 3 }
+                        }
+                    },
+                    new Window
+                    {
+                        X = 0,
+                        Y = 2,
+                        Holes = new List<Hole>
+                        {
+                            new Hole { X = 3, Y = 8 }
+                        }
+                    },
+                    new Window
+                    {
+                        X = 0,
+                        Y = 3,
+                        Holes = new List<Hole>
+                        {
+                            new Hole { X = 3, Y = 3 },
+                            new Hole { X = 6, Y = 7 },
+                            new Hole { X = 0, Y = 0 },
+                            new Hole { X = 1, Y = 3 },
+                            new Hole { X = 4, Y = 7 }
+                        }
+                    },
+                    new Window
+                    {
+                        X = 1,
+                        Y = 0,
+                        Holes = new List<Hole>
+                        {
+                            new Hole { X = 1, Y = 8 },
+                            new Hole { X = 3, Y = 2 },
+                            new Hole { X = 7, Y = 5 }
+                        }
+                    },
+                    new Window
+                    {
+                        X = 1,
+                        Y = 1,
+                        Holes = new List<Hole>
+                        {
+                            new Hole { X = 1, Y = 4 },
+                            new Hole { X = 5, Y = 2 },
+                            new Hole { X = 2, Y = 6 },
+                            new Hole { X = 9, Y = 3 }
+                        }
+                    },
+                    new Window
+                    {
+                        X = 1,
+                        Y = 2,
+                        Holes = new List<Hole>
+                        {
+                            new Hole { X = 3, Y = 8 }
+                        }
+                    },
+                    new Window
+                    {
+                        X = 1,
+                        Y = 3,
+                        Holes = new List<Hole>
+                        {
+                            new Hole { X = 3, Y = 3 },
+                            new Hole { X = 6, Y = 7 },
+                            new Hole { X = 0, Y = 0 },
+                            new Hole { X = 1, Y = 3 },
+                            new Hole { X = 4, Y = 7 }
+                        }
+                    },
+                    new Window
+                    {
+                        X = 2,
+                        Y = 0,
+                        Holes = new List<Hole>
+                        {
+                            new Hole { X = 1, Y = 8 },
+                            new Hole { X = 3, Y = 2 },
+                            new Hole { X = 7, Y = 5 }
+                        }
+                    },
+                    new Window
+                    {
+                        X = 2,
+                        Y = 1,
+                        Holes = new List<Hole>
+                        {
+                            new Hole { X = 1, Y = 4 },
+                            new Hole { X = 5, Y = 2 },
+                            new Hole { X = 2, Y = 6 },
+                            new Hole { X = 9, Y = 3 }
+                        }
+                    },
+                    new Window
+                    {
+                        X = 2,
+                        Y = 2,
+                        Holes = new List<Hole>
+                        {
+                            new Hole { X = 3, Y = 8 }
+                        }
+                    },
+                    new Window
+                    {
+                        X = 2,
+                        Y = 3,
+                        Holes = new List<Hole>
+                        {
+                            new Hole { X = 3, Y = 3 },
+                            new Hole { X = 6, Y = 7 },
+                            new Hole { X = 0, Y = 0 },
+                            new Hole { X = 1, Y = 3 },
+                            new Hole { X = 4, Y = 7 }
+                        }
+                    }
+                }
+            };
+
+            var doughnutMap = new Map
+            {
+                Name = "The Doughnut Map",
+                Windows = new List<Window>
+                {
+                    new Window
+                    {
+                        X = 0,
+                        Y = 0,
+                        Holes = new List<Hole>
+                        {
+                            new Hole { X = 1, Y = 8 },
+                            new Hole { X = 3, Y = 2 },
+                            new Hole { X = 7, Y = 5 }
+                        }
+                    },
+                    new Window
+                    {
+                        X = 0,
+                        Y = 1,
+                        Holes = new List<Hole>
+                        {
+                            new Hole { X = 1, Y = 4 },
+                            new Hole { X = 5, Y = 2 },
+                            new Hole { X = 2, Y = 6 },
+                            new Hole { X = 9, Y = 3 }
+                        }
+                    },
+                    new Window
+                    {
+                        X = 0,
+                        Y = 2,
+                        Holes = new List<Hole>
+                        {
+                            new Hole { X = 3, Y = 8 }
+                        }
+                    },
+                    new Window
+                    {
+                        X = 0,
+                        Y = 3,
+                        Holes = new List<Hole>
+                        {
+                            new Hole { X = 3, Y = 3 },
+                            new Hole { X = 6, Y = 7 },
+                            new Hole { X = 0, Y = 0 },
+                            new Hole { X = 1, Y = 3 },
+                            new Hole { X = 4, Y = 7 }
+                        }
+                    },
+                    new Window
+                    {
+                        X = 1,
+                        Y = 0,
+                        Holes = new List<Hole>
+                        {
+                            new Hole { X = 1, Y = 1 },
+                            new Hole { X = 3, Y = 2 },
+                            new Hole { X = 15, Y = 15 }
+                        }
+                    },
+                    new Window
+                    {
+                        X = 1,
+                        Y = 3,
+                        Holes = new List<Hole>
+                        {
+                            new Hole { X = 3, Y = 3 },
+                            new Hole { X = 6, Y = 7 },
+                            new Hole { X = 0, Y = 0 },
+                            new Hole { X = 1, Y = 3 },
+                            new Hole { X = 4, Y = 7 }
+                        }
+                    },
+                    new Window
+                    {
+                        X = 2,
+                        Y = 0,
+                        Holes = new List<Hole>
+                        {
+                            new Hole { X = 1, Y = 8 },
+                            new Hole { X = 3, Y = 5 },
+                            new Hole { X = 7, Y = 2 }
+                        }
+                    },
+                    new Window
+                    {
+                        X = 2,
+                        Y = 1,
+                        Holes = new List<Hole>
+                        {
+                            new Hole { X = 1, Y = 4 },
+                            new Hole { X = 5, Y = 2 },
+                            new Hole { X = 2, Y = 1 },
+                            new Hole { X = 9, Y = 3 }
+                        }
+                    },
+                    new Window
+                    {
+                        X = 2,
+                        Y = 2,
+                        Holes = new List<Hole>
+                        {
+                            new Hole { X = 3, Y = 8 }
+                        }
+                    },
+                    new Window
+                    {
+                        X = 2,
+                        Y = 3,
+                        Holes = new List<Hole>
+                        {
+                            new Hole { X = 3, Y = 3 },
+                            new Hole { X = 6, Y = 7 },
+                            new Hole { X = 0, Y = 0 },
+                            new Hole { X = 1, Y = 3 },
+                            new Hole { X = 4, Y = 7 },
+                            new Hole { X = 8, Y = 9 },
+                            new Hole { X = 12, Y = 12 }
+                        }
+                    }
+                }
+            };
+
             context.Maps.Add(simpleMap);
             context.Maps.Add(advancedMap);
+            context.Maps.Add(fullMap);
+            context.Maps.Add(doughnutMap);
             context.SaveChanges();
         }
     }
