@@ -92,6 +92,7 @@
             var fullMap = new Map
             {
                 Name = "Full Map",
+                IsPlayable = true,
                 Windows = new List<Window>
                 {
                     new Window
@@ -235,6 +236,7 @@
             var doughnutMap = new Map
             {
                 Name = "The Doughnut Map",
+                IsPlayable = true,
                 Windows = new List<Window>
                 {
                     new Window
