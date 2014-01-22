@@ -57,6 +57,7 @@
     <Compile Include="Configuration\GameConfiguration.cs" />
     <Compile Include="Converter\Map\MapConverter.cs" />
     <Compile Include="Game\GameManager.cs" />
+    <Compile Include="Models\Events\GameFieldClickedEventArgs.cs" />
     <Compile Include="ViewModels\GameWindowViewModel.cs" />
     <Compile Include="Models\Events\GameStartedEventArgs.cs" />
     <Compile Include="Models\Game.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="ViewModels\WindowSelection\SpWindowSelectionViewModel.cs" />
     <Compile Include="ViewModels\WindowSelection\WindowSelectionViewModelBase.cs" />
     <Compile Include="ViewModels\WindowSelection\WindowSelectionViewModelFactory.cs" />
+    <Compile Include="Views\GameFieldCanvas.cs" />
     <Compile Include="Views\GameLobby.xaml.cs">
       <DependentUpon>GameLobby.xaml</DependentUpon>
     </Compile>

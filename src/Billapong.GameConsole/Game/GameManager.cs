@@ -1,8 +1,10 @@
 ﻿namespace Billapong.GameConsole.Game
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Windows;
     using System.Windows.Media;
+    using Models.Events;
     using ViewModels;
     using Views;
     using Game = Models.Game;
@@ -36,6 +38,8 @@
         }
 
         #endregion
+
+        private readonly Dictionary<GameWindowViewModel, Models.Window> windows = new Dictionary<GameWindowViewModel, Models.Window>(); 
 
         /// <summary>
         /// Starts the game.
@@ -86,6 +90,9 @@
 
                         var gameWindowViewModel = new GameWindowViewModel(currentWindow);
                         gameWindow.DataContext = gameWindowViewModel;
+                        gameWindowViewModel.GameFieldClicked += this.GameFieldClicked;
+
+                        this.windows.Add(gameWindowViewModel, currentWindow);
 
                         gameWindow.Show();
                     }
@@ -95,6 +102,11 @@
 
                 verticalOffset += Configuration.GameConfiguration.GameWindowHeight + windowBorderOffset;
             }
+        }
+
+        private void GameFieldClicked(object sender, GameFieldClickedEventArgs args)
+        {
+            MessageBox.Show("Clicked window with id: " + this.windows[(GameWindowViewModel) sender].Id);
         }
     }
 }
