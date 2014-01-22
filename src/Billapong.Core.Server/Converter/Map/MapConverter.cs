@@ -19,6 +19,7 @@
             {
                 Id = source.Id,
                 Name = source.Name,
+                IsPlayable = source.IsPlayable,
                 Windows = source.Windows.Select(window => window.ToEntity()).ToList()
             };
         }
@@ -34,6 +35,7 @@
             {
                 Id = source.Id,
                 Name = source.Name,
+                IsPlayable = source.IsPlayable,
                 Windows = source.Windows.Select(window => window.ToContract()).ToList()
             };
         }

@@ -1,4 +1,4 @@
-﻿namespace Billapong.GameConsole
+﻿namespace Billapong.MapEditor
 {
     using System.Windows;
     using Contract.Data.Tracing;
@@ -19,7 +19,7 @@
 
             this.DispatcherUnhandledException += this.App_DispatcherUnhandledException;
 
-            Tracer.Initialize(Component.GameConsole);
+            Tracer.Initialize(Component.MapEditor);
         }
 
         /// <summary>

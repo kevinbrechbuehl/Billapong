@@ -18,6 +18,7 @@
             var simpleMap = new Map
             {
                 Name = "Simple Map",
+                IsPlayable = true,
                 Windows = new List<Window>
                 {
                     new Window
@@ -37,6 +38,7 @@
             var advancedMap = new Map
             {
                 Name = "Advanced Map",
+                IsPlayable = true,
                 Windows = new List<Window>
                 {
                     new Window

@@ -27,6 +27,15 @@
         public string Name { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether this map is playable.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if the map is playable; otherwise, <c>false</c>.
+        /// </value>
+        [Required]
+        public bool IsPlayable { get; set; }
+
+        /// <summary>
         /// Gets or sets the windows.
         /// </summary>
         /// <value>

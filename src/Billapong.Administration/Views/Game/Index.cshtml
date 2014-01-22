@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = @Global.GamesTitle;
+}
+
+<div id="games">
+    <div class="form">
+        @using (Html.BeginForm())
+        {
+            <div class="field">
+                <input type="submit" id="refreshgames" value="@Global.Refresh" />
+            </div>
+        }
+    </div>
+
+    <div class="loading">
+        <img src="~/Images/spinner.gif" />
+    </div>
+
+    <div class="result">
+
+    </div>
+
+    <div class="error">
+        @Html.Raw(Global.ErrorOccurred)
+    </div>
+</div>
+

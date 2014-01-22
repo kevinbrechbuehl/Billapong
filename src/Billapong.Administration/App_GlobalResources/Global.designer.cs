@@ -70,6 +70,15 @@ namespace Billapong.Administration.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clear Log.
+        /// </summary>
+        public static string ClearLog {
+            get {
+                return ResourceManager.GetString("ClearLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Component.
         /// </summary>
         public static string Component {
@@ -88,11 +97,47 @@ namespace Billapong.Administration.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There are currently no games available..
+        /// </summary>
+        public static string CurrentlyNoGames {
+            get {
+                return ResourceManager.GetString("CurrentlyNoGames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;p&gt;An error occurred. Please try again later.&lt;/p&gt;.
         /// </summary>
         public static string ErrorOccurred {
             get {
                 return ResourceManager.GetString("ErrorOccurred", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Game Id.
+        /// </summary>
+        public static string GameId {
+            get {
+                return ResourceManager.GetString("GameId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Game Status.
+        /// </summary>
+        public static string GameStatus {
+            get {
+                return ResourceManager.GetString("GameStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Games.
+        /// </summary>
+        public static string GamesTitle {
+            get {
+                return ResourceManager.GetString("GamesTitle", resourceCulture);
             }
         }
         
@@ -142,11 +187,38 @@ namespace Billapong.Administration.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Map name.
+        /// </summary>
+        public static string MapName {
+            get {
+                return ResourceManager.GetString("MapName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Number of Entries:.
         /// </summary>
         public static string NumberOfEntriesLabel {
             get {
                 return ResourceManager.GetString("NumberOfEntriesLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Player 1 Name.
+        /// </summary>
+        public static string Player1Name {
+            get {
+                return ResourceManager.GetString("Player1Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Player 2 Name.
+        /// </summary>
+        public static string Player2Name {
+            get {
+                return ResourceManager.GetString("Player2Name", resourceCulture);
             }
         }
         

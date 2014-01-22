@@ -2,6 +2,7 @@
 {
     using System;
     using System.Data.Entity;
+    using System.Data.Entity.Infrastructure;
     using System.Linq;
     using System.Linq.Expressions;
     using Model;
@@ -81,6 +82,15 @@
             }
 
             this.databaseSet.Remove(entityToDelete);
+        }
+
+        /// <summary>
+        /// Removes all entities in the database.
+        /// </summary>
+        public virtual void RemoveAll()
+        {
+            var tablename = ((IObjectContextAdapter)this.context).ObjectContext.CreateObjectSet<TEntity>().EntitySet.Name;
+            this.context.Database.ExecuteSqlCommand(string.Format("TRUNCATE TABLE {0}", tablename));
         }
 
         /// <summary>

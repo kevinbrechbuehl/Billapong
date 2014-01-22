@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.ServiceModel;
+    using Data.GamePlay;
     using Data.Tracing;
 
     /// <summary>
@@ -17,5 +18,18 @@
         /// <returns>Log messages based on the listener configuration</returns>
         [OperationContract(Name = "GetLogMessages")]
         IEnumerable<LogMessage> GetLogMessages(LogListener logListener);
+
+        /// <summary>
+        /// Clears the log.
+        /// </summary>
+        [OperationContract(Name = "ClearLog")]
+        void ClearLog();
+
+        /// <summary>
+        /// Gets the games.
+        /// </summary>
+        /// <returns>All current available games on the server</returns>
+        [OperationContract(Name = "GetGames")]
+        IEnumerable<Game> GetGames();
     }
 }

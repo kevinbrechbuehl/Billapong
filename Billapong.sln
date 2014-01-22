@@ -30,6 +30,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{896C8120
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Billapong.Core.ServerTest", "tests\Billapong.Core.ServerTest\Billapong.Core.ServerTest.csproj", "{03B5D674-2544-4158-A367-9714E45ACFE4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Billapong.MapEditor", "src\Billapong.MapEditor\Billapong.MapEditor.csproj", "{C0913217-A5CB-4528-AA09-152224B79BE9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,6 +74,10 @@ Global
 		{03B5D674-2544-4158-A367-9714E45ACFE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03B5D674-2544-4158-A367-9714E45ACFE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03B5D674-2544-4158-A367-9714E45ACFE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0913217-A5CB-4528-AA09-152224B79BE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0913217-A5CB-4528-AA09-152224B79BE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0913217-A5CB-4528-AA09-152224B79BE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0913217-A5CB-4528-AA09-152224B79BE9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -102,5 +102,13 @@
 
             return messages;
         }
+
+        /// <summary>
+        /// Clears the log.
+        /// </summary>
+        public void ClearLog()
+        {
+            this.repository.RemoveAll();
+        }
     }
 }

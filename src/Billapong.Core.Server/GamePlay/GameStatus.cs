@@ -8,8 +8,8 @@ namespace Billapong.Core.Server.GamePlay
 {
     public enum GameStatus
     {
-        Open,
-        Playing,
-        Canceled
+        Open = 1,
+        Playing = 2,
+        Canceled = 3
     }
 }

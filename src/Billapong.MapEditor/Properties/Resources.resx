@@ -46,7 +46,7 @@
     
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : System.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
     
     mimetype: application/x-microsoft.net.object.soap.base64
@@ -60,7 +60,6 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
@@ -69,10 +68,9 @@
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
               <xsd:attribute name="type" type="xsd:string" />
               <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
@@ -87,10 +85,9 @@
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -112,78 +109,9 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="All" xml:space="preserve">
-    <value>All</value>
-  </data>
-  <data name="ClearLog" xml:space="preserve">
-    <value>Clear Log</value>
-  </data>
-  <data name="Component" xml:space="preserve">
-    <value>Component</value>
-  </data>
-  <data name="ComponentLabel" xml:space="preserve">
-    <value>Component:</value>
-  </data>
-  <data name="CurrentlyNoGames" xml:space="preserve">
-    <value>There are currently no games available.</value>
-  </data>
-  <data name="ErrorOccurred" xml:space="preserve">
-    <value>&lt;p&gt;An error occurred. Please try again later.&lt;/p&gt;</value>
-  </data>
-  <data name="GameId" xml:space="preserve">
-    <value>Game Id</value>
-  </data>
-  <data name="GameStatus" xml:space="preserve">
-    <value>Game Status</value>
-  </data>
-  <data name="GamesTitle" xml:space="preserve">
-    <value>Games</value>
-  </data>
-  <data name="HomeIntroduction" xml:space="preserve">
-    <value>&lt;p&gt;Welcome to the Administration Interface for Billapong. Please choose an action in the navigation on the left.&lt;/p&gt;</value>
-  </data>
-  <data name="HomeTitle" xml:space="preserve">
-    <value>Home</value>
-  </data>
-  <data name="LogLevel" xml:space="preserve">
-    <value>Log Level</value>
-  </data>
-  <data name="LogLevelLabel" xml:space="preserve">
-    <value>Log Level:</value>
-  </data>
-  <data name="LogMessage" xml:space="preserve">
-    <value>Log Message</value>
-  </data>
-  <data name="MapName" xml:space="preserve">
-    <value>Map name</value>
-  </data>
-  <data name="NumberOfEntriesLabel" xml:space="preserve">
-    <value>Number of Entries:</value>
-  </data>
-  <data name="Player1Name" xml:space="preserve">
-    <value>Player 1 Name</value>
-  </data>
-  <data name="Player2Name" xml:space="preserve">
-    <value>Player 2 Name</value>
-  </data>
-  <data name="Refresh" xml:space="preserve">
-    <value>Refresh</value>
-  </data>
-  <data name="Sender" xml:space="preserve">
-    <value>Sender</value>
-  </data>
-  <data name="Timestamp" xml:space="preserve">
-    <value>Timestamp</value>
-  </data>
-  <data name="TracingNoEntries" xml:space="preserve">
-    <value>&lt;p&gt;No entries available for your selection.&lt;/p&gt;</value>
-  </data>
-  <data name="TracingTitle" xml:space="preserve">
-    <value>Tracing</value>
-  </data>
 </root>

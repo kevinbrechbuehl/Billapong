@@ -98,6 +98,7 @@
         /// <param name="message">The message.</param>
         public static void Debug(string message)
         {
+            Trace.TraceInformation("DEBUG: {0}", message);
             Current.Log(LogLevel.Debug, message);
         }
 
@@ -107,6 +108,7 @@
         /// <param name="message">The message.</param>
         public static void Info(string message)
         {
+            Trace.TraceInformation("INFO: {0}", message);
             Current.Log(LogLevel.Info, message);
         }
 
@@ -116,6 +118,7 @@
         /// <param name="message">The message.</param>
         public static void Warn(string message)
         {
+            Trace.TraceWarning(message);
             Current.Log(LogLevel.Warn, message);
         }
 
@@ -131,6 +134,7 @@
                 message = string.Format("{0} - {1}{2}", message, exception.Message, exception.StackTrace);
             }
 
+            Trace.TraceError(message);
             Current.Log(LogLevel.Error, message);
         }
 

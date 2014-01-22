@@ -1,6 +1,7 @@
 ﻿namespace Billapong.Administration.Service
 {
     using System.Collections.Generic;
+    using Contract.Data.GamePlay;
     using Contract.Data.Tracing;
     using Contract.Service;
     using Core.Client;
@@ -20,6 +21,23 @@
         public IEnumerable<LogMessage> GetLogMessages(LogListener logListener)
         {
             return this.Execute(() => this.Proxy.GetLogMessages(logListener));
+        }
+
+        /// <summary>
+        /// Clears the log.
+        /// </summary>
+        public void ClearLog()
+        {
+            this.Execute(() => this.Proxy.ClearLog());
+        }
+
+        /// <summary>
+        /// Gets the games.
+        /// </summary>
+        /// <returns>All current available games on the server</returns>
+        public IEnumerable<Game> GetGames()
+        {
+            return this.Execute(() => this.Proxy.GetGames());
         }
     }
 }

@@ -3,6 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net;
+    using System.Web;
     using System.Web.Mvc;
     using Contract.Data.Tracing;
     using Core.Client.Tracing;
@@ -55,14 +57,46 @@
         /// <returns>Partial view with a table containing all requested log entries</returns>
         public ActionResult Entries(Component component = Component.All, LogLevel logLevel = LogLevel.Debug, int numberOfEntries = 0)
         {
-            // todo (keb): proxy global irgendwo instanzieren und dann die admin rechte überprüfen
-            var proxy = new AdministrationServiceClient();
-            return this.PartialView(proxy.GetLogMessages(new LogListener
+            try
             {
-                Component = component,
-                LogLevel = logLevel,
-                NumberOfMessages = numberOfEntries
-            }));
+                Tracer.Debug("Refreshing log entries");
+
+                var proxy = new AdministrationServiceClient();
+                return this.PartialView(proxy.GetLogMessages(new LogListener
+                {
+                    Component = component,
+                    LogLevel = logLevel,
+                    NumberOfMessages = numberOfEntries
+                }));
+            }
+            catch (Exception ex)
+            {
+                Tracer.Error("Error while retrieving log entries", ex);
+            }
+
+            return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+        }
+
+        /// <summary>
+        /// Clears this instance.
+        /// </summary>
+        /// <returns>Http status code for the result.</returns>
+        public ActionResult Clear()
+        {
+            try
+            {
+                Tracer.Debug("Clearing log entries");
+
+                var proxy = new AdministrationServiceClient();
+                proxy.ClearLog();
+                return new HttpStatusCodeResult(HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                Tracer.Error("Error while clearing log", ex);
+            }
+            
+            return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
         }
     }
 }
