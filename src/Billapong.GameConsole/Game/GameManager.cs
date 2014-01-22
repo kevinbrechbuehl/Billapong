@@ -60,8 +60,8 @@
             var gameFieldHeight = (maxWindowRow+1)*Configuration.GameConfiguration.GameWindowHeight;
             var gameFieldWidth = (maxWindowCol+1)*Configuration.GameConfiguration.GameWindowWidth;
 
-            var initialVerticalOffset = (SystemParameters.PrimaryScreenHeight/2) - (gameFieldHeight/2) - ((maxWindowRow * windowBorderOffset) / 2);
-            var initialHorizontalOffset = (SystemParameters.PrimaryScreenWidth / 2) - (gameFieldWidth / 2) - ((maxWindowCol * windowBorderOffset) / 2);
+            var initialVerticalOffset = (SystemParameters.WorkArea.Height/2) - (gameFieldHeight/2) - ((maxWindowRow * windowBorderOffset) / 2);
+            var initialHorizontalOffset = (SystemParameters.WorkArea.Width / 2) - (gameFieldWidth / 2) - ((maxWindowCol * windowBorderOffset) / 2);
 
             var verticalOffset = initialVerticalOffset;
 
@@ -84,7 +84,7 @@
                         gameWindow.BorderBrush = new SolidColorBrush(this.currentGame.StartGame ? Colors.Red : Colors.Blue);
                         gameWindow.BorderThickness = new Thickness(2, 2, 2, 2);
 
-                        var gameWindowViewModel = new GameWindowViewModel();
+                        var gameWindowViewModel = new GameWindowViewModel(currentWindow);
                         gameWindow.DataContext = gameWindowViewModel;
 
                         gameWindow.Show();

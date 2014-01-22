@@ -1,5 +1,7 @@
 ﻿namespace Billapong.GameConsole.Models
 {
+    using Configuration;
+
     /// <summary>
     /// Represents a hole within a window
     /// </summary>
@@ -28,5 +30,53 @@
         /// The y coordinate.
         /// </value> 
         public int Y { get; set; }
+
+        public int Diameter
+        {
+            get
+            {
+                return GameConfiguration.HoleDiameter ;
+            }
+        }
+
+        private int left;
+
+        public int Left
+        {
+            get
+            {
+                if (left == 0)
+                {
+                    this.left = this.Diameter*this.X;
+                }
+
+                return left;
+            }
+
+            set
+            {
+                this.left = value;
+            }
+        }
+
+        private int top;
+
+        public int Top
+        {
+            get
+            {
+                if (top == 0)
+                {
+                    this.top = this.Diameter * this.Y;
+                }
+
+                return top;
+            }
+
+            set
+            {
+                this.top = value;
+            }
+        }
     }
 }

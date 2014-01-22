@@ -1,7 +1,9 @@
 ﻿namespace Billapong.GameConsole.ViewModels.WindowSelection
 {
+    using System;
     using System.Windows;
     using Billapong.GameConsole.Models;
+    using Game;
 
     /// <summary>
     /// The window selection view model for a singleplayer training
@@ -23,7 +25,9 @@
         /// <param name="properties">The properties.</param>
         protected override void StartGame(object properties)
         {
-            MessageBox.Show("Nun würde das Training starten");
+            var game = new Game();
+            game.Init(new Guid(), this.Map, null, true);
+            GameManager.Instance.StartGame(game);
         }
     }
 }
