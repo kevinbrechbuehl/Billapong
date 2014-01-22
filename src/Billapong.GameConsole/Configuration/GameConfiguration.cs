@@ -30,6 +30,10 @@
 
         public const int GameWindowHeight = 300;
 
+        public const int GameGridSize = 15;
+
+        public const int HoleDiameter = GameWindowWidth / GameGridSize;
+
         public const int MaxNumberOfHorizontalGameWindows = 4;
 
         public const int MaxNumberOfVerticalWindows = 3;
