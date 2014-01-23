@@ -36,11 +36,11 @@
         /// <summary>
         /// Sets the start point.
         /// </summary>
-        /// <param name="windowsId">The windows identifier.</param>
+        /// <param name="windowId">The windows identifier.</param>
         /// <param name="pointX">The point x.</param>
         /// <param name="pointY">The point y.</param>
         [OperationContract(Name = "SetStartPoint")]
-        void SetStartPoint(long windowsId, int pointX, int pointY);
+        void SetStartPoint(long windowId, int pointX, int pointY);
 
         /// <summary>
         /// Starts the round.
@@ -53,8 +53,9 @@
         /// <summary>
         /// Ends the round.
         /// </summary>
-        /// <param name="score">The score.</param>
+        /// <param name="score">The current score over all player rounds.</param>
+        /// <param name="wasFinalRound">if set to <c>true</c> this was the final round and the game should be finished.</param>
         [OperationContract(Name = "EndRound")]
-        void EndRound(int score);
+        void EndRound(int score, bool wasFinalRound);
     }
 }

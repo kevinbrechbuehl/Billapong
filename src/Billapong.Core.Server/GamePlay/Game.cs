@@ -14,25 +14,17 @@ namespace Billapong.Core.Server.GamePlay
         public Game()
         {
             this.Status = GameStatus.Open;
-            this.Player1VisibleWindows = new List<long>();
-            this.Player2VisibleWindows = new List<long>();
-            this.Callbacks = new List<IGameConsoleCallback>();
+            this.Players = new Player[2]; // 2 player game
         }
         
         public Guid Id { get; set; }
 
         public Map Map { get; set; }
 
+        public int BounceCount { get; set; }
+
         public GameStatus Status { get; set; }
 
-        public string Player1Name { get; set; }
-
-        public string Player2Name { get; set; }
-
-        public List<long> Player1VisibleWindows { get; private set; }
-
-        public List<long> Player2VisibleWindows { get; private set; }
-
-        public IList<IGameConsoleCallback> Callbacks { get; private set; } 
+        public Player[] Players { get; private set; }
     }
 }

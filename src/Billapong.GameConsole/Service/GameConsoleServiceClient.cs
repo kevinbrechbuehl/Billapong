@@ -102,19 +102,19 @@
             this.Execute(() => this.Proxy.CancelGame(gameId));
         }
 
-        public void SetStartPoint(Guid gameId, long windowsId, int pointX, int pointY)
+        public void SetStartPoint(Guid gameId, long windowId, int pointX, int pointY)
         {
-            throw new NotImplementedException();
+            this.Execute(() => this.Proxy.SetStartPoint(gameId, windowId, pointX, pointY));
         }
 
-        public void StartRound(Guid gameId, bool isPlayer1, int pointX, int pointY)
+        public void StartRound(Guid gameId, int pointX, int pointY)
         {
-            throw new NotImplementedException();
+            this.Execute(() => this.Proxy.StartRound(gameId, pointX, pointY));
         }
 
         public void EndRound(Guid gameId, bool isPlayer1, int score)
         {
-            throw new NotImplementedException();
+            this.Execute(() => this.Proxy.EndRound(gameId, isPlayer1, score));
         }
 
         /// <summary>
@@ -124,17 +124,6 @@
         public async Task<IEnumerable<Map>> GetMapsAsync()
         {
             return await this.ExecuteAsync(() => this.Proxy.GetMaps());
-        }
-
-        /// <summary>
-        /// Starts the game.
-        /// </summary>
-        /// <param name="gameId">The game identifier.</param>
-        /// <param name="firstPlayer">The first player.</param>
-        /// <param name="secondPlayer">The second player.</param>
-        public void StartGame(Guid gameId, string firstPlayer, string secondPlayer)
-        {
-            throw new NotImplementedException();
         }
     }
 }

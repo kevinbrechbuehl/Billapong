@@ -8,7 +8,7 @@
             {
                 Id = source.Id,
                 Map = source.Map.Name,
-                Username = source.Player1Name
+                Username = source.Players[0].Name
             };
         }
 
@@ -18,8 +18,8 @@
             {
                 Id = source.Id,
                 Map = source.Map.Name,
-                Player1Name = source.Player1Name,
-                Player2Name = source.Player2Name,
+                Player1Name = source.Players[0].Name,
+                Player2Name = source.Players[1].Name,
                 Status = (Contract.Data.GamePlay.GameStatus)source.Status
             };
         }

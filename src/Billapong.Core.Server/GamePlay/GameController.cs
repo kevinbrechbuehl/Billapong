@@ -10,6 +10,7 @@
     using Converter.Map;
     using DataAccess.Model.Map;
     using DataAccess.Repository;
+    using System.Configuration;
 
     /// <summary>
     /// Game controller for handling the gameplay
@@ -30,6 +31,11 @@
         /// Dictionary to store all open and playing games
         /// </summary>
         private readonly IDictionary<Guid, Game> games = new Dictionary<Guid, Game>();
+
+        /// <summary>
+        /// The number of rounds
+        /// </summary>
+        private readonly int numberOfTotalRounds;
         
         #region Singleton Implementation
 
@@ -47,6 +53,15 @@
         private GameController()
         {
             this.mapRepository = new Repository<Map>();
+
+            // set the number of rounds to play
+            if (!int.TryParse(ConfigurationManager.AppSettings["Tracing.LogLevel"], out this.numberOfTotalRounds))
+            {
+                this.numberOfTotalRounds = 10;
+            }
+
+            // set number of total rounds * 2, because both players play their rounds and each incerement always by 1
+            this.numberOfTotalRounds = this.numberOfTotalRounds*2;
         }
 
         /// <summary>
@@ -77,15 +92,18 @@
             }
             
             // generate game
-            var game = new Game
-            {
-                Id = Guid.NewGuid(),
-                Map = map,
-                Player1Name = username
-            };
+            var game = new Game();
+            game.Id = Guid.NewGuid();
+            game.Map = map;
 
-            game.Player1VisibleWindows.AddRange(visibleWindows);
-            game.Callbacks.Add(callback);
+            // create the player
+            var player = new Player();
+            player.Name = username;
+            player.VisibleWindows.AddRange(visibleWindows);
+            player.Callback = callback;
+            
+            // set the player as player 1 and start the game
+            game.Players[0] = player;
 
             lock (LockObject)
             {
@@ -141,8 +159,20 @@
                 game.Status = GameStatus.Playing;
             }
 
-            game.Player2Name = username;
-            game.Callbacks.Add(callback);
+            // get visible windows from player 1
+            var player1VisibleWindows = game.Players[0].VisibleWindows;
+
+            // create second player
+            var player = new Player();
+            player.Name = username;
+            player.Callback = callback;
+            player.VisibleWindows.AddRange(game.Map.Windows.Count > 1
+                ? game.Map.Windows.Select(map => map.Id).Where(id => !player1VisibleWindows.Contains(id))
+                : player1VisibleWindows);
+
+            game.Players[1] = player;
+
+            // send startgame callback
             Task.Run(() => this.StartGameCallback(game));
         }
 
@@ -168,6 +198,61 @@
         }
 
         /// <summary>
+        /// Sets the start point.
+        /// </summary>
+        /// <param name="gameId">The game identifier.</param>
+        /// <param name="windowId">The window identifier.</param>
+        /// <param name="pointX">The point x.</param>
+        /// <param name="pointY">The point y.</param>
+        public void SetStartPoint(Guid gameId, long windowId, int pointX, int pointY)
+        {
+            var game = this.GetGame(gameId);
+            Task.Run(() => this.SetStartPointCallback(game, windowId, pointX, pointY));
+        }
+
+        /// <summary>
+        /// Starts the round.
+        /// </summary>
+        /// <param name="gameId">The game identifier.</param>
+        /// <param name="pointX">The point x.</param>
+        /// <param name="pointY">The point y.</param>
+        public void StartRound(Guid gameId, int pointX, int pointY)
+        {
+            var game = this.GetGame(gameId);
+            Task.Run(() => this.StartRoundCallback(game, pointX, pointY));
+        }
+
+        /// <summary>
+        /// Ends the round.
+        /// </summary>
+        /// <param name="gameId">The game identifier.</param>
+        /// <param name="isPlayer1">if set to <c>true</c> the player who played this round was player 1.</param>
+        /// <param name="score">The score.</param>
+        public void EndRound(Guid gameId, bool isPlayer1, int score)
+        {
+            var game = this.GetGame(gameId);
+
+            // increment the played round by 1
+            game.BounceCount++;
+
+            // get current player
+            var player = game.Players[isPlayer1 ? 0 : 1];
+            player.Score += score;
+
+            // is last round?
+            var wasLastRound = game.BounceCount >= this.numberOfTotalRounds;
+            if (wasLastRound)
+            {
+                this.RemoveGame(gameId);
+
+                // todo (breck1): save the highscore for both players into the database
+            }
+
+            // send the callback
+            Task.Run(() => this.EndRoundCallback(game, player.Score, wasLastRound));
+        }
+
+        /// <summary>
         /// Starts the game and send a callback to both players that the game now starts.
         /// </summary>
         /// <param name="game">The game.</param>
@@ -176,32 +261,20 @@
             // evaluate if player one would start
             var player1Start = (new Random()).Next(0, 2) == 0;
             
-            // calculate the visible windows for player 2
-            game.Player2VisibleWindows.AddRange(game.Map.Windows.Count > 1
-                ? game.Map.Windows.Select(map => map.Id).Where(id => !game.Player1VisibleWindows.Contains(id))
-                : game.Player1VisibleWindows);
-
-            // send callback to player 1
-            var player1Callback = game.Callbacks.FirstOrDefault();
-            if (player1Callback == null || ((ICommunicationObject)player1Callback).State != CommunicationState.Opened)
+            // check callbacks
+            if (!this.CheckCallbacks(game))
             {
-                game.Callbacks.Remove(player1Callback);
-                this.HandleGameError(game);
-                return; 
-            }
-
-            player1Callback.StartGame(game.Id, game.Map.ToContract(), game.Player2Name, game.Player1VisibleWindows, player1Start);
-
-            // send callback to player 2
-            var player2Callback = game.Callbacks.Skip(1).FirstOrDefault();
-            if (player2Callback == null || ((ICommunicationObject)player2Callback).State != CommunicationState.Opened)
-            {
-                game.Callbacks.Remove(player2Callback);
                 this.HandleGameError(game);
                 return;
             }
 
-            player2Callback.StartGame(game.Id, game.Map.ToContract(), game.Player1Name, game.Player2VisibleWindows, !player1Start);
+            // get players
+            var player1 = game.Players[0];
+            var player2 = game.Players[0];
+
+            // send callbacks
+            player1.Callback.StartGame(game.Id, game.Map.ToContract(), player2.Name, player1.VisibleWindows, player1Start);
+            player2.Callback.StartGame(game.Id, game.Map.ToContract(), player1.Name, player2.VisibleWindows, !player1Start);
         }
 
         /// <summary>
@@ -210,30 +283,80 @@
         /// <param name="game">The game.</param>
         private void CancelGameCallback(Game game)
         {
-            // send callback to player 1
-            var player1Callback = game.Callbacks.FirstOrDefault();
-            if (player1Callback == null || ((ICommunicationObject)player1Callback).State != CommunicationState.Opened)
+            // check callbacks
+            if (!this.CheckCallbacks(game))
             {
-                game.Callbacks.Remove(player1Callback);
                 this.HandleGameError(game);
                 return;
             }
 
-            player1Callback.CancelGame();
-
-            // send callback to player 2
-            var player2Callback = game.Callbacks.Skip(1).FirstOrDefault();
-            if (player2Callback == null || ((ICommunicationObject)player2Callback).State != CommunicationState.Opened)
-            {
-                game.Callbacks.Remove(player2Callback);
-                this.HandleGameError(game);
-                return;
-            }
-
-            player2Callback.CancelGame();
+            // send callback
+            game.Players[0].Callback.CancelGame();
+            game.Players[1].Callback.CancelGame();
 
             // remove the game from collection
             this.RemoveGame(game.Id);
+        }
+
+        /// <summary>
+        /// Sends the callback for setting the start point on the game panel.
+        /// </summary>
+        /// <param name="game">The game.</param>
+        /// <param name="windowId">The window identifier.</param>
+        /// <param name="pointX">The point x.</param>
+        /// <param name="pointY">The point y.</param>
+        private void SetStartPointCallback(Game game, long windowId, int pointX, int pointY)
+        {
+            // check callbacks
+            if (!this.CheckCallbacks(game))
+            {
+                this.HandleGameError(game);
+                return;
+            }
+
+            // send callback
+            game.Players[0].Callback.SetStartPoint(windowId, pointX, pointY);
+            game.Players[1].Callback.SetStartPoint(windowId, pointX, pointY);
+        }
+
+        /// <summary>
+        /// SSends the callbacks for starting a round.
+        /// </summary>
+        /// <param name="game">The game.</param>
+        /// <param name="pointX">The point x.</param>
+        /// <param name="pointY">The point y.</param>
+        private void StartRoundCallback(Game game, int pointX, int pointY)
+        {
+            // check callbacks
+            if (!this.CheckCallbacks(game))
+            {
+                this.HandleGameError(game);
+                return;
+            }
+
+            // send callback
+            game.Players[0].Callback.StartRound(pointX, pointY);
+            game.Players[1].Callback.StartRound(pointX, pointY);
+        }
+
+        /// <summary>
+        /// Send callback for ending a round
+        /// </summary>
+        /// <param name="game">The game.</param>
+        /// <param name="score">The score.</param>
+        /// <param name="wasFinalRound">if set to <c>true</c> this was the final round and the game should be finished.</param>
+        private void EndRoundCallback(Game game, int score, bool wasFinalRound)
+        {
+            // check callbacks
+            if (!this.CheckCallbacks(game))
+            {
+                this.HandleGameError(game);
+                return;
+            }
+
+            // send callback
+            game.Players[0].Callback.EndRound(score, wasFinalRound);
+            game.Players[1].Callback.EndRound(score, wasFinalRound);
         }
 
         /// <summary>
@@ -243,8 +366,9 @@
         private void HandleGameError(Game game)
         {
             game.Status = GameStatus.Canceled;
-            foreach (var callback in game.Callbacks)
+            foreach (var player in game.Players)
             {
+                var callback = player.Callback;
                 if (((ICommunicationObject)callback).State != CommunicationState.Opened)
                 {
                     callback.GameError();
@@ -264,6 +388,44 @@
             lock (LockObject)
             {
                 this.games.Remove(gameId);
+            }
+        }
+
+        /// <summary>
+        /// Checks the callbacks for the game instance.
+        /// </summary>
+        /// <param name="game">The game.</param>
+        /// <returns>true if ever callback is open, false if one of them is broken</returns>
+        private bool CheckCallbacks(Game game)
+        {
+            foreach (var player in game.Players)
+            {
+                var callback = player.Callback;
+                if (callback == null || ((ICommunicationObject)callback).State != CommunicationState.Opened)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Gets the game.
+        /// </summary>
+        /// <param name="gameId">The game identifier.</param>
+        /// <returns></returns>
+        /// <exception cref="FaultException{GameNotFoundException}">Game not found</exception>
+        private Game GetGame(Guid gameId)
+        {
+            lock (LockObject)
+            {
+                if (!this.games.ContainsKey(gameId))
+                {
+                    throw new FaultException<GameNotFoundException>(new GameNotFoundException(gameId), "Game not found");
+                }
+
+                return this.games[gameId];
             }
         }
     }

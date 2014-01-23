@@ -55,7 +55,7 @@
             MessageBox.Show("Someone/-thing has canceled the game...");
         }
 
-        public void SetStartPoint(long windowsId, int pointX, int pointY)
+        public void SetStartPoint(long windowId, int pointX, int pointY)
         {
             throw new NotImplementedException();
         }
@@ -65,7 +65,7 @@
             throw new NotImplementedException();
         }
 
-        public void EndRound(int score)
+        public void EndRound(int score, bool wasFinalRound)
         {
             throw new NotImplementedException();
         }
