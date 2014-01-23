@@ -1,9 +1,9 @@
 ﻿namespace Billapong.Contract.Service
 {
     using System;
+    using Data.Map;
     using System.Collections.Generic;
     using System.ServiceModel;
-    using Data.Map;
 
     /// <summary>
     /// Callback service for the game console.
@@ -24,15 +24,37 @@
         /// <summary>
         /// An error in the game ocurrs and the game has to be canceled by the client.
         /// </summary>
-        /// <param name="gameId">The game identifier.</param>
         [OperationContract(Name = "GameError")]
-        void GameError(Guid gameId);
+        void GameError();
 
         /// <summary>
         /// Cancels the game.
         /// </summary>
-        /// <param name="gameId">The game identifier.</param>
         [OperationContract(Name = "CancelGame")]
-        void CancelGame(Guid gameId);
+        void CancelGame();
+
+        /// <summary>
+        /// Sets the start point.
+        /// </summary>
+        /// <param name="windowsId">The windows identifier.</param>
+        /// <param name="pointX">The point x.</param>
+        /// <param name="pointY">The point y.</param>
+        [OperationContract(Name = "SetStartPoint")]
+        void SetStartPoint(long windowsId, int pointX, int pointY);
+
+        /// <summary>
+        /// Starts the round.
+        /// </summary>
+        /// <param name="pointX">The point x where user clicked to start the ball.</param>
+        /// <param name="pointY">The point y where user clicked to start the ball.</param>
+        [OperationContract(Name = "StartRound")]
+        void StartRound(int pointX, int pointY);
+
+        /// <summary>
+        /// Ends the round.
+        /// </summary>
+        /// <param name="score">The score.</param>
+        [OperationContract(Name = "EndRound")]
+        void EndRound(int score);
     }
 }

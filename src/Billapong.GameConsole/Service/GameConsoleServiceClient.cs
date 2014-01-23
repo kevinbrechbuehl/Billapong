@@ -102,6 +102,21 @@
             this.Execute(() => this.Proxy.CancelGame(gameId));
         }
 
+        public void SetStartPoint(Guid gameId, long windowsId, int pointX, int pointY)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void StartRound(Guid gameId, bool isPlayer1, int pointX, int pointY)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndRound(Guid gameId, bool isPlayer1, int score)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Gets the maps asynchronous.
         /// </summary>

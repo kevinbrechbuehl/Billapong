@@ -62,5 +62,34 @@
         /// <param name="gameId">The game identifier.</param>
         [OperationContract(Name = "CancelGame")]
         void CancelGame(Guid gameId);
+
+        /// <summary>
+        /// Sets the start point.
+        /// </summary>
+        /// <param name="gameId">The game identifier.</param>
+        /// <param name="windowsId">The windows identifier.</param>
+        /// <param name="pointX">The point x.</param>
+        /// <param name="pointY">The point y.</param>
+        [OperationContract(Name = "SetStartPoint")]
+        void SetStartPoint(Guid gameId, long windowsId, int pointX, int pointY);
+
+        /// <summary>
+        /// Starts the round.
+        /// </summary>
+        /// <param name="gameId">The game identifier.</param>
+        /// <param name="isPlayer1">if set to <c>true</c> user it player 1.</param>
+        /// <param name="pointX">The point x where the user clicked to start the ball.</param>
+        /// <param name="pointY">The point y where the user clicked to start the ball.</param>
+        [OperationContract(Name = "StartRound")]
+        void StartRound(Guid gameId, bool isPlayer1, int pointX, int pointY);
+
+        /// <summary>
+        /// Ends the round.
+        /// </summary>
+        /// <param name="gameId">The game identifier.</param>
+        /// <param name="isPlayer1">if set to <c>true</c> user it player 1.</param>
+        /// <param name="score">The score.</param>
+        [OperationContract(Name = "EndRound")]
+        void EndRound(Guid gameId, bool isPlayer1, int score);
     }
 }

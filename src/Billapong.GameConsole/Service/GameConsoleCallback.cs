@@ -45,14 +45,29 @@
             this.GameStarted(this, args);
         }
 
-        public void GameError(Guid gameId)
+        public void GameError()
         {
             MessageBox.Show("Upps something went wrong, need to cancel the game...");
         }
 
-        public void CancelGame(Guid gameId)
+        public void CancelGame()
         {
             MessageBox.Show("Someone/-thing has canceled the game...");
+        }
+
+        public void SetStartPoint(long windowsId, int pointX, int pointY)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void StartRound(int pointX, int pointY)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndRound(int score)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -219,7 +219,7 @@
                 return;
             }
 
-            player1Callback.CancelGame(game.Id);
+            player1Callback.CancelGame();
 
             // send callback to player 2
             var player2Callback = game.Callbacks.Skip(1).FirstOrDefault();
@@ -230,7 +230,7 @@
                 return;
             }
 
-            player2Callback.CancelGame(game.Id);
+            player2Callback.CancelGame();
 
             // remove the game from collection
             this.RemoveGame(game.Id);
@@ -247,7 +247,7 @@
             {
                 if (((ICommunicationObject)callback).State != CommunicationState.Opened)
                 {
-                    callback.GameError(game.Id);
+                    callback.GameError();
                 }
             }
 
