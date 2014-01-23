@@ -55,7 +55,7 @@
             this.mapRepository = new Repository<Map>();
 
             // set the number of rounds to play
-            if (!int.TryParse(ConfigurationManager.AppSettings["Tracing.LogLevel"], out this.numberOfTotalRounds))
+            if (!int.TryParse(ConfigurationManager.AppSettings["GamePlay.NumberOfRounds"], out this.numberOfTotalRounds))
             {
                 this.numberOfTotalRounds = 10;
             }
