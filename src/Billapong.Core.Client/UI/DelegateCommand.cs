@@ -1,4 +1,4 @@
-﻿namespace Billapong.GameConsole
+﻿namespace Billapong.Core.Client.UI
 {
     using System;
     using System.Windows.Input;

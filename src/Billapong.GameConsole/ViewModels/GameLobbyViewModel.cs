@@ -5,6 +5,7 @@
     using System.Windows;
     using Contract.Data.GamePlay;
     using Contract.Exceptions;
+    using Core.Client.UI;
     using Service;
 
     /// <summary>

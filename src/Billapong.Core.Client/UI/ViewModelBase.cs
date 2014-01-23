@@ -1,4 +1,4 @@
-﻿namespace Billapong.GameConsole.ViewModels
+﻿namespace Billapong.Core.Client.UI
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;

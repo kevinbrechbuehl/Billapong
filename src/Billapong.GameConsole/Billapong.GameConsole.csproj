@@ -75,7 +75,6 @@
     <Compile Include="ViewModels\WindowSelection\SpTrainingWindowSelectionViewModel.cs" />
     <Compile Include="ViewModels\MapSelectionViewModel.cs" />
     <Compile Include="ViewModels\MainWindowContentViewModelBase.cs" />
-    <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\WindowSelection\SpWindowSelectionViewModel.cs" />
     <Compile Include="ViewModels\WindowSelection\WindowSelectionViewModelBase.cs" />
     <Compile Include="ViewModels\WindowSelection\WindowSelectionViewModelFactory.cs" />
@@ -116,7 +115,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DelegateCommand.cs" />
     <Compile Include="Service\GameConsoleServiceClient.cs" />
     <Compile Include="ViewModels\GameMenuViewModel.cs" />
     <Compile Include="Views\GameMenu.xaml.cs">

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Windows;
+    using Core.Client.UI;
     using Models.Events;
 
     /// <summary>

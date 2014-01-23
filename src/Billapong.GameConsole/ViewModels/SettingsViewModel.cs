@@ -1,5 +1,7 @@
 ﻿namespace Billapong.GameConsole.ViewModels
 {
+    using Core.Client.UI;
+
     public class SettingsViewModel : MainWindowContentViewModelBase
     {
         private string playerName;

@@ -3,6 +3,7 @@
     using System;
     using System.Collections.ObjectModel;
     using System.Windows;
+    using Core.Client.UI;
     using Models;
     using Models.Events;
     using Window = Models.Window;

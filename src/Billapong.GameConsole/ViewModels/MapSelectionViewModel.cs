@@ -3,6 +3,7 @@
     using System;
     using System.Collections.ObjectModel;
     using Configuration;
+    using Core.Client.UI;
     using WindowSelection;
     using Converter.Map;
     using Models;

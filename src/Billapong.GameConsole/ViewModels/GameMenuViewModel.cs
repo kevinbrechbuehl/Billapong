@@ -1,6 +1,7 @@
 ﻿namespace Billapong.GameConsole.ViewModels
 {
     using Configuration;
+    using Core.Client.UI;
     using Models;
 
     /// <summary>

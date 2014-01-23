@@ -53,6 +53,8 @@
     </Compile>
     <Compile Include="Tracing\Tracer.cs" />
     <Compile Include="Tracing\TracingServiceClient.cs" />
+    <Compile Include="UI\DelegateCommand.cs" />
+    <Compile Include="UI\ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Billapong.Contract\Billapong.Contract.csproj">
@@ -60,6 +62,7 @@
       <Name>Billapong.Contract</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
