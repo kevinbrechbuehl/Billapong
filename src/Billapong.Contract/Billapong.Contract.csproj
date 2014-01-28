@@ -62,6 +62,7 @@
     <Compile Include="Service\IAdministrationService.cs" />
     <Compile Include="Service\IGameConsoleCallback.cs" />
     <Compile Include="Service\IGameConsoleService.cs" />
+    <Compile Include="Service\IMapEditorService.cs" />
     <Compile Include="Service\ITracingService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

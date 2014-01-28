@@ -56,6 +56,7 @@
             {
                 { "tracing", new ServiceHost(typeof(TracingService)) },
                 { "gameconsole", new ServiceHost(typeof(GameConsoleService)) },
+                { "mapeditor", new ServiceHost(typeof(MapEditorService)) },
                 { "administration", new ServiceHost(typeof(AdministrationService)) }
             };
         }
