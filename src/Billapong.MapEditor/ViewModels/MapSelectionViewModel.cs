@@ -1,15 +1,19 @@
 ﻿namespace Billapong.MapEditor.ViewModels
 {
     using System.Collections.ObjectModel;
+    using Converter;
     using Core.Client.UI;
     using Models;
+    using Services;
 
     public class MapSelectionViewModel : ViewModelBase
     {
         /// <summary>
         /// The is data loading
         /// </summary>
-        private bool isDataLoading = false;
+        private bool isDataLoading;
+
+        private readonly MapEditorServiceClient proxy;
 
         /// <summary>
         /// Gets or sets a value indicating whether the view data is loading.
@@ -35,6 +39,7 @@
 
         public MapSelectionViewModel()
         {
+            this.proxy = new MapEditorServiceClient();
             this.Maps = new ObservableCollection<Map>();
             this.LoadMaps();
         }
@@ -42,11 +47,11 @@
         private async void LoadMaps()
         {
             this.IsDataLoading = true;
-            /*var maps = await this.proxy.GetMapsAsync();
+            var maps = await this.proxy.GetMapsAsync();
             foreach (var map in maps)
             {
                 this.Maps.Add(map.ToEntity());
-            }*/
+            }
 
             this.IsDataLoading = false;
         } 
