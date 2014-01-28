@@ -8,6 +8,8 @@ namespace Billapong.MapEditor.Models
 {
     public class Map
     {
+        public long Id { get; set; }
+        
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
@@ -15,5 +17,11 @@ namespace Billapong.MapEditor.Models
         /// The name.
         /// </value>
         public string Name { get; set; }
+
+        public bool IsPlayable { get; set; }
+
+        public int NumberOfWindows { get; set; }
+
+        public int NumberOfHoles { get; set; }
     }
 }

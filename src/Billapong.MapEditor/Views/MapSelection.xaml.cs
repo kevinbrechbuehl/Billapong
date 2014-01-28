@@ -24,6 +24,7 @@ namespace Billapong.MapEditor.Views
         public MapSelection()
         {
             InitializeComponent();
+            this.DataContext = new MapSelectionViewModel();
         }
     }
 }

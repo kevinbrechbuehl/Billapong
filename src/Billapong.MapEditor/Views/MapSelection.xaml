@@ -1,51 +1,61 @@
 ﻿<Window x:Class="Billapong.MapEditor.Views.MapSelection"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:viewModel="clr-namespace:Billapong.MapEditor.ViewModels"
-        Title="MapSelection" Height="300" Width="300">
+        xmlns:app="clr-namespace:Billapong.Core.Client.UI.Converter;assembly=Billapong.Core.Client"
+        Title="MapSelection" Height="300" Width="496">
 
     <Window.Resources>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <app:BooleanToVisibilityConverter 
+            x:Key="InvertBooleanToVisibilityConverter" 
+            True="Collapsed" 
+            False="Visible" />
+        <app:BooleanToVisibilityConverter 
+            x:Key="BooleanToVisibilityConverter" 
+            True="Visible" 
+            False="Collapsed" />
     </Window.Resources>
-
-    <Window.DataContext>
-        <viewModel:MapSelectionViewModel />
-    </Window.DataContext>
 
     <DockPanel>
 
-        <ListView ItemsSource="{Binding Maps}" DockPanel.Dock="Top" x:Name="MapList" BorderThickness="0">
-            <ListView.Style>
-                <Style TargetType="ListView">
-                    <Style.Triggers>
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding Path=IsDataLoading}" Value="False" />
-                                <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=HasItems}" Value="False" />
-                            </MultiDataTrigger.Conditions>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="ListView">
-                                        <TextBlock Text="No maps found"/>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </MultiDataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </ListView.Style>
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel IsItemsHost="True" Width="480" />
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Button Content="{Binding Name}" Height="60" Width="105" />
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <Grid Visibility="{Binding Path=IsDataLoading, Converter={StaticResource InvertBooleanToVisibilityConverter}}">
+            <StackPanel>
 
-        <TextBlock Visibility="{Binding Path=IsDataLoading, Converter={StaticResource BooleanToVisibility}}" HorizontalAlignment="Center" VerticalAlignment="Center">Loading maps...</TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <Button Command="{Binding CreateNewMapCommand}" Content="Create new map" Margin="10" Padding="3" />
+                    <Button Command="{Binding RefreshMapsCommand}" Content="Refresh list" Margin="10" Padding="3" />
+                </StackPanel>
+                
+                <ListView ItemsSource="{Binding Maps}" x:Name="MapList">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="150" Header="Name" DisplayMemberBinding="{Binding Name}" />
+                            <GridViewColumn Width="80" Header="Windows" DisplayMemberBinding="{Binding NumberOfWindows}" />
+                            <GridViewColumn Width="70" Header="Holes" DisplayMemberBinding="{Binding NumberOfHoles}" />
+                            <GridViewColumn Width="80" Header="Playable" DisplayMemberBinding="{Binding IsPlayable}" />
+                            <GridViewColumn Width="90" Header="Actions">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Padding="5, 0, 5, 0">
+                                                <Hyperlink Command="{Binding Path=DataContext.EditMapCommand, ElementName=MapList}" CommandParameter="{Binding}">
+                                                    <TextBlock Text="Edit" />
+                                                </Hyperlink>
+                                            </TextBlock>
+                                            <TextBlock Padding="5, 0, 5, 0">
+                                                <Hyperlink Command="{Binding Path=DataContext.DeleteMapCommand, ElementName=MapList}" CommandParameter="{Binding}">
+                                                    <TextBlock Text="Delete" />
+                                                </Hyperlink>
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </StackPanel>
+        </Grid>
+
+        <TextBlock Visibility="{Binding Path=IsDataLoading, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center">Loading maps...</TextBlock>
     </DockPanel>
 </Window>

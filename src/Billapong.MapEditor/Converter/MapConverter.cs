@@ -1,5 +1,6 @@
 ﻿namespace Billapong.MapEditor.Converter
 {
+    using System.Linq;
     using Models;
 
     public static class MapConverter
@@ -8,7 +9,11 @@
         {
             return new Map
             {
-                Name = source.Name
+                Id = source.Id,
+                Name = source.Name,
+                IsPlayable = source.IsPlayable,
+                NumberOfWindows = source.Windows.Count,
+                NumberOfHoles = source.Windows.Sum(window => window.Holes.Count)
             };
         }
     }

@@ -30,6 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -53,6 +54,8 @@
     </Compile>
     <Compile Include="Tracing\Tracer.cs" />
     <Compile Include="Tracing\TracingServiceClient.cs" />
+    <Compile Include="UI\Converter\BooleanConverter.cs" />
+    <Compile Include="UI\Converter\BooleanToVisibilityConverter.cs" />
     <Compile Include="UI\DelegateCommand.cs" />
     <Compile Include="UI\NotificationObject.cs" />
     <Compile Include="UI\ViewModelBase.cs" />

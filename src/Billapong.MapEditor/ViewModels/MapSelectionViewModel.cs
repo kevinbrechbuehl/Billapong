@@ -1,6 +1,8 @@
 ﻿namespace Billapong.MapEditor.ViewModels
 {
     using System.Collections.ObjectModel;
+    using System.Threading;
+    using System.Windows;
     using Converter;
     using Core.Client.UI;
     using Models;
@@ -37,6 +39,38 @@
 
         public ObservableCollection<Map> Maps { get; private set; }
 
+        public DelegateCommand CreateNewMapCommand
+        {
+            get
+            {
+                return new DelegateCommand(this.CreateNewMap);
+            }
+        }
+
+        public DelegateCommand RefreshMapsCommand
+        {
+            get
+            {
+                return new DelegateCommand(this.RefreshMaps);
+            }
+        }
+
+        public DelegateCommand DeleteMapCommand
+        {
+            get
+            {
+                return new DelegateCommand(this.DeleteMap);
+            }
+        }
+
+        public DelegateCommand EditMapCommand
+        {
+            get
+            {
+                return new DelegateCommand(this.EditMap);
+            }
+        }
+
         public MapSelectionViewModel()
         {
             this.proxy = new MapEditorServiceClient();
@@ -48,12 +82,38 @@
         {
             this.IsDataLoading = true;
             var maps = await this.proxy.GetMapsAsync();
+            this.Maps.Clear();
             foreach (var map in maps)
             {
                 this.Maps.Add(map.ToEntity());
             }
 
             this.IsDataLoading = false;
-        } 
+        }
+
+        private void DeleteMap(object map)
+        {
+            // todo (breck1): decouple this from the viewmodel, i.e. with http://deanchalk.com/2010/05/06/wpf-mvvm-simple-messagebox-show-with-action-func/
+            if (MessageBox.Show(string.Format("Are you sure you want to delete the map '{0}'?", ((Map)map).Name),
+                "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                MessageBox.Show("delete");    
+            }
+        }
+
+        private void EditMap(object map)
+        {
+            MessageBox.Show(string.Format("edit map {0}", ((Map)map).Name));
+        }
+
+        private void CreateNewMap(object parameters)
+        {
+            MessageBox.Show("create new map");
+        }
+
+        private void RefreshMaps(object parameters)
+        {
+            this.LoadMaps();
+        }
     }
 }
