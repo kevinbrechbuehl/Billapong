@@ -1,11 +1,12 @@
 ﻿namespace Billapong.GameConsole.Models
 {
     using Configuration;
+    using Core.Client.UI;
 
     /// <summary>
     /// Represents a hole within a window
     /// </summary>
-    public class Hole
+    public class Hole : NotificationObject
     {
         /// <summary>
         /// Gets or sets the identifier.
@@ -35,7 +36,7 @@
         {
             get
             {
-                return GameConfiguration.HoleDiameter ;
+                return GameConfiguration.HoleDiameter;
             }
         }
 
@@ -56,6 +57,7 @@
             set
             {
                 this.left = value;
+                OnPropertyChanged();
             }
         }
 
@@ -76,6 +78,7 @@
             set
             {
                 this.top = value;
+                OnPropertyChanged();
             }
         }
     }

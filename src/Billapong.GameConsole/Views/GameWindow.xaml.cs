@@ -1,11 +1,10 @@
 ﻿namespace Billapong.GameConsole.Views
 {
+    using System.Windows.Media;
+    using System.Windows.Shapes;
     using Animation;
     using System.Collections.Concurrent;
-    using System.Collections.Generic;
     using System.Windows;
-    using System.Windows.Shapes;
-    using ViewModels;
 
     /// <summary>
     /// Interaction logic for GameWindow.xaml
@@ -23,14 +22,6 @@
         public GameWindow()
         {
             this.InitializeComponent();
-
-            //this.holeDiameter = this.MapCanvas.Width/GridSize;
-            //this.ballRadius = this.holeDiameter*0.667/2;
-        }
-
-        public void InitializeHoles()
-        {
-            var viewModel = this.DataContext as GameWindowViewModel;
         }
     }
 }
