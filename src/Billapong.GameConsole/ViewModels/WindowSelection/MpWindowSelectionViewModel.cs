@@ -22,8 +22,7 @@
         /// <summary>
         /// Starts the game.
         /// </summary>
-        /// <param name="properties">The properties.</param>
-        protected override void StartGame(object properties)
+        protected override void StartGame()
         {
             var loadingScreen = new LoadingScreenViewModel("Waiting for opponent...");
             var callback = new GameConsoleCallback();

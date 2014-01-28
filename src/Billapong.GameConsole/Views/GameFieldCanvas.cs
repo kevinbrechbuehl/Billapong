@@ -26,9 +26,11 @@
         private static void OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             var canvas = (GameFieldCanvas)sender;
-            if (canvas.ClickCommand.CanExecute(null))
+            var mousePosition = e.GetPosition((IInputElement)sender);
+            
+            if (canvas.ClickCommand.CanExecute(mousePosition))
             {
-                canvas.ClickCommand.Execute(null);
+                canvas.ClickCommand.Execute(mousePosition);
             }
         }
     }

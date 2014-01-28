@@ -34,6 +34,8 @@
 
         public const int HoleDiameter = GameWindowWidth / GameGridSize;
 
+        public const double BallRadius = HoleDiameter * 0.667 / 2;
+
         public const int MaxNumberOfHorizontalGameWindows = 4;
 
         public const int MaxNumberOfVerticalWindows = 3;

@@ -2,7 +2,6 @@
 {
     using Configuration;
     using Core.Client.UI;
-    using Models;
 
     /// <summary>
     /// The game menu view model
@@ -24,11 +23,11 @@
         /// <value>
         /// The open map selection command.
         /// </value>
-        public DelegateCommand OpenMapSelectionCommand
+        public DelegateCommand<string> OpenMapSelectionCommand
         {
             get
             {
-                return new DelegateCommand(this.OpenMapSelection);
+                return new DelegateCommand<string>(this.OpenMapSelection);
             }
         }
 
@@ -58,13 +57,13 @@
         /// Opens the map selection.
         /// </summary>
         /// <param name="parameter">The parameter.</param>
-        public void OpenMapSelection(object parameter)
+        public void OpenMapSelection(string parameter)
         {
             if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.PlayerName))
             {
                 GameConfiguration.GameType gameType;
 
-                switch (parameter != null ? parameter.ToString() : string.Empty)
+                switch (!string.IsNullOrWhiteSpace(parameter) ? parameter : string.Empty)
                 {
                     case "training":
                         gameType = GameConfiguration.GameType.SinglePlayerTraining;
@@ -82,7 +81,7 @@
             }
             else
             {
-                this.OpenSettings(parameter);
+                this.OpenSettings();
             }
         }
 
@@ -90,7 +89,7 @@
         /// Opens the game lobby.
         /// </summary>
         /// <param name="parameters">The parameters.</param>
-        public void OpenGameLobby(object parameters)
+        public void OpenGameLobby()
         {
             var viewModel = new GameLobbyViewModel();
             this.SwitchWindowContent(viewModel);
@@ -100,7 +99,7 @@
         /// Opens the settings.
         /// </summary>
         /// <param name="parameters">The parameters.</param>
-        public void OpenSettings(object parameters)
+        public void OpenSettings()
         {
             var viewModel = new SettingsViewModel();
             this.SwitchWindowContent(viewModel);

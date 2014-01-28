@@ -23,7 +23,7 @@
         /// Starts the game.
         /// </summary>
         /// <param name="properties">The properties.</param>
-        protected override void StartGame(object properties)
+        protected override void StartGame()
         {
             var game = new Game();
             game.Init(new Guid(), this.Map, null, true);

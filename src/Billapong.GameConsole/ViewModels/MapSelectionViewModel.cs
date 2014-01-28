@@ -79,11 +79,11 @@
         /// <value>
         /// The open window selection command.
         /// </value>
-        public DelegateCommand OpenWindowSelectionCommand
+        public DelegateCommand<Map> OpenWindowSelectionCommand
         {
             get
             {
-                return new DelegateCommand(this.OpenWindowSelection);
+                return new DelegateCommand<Map>(this.OpenWindowSelection);
             }
         }
 
@@ -105,10 +105,8 @@
         /// <summary>
         /// Opens the window selection.
         /// </summary>
-        /// <param name="properties">The properties.</param>
-        private void OpenWindowSelection(object properties)
+        private void OpenWindowSelection(Map map)
         {
-            var map = properties as Map;
             var viewModel = WindowSelectionViewModelFactory.CreateInstance(this.gameType, map);
             this.SwitchWindowContent(viewModel);
         }

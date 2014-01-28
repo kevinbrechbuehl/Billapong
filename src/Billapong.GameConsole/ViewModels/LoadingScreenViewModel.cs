@@ -43,7 +43,7 @@
             GameManager.Instance.StartGame(game);
         }
 
-        protected override void NavigateBack(object properties)
+        protected override void NavigateBack()
         {
 
             // Todo (mathp2): Offenes Spiel schliessen oder verlassen
@@ -56,7 +56,7 @@
                 MessageBox.Show("Todo: Stop joining game?");
             }
 
-            base.NavigateBack(properties);
+            base.NavigateBack();
         }
 
         /// <summary>

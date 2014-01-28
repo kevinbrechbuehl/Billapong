@@ -38,7 +38,7 @@
             this.BackButtonContent = "Back to menu";
         }
 
-        public void SaveSettings(object properties)
+        public void SaveSettings()
         {
             Properties.Settings.Default.PlayerName = this.PlayerName;
             Properties.Settings.Default.Save();

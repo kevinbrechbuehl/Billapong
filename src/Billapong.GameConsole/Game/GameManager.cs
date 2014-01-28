@@ -106,7 +106,7 @@
 
         private void GameFieldClicked(object sender, GameFieldClickedEventArgs args)
         {
-            MessageBox.Show("Clicked window with id: " + this.windows[(GameWindowViewModel) sender].Id);
+            //MessageBox.Show("Clicked window with id: " + this.windows[(GameWindowViewModel) sender].Id);
         }
     }
 }
