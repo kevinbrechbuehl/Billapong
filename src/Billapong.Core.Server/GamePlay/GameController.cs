@@ -167,7 +167,7 @@
             player.Name = username;
             player.Callback = callback;
             player.VisibleWindows.AddRange(game.Map.Windows.Count > 1
-                ? game.Map.Windows.Select(map => map.Id).Where(id => !player1VisibleWindows.Contains(id))
+                ? game.Map.Windows.Select(window => window.Id).Where(id => !player1VisibleWindows.Contains(id))
                 : player1VisibleWindows);
 
             game.Players[1] = player;
@@ -270,7 +270,7 @@
 
             // get players
             var player1 = game.Players[0];
-            var player2 = game.Players[0];
+            var player2 = game.Players[1];
 
             // send callbacks
             player1.Callback.StartGame(game.Id, game.Map.ToContract(), player2.Name, player1.VisibleWindows, player1Start);
