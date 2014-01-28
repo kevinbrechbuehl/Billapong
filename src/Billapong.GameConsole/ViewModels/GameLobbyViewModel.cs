@@ -97,7 +97,7 @@
             {
                 if (this.joinGameCommand == null)
                 {
-                    this.JoinGameCommand = new DelegateCommand(this.JoinGame, o => this.SelectedLobbyGame != null);
+                    this.JoinGameCommand = new DelegateCommand(this.JoinGame, () => this.SelectedLobbyGame != null);
                 }
 
                 return this.joinGameCommand;
@@ -134,8 +134,7 @@
         /// <summary>
         /// Joins the game.
         /// </summary>
-        /// <param name="properties">The properties.</param>
-        private void JoinGame(object properties)
+        private void JoinGame()
         {
             try
             {
@@ -153,8 +152,7 @@
         /// <summary>
         /// Loads the open games.
         /// </summary>
-        /// <param name="properties">The properties.</param>
-        private async void LoadOpenGames(object properties = null)
+        private async void LoadOpenGames()
         {
             this.IsDataLoading = true;
             this.OpenGames.Clear();

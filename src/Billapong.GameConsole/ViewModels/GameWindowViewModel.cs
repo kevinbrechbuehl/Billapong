@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Windows;
     using Core.Client.UI;
     using Models;
@@ -16,11 +17,11 @@
 
         public event EventHandler<GameFieldClickedEventArgs> GameFieldClicked = delegate { }; 
 
-        public DelegateCommand GameFieldClickedCommand
+        public DelegateCommand<Point> GameFieldClickedCommand
         {
             get
             {
-                return new DelegateCommand(Clicked, IsGameFieldClickable);
+                return new DelegateCommand<Point>(Clicked, IsGameFieldClickable);
             }
         }
 
@@ -34,16 +35,16 @@
             }
         }
 
-        private bool IsGameFieldClickable(object properties)
+        private bool IsGameFieldClickable(Point mousePosition)
         {
             return true;
         }
 
-        private void Clicked(object properties)
+        private void Clicked(Point mousePosition)
         {
             // Todo (mathp2): Examining the position
             var eventArgs = new GameFieldClickedEventArgs(new Point());
-            this.GameFieldClicked(this, eventArgs);
+            this.GameFieldClicked(this, eventArgs);   
         }
     }
 }

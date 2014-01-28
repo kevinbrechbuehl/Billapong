@@ -83,7 +83,7 @@
         /// Toggles the window button.
         /// </summary>
         /// <param name="properties">The properties.</param>
-        protected virtual void ToggleWindowButton(object properties)
+        protected virtual void ToggleWindowButton()
         {
             this.StartGameCommand.RaiseCanExecuteChanged();
         }
@@ -91,8 +91,7 @@
         /// <summary>
         /// Starts the game.
         /// </summary>
-        /// <param name="properties">The properties.</param>
-        protected virtual void StartGame(object properties)
+        protected virtual void StartGame()
         {
             var gameWindow = new GameWindow();
             gameWindow.Show();
@@ -101,9 +100,8 @@
         /// <summary>
         /// Determines whether the game can be started or not.
         /// </summary>
-        /// <param name="properties">The properties.</param>
         /// <returns>The check result</returns>
-        protected virtual bool CanStartGame(object properties)
+        protected virtual bool CanStartGame()
         {
             return this.WindowRows.Any(x => x.Value.Any(w => w.IsOwnWindow));
         }
