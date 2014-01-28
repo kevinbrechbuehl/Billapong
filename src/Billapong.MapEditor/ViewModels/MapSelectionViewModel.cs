@@ -55,19 +55,19 @@
             }
         }
 
-        public DelegateCommand DeleteMapCommand
+        public DelegateCommand<Map> DeleteMapCommand
         {
             get
             {
-                return new DelegateCommand(this.DeleteMap);
+                return new DelegateCommand<Map>(this.DeleteMap);
             }
         }
 
-        public DelegateCommand EditMapCommand
+        public DelegateCommand<Map> EditMapCommand
         {
             get
             {
-                return new DelegateCommand(this.EditMap);
+                return new DelegateCommand<Map>(this.EditMap);
             }
         }
 
@@ -97,27 +97,27 @@
             this.LoadMaps();
         }
 
-        private void DeleteMap(object map)
+        private void DeleteMap(Map map)
         {
             // todo (breck1): decouple this from the viewmodel, i.e. with http://deanchalk.com/2010/05/06/wpf-mvvm-simple-messagebox-show-with-action-func/
             if (MessageBox.Show(string.Format("Are you sure you want to delete the map '{0}'?", ((Map)map).Name),
                 "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                this.DeleteMap(((Map)map).Id);
+                this.DeleteMap(map.Id);
             }
         }
 
-        private void EditMap(object map)
+        private void EditMap(Map map)
         {
-            MessageBox.Show(string.Format("edit map {0}", ((Map)map).Name));
+            MessageBox.Show(string.Format("edit map {0}", map.Name));
         }
 
-        private void CreateNewMap(object parameters)
+        private void CreateNewMap()
         {
             MessageBox.Show("create new map");
         }
 
-        private void RefreshMaps(object parameters)
+        private void RefreshMaps()
         {
             this.LoadMaps();
         }
