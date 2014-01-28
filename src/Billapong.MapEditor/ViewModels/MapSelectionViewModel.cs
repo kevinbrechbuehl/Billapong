@@ -1,6 +1,8 @@
 ﻿namespace Billapong.MapEditor.ViewModels
 {
+    using System.Collections.ObjectModel;
     using Core.Client.UI;
+    using Models;
 
     public class MapSelectionViewModel : ViewModelBase
     {
@@ -28,5 +30,25 @@
                 OnPropertyChanged();
             }
         }
+
+        public ObservableCollection<Map> Maps { get; private set; }
+
+        public MapSelectionViewModel()
+        {
+            this.Maps = new ObservableCollection<Map>();
+            this.LoadMaps();
+        }
+
+        private async void LoadMaps()
+        {
+            this.IsDataLoading = true;
+            /*var maps = await this.proxy.GetMapsAsync();
+            foreach (var map in maps)
+            {
+                this.Maps.Add(map.ToEntity());
+            }*/
+
+            this.IsDataLoading = false;
+        } 
     }
 }

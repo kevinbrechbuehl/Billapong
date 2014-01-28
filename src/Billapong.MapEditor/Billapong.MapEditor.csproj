@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\Map.cs" />
     <Compile Include="ViewModels\MapSelectionViewModel.cs" />
     <Compile Include="Views\MapSelection.xaml.cs">
       <DependentUpon>MapSelection.xaml</DependentUpon>

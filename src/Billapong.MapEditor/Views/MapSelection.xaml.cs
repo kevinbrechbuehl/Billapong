@@ -14,6 +14,8 @@ using System.Windows.Shapes;
 
 namespace Billapong.MapEditor.Views
 {
+    using ViewModels;
+
     /// <summary>
     /// Interaction logic for MapSelection.xaml
     /// </summary>
