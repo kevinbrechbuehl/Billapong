@@ -77,5 +77,15 @@
             
             return maps.FirstOrDefault();
         }
+
+        /// <summary>
+        /// Deletes the map.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        public void DeleteMap(long id)
+        {
+            this.repository.Remove(id);
+            this.repository.Save();
+        }
     }
 }

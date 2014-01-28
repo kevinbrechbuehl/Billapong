@@ -21,5 +21,15 @@ namespace Billapong.MapEditor.Services
         {
             return await this.ExecuteAsync(() => this.Proxy.GetMaps());
         }
+
+        public void DeleteMap(long mapId)
+        {
+            this.Execute(() => this.Proxy.DeleteMap(mapId));
+        }
+
+        public async void DeleteMapAsync(long mapId)
+        {
+            await this.ExecuteAsync(() => this.Proxy.DeleteMap(mapId));
+        }
     }
 }

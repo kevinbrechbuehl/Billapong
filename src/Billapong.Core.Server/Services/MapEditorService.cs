@@ -24,5 +24,14 @@
         {
             return MapController.Current.GetMaps().Select(map => map.ToContract()).ToList();
         }
+
+        /// <summary>
+        /// Deletes the map.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        public void DeleteMap(long mapId)
+        {
+            MapController.Current.DeleteMap(mapId);
+        }
     }
 }

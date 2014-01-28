@@ -16,5 +16,12 @@
         /// <returns>List of available maps</returns>
         [OperationContract(Name = "GetMaps")]
         IEnumerable<Map> GetMaps();
+
+        /// <summary>
+        /// Deletes the map.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        [OperationContract(Name = "DeleteMap")]
+        void DeleteMap(long mapId);
     }
 }
