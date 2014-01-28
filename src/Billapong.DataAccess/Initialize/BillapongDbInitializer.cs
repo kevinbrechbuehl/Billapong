@@ -358,10 +358,31 @@
                 }
             };
 
+            var unplayableMap = new Map
+            {
+                Name = "Unplayable Map",
+                IsPlayable = false,
+                Windows = new List<Window>
+                {
+                    new Window
+                    {
+                        X = 0,
+                        Y = 0,
+                        Holes = new List<Hole>
+                        {
+                            new Hole { X = 3, Y = 5 },
+                            new Hole { X = 10, Y = 7 },
+                            new Hole { X = 1, Y = 14 }
+                        }
+                    }
+                }
+            };
+
             context.Maps.Add(simpleMap);
             context.Maps.Add(advancedMap);
             context.Maps.Add(fullMap);
             context.Maps.Add(doughnutMap);
+            context.Maps.Add(unplayableMap);
             context.SaveChanges();
         }
     }
