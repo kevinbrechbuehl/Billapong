@@ -10,6 +10,8 @@
     /// </summary>
     public class MapController
     {
+        private static readonly object WriterLockObject = new object();
+        
         /// <summary>
         /// The repository
         /// </summary>
@@ -84,8 +86,43 @@
         /// <param name="id">The identifier.</param>
         public void DeleteMap(long id)
         {
-            this.repository.Remove(id);
+            lock (WriterLockObject)
+            {
+                this.repository.Remove(id);
+                this.repository.Save();
+            }
+        }
+
+        public void SaveGeneral(long id, string name)
+        {
+            lock (WriterLockObject)
+            {
+                var map = this.GetMap(id);
+                map.Name = name;
+                this.repository.Save();
+            }
+
+            // todo (breck1): send callbacks
+        }
+
+        private Map GetMap(long id)
+        {
+            // todo (breck1): exception handling in whole class
+            
+            if (id > 0)
+            {
+                return this.repository.GetById(id);
+            }
+
+            var map = new Map
+            {
+                Name = "Unnamed",
+                IsPlayable = false
+            };
+
+            this.repository.Add(map);
             this.repository.Save();
+            return map;
         }
     }
 }

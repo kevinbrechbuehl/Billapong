@@ -23,5 +23,13 @@
         /// <param name="mapId">The map identifier.</param>
         [OperationContract(Name = "DeleteMap")]
         void DeleteMap(long mapId);
+
+        /// <summary>
+        /// Sets the name of the map.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <param name="name">The name.</param>
+        [OperationContract(Name = "SaveGeneral")]
+        void SaveGeneral(GeneralMapData map);
     }
 }

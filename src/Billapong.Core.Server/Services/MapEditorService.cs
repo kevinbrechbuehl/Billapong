@@ -33,5 +33,14 @@
         {
             MapController.Current.DeleteMap(mapId);
         }
+
+        /// <summary>
+        /// Sets the name of the map.
+        /// </summary>
+        /// <param name="map"></param>
+        public void SaveGeneral(GeneralMapData map)
+        {
+            MapController.Current.SaveGeneral(map.Id, map.Name);
+        }
     }
 }

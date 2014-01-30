@@ -27,6 +27,11 @@ namespace Billapong.MapEditor.Services
             this.Execute(() => this.Proxy.DeleteMap(mapId));
         }
 
+        public void SaveGeneral(GeneralMapData map)
+        {
+            this.Execute(() => this.Proxy.SaveGeneral(map));
+        }
+
         public async void DeleteMapAsync(long mapId)
         {
             await this.ExecuteAsync(() => this.Proxy.DeleteMap(mapId));
