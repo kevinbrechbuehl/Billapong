@@ -14,17 +14,14 @@ using System.Windows.Shapes;
 
 namespace Billapong.MapEditor.Views
 {
-    using ViewModels;
-
     /// <summary>
-    /// Interaction logic for MapSelection.xaml
+    /// Interaction logic for MapEdit.xaml
     /// </summary>
-    public partial class MapSelection : Window
+    public partial class MapEditView : Window
     {
-        public MapSelection()
+        public MapEditView()
         {
             InitializeComponent();
-            this.DataContext = new MapSelectionViewModel();
         }
     }
 }

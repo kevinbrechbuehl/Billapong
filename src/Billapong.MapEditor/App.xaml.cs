@@ -3,6 +3,8 @@
     using System.Windows;
     using Contract.Data.Tracing;
     using Core.Client.Tracing;
+    using Core.Client.UI;
+    using ViewModels;
 
     /// <summary>
     /// Interaction logic for App.xaml
@@ -17,9 +19,14 @@
         {
             base.OnStartup(e);
 
+            // load the main window
+            (new WindowManager()).Open(new MapSelectionViewModel());
+
+            // add events
             this.DispatcherUnhandledException += this.App_DispatcherUnhandledException;
             this.ShutdownMode = ShutdownMode.OnMainWindowClose;
 
+            // initialize tracing
             Tracer.Initialize(Component.MapEditor);
         }
 

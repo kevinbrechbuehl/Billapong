@@ -109,12 +109,12 @@
 
         private void EditMap(Map map)
         {
-            MessageBox.Show(string.Format("edit map {0}", map.Name));
+            this.WindowManager.Open(new MapEditViewModel(map));
         }
 
         private void CreateNewMap()
         {
-            MessageBox.Show("create new map");
+            this.WindowManager.Open(new MapEditViewModel());
         }
 
         private void RefreshMaps()

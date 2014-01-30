@@ -58,15 +58,23 @@
     <Compile Include="Converter\MapConverter.cs" />
     <Compile Include="Models\Map.cs" />
     <Compile Include="Services\MapEditorServiceClient.cs" />
+    <Compile Include="ViewModels\MapEditViewModel.cs" />
     <Compile Include="ViewModels\MapSelectionViewModel.cs" />
-    <Compile Include="Views\MapSelection.xaml.cs">
-      <DependentUpon>MapSelection.xaml</DependentUpon>
+    <Compile Include="Views\MapEditView.xaml.cs">
+      <DependentUpon>MapEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MapSelectionView.xaml.cs">
+      <DependentUpon>MapSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\MapSelection.xaml">
+    <Page Include="Views\MapEditView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MapSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

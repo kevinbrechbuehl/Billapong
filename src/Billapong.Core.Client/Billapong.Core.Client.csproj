@@ -61,6 +61,7 @@
     <Compile Include="UI\DelegateCommandGeneric.cs" />
     <Compile Include="UI\NotificationObject.cs" />
     <Compile Include="UI\ViewModelBase.cs" />
+    <Compile Include="UI\WindowManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Billapong.Contract\Billapong.Contract.csproj">

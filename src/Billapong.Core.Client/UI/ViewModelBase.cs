@@ -5,5 +5,11 @@
     /// </summary>
     public abstract class ViewModelBase : NotificationObject
     {
+        protected WindowManager WindowManager { get; private set; }
+
+        protected ViewModelBase()
+        {
+            this.WindowManager = new WindowManager();
+        }
     }
 }
