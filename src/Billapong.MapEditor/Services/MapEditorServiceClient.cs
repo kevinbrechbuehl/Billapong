@@ -10,8 +10,16 @@ namespace Billapong.MapEditor.Services
     using Contract.Service;
     using Core.Client;
 
-    public class MapEditorServiceClient : RichClientBase<IMapEditorService>, IMapEditorService
+    public class MapEditorServiceClient : CallbackClientBase<IMapEditorService, IMapEditorCallback>, IMapEditorService
     {
+        public MapEditorServiceClient() : base(new MapEditorCallback())
+        {
+        }
+
+        public MapEditorServiceClient(IMapEditorCallback callback) : base(callback)
+        {
+        }
+        
         public IEnumerable<Map> GetMaps()
         {
             return this.Execute(() => this.Proxy.GetMaps());
@@ -30,6 +38,16 @@ namespace Billapong.MapEditor.Services
         public void SaveGeneral(GeneralMapData map)
         {
             this.Execute(() => this.Proxy.SaveGeneral(map));
+        }
+
+        public void RegisterCallback(long mapId)
+        {
+            this.Execute(() => this.Proxy.RegisterCallback(mapId));
+        }
+
+        public void UnregisterCallback(long mapId)
+        {
+            this.Execute(() => this.Proxy.UnregisterCallback(mapId));
         }
 
         public async void DeleteMapAsync(long mapId)

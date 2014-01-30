@@ -50,6 +50,7 @@
     <Compile Include="GamePlay\GameStatus.cs" />
     <Compile Include="GamePlay\Player.cs" />
     <Compile Include="Map\MapController.cs" />
+    <Compile Include="Map\MapEditor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>

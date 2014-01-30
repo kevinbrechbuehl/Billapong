@@ -40,7 +40,26 @@
         /// <param name="map"></param>
         public void SaveGeneral(GeneralMapData map)
         {
-            MapController.Current.SaveGeneral(map.Id, map.Name);
+            MapController.Current.SaveGeneral(map.Id, map.Name, this.GetCallback());
+        }
+
+        public void RegisterCallback(long mapId)
+        {
+            MapController.Current.RegisterCallback(mapId, this.GetCallback());
+        }
+
+        public void UnregisterCallback(long mapId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        /// <summary>
+        /// Gets the callback.
+        /// </summary>
+        /// <returns>Callback channel for the current context</returns>
+        private IMapEditorCallback GetCallback()
+        {
+            return OperationContext.Current.GetCallbackChannel<IMapEditorCallback>();
         }
     }
 }

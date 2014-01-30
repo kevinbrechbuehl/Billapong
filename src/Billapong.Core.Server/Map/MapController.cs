@@ -2,8 +2,11 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using DataAccess.Model.Map;
+    using System.Threading.Tasks;
+    using Contract.Data.Map;
+    using Contract.Service;
     using DataAccess.Repository;
+    using Map = DataAccess.Model.Map.Map;
 
     /// <summary>
     /// The map controller
@@ -11,6 +14,10 @@
     public class MapController
     {
         private static readonly object WriterLockObject = new object();
+
+        private static readonly object CallbackLockObject = new object();
+
+        private readonly IDictionary<long, MapEditor> editors = new Dictionary<long, MapEditor>();
         
         /// <summary>
         /// The repository
@@ -93,16 +100,59 @@
             }
         }
 
-        public void SaveGeneral(long id, string name)
+        public void SaveGeneral(long id, string name, IMapEditorCallback callback)
         {
+            Map map;
             lock (WriterLockObject)
             {
-                var map = this.GetMap(id);
+                map = this.GetMap(id);
                 map.Name = name;
                 this.repository.Save();
             }
 
-            // todo (breck1): send callbacks
+            if (id == 0)
+            {
+                this.RegisterCallback(map.Id, callback);
+            }
+
+            // send the callback
+            Task.Run(() => this.StartSaveGeneralCallback(map));
+        }
+
+        public void RegisterCallback(long id, IMapEditorCallback callback)
+        {
+            lock (CallbackLockObject)
+            {
+                MapEditor editor;
+                if (this.editors.ContainsKey(id))
+                {
+                    editor = this.editors[id];
+                }
+                else
+                {
+                    editor = new MapEditor();
+                    this.editors.Add(id, editor);
+                }
+
+                editor.Callbacks.Add(callback);
+            }
+        }
+
+        private void StartSaveGeneralCallback(Map map)
+        {
+            lock (CallbackLockObject)
+            {
+                var editor = this.editors.ContainsKey(map.Id) ? this.editors[map.Id] : null;
+                if (editor == null) return;
+
+                // todo (breck1): refactor
+
+                var data = new GeneralMapData {Id = map.Id, Name = map.Name};
+                foreach (var callback in editor.Callbacks)
+                {
+                    callback.SaveGeneral(data);
+                }
+            }
         }
 
         private Map GetMap(long id)

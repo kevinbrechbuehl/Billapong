@@ -56,7 +56,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converter\MapConverter.cs" />
+    <Compile Include="Models\Events\GeneralDataSavedEventArgs.cs" />
     <Compile Include="Models\Map.cs" />
+    <Compile Include="Services\MapEditorCallback.cs" />
     <Compile Include="Services\MapEditorServiceClient.cs" />
     <Compile Include="ViewModels\MapEditViewModel.cs" />
     <Compile Include="ViewModels\MapSelectionViewModel.cs" />
