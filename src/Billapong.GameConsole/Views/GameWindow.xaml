@@ -7,39 +7,40 @@
         Title="Billapong" SizeToContent="WidthAndHeight" WindowStyle="None" Name="Root">
 
 
-
-    <ItemsControl ItemsSource="{Binding CanvasElements}" Tag="lala">
-        <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-                <views:GameFieldCanvas x:Name="GameField" Background="White" Width="300" Height="300" ClickCommand="{Binding GameFieldClickedCommand}" IsItemsHost="True" />
-            </ItemsPanelTemplate>
-        </ItemsControl.ItemsPanel>
-        <ItemsControl.Resources>
-            <DataTemplate DataType="{x:Type models:Hole}">
-                <Ellipse Width="{Binding Diameter}" Height="{Binding Diameter}" Fill="Black"/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type models:Ball}">
-                <Path Name="BallPath" Fill="Red">
-                    <Path.Data>
-                        <EllipseGeometry x:Name="BallGeometry" Center="{Binding Position}" RadiusX="{Binding Radius}" RadiusY="{Binding Radius}" />
-                    </Path.Data>
-                    <Path.Triggers>
-                        <EventTrigger RoutedEvent="Path.MouseLeftButtonUp">
-                            <BeginStoryboard>
-                                <Storyboard cmds:StoryboardCompletedCommand.Command="{Binding ElementName=Root, Path=DataContext.BallAnimationFinishedCommand}">
-                                    <PointAnimation Storyboard.TargetName="BallGeometry" Storyboard.TargetProperty="Center" From="{Binding Position}" To="{Binding PointAnimation.NewPosition}" Duration="{Binding PointAnimation.Duration}" />
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </Path.Triggers>
-                </Path>
-            </DataTemplate>
-        </ItemsControl.Resources>
-        <ItemsControl.ItemContainerStyle>
-            <Style>
-                <Setter Property="Canvas.Left" Value="{Binding Left}" />
-                <Setter Property="Canvas.Top" Value="{Binding Top}" />
-            </Style>
-        </ItemsControl.ItemContainerStyle>
-    </ItemsControl>
+    <Viewbox Stretch="UniformToFill">
+        <ItemsControl ItemsSource="{Binding CanvasElements}" Tag="lala">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <views:GameFieldCanvas x:Name="GameField" Background="White" Width="300" Height="300" ClickCommand="{Binding GameFieldClickedCommand}" IsItemsHost="True" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.Resources>
+                <DataTemplate DataType="{x:Type models:Hole}">
+                    <Ellipse Width="{Binding Diameter}" Height="{Binding Diameter}" Fill="Black"/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type models:Ball}">
+                    <Path Name="BallPath" Fill="Red">
+                        <Path.Data>
+                            <EllipseGeometry x:Name="BallGeometry" Center="{Binding Position}" RadiusX="{Binding Radius}" RadiusY="{Binding Radius}" />
+                        </Path.Data>
+                        <Path.Triggers>
+                            <EventTrigger RoutedEvent="Path.MouseLeftButtonUp">
+                                <BeginStoryboard>
+                                    <Storyboard cmds:StoryboardCompletedCommand.Command="{Binding ElementName=Root, Path=DataContext.BallAnimationFinishedCommand}">
+                                        <PointAnimation Storyboard.TargetName="BallGeometry" Storyboard.TargetProperty="Center" From="{Binding Position}" To="{Binding PointAnimation.NewPosition}" Duration="{Binding PointAnimation.Duration}" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Path.Triggers>
+                    </Path>
+                </DataTemplate>
+            </ItemsControl.Resources>
+            <ItemsControl.ItemContainerStyle>
+                <Style>
+                    <Setter Property="Canvas.Left" Value="{Binding Left}" />
+                    <Setter Property="Canvas.Top" Value="{Binding Top}" />
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+        </ItemsControl>
+    </Viewbox>
 </Window>
