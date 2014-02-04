@@ -76,17 +76,22 @@
 
                 for (var currentCol = 0; currentCol <= maxWindowCol; currentCol++)
                 {
-                    var currentWindow = windowsInRow.FirstOrDefault(window => window.Y == currentCol && window.IsOwnWindow);
+                    var currentWindow = windowsInRow.FirstOrDefault(window => window.Y == currentCol);
                     if (currentWindow != null)
                     {
                         var gameWindow = new GameWindow();
                         gameWindow.Top = verticalOffset;
                         gameWindow.Left = horizontalOffset;
+                        gameWindow.MinHeight = Configuration.GameConfiguration.GameWindowHeight + windowBorderOffset;
+                        gameWindow.MinWidth = Configuration.GameConfiguration.GameWindowWidth + windowBorderOffset;
+                        gameWindow.MaxHeight = gameWindow.MinHeight;
+                        gameWindow.MaxWidth = gameWindow.MinWidth;
+                        gameWindow.ResizeMode = ResizeMode.NoResize;
+                        gameWindow.WindowStyle = WindowStyle.None;
                         
                         // Todo (mathp2): Remove client color separation somewhen in the future
-                        gameWindow.WindowStyle = WindowStyle.None;
                         gameWindow.BorderBrush = new SolidColorBrush(this.currentGame.StartGame ? Colors.Red : Colors.Blue);
-                        gameWindow.BorderThickness = new Thickness(2, 2, 2, 2);
+                        gameWindow.BorderThickness = new Thickness(1, 1, 1, 1);
 
                         var gameWindowViewModel = new GameWindowViewModel(currentWindow);
                         gameWindow.DataContext = gameWindowViewModel;
@@ -94,7 +99,10 @@
 
                         this.windows.Add(gameWindowViewModel, currentWindow);
 
-                        gameWindow.Show();
+                        if (currentWindow.IsOwnWindow)
+                        {
+                            gameWindow.Show();
+                        }
                     }
 
                     horizontalOffset += Configuration.GameConfiguration.GameWindowWidth + windowBorderOffset;
@@ -104,9 +112,16 @@
             }
         }
 
+        //private void PlaceBallOnGameField()
+        //{
+        //    var possibleStartWindows = this.windows.Where(x => x.Value.IsOwnWindow).ToArray();
+        //    var random = new Random(DateTime.Now.GetHashCode());
+        //    var randomWindow = possibleStartWindows.ElementAt(random.Next(0, possibleStartWindows.Count())).Key;
+        //}
+
         private void GameFieldClicked(object sender, GameFieldClickedEventArgs args)
         {
-            //MessageBox.Show("Clicked window with id: " + this.windows[(GameWindowViewModel) sender].Id);
+    
         }
     }
 }

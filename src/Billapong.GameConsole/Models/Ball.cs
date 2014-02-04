@@ -1,5 +1,7 @@
 ﻿namespace Billapong.GameConsole.Models
 {
+    using System.Windows;
+    using Animation;
     using Core.Client.UI;
 
     public class Ball : NotificationObject
@@ -12,34 +14,32 @@
             }
         }
 
-        private int left;
+        private Point position;
 
-        public int Left
+        public Point Position
         {
             get
             {
-                return left;
+                return this.position;
             }
-
             set
             {
-                this.left = value;
+                this.position = value;
                 OnPropertyChanged();
             }
         }
 
-        private int top;
+        private BallAnimationTask pointAnimation;
 
-        public int Top
+        public BallAnimationTask PointAnimation
         {
             get
             {
-                return top;
+                return this.pointAnimation;
             }
-
             set
             {
-                this.top = value;
+                this.pointAnimation = value;
                 OnPropertyChanged();
             }
         }

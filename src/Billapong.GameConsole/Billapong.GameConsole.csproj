@@ -54,6 +54,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Animation\StoryboardCompletedCommand.cs" />
     <Compile Include="Configuration\GameConfiguration.cs" />
     <Compile Include="Converter\Map\MapConverter.cs" />
     <Compile Include="Game\GameManager.cs" />
