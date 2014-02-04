@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.ServiceModel;
     using System.Windows;
-    using System.Windows.Threading;
     using Contract.Data.Map;
     using Contract.Service;
     using Converter.Map;
@@ -21,6 +20,11 @@
         /// Occurs when the game starts.
         /// </summary>
         public event EventHandler<GameStartedEventArgs> GameStarted = delegate { };
+
+        /// <summary>
+        /// Occurs when the ball should be placed on the gamefield.
+        /// </summary>
+        public event EventHandler<BallPlacedOnGameFieldEventArgs> StartPointSet = delegate { }; 
 
         /// <summary>
         /// Starts the game with a specific id.
@@ -55,9 +59,25 @@
             MessageBox.Show("Someone/-thing has canceled the game...");
         }
 
+        /// <summary>
+        /// Sets the start point.
+        /// </summary>
+        /// <param name="windowId">The windows identifier.</param>
+        /// <param name="pointX">The point x.</param>
+        /// <param name="pointY">The point y.</param>
         public void SetStartPoint(long windowId, int pointX, int pointY)
         {
-            throw new NotImplementedException();
+            var args = new BallPlacedOnGameFieldEventArgs(windowId, pointX, pointY);
+            ThreadContext.InvokeOnUiThread(() => this.OnStartPointSet(args));   
+        }
+
+        /// <summary>
+        /// Raises the <see cref="E:StartPointSet" /> event.
+        /// </summary>
+        /// <param name="args">The <see cref="BallPlacedOnGameFieldEventArgs"/> instance containing the event data.</param>
+        private void OnStartPointSet(BallPlacedOnGameFieldEventArgs args)
+        {
+            this.StartPointSet(this, args);
         }
 
         public void StartRound(int pointX, int pointY)

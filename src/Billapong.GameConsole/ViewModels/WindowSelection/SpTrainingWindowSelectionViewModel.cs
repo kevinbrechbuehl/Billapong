@@ -3,6 +3,7 @@
     using System;
     using System.Windows;
     using Billapong.GameConsole.Models;
+    using Configuration;
     using Game;
 
     /// <summary>
@@ -22,11 +23,10 @@
         /// <summary>
         /// Starts the game.
         /// </summary>
-        /// <param name="properties">The properties.</param>
         protected override void StartGame()
         {
             var game = new Game();
-            game.Init(new Guid(), this.Map, null, true);
+            game.Init(new Guid(), this.Map, null, true, GameConfiguration.GameType.SinglePlayerTraining);
             GameManager.Instance.StartGame(game);
         }
     }

@@ -1,6 +1,7 @@
 ﻿namespace Billapong.GameConsole.ViewModels
 {
     using System.Windows;
+    using Configuration;
     using Game;
     using Models;
     using Models.Events;
@@ -21,24 +22,36 @@
         private readonly bool isGameOwner;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LoadingScreenViewModel"/> class.
+        /// The game type
+        /// </summary>
+        private GameConfiguration.GameType gameType;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LoadingScreenViewModel" /> class.
         /// </summary>
         /// <param name="loadingMessage">The loading message.</param>
+        /// <param name="gameType">Type of the game.</param>
         /// <param name="isGameOwner">if set to <c>true</c> the current user is the game owner.</param>
-        public LoadingScreenViewModel(string loadingMessage, bool isGameOwner = false)
+        public LoadingScreenViewModel(string loadingMessage, GameConfiguration.GameType gameType, bool isGameOwner = false)
         {
             this.WindowWidth = 200;
             this.WindowHeight = 200;
             this.LoadingMessage = loadingMessage;
             this.BackButtonContent = "Cancel";
+            this.gameType = gameType;
 
             this.isGameOwner = isGameOwner;
         }
 
+        /// <summary>
+        /// Starts the game.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="GameStartedEventArgs"/> instance containing the event data.</param>
         public void StartGame(object sender, GameStartedEventArgs args)
         {
             var game = new Game();
-            game.Init(args.GameId, args.Map, args.Opponent, args.StartGame);
+            game.Init(args.GameId, args.Map, args.Opponent, args.StartGame, this.gameType);
 
             GameManager.Instance.StartGame(game);
         }

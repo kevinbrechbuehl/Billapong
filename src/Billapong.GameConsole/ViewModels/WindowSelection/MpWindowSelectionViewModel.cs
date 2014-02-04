@@ -2,6 +2,7 @@
 {
     using System.Linq;
     using System.Windows;
+    using Configuration;
     using Models;
     using Service;
 
@@ -24,7 +25,7 @@
         /// </summary>
         protected override void StartGame()
         {
-            var loadingScreen = new LoadingScreenViewModel("Waiting for opponent...");
+            var loadingScreen = new LoadingScreenViewModel("Waiting for opponent...", GameConfiguration.GameType.MultiPlayerGame);
             var callback = new GameConsoleCallback();
             callback.GameStarted += loadingScreen.StartGame;
 

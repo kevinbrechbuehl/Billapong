@@ -3,6 +3,7 @@
     using System.Collections.ObjectModel;
     using System.ServiceModel;
     using System.Windows;
+    using Configuration;
     using Contract.Data.GamePlay;
     using Contract.Exceptions;
     using Core.Client.UI;
@@ -138,7 +139,7 @@
         {
             try
             {
-                var loadingScreen = new LoadingScreenViewModel("Joining game. Please wait...");
+                var loadingScreen = new LoadingScreenViewModel("Joining game. Please wait...", GameConfiguration.GameType.MultiPlayerGame);
                 callback.GameStarted += loadingScreen.StartGame;
                 this.proxy.JoinGame(this.SelectedLobbyGame.Id, Properties.Settings.Default.PlayerName);
                 this.SwitchWindowContent(loadingScreen);

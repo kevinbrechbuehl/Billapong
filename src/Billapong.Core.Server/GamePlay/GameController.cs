@@ -259,8 +259,9 @@
         private void StartGameCallback(Game game)
         {
             // evaluate if player one would start
-            var player1Start = (new Random()).Next(0, 2) == 0;
-            
+            //var player1Start = (new Random()).Next(0, 2) == 0;
+            var player1Start = true;
+
             // check callbacks
             if (!this.CheckCallbacks(game))
             {

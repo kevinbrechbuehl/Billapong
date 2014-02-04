@@ -58,7 +58,12 @@
     <Compile Include="Configuration\GameConfiguration.cs" />
     <Compile Include="Converter\Map\MapConverter.cs" />
     <Compile Include="Game\GameManager.cs" />
+    <Compile Include="Game\IGameController.cs" />
+    <Compile Include="Game\MultiplayerGameController.cs" />
+    <Compile Include="Game\SinglePlayerGameController.cs" />
+    <Compile Include="Game\SinglePlayerTrainingGameController.cs" />
     <Compile Include="Models\Ball.cs" />
+    <Compile Include="Models\Events\BallPlacedOnGameFieldEventArgs.cs" />
     <Compile Include="Models\Events\GameFieldClickedEventArgs.cs" />
     <Compile Include="ViewModels\GameWindowViewModel.cs" />
     <Compile Include="Models\Events\GameStartedEventArgs.cs" />

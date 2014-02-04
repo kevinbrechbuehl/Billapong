@@ -24,6 +24,20 @@
         private BallAnimationTask currentBallAnimationTask;
 
         /// <summary>
+        /// Gets the window.
+        /// </summary>
+        /// <value>
+        /// The window.
+        /// </value>
+        public Window Window
+        {
+            get
+            {
+                return this.window;
+            }
+        }
+
+        /// <summary>
         /// Gets the holes.
         /// </summary>
         /// <value>
