@@ -18,6 +18,13 @@
         IEnumerable<Map> GetMaps();
 
         /// <summary>
+        /// Gets the map configuration.
+        /// </summary>
+        /// <returns>Config with number of rows and cols</returns>
+        [OperationContract(Name = "GetMapConfiguration")]
+        MapConfiguration GetMapConfiguration();
+
+        /// <summary>
         /// Deletes the map.
         /// </summary>
         /// <param name="mapId">The map identifier.</param>

@@ -1,6 +1,7 @@
 ﻿namespace Billapong.Core.Server.Services
 {
     using System.Collections.Generic;
+    using System.Configuration;
     using System.Linq;
     using System.ServiceModel;
     using Contract.Data.Map;
@@ -23,6 +24,29 @@
         public IEnumerable<Map> GetMaps()
         {
             return MapController.Current.GetMaps().Select(map => map.ToContract()).ToList();
+        }
+
+        /// <summary>
+        /// Gets the map configuration.
+        /// </summary>
+        /// <returns>
+        /// Config with number of rows and cols
+        /// </returns>
+        public MapConfiguration GetMapConfiguration()
+        {
+            int numberOfRows;
+            if (!int.TryParse(ConfigurationManager.AppSettings["MapEditor.NumberOfRows"], out numberOfRows))
+            {
+                numberOfRows = 3;
+            }
+
+            int numberOfCols;
+            if (!int.TryParse(ConfigurationManager.AppSettings["MapEditor.NumberOfCols"], out numberOfCols))
+            {
+                numberOfCols = 4;
+            }
+
+            return new MapConfiguration() {NumberOfCols = numberOfCols, NumberOfRows = numberOfRows};
         }
 
         /// <summary>

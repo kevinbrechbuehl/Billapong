@@ -25,6 +25,11 @@ namespace Billapong.MapEditor.Services
             return this.Execute(() => this.Proxy.GetMaps());
         }
 
+        public MapConfiguration GetMapConfiguration()
+        {
+            return this.Execute(() => this.Proxy.GetMapConfiguration());
+        }
+
         public async Task<IEnumerable<Map>> GetMapsAsync()
         {
             return await this.ExecuteAsync(() => this.Proxy.GetMaps());
@@ -47,12 +52,18 @@ namespace Billapong.MapEditor.Services
 
         public void UnregisterCallback(long mapId)
         {
+            // todo (breck1): call this on window close
             this.Execute(() => this.Proxy.UnregisterCallback(mapId));
         }
 
         public async void DeleteMapAsync(long mapId)
         {
             await this.ExecuteAsync(() => this.Proxy.DeleteMap(mapId));
+        }
+
+        public async void RegisterCallbackAsync(long mapId)
+        {
+            await this.ExecuteAsync(() => this.Proxy.RegisterCallback(mapId));
         }
     }
 }

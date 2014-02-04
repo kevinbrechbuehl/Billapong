@@ -9,6 +9,25 @@
             <Button DockPanel.Dock="Right" Command="{Binding SaveCommand}" Content="Save" Padding="5,1,5,1" />
             <TextBox Margin="10,0,10,0" Text="{Binding MapName}" />
         </DockPanel>
+
+        <ItemsControl ItemsSource="{Binding GameWindows}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <ItemsControl ItemsSource="{Binding}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock> - </TextBlock>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </StackPanel>
 
 </Window>

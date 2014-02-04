@@ -45,6 +45,7 @@
     <Compile Include="Data\GamePlay\GameStatus.cs" />
     <Compile Include="Data\GamePlay\LobbyGame.cs" />
     <Compile Include="Data\Map\GeneralMapData.cs" />
+    <Compile Include="Data\Map\MapConfiguration.cs" />
     <Compile Include="Data\Tracing\Component.cs" />
     <Compile Include="Data\Map\Hole.cs" />
     <Compile Include="Data\Map\Map.cs" />

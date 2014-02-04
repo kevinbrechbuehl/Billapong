@@ -35,6 +35,8 @@ namespace Billapong.MapEditor.ViewModels
             }
         }
 
+        public IList<IList<int>> GameWindows { get; private set; }
+
         public DelegateCommand SaveCommand
         {
             get
@@ -49,14 +51,30 @@ namespace Billapong.MapEditor.ViewModels
 
         public MapEditViewModel(Map map)
         {
+            // initialize
             this.callback = new MapEditorCallback();
             this.callback.GeneralDataSaved += this.GeneralDataSaved;
             this.proxy = new MapEditorServiceClient(this.callback);
             this.map = map;
 
+            // register the callback
             if (map.Id > 0)
             {
                 this.proxy.RegisterCallback(map.Id);
+            }
+
+            // get the maps config and display it
+            var config = this.proxy.GetMapConfiguration();
+            var list = new List<int>();
+            for (int i = 0; i < config.NumberOfCols; i++)
+            {
+                list.Add(i);
+            }
+
+            this.GameWindows = new List<IList<int>>();
+            for (int i = 0; i < config.NumberOfRows; i++)
+            {
+                this.GameWindows.Add(list);
             }
         }
 
