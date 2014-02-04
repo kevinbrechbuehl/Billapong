@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Billapong.MapEditor.ViewModels
 {
+    using System.Windows;
     using Contract.Service;
     using Core.Client.UI;
     using Converter;
@@ -42,6 +43,14 @@ namespace Billapong.MapEditor.ViewModels
             get
             {
                 return new DelegateCommand(this.Save);
+            }
+        }
+
+        public DelegateCommand ToggleWindowButtonCommand
+        {
+            get
+            {
+                return new DelegateCommand(this.ToggleWindowButton);
             }
         }
 
@@ -87,6 +96,11 @@ namespace Billapong.MapEditor.ViewModels
         private void Save()
         {
             this.proxy.SaveGeneral(this.map.ToGeneralMapData());
+        }
+
+        private void ToggleWindowButton()
+        {
+            MessageBox.Show("button clicked");
         }
     }
 }
