@@ -15,16 +15,6 @@
     public class GameLobbyViewModel : MainWindowContentViewModelBase
     {
         /// <summary>
-        /// The proxy
-        /// </summary>
-        private readonly GameConsoleServiceClient proxy;
-
-        /// <summary>
-        /// The callback client
-        /// </summary>
-        private readonly GameConsoleCallback callback;
-
-        /// <summary>
         /// The selected lobby game
         /// </summary>
         private LobbyGame selectedLobbyGame;
@@ -80,9 +70,6 @@
             this.WindowWidth = 500;
             this.BackButtonContent = "Back to menu";
             this.OpenGames = new ObservableCollection<LobbyGame>();
-
-            this.callback = new GameConsoleCallback();
-            this.proxy = new GameConsoleServiceClient(callback);
             this.LoadOpenGames();
         }
 
@@ -140,8 +127,8 @@
             try
             {
                 var loadingScreen = new LoadingScreenViewModel("Joining game. Please wait...", GameConfiguration.GameType.MultiPlayerGame);
-                callback.GameStarted += loadingScreen.StartGame;
-                this.proxy.JoinGame(this.SelectedLobbyGame.Id, Properties.Settings.Default.PlayerName);
+                GameConsoleContext.Current.GameConsoleCallback.GameStarted += loadingScreen.StartGame;
+                GameConsoleContext.Current.GameConsoleServiceClient.JoinGame(this.SelectedLobbyGame.Id, Properties.Settings.Default.PlayerName);
                 this.SwitchWindowContent(loadingScreen);
             }
             catch (FaultException<GameNotOpenException> ex)
@@ -157,7 +144,7 @@
         {
             this.IsDataLoading = true;
             this.OpenGames.Clear();
-            var games = await this.proxy.GetLobbyGamesAsync();
+            var games = await GameConsoleContext.Current.GameConsoleServiceClient.GetLobbyGamesAsync();
             foreach (var game in games)
             {
                 this.OpenGames.Add(game);

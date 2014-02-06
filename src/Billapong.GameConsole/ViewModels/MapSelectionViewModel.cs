@@ -15,11 +15,6 @@
     public class MapSelectionViewModel : MainWindowContentViewModelBase
     {
         /// <summary>
-        /// The proxy
-        /// </summary>
-        private readonly GameConsoleServiceClient proxy;
-
-        /// <summary>
         /// The game type
         /// </summary>
         private readonly GameConfiguration.GameType gameType;
@@ -60,7 +55,6 @@
             this.BackButtonContent = "Back to menu";
 
             this.gameType = gameType;
-            this.proxy = new GameConsoleServiceClient();
             this.Maps = new ObservableCollection<Map>();
             this.LoadMaps();
         }
@@ -93,7 +87,7 @@
         private async void LoadMaps()
         {
             this.IsDataLoading = true;
-            var maps = await this.proxy.GetMapsAsync();
+            var maps = await GameConsoleContext.Current.GameConsoleServiceClient.GetMapsAsync();
             foreach (var map in maps)
             {
                 this.Maps.Add(map.ToEntity());

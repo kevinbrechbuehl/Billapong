@@ -13,7 +13,7 @@
     /// <summary>
     /// The callback client for the game console service
     /// </summary>
-    [CallbackBehavior(UseSynchronizationContext = true)]
+    [CallbackBehavior(UseSynchronizationContext = true, ConcurrencyMode = ConcurrencyMode.Reentrant)]
     public class GameConsoleCallback : IGameConsoleCallback
     {
         /// <summary>
@@ -24,7 +24,7 @@
         /// <summary>
         /// Occurs when the ball should be placed on the gamefield.
         /// </summary>
-        public event EventHandler<BallPlacedOnGameFieldEventArgs> StartPointSet = delegate { }; 
+        public event EventHandler<BallPlacedOnGameFieldEventArgs> StartPointSet; 
 
         /// <summary>
         /// Starts the game with a specific id.

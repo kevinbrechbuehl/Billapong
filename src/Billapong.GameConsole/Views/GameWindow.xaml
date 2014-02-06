@@ -8,7 +8,7 @@
 
 
     <Viewbox Stretch="UniformToFill">
-        <ItemsControl ItemsSource="{Binding CanvasElements}" Tag="lala">
+        <ItemsControl ItemsSource="{Binding CanvasElements}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <views:GameFieldCanvas x:Name="GameField" Background="White" Width="300" Height="300" ClickCommand="{Binding GameFieldClickedCommand}" IsItemsHost="True" />

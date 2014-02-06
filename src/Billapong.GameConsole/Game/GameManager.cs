@@ -26,7 +26,7 @@
             }
         }
 
-        private IGameController gameController;
+        public IGameController gameController;
 
         #region Singleton initialization
 
@@ -41,7 +41,7 @@
         /// <value>
         /// The instance.
         /// </value>
-        public static GameManager Instance
+        public static GameManager Current
         {
             get
             {
@@ -73,6 +73,8 @@
                     break;
             }
 
+            this.gameController.BallPlacedOnGameField += this.PlaceBallOnGameField;
+
             this.OpenGameField();
 
             if (this.currentGame.StartGame)
@@ -94,7 +96,7 @@
             var gameFieldHeight = (maxWindowRow+1) * GameConfiguration.GameWindowHeight;
             var gameFieldWidth = (maxWindowCol+1) * GameConfiguration.GameWindowWidth;
 
-            var initialVerticalOffset = (SystemParameters.WorkArea.Height/2) - (gameFieldHeight/2) - ((maxWindowRow * windowBorderOffset) / 2);
+            var initialVerticalOffset = (SystemParameters.WorkArea.Height / 2) - (gameFieldHeight / 2) - ((maxWindowRow * windowBorderOffset) / 2);
             var initialHorizontalOffset = (SystemParameters.WorkArea.Width / 2) - (gameFieldWidth / 2) - ((maxWindowCol * windowBorderOffset) / 2);
 
             var verticalOffset = initialVerticalOffset;
@@ -164,7 +166,6 @@
                 }
             }
 
-            this.gameController.BallPlacedOnGameField += this.PlaceBallOnGameField;
             this.gameController.PlaceBallOnGameField(randomWindow.Window.Id, pointX, pointY);
         }
 
@@ -176,7 +177,6 @@
                 var position = new Point(args.PointX*(GameConfiguration.BallRadius*2) - GameConfiguration.BallRadius,
                     args.PointY*(GameConfiguration.BallRadius*2) - GameConfiguration.BallRadius);
                 viewModel.PlaceBall(position);
-                this.gameController.BallPlacedOnGameField -= this.PlaceBallOnGameField;
             }
         }
 
