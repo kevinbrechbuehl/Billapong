@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Billapong.MapEditor.ViewModels
 {
+    using System.Globalization;
     using System.Windows;
     using Contract.Service;
     using Core.Client.UI;
@@ -36,7 +37,7 @@ namespace Billapong.MapEditor.ViewModels
             }
         }
 
-        public IList<IList<int>> GameWindows { get; private set; }
+        public Models.Window[][] GameWindows { get; private set; }
 
         public DelegateCommand SaveCommand
         {
@@ -46,11 +47,19 @@ namespace Billapong.MapEditor.ViewModels
             }
         }
 
-        public DelegateCommand ToggleWindowButtonCommand
+        public DelegateCommand<Models.Window> ToggleWindowCommand
         {
             get
             {
-                return new DelegateCommand(this.ToggleWindowButton);
+                return new DelegateCommand<Models.Window>(this.ToggleWindow);
+            }
+        }
+
+        public DelegateCommand<Models.Hole> ToggleHoleCommand
+        {
+            get
+            {
+                return new DelegateCommand<Models.Hole>(this.ToggleHole);
             }
         }
 
@@ -74,17 +83,17 @@ namespace Billapong.MapEditor.ViewModels
 
             // get the maps config and display it
             var config = this.proxy.GetMapConfiguration();
-            var list = new List<int>();
-            for (int i = 0; i < config.NumberOfCols; i++)
+            var windows = new Models.Window[config.NumberOfWindowRows][];
+            for (var i = 0; i < windows.Length; i++)
             {
-                list.Add(i);
+                windows[i] = new Models.Window[config.NumberOfWindowCols];
+                for (var j=0; j<windows[i].Length; j++)
+                {
+                    windows[i][j] = new Models.Window(j, i, config.NumberOfHoleRows, config.NumberOfHoleCols);
+                }
             }
 
-            this.GameWindows = new List<IList<int>>();
-            for (int i = 0; i < config.NumberOfRows; i++)
-            {
-                this.GameWindows.Add(list);
-            }
+            this.GameWindows = windows;
         }
 
         public void GeneralDataSaved(object sender, GeneralDataSavedEventArgs args)
@@ -98,9 +107,14 @@ namespace Billapong.MapEditor.ViewModels
             this.proxy.SaveGeneral(this.map.ToGeneralMapData());
         }
 
-        private void ToggleWindowButton()
+        private void ToggleWindow(Models.Window window)
         {
-            MessageBox.Show("button clicked");
+            MessageBox.Show(string.Format("window clicked - x: {0}, y: {1}", window.X, window.Y));
+        }
+
+        private void ToggleHole(Models.Hole hole)
+        {
+            MessageBox.Show(string.Format("hole clicked - x: {0}, y: {1}", hole.X, hole.Y));
         }
     }
 }

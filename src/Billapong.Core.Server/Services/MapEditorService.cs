@@ -34,19 +34,37 @@
         /// </returns>
         public MapConfiguration GetMapConfiguration()
         {
-            int numberOfRows;
-            if (!int.TryParse(ConfigurationManager.AppSettings["MapEditor.NumberOfRows"], out numberOfRows))
+            int numberOfWindowRows;
+            if (!int.TryParse(ConfigurationManager.AppSettings["MapEditor.NumberOfWindowRows"], out numberOfWindowRows))
             {
-                numberOfRows = 3;
+                numberOfWindowRows = 3;
             }
 
-            int numberOfCols;
-            if (!int.TryParse(ConfigurationManager.AppSettings["MapEditor.NumberOfCols"], out numberOfCols))
+            int numberOfWindowCols;
+            if (!int.TryParse(ConfigurationManager.AppSettings["MapEditor.NumberOfWindowCols"], out numberOfWindowCols))
             {
-                numberOfCols = 4;
+                numberOfWindowCols = 4;
             }
 
-            return new MapConfiguration() {NumberOfCols = numberOfCols, NumberOfRows = numberOfRows};
+            int numberOfHoleRows;
+            if (!int.TryParse(ConfigurationManager.AppSettings["MapEditor.numberOfHoleRows"], out numberOfHoleRows))
+            {
+                numberOfHoleRows = 15;
+            }
+
+            int numberOfHoleCols;
+            if (!int.TryParse(ConfigurationManager.AppSettings["MapEditor.numberOfHoleCols"], out numberOfHoleCols))
+            {
+                numberOfHoleCols = 4;
+            }
+
+            return new MapConfiguration()
+            {
+                NumberOfWindowCols = numberOfWindowCols,
+                NumberOfWindowRows = numberOfWindowRows,
+                NumberOfHoleCols = numberOfHoleCols,
+                NumberOfHoleRows = numberOfHoleRows
+            };
         }
 
         /// <summary>
