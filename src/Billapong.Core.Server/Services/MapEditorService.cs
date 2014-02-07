@@ -34,36 +34,29 @@
         /// </returns>
         public MapConfiguration GetMapConfiguration()
         {
-            int numberOfWindowRows;
-            if (!int.TryParse(ConfigurationManager.AppSettings["MapEditor.NumberOfWindowRows"], out numberOfWindowRows))
+            int windowRows;
+            if (!int.TryParse(ConfigurationManager.AppSettings["Map.WindowRows"], out windowRows))
             {
-                numberOfWindowRows = 3;
+                windowRows = 3;
             }
 
-            int numberOfWindowCols;
-            if (!int.TryParse(ConfigurationManager.AppSettings["MapEditor.NumberOfWindowCols"], out numberOfWindowCols))
+            int windowCols;
+            if (!int.TryParse(ConfigurationManager.AppSettings["Map.WindowCols"], out windowCols))
             {
-                numberOfWindowCols = 4;
+                windowCols = 4;
             }
 
-            int numberOfHoleRows;
-            if (!int.TryParse(ConfigurationManager.AppSettings["MapEditor.numberOfHoleRows"], out numberOfHoleRows))
+            int holeGrid;
+            if (!int.TryParse(ConfigurationManager.AppSettings["Map.HoleGrid"], out holeGrid))
             {
-                numberOfHoleRows = 15;
-            }
-
-            int numberOfHoleCols;
-            if (!int.TryParse(ConfigurationManager.AppSettings["MapEditor.numberOfHoleCols"], out numberOfHoleCols))
-            {
-                numberOfHoleCols = 4;
+                holeGrid = 15;
             }
 
             return new MapConfiguration()
             {
-                NumberOfWindowCols = numberOfWindowCols,
-                NumberOfWindowRows = numberOfWindowRows,
-                NumberOfHoleCols = numberOfHoleCols,
-                NumberOfHoleRows = numberOfHoleRows
+                WindowCols = windowCols,
+                WindowRows = windowRows,
+                HoleGrid = holeGrid
             };
         }
 

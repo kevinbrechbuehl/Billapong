@@ -55,14 +55,6 @@ namespace Billapong.MapEditor.ViewModels
             }
         }
 
-        public DelegateCommand<Models.Hole> ToggleHoleCommand
-        {
-            get
-            {
-                return new DelegateCommand<Models.Hole>(this.ToggleHole);
-            }
-        }
-
         public MapEditViewModel() : this (new Map())
         {
         }
@@ -83,13 +75,13 @@ namespace Billapong.MapEditor.ViewModels
 
             // get the maps config and display it
             var config = this.proxy.GetMapConfiguration();
-            var windows = new Models.Window[config.NumberOfWindowRows][];
+            var windows = new Models.Window[config.WindowRows][];
             for (var i = 0; i < windows.Length; i++)
             {
-                windows[i] = new Models.Window[config.NumberOfWindowCols];
+                windows[i] = new Models.Window[config.WindowCols];
                 for (var j=0; j<windows[i].Length; j++)
                 {
-                    windows[i][j] = new Models.Window(j, i, config.NumberOfHoleRows, config.NumberOfHoleCols);
+                    windows[i][j] = new Models.Window(j, i);
                 }
             }
 
@@ -110,11 +102,6 @@ namespace Billapong.MapEditor.ViewModels
         private void ToggleWindow(Models.Window window)
         {
             MessageBox.Show(string.Format("window clicked - x: {0}, y: {1}", window.X, window.Y));
-        }
-
-        private void ToggleHole(Models.Hole hole)
-        {
-            MessageBox.Show(string.Format("hole clicked - x: {0}, y: {1}", hole.X, hole.Y));
         }
     }
 }

@@ -14,8 +14,8 @@
         /// <value>
         /// The number of window rows.
         /// </value>
-        [DataMember(Name = "NumberOfWindowRows", Order = 1)]
-        public int NumberOfWindowRows { get; set; }
+        [DataMember(Name = "WindowRows", Order = 1)]
+        public int WindowRows { get; set; }
 
         /// <summary>
         /// Gets or sets the number of window cols.
@@ -23,25 +23,16 @@
         /// <value>
         /// The number of window cols.
         /// </value>
-        [DataMember(Name = "NumberOfWindowCols", Order = 1)]
-        public int NumberOfWindowCols { get; set; }
+        [DataMember(Name = "WindowCols", Order = 1)]
+        public int WindowCols { get; set; }
 
         /// <summary>
-        /// Gets or sets the number of hole rows.
+        /// Gets or sets the hole grid.
         /// </summary>
         /// <value>
-        /// The number of hole rows.
+        /// The hole grid.
         /// </value>
-        [DataMember(Name = "NumberOfHoleRows", Order = 1)]
-        public int NumberOfHoleRows { get; set; }
-
-        /// <summary>
-        /// Gets or sets the number of hole cols.
-        /// </summary>
-        /// <value>
-        /// The number of hole cols.
-        /// </value>
-        [DataMember(Name = "NumberOfHoleCols", Order = 1)]
-        public int NumberOfHoleCols { get; set; }
+        [DataMember(Name = "HoleGrid", Order = 1)]
+        public int HoleGrid { get; set; }
     }
 }
