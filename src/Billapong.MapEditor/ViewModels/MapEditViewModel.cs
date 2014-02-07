@@ -8,6 +8,8 @@ namespace Billapong.MapEditor.ViewModels
 {
     using System.Globalization;
     using System.Windows;
+    using System.Windows.Automation.Peers;
+    using System.Windows.Media;
     using Contract.Service;
     using Core.Client.UI;
     using Converter;
@@ -17,6 +19,8 @@ namespace Billapong.MapEditor.ViewModels
 
     public class MapEditViewModel : ViewModelBase
     {
+        public const double GameWindowSize = 200;
+        
         private readonly Map map;
 
         private readonly MapEditorServiceClient proxy;
@@ -81,7 +85,7 @@ namespace Billapong.MapEditor.ViewModels
                 windows[i] = new Models.Window[config.WindowCols];
                 for (var j=0; j<windows[i].Length; j++)
                 {
-                    windows[i][j] = new Models.Window(j, i);
+                    windows[i][j] = new Models.Window(j, i, this.map.Windows.Any(item => item.X == i && item.Y == j));
                 }
             }
 
@@ -101,7 +105,7 @@ namespace Billapong.MapEditor.ViewModels
 
         private void ToggleWindow(Models.Window window)
         {
-            MessageBox.Show(string.Format("window clicked - x: {0}, y: {1}", window.X, window.Y));
+            window.IsChecked = !window.IsChecked;
         }
     }
 }

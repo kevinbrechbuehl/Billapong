@@ -12,6 +12,7 @@
                 Id = source.Id,
                 Name = source.Name,
                 IsPlayable = source.IsPlayable,
+                Windows = source.Windows.ToList(),
                 NumberOfWindows = source.Windows.Count,
                 NumberOfHoles = source.Windows.Sum(window => window.Holes.Count)
             };

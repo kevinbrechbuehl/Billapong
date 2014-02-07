@@ -23,5 +23,7 @@ namespace Billapong.MapEditor.Models
         public int NumberOfWindows { get; set; }
 
         public int NumberOfHoles { get; set; }
+
+        public IList<Contract.Data.Map.Window> Windows { get; set; }
     }
 }
