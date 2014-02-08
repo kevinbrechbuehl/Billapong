@@ -27,7 +27,7 @@
         {
             var game = new Game();
             game.Init(new Guid(), this.Map, null, true, GameConfiguration.GameType.SinglePlayerTraining);
-            GameManager.Instance.StartGame(game);
+            GameManager.Current.StartGame(game);
         }
     }
 }

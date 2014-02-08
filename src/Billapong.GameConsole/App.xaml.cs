@@ -18,6 +18,7 @@
             base.OnStartup(e);
 
             this.DispatcherUnhandledException += this.App_DispatcherUnhandledException;
+            this.ShutdownMode = ShutdownMode.OnMainWindowClose;
 
             Tracer.Initialize(Component.GameConsole);
         }

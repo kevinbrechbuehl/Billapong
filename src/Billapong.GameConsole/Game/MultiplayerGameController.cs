@@ -8,18 +8,14 @@
     {
         public event EventHandler<BallPlacedOnGameFieldEventArgs> BallPlacedOnGameField = delegate { };
 
-        private readonly GameConsoleServiceClient consoleServiceClient;
-
         public MultiplayerGameController()
         {
-            var consoleCallback = new GameConsoleCallback();
-            consoleCallback.StartPointSet += OnBallPlacedOnGameField;
-            this.consoleServiceClient = new GameConsoleServiceClient(consoleCallback);
+            GameConsoleContext.Current.GameConsoleCallback.StartPointSet += this.OnBallPlacedOnGameField;
         }
 
         public void PlaceBallOnGameField(long windowId, int pointX, int pointY)
         {
-            this.consoleServiceClient.SetStartPoint(GameManager.Instance.CurrentGame.GameId, windowId, pointX, pointY);
+            GameConsoleContext.Current.GameConsoleServiceClient.SetStartPoint(GameManager.Current.CurrentGame.GameId, windowId, pointX, pointY);
         }
 
         public void OnBallPlacedOnGameField(object sender, BallPlacedOnGameFieldEventArgs args)

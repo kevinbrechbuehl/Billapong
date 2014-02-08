@@ -53,7 +53,7 @@
             var game = new Game();
             game.Init(args.GameId, args.Map, args.Opponent, args.StartGame, this.gameType);
 
-            GameManager.Instance.StartGame(game);
+            GameManager.Current.StartGame(game);
         }
 
         protected override void NavigateBack()
