@@ -27,6 +27,8 @@ namespace Billapong.MapEditor.ViewModels
 
         private readonly MapEditorCallback callback;
 
+        private readonly double HoleDiameter;
+
         public string MapName
         {
             get
@@ -80,12 +82,14 @@ namespace Billapong.MapEditor.ViewModels
             // get the maps config and display it
             var config = this.proxy.GetMapConfiguration();
             var windows = new Models.Window[config.WindowRows][];
+            this.HoleDiameter = GameWindowSize/config.HoleGrid;
+
             for (var i = 0; i < windows.Length; i++)
             {
                 windows[i] = new Models.Window[config.WindowCols];
                 for (var j=0; j<windows[i].Length; j++)
                 {
-                    windows[i][j] = new Models.Window(j, i, this.map.Windows.Any(item => item.X == i && item.Y == j));
+                    windows[i][j] = new Models.Window(j, i, this.map.Windows.FirstOrDefault(item => item.X == i && item.Y == j), this.HoleDiameter);
                 }
             }
 

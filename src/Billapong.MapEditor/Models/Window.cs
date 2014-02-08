@@ -6,16 +6,33 @@ using System.Threading.Tasks;
 
 namespace Billapong.MapEditor.Models
 {
+    using System.Collections.ObjectModel;
+    using System.Windows.Data;
+    using System.Windows.Documents;
     using System.Windows.Media;
+    using Converter;
     using Core.Client.UI;
 
     public class Window : NotificationObject
     {
-        public Window(int x, int y, bool isChecked)
+        public Window(int x, int y, Contract.Data.Map.Window mapWindow, double holeDiameter)
         {
             this.X = x;
             this.Y = y;
-            this.IsChecked = isChecked;
+            this.Holes = new ObservableCollection<Hole>();
+
+            if (mapWindow != null)
+            {
+                this.IsChecked = true;
+                foreach (var hole in mapWindow.Holes)
+                {
+                    this.Holes.Add(hole.ToEntity(holeDiameter));
+                }
+            }
+            else
+            {
+                this.IsChecked = false;
+            }
         }
         
         public int X { get; private set; }
@@ -53,5 +70,7 @@ namespace Billapong.MapEditor.Models
                 this.Background = this.isChecked ? Brushes.LightBlue : Brushes.LightGray;
             }
         }
+
+        public ObservableCollection<Hole> Holes { get; private set; }
     }
 }

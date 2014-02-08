@@ -18,6 +18,17 @@
             };
         }
 
+        public static Hole ToEntity(this Contract.Data.Map.Hole source, double diameter)
+        {
+            return new Hole
+            {
+                Id = source.Id,
+                X = source.X,
+                Y = source.Y,
+                Diameter = diameter
+            };
+        }
+
         public static Contract.Data.Map.GeneralMapData ToGeneralMapData(this Map source)
         {
             return new Contract.Data.Map.GeneralMapData

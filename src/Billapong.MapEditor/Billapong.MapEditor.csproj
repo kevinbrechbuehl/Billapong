@@ -57,6 +57,7 @@
     </ApplicationDefinition>
     <Compile Include="Converter\MapConverter.cs" />
     <Compile Include="Models\Events\GeneralDataSavedEventArgs.cs" />
+    <Compile Include="Models\Hole.cs" />
     <Compile Include="Models\Map.cs" />
     <Compile Include="Models\Window.cs" />
     <Compile Include="Services\MapEditorCallback.cs" />
