@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 namespace Billapong.MapEditor.ViewModels
 {
     using System.Globalization;
+    using System.ServiceModel.Channels;
     using System.Windows;
     using System.Windows.Automation.Peers;
+    using System.Windows.Input;
     using System.Windows.Media;
     using Contract.Service;
     using Core.Client.UI;
@@ -43,6 +45,8 @@ namespace Billapong.MapEditor.ViewModels
             }
         }
 
+        private bool isWindowHolesSelectionMode;
+
         public Models.Window[][] GameWindows { get; private set; }
 
         public DelegateCommand SaveCommand
@@ -50,6 +54,14 @@ namespace Billapong.MapEditor.ViewModels
             get
             {
                 return new DelegateCommand(this.Save);
+            }
+        }
+
+        public DelegateCommand ToggleSelectionModeCommand
+        {
+            get
+            {
+                return new DelegateCommand(this.ToggleSelectionMode);
             }
         }
 
@@ -107,9 +119,22 @@ namespace Billapong.MapEditor.ViewModels
             this.proxy.SaveGeneral(this.map.ToGeneralMapData());
         }
 
+        private void ToggleSelectionMode()
+        {
+            this.isWindowHolesSelectionMode = !isWindowHolesSelectionMode;
+            Mouse.OverrideCursor = this.isWindowHolesSelectionMode ? Cursors.Cross : null;
+        }
+
         private void ToggleWindow(Models.Window window)
         {
-            window.IsChecked = !window.IsChecked;
+            if (this.isWindowHolesSelectionMode)
+            {
+                window.Holes.Add(new Hole {X = 3,  Y = 3, Diameter = this.HoleDiameter });
+            }
+            else
+            {
+                window.IsChecked = !window.IsChecked;
+            }
         }
     }
 }
