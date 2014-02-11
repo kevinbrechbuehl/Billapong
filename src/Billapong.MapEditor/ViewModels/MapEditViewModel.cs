@@ -101,6 +101,8 @@ namespace Billapong.MapEditor.ViewModels
             this.callback.GeneralDataSaved += this.GeneralDataSaved;
             this.callback.WindowAdded += this.WindowAdded;
             this.callback.WindowRemoved += this.WindowRemoved;
+            this.callback.HoleAdded += this.HoleAdded;
+            this.callback.HoleRemoved += this.HoleRemoved;
             this.proxy = new MapEditorServiceClient(this.callback);
             this.map = map;
 
@@ -149,6 +151,22 @@ namespace Billapong.MapEditor.ViewModels
             gameWindow.Holes.Clear();
         }
 
+        private void HoleAdded(object sender, GameHoleClickedEventArgs args)
+        {
+            var gameWindow = this.GameWindows[args.WindowY][args.WindowX];
+            gameWindow.Holes.Add(new Hole { Id = args.HoleId, X = args.HoleX, Y = args.HoleY, Diameter = this.HoleDiameter });
+        }
+
+        private void HoleRemoved(object sender, GameHoleClickedEventArgs args)
+        {
+            var gameWindow = this.GameWindows[args.WindowY][args.WindowX];
+            var hole = gameWindow.Holes.FirstOrDefault(gameHole => gameHole.Id == args.HoleId);
+            if (hole != null)
+            {
+                gameWindow.Holes.Remove(hole);
+            }
+        }
+
         private void Save()
         {
             this.proxy.SaveGeneral(this.map.ToGeneralMapData());
@@ -180,11 +198,11 @@ namespace Billapong.MapEditor.ViewModels
                 var holeOnField = gameWindow.Holes.FirstOrDefault(hole => hole.X == coordX && hole.Y == coordY);
                 if (holeOnField != null)
                 {
-                    gameWindow.Holes.Remove(holeOnField);
+                    this.proxy.RemoveHole(this.map.Id, gameWindow.Id, holeOnField.Id);
                 }
                 else
                 {
-                    gameWindow.Holes.Add(new Hole { X = coordX, Y = coordY, Diameter = this.HoleDiameter });   
+                    this.proxy.AddHole(this.map.Id, gameWindow.Id, coordX, coordY);
                 }
             }
             else

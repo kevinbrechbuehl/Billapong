@@ -21,6 +21,10 @@ namespace Billapong.MapEditor.Services
         public event EventHandler<GameWindowEventArgs> WindowAdded = delegate { };
 
         public event EventHandler<GameWindowEventArgs> WindowRemoved = delegate { };
+
+        public event EventHandler<GameHoleClickedEventArgs> HoleAdded = delegate { };
+
+        public event EventHandler<GameHoleClickedEventArgs> HoleRemoved = delegate { };
         
         public void SaveGeneral(GeneralMapData map)
         {
@@ -38,6 +42,18 @@ namespace Billapong.MapEditor.Services
         {
             var args = new GameWindowEventArgs(windowId, coordX, coordY);
             ThreadContext.InvokeOnUiThread(() => this.WindowRemoved(this, args));
+        }
+
+        public void AddHole(long windowId, int windowX, int windowY, long holeId, int holeX, int holeY)
+        {
+            var args = new GameHoleClickedEventArgs(windowId, windowX, windowY, holeId, holeX, holeY);
+            ThreadContext.InvokeOnUiThread(() => this.HoleAdded(this, args));
+        }
+
+        public void RemoveHole(long windowId, int windowX, int windowY, long holeId)
+        {
+            var args = new GameHoleClickedEventArgs(windowId, windowX, windowY, holeId);
+            ThreadContext.InvokeOnUiThread(() => this.HoleRemoved(this, args));
         }
 
         private void OnSavedGeneral(GeneralDataSavedEventArgs args)

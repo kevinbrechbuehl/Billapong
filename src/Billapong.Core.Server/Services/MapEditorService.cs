@@ -88,6 +88,16 @@
             MapController.Current.RemoveWindow(mapId, windowId);
         }
 
+        public void AddHole(long mapId, long windowId, int coordX, int coordY)
+        {
+            MapController.Current.AddHole(mapId, windowId, coordX, coordY);
+        }
+
+        public void RemoveHole(long mapId, long windowId, long holeId)
+        {
+            MapController.Current.RemoveHole(mapId, windowId, holeId);
+        }
+
         public void RegisterCallback(long mapId)
         {
             MapController.Current.RegisterCallback(mapId, this.GetCallback());

@@ -159,6 +159,48 @@
             Task.Run(() => this.StartRemoveWindowCallback(mapId, windowId, coordX, coordY));
         }
 
+        public void AddHole(long mapId, long windowId, int coordX, int coordY)
+        {
+            var hole = new DataAccess.Model.Map.Hole {X = coordX, Y = coordY};
+            DataAccess.Model.Map.Window window;
+            lock (WriterLockObject)
+            {
+                var map = this.GetMap(mapId);
+                if (map == null) return;
+
+                window = map.Windows.FirstOrDefault(gameWindow => gameWindow.Id == windowId);
+                if (window == null) return;
+
+                window.Holes.Add(hole);
+                this.repository.Save();
+            }
+
+            // send the callback
+            Task.Run(() => this.StartAddHoleCallback(mapId, windowId, window.X, window.Y, hole.Id, coordX, coordY));
+        }
+
+        public void RemoveHole(long mapId, long windowId, long holeId)
+        {
+            DataAccess.Model.Map.Window window;
+            lock (WriterLockObject)
+            {
+                var map = this.GetMap(mapId);
+                if (map == null) return;
+
+                window = map.Windows.FirstOrDefault(gameWindow => gameWindow.Id == windowId);
+                if (window == null) return;
+
+                var hole = window.Holes.FirstOrDefault(gameHole => gameHole.Id == holeId);
+                if (hole == null) return;
+
+                window.Holes.Remove(hole);
+                this.repository.Save();
+            }
+
+            // send the callback
+            Task.Run(() => this.StartRemoveHoleCallback(mapId, windowId, window.X, window.Y, holeId));
+        }
+
         public void RegisterCallback(long id, IMapEditorCallback callback)
         {
             lock (CallbackLockObject)
@@ -206,6 +248,38 @@
                 foreach (var callback in editor.Callbacks)
                 {
                     callback.RemoveWindow(windowId, coordX, coordY);
+                }
+            }
+        }
+
+        private void StartAddHoleCallback(long mapId, long windowId, int windowX, int windowY, long holeId, int holeX, int holeY)
+        {
+            lock (CallbackLockObject)
+            {
+                var editor = this.editors.ContainsKey(mapId) ? this.editors[mapId] : null;
+                if (editor == null) return;
+
+                // todo (breck1): refactor and verify callbacks on every method
+
+                foreach (var callback in editor.Callbacks)
+                {
+                    callback.AddHole(windowId, windowX, windowY, holeId, holeX, holeY);
+                }
+            }
+        }
+
+        private void StartRemoveHoleCallback(long mapId, long windowId, int windowX, int windowY, long holeId)
+        {
+            lock (CallbackLockObject)
+            {
+                var editor = this.editors.ContainsKey(mapId) ? this.editors[mapId] : null;
+                if (editor == null) return;
+
+                // todo (breck1): refactor and verify callbacks on every method
+
+                foreach (var callback in editor.Callbacks)
+                {
+                    callback.RemoveHole(windowId, windowX, windowY, holeId);
                 }
             }
         }
