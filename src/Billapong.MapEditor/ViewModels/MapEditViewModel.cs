@@ -29,7 +29,21 @@ namespace Billapong.MapEditor.ViewModels
 
         private readonly MapEditorCallback callback;
 
-        private readonly double HoleDiameter;
+        private double holeDiameter;
+
+        public double HoleDiameter
+        {
+            get
+            {
+                return this.holeDiameter;
+            }
+
+            set
+            {
+                this.holeDiameter = value;
+                OnPropertyChanged();
+            }
+        }
 
         public string MapName
         {
