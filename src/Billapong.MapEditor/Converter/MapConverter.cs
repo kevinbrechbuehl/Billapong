@@ -28,14 +28,5 @@
                 Diameter = diameter
             };
         }
-
-        public static Contract.Data.Map.GeneralMapData ToGeneralMapData(this Map source)
-        {
-            return new Contract.Data.Map.GeneralMapData
-            {
-                Id = source.Id,
-                Name = source.Name
-            };
-        }
     }
 }

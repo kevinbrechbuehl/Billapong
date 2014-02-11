@@ -3,15 +3,20 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:viewModels="clr-namespace:Billapong.MapEditor.ViewModels"
         xmlns:views="clr-namespace:Billapong.MapEditor.Views"
-        Title="MapEdit" Height="720" Width="838" Name="MapEditWindow" ResizeMode="NoResize">
+        Title="MapEdit" Height="744" Width="838" Name="MapEditWindow" ResizeMode="NoResize">
 
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
         <StackPanel>
             <DockPanel Margin="10">
                 <TextBlock DockPanel.Dock="Left" Width="100">Name:</TextBlock>
-                <Button DockPanel.Dock="Right" Command="{Binding SaveCommand}" Content="Save" Padding="5,1,5,1" />
+                <Button DockPanel.Dock="Right" Command="{Binding SaveNameCommand}" Content="Save" Padding="5,1,5,1" />
                 <TextBox Margin="10,0,10,0" Text="{Binding MapName}" />
             </DockPanel>
+
+            <StackPanel Margin="10,0,10,10" Orientation="Horizontal">
+                <TextBlock Width="100">Settings:</TextBlock>
+                <CheckBox Margin="10,0" IsChecked="{Binding IsPlayable}" Command="{Binding ToggleIsPlayableCommand}">Is Playable</CheckBox>
+            </StackPanel>
 
             <StackPanel Margin="10,0" Orientation="Horizontal">
                 <TextBlock Width="100">Selection Mode:</TextBlock>

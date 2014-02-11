@@ -48,16 +48,34 @@ namespace Billapong.MapEditor.ViewModels
             }
         }
 
-        public string MapName
+        private bool isPlayable;
+
+        public bool IsPlayable
         {
             get
             {
-                return this.map.Name;
+                return this.isPlayable;
             }
 
             set
             {
-                this.map.Name = value;
+                this.isPlayable = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string mapName;
+
+        public string MapName
+        {
+            get
+            {
+                return this.mapName;
+            }
+
+            set
+            {
+                this.mapName = value;
                 OnPropertyChanged();
             }
         }
@@ -66,11 +84,19 @@ namespace Billapong.MapEditor.ViewModels
 
         public GameWindow[][] GameWindows { get; private set; }
 
-        public DelegateCommand SaveCommand
+        public DelegateCommand SaveNameCommand
         {
             get
             {
-                return new DelegateCommand(this.Save);
+                return new DelegateCommand(this.SaveName);
+            }
+        }
+
+        public DelegateCommand ToggleIsPlayableCommand
+        {
+            get
+            {
+                return new DelegateCommand(this.ToggleIsPlayable);
             }
         }
 
@@ -90,27 +116,29 @@ namespace Billapong.MapEditor.ViewModels
             }
         }
 
-        public MapEditViewModel() : this (new Map())
-        {
-        }
-
-        public MapEditViewModel(Map map)
+        public MapEditViewModel(Map map = null)
         {
             // initialize
             this.callback = new MapEditorCallback();
-            this.callback.GeneralDataSaved += this.GeneralDataSaved;
             this.callback.WindowAdded += this.WindowAdded;
             this.callback.WindowRemoved += this.WindowRemoved;
             this.callback.HoleAdded += this.HoleAdded;
             this.callback.HoleRemoved += this.HoleRemoved;
             this.proxy = new MapEditorServiceClient(this.callback);
+            
+            // validate map
+            if (map == null)
+            {
+                map = this.proxy.CreateMap().ToEntity();
+            }
+
+            // set map properties
             this.map = map;
+            this.IsPlayable = map.IsPlayable;
+            this.MapName = map.Name;
 
             // register the callback
-            if (map.Id > 0)
-            {
-                this.proxy.RegisterCallback(map.Id); // todo (breck1): nach der ersten änderung am client registrieren
-            }
+            this.proxy.RegisterCallback(map.Id);
 
             // get the maps config and display it
             var config = this.proxy.GetMapConfiguration();
@@ -133,6 +161,10 @@ namespace Billapong.MapEditor.ViewModels
             this.GameWindows = windows;
         }
 
+        private void Setup(Map map)
+        {
+            
+        }
 
         public override void CloseCallback()
         {
@@ -176,14 +208,19 @@ namespace Billapong.MapEditor.ViewModels
             }
         }
 
-        private void Save()
-        {
-            this.proxy.SaveGeneral(this.map.ToGeneralMapData());
-        }
-
         private void ToggleSelectionMode()
         {
             this.isWindowHolesSelectionMode = !isWindowHolesSelectionMode;
+        }
+
+        private void SaveName()
+        {
+            MessageBox.Show("Save to " + this.MapName); // todo (breck1): implement
+        }
+
+        private void ToggleIsPlayable()
+        {
+            MessageBox.Show("toggle to " + this.IsPlayable); // todo (breck1): implement
         }
 
         private void GameWindowClicked(GameWindowClickedArgs args)

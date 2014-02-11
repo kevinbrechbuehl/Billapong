@@ -30,6 +30,11 @@ namespace Billapong.MapEditor.Services
             return this.Execute(() => this.Proxy.GetMapConfiguration());
         }
 
+        public Map CreateMap()
+        {
+            return this.Execute(() => this.Proxy.CreateMap());
+        }
+
         public async Task<IEnumerable<Map>> GetMapsAsync()
         {
             return await this.ExecuteAsync(() => this.Proxy.GetMaps());
@@ -38,11 +43,6 @@ namespace Billapong.MapEditor.Services
         public void DeleteMap(long mapId)
         {
             this.Execute(() => this.Proxy.DeleteMap(mapId));
-        }
-
-        public void SaveGeneral(GeneralMapData map)
-        {
-            this.Execute(() => this.Proxy.SaveGeneral(map));
         }
 
         public async void AddWindow(long mapId, int coordX, int coordY)

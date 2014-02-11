@@ -1,6 +1,7 @@
 ﻿namespace Billapong.Core.Server.Map
 {
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Threading.Tasks;
     using Contract.Data.Map;
@@ -8,6 +9,7 @@
     using DataAccess.Model.Map;
     using DataAccess.Repository;
     using Map = DataAccess.Model.Map.Map;
+    using Window = DataAccess.Model.Map.Window;
 
     /// <summary>
     /// The map controller
@@ -101,23 +103,12 @@
             }
         }
 
-        public void SaveGeneral(long id, string name, IMapEditorCallback callback)
+        public Map CreateMap()
         {
-            Map map;
             lock (WriterLockObject)
             {
-                map = this.GetMap(id);
-                map.Name = name;
-                this.repository.Save();
+                return this.GetMap();
             }
-
-            if (id == 0)
-            {
-                this.RegisterCallback(map.Id, callback);
-            }
-
-            // send the callback
-            Task.Run(() => this.StartSaveGeneralCallback(map));
         }
 
         public void AddWindow(long mapId, int coordX, int coordY)
@@ -298,24 +289,7 @@
             }
         }
 
-        private void StartSaveGeneralCallback(Map map)
-        {
-            lock (CallbackLockObject)
-            {
-                var editor = this.editors.ContainsKey(map.Id) ? this.editors[map.Id] : null;
-                if (editor == null) return;
-
-                // todo (breck1): refactor and verify callbacks on every method
-
-                var data = new GeneralMapData {Id = map.Id, Name = map.Name};
-                foreach (var callback in editor.Callbacks)
-                {
-                    callback.SaveGeneral(data);
-                }
-            }
-        }
-
-        private Map GetMap(long id)
+        private Map GetMap(long id = 0)
         {
             // todo (breck1): exception handling in whole class
             
@@ -326,8 +300,9 @@
 
             var map = new Map
             {
-                Name = "Unnamed",
-                IsPlayable = false
+                Name = "<Unnamed>",
+                IsPlayable = false,
+                Windows = new Collection<Window>()
             };
 
             this.repository.Add(map);

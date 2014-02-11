@@ -60,6 +60,11 @@
             };
         }
 
+        public Map CreateMap()
+        {
+            return MapController.Current.CreateMap().ToContract();
+        }
+
         /// <summary>
         /// Deletes the map.
         /// </summary>
@@ -67,15 +72,6 @@
         public void DeleteMap(long mapId)
         {
             MapController.Current.DeleteMap(mapId);
-        }
-
-        /// <summary>
-        /// Sets the name of the map.
-        /// </summary>
-        /// <param name="map"></param>
-        public void SaveGeneral(GeneralMapData map)
-        {
-            MapController.Current.SaveGeneral(map.Id, map.Name, this.GetCallback());
         }
 
         public void AddWindow(long mapId, int coordX, int coordY)

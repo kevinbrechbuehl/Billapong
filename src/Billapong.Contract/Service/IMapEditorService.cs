@@ -25,18 +25,18 @@
         MapConfiguration GetMapConfiguration();
 
         /// <summary>
+        /// Creates a new map.
+        /// </summary>
+        /// <returns>The newly created map</returns>
+        [OperationContract(Name = "CreateMap")]
+        Map CreateMap();
+
+        /// <summary>
         /// Deletes the map.
         /// </summary>
         /// <param name="mapId">The map identifier.</param>
         [OperationContract(Name = "DeleteMap")]
         void DeleteMap(long mapId);
-
-        /// <summary>
-        /// Sets the name of the map.
-        /// </summary>
-        /// <param name="map">The map.</param>
-        [OperationContract(Name = "SaveGeneral")]
-        void SaveGeneral(GeneralMapData map);
 
         /// <summary>
         /// Adds the window.
