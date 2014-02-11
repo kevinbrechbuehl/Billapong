@@ -58,7 +58,8 @@
     <Compile Include="Converter\MapConverter.cs" />
     <Compile Include="Models\Events\GameHoleClickedEventArgs.cs" />
     <Compile Include="Models\Events\GameWindowEventArgs.cs" />
-    <Compile Include="Models\Events\GeneralDataSavedEventArgs.cs" />
+    <Compile Include="Models\Events\UpdateIsPlayableEventArgs.cs" />
+    <Compile Include="Models\Events\UpdateNameEventArgs.cs" />
     <Compile Include="Models\Hole.cs" />
     <Compile Include="Models\Map.cs" />
     <Compile Include="Models\Parameters\GameWindowClickedArgs.cs" />

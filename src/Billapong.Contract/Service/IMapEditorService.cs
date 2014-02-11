@@ -39,6 +39,22 @@
         void DeleteMap(long mapId);
 
         /// <summary>
+        /// Updates the name.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <param name="name">The name.</param>
+        [OperationContract(Name = "UpdateName")]
+        void UpdateName(long mapId, string name);
+
+        /// <summary>
+        /// Updates the is playable.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <param name="isPlayable">if set to <c>true</c> the map is playable.</param>
+        [OperationContract(Name = "UpdateIsPlayable")]
+        void UpdateIsPlayable(long mapId, bool isPlayable);
+
+        /// <summary>
         /// Adds the window.
         /// </summary>
         /// <param name="mapId">The map identifier.</param>

@@ -6,15 +6,12 @@ using System.Threading.Tasks;
 
 namespace Billapong.MapEditor.Models.Events
 {
-    public class GeneralDataSavedEventArgs : EventArgs
+    public class UpdateNameEventArgs : EventArgs
     {
-        public GeneralDataSavedEventArgs(long id, string name)
+        public UpdateNameEventArgs(string name)
         {
-            this.Id = id;
             this.Name = name;
         }
-        
-        public long Id { get; private set; }
         
         public string Name { get; private set; }
     }

@@ -45,6 +45,16 @@ namespace Billapong.MapEditor.Services
             this.Execute(() => this.Proxy.DeleteMap(mapId));
         }
 
+        public void UpdateName(long mapId, string name)
+        {
+            this.Execute(() => this.Proxy.UpdateName(mapId, name));
+        }
+
+        public void UpdateIsPlayable(long mapId, bool isPlayable)
+        {
+            this.Execute(() => this.Proxy.UpdateIsPlayable(mapId, isPlayable));
+        }
+
         public async void AddWindow(long mapId, int coordX, int coordY)
         {
             await this.ExecuteAsync(() => this.Proxy.AddWindow(mapId, coordX, coordY));

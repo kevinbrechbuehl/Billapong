@@ -120,6 +120,8 @@ namespace Billapong.MapEditor.ViewModels
         {
             // initialize
             this.callback = new MapEditorCallback();
+            this.callback.NameUpdated += this.NameUpdated;
+            this.callback.IsPlayableUpdated += this.IsPlayableUpdated;
             this.callback.WindowAdded += this.WindowAdded;
             this.callback.WindowRemoved += this.WindowRemoved;
             this.callback.HoleAdded += this.HoleAdded;
@@ -171,10 +173,14 @@ namespace Billapong.MapEditor.ViewModels
             this.proxy.UnregisterCallback(this.map.Id);
         }
 
-        public void GeneralDataSaved(object sender, GeneralDataSavedEventArgs args)
+        private void NameUpdated(object sender, UpdateNameEventArgs args)
         {
-            this.map.Id = args.Id;
             this.MapName = args.Name;
+        }
+
+        private void IsPlayableUpdated(object sender, UpdateIsPlayableEventArgs args)
+        {
+            this.IsPlayable = args.IsPlayable;
         }
 
         private void WindowAdded(object sender, GameWindowEventArgs args)
@@ -215,12 +221,13 @@ namespace Billapong.MapEditor.ViewModels
 
         private void SaveName()
         {
-            MessageBox.Show("Save to " + this.MapName); // todo (breck1): implement
+            this.proxy.UpdateName(this.map.Id, this.MapName);
         }
 
         private void ToggleIsPlayable()
         {
-            MessageBox.Show("toggle to " + this.IsPlayable); // todo (breck1): implement
+            // todo (breck1): check if map can be set to playable
+            this.proxy.UpdateIsPlayable(this.map.Id, this.IsPlayable);
         }
 
         private void GameWindowClicked(GameWindowClickedArgs args)

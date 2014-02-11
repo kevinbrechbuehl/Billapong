@@ -16,6 +16,10 @@ namespace Billapong.MapEditor.Services
     [CallbackBehavior(UseSynchronizationContext = true)]
     public class MapEditorCallback : IMapEditorCallback
     {
+        public event EventHandler<UpdateNameEventArgs> NameUpdated = delegate { };
+
+        public event EventHandler<UpdateIsPlayableEventArgs> IsPlayableUpdated = delegate { };
+        
         public event EventHandler<GameWindowEventArgs> WindowAdded = delegate { };
 
         public event EventHandler<GameWindowEventArgs> WindowRemoved = delegate { };
@@ -23,7 +27,19 @@ namespace Billapong.MapEditor.Services
         public event EventHandler<GameHoleClickedEventArgs> HoleAdded = delegate { };
 
         public event EventHandler<GameHoleClickedEventArgs> HoleRemoved = delegate { };
-        
+
+        public void UpdateName(string name)
+        {
+            var args = new UpdateNameEventArgs(name);
+            ThreadContext.InvokeOnUiThread(() => this.NameUpdated(this, args));
+        }
+
+        public void UpdateIsPlayable(bool isPlayable)
+        {
+            var args = new UpdateIsPlayableEventArgs(isPlayable);
+            ThreadContext.InvokeOnUiThread(() => this.IsPlayableUpdated(this, args));
+        }
+
         public void AddWindow(long windowId, int coordX, int coordY)
         {
             var args = new GameWindowEventArgs(windowId, coordX, coordY);

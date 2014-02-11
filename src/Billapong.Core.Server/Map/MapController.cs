@@ -111,6 +111,38 @@
             }
         }
 
+        public void UpdateName(long mapId, string name)
+        {
+            lock (WriterLockObject)
+            {
+                var map = this.GetMap(mapId);
+                if (map == null) return;
+
+                map.Name = name;
+                this.repository.Save();
+            }
+
+            // send the callback
+            Task.Run(() => this.StartUpdateNameCallback(mapId, name));
+        }
+
+        public void UpdateIsPlayable(long mapId, bool isPlayable)
+        {
+            // todo (breck1): check if the map can be set to playable
+            
+            lock (WriterLockObject)
+            {
+                var map = this.GetMap(mapId);
+                if (map == null) return;
+
+                map.IsPlayable = isPlayable;
+                this.repository.Save();
+            }
+
+            // send the callback
+            Task.Run(() => this.StartUpdateIsPlayableCallback(mapId, isPlayable));
+        }
+
         public void AddWindow(long mapId, int coordX, int coordY)
         {
             Map map;
@@ -225,6 +257,38 @@
             }
         }
 
+        private void StartUpdateNameCallback(long mapId, string name)
+        {
+            lock (CallbackLockObject)
+            {
+                var editor = this.editors.ContainsKey(mapId) ? this.editors[mapId] : null;
+                if (editor == null) return;
+
+                // todo (breck1): refactor and verify callbacks on every method
+
+                foreach (var callback in editor.Callbacks)
+                {
+                    callback.UpdateName(name);
+                }
+            }
+        }
+
+        private void StartUpdateIsPlayableCallback(long mapId, bool isPlayable)
+        {
+            lock (CallbackLockObject)
+            {
+                var editor = this.editors.ContainsKey(mapId) ? this.editors[mapId] : null;
+                if (editor == null) return;
+
+                // todo (breck1): refactor and verify callbacks on every method
+
+                foreach (var callback in editor.Callbacks)
+                {
+                    callback.UpdateIsPlayable(isPlayable);
+                }
+            }
+        }
+
         private void StartAddWindowCallback(long mapId, long windowId, int coordX, int coordY)
         {
             lock (CallbackLockObject)
@@ -301,8 +365,7 @@
             var map = new Map
             {
                 Name = "<Unnamed>",
-                IsPlayable = false,
-                Windows = new Collection<Window>()
+                IsPlayable = false
             };
 
             this.repository.Add(map);

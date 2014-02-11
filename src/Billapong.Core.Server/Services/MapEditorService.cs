@@ -74,6 +74,16 @@
             MapController.Current.DeleteMap(mapId);
         }
 
+        public void UpdateName(long mapId, string name)
+        {
+            MapController.Current.UpdateName(mapId, name);
+        }
+
+        public void UpdateIsPlayable(long mapId, bool isPlayable)
+        {
+            MapController.Current.UpdateIsPlayable(mapId, isPlayable);
+        }
+
         public void AddWindow(long mapId, int coordX, int coordY)
         {
             MapController.Current.AddWindow(mapId, coordX, coordY);

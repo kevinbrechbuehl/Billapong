@@ -1,6 +1,7 @@
 ﻿namespace Billapong.DataAccess.Model.Map
 {
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
@@ -8,6 +9,14 @@
     /// </summary>
     public class Window : IEntity
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Window"/> class.
+        /// </summary>
+        public Window()
+        {
+            this.Holes = new Collection<Hole>();
+        }
+        
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>
