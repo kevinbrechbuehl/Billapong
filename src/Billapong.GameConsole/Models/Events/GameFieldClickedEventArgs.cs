@@ -9,20 +9,20 @@
     public class GameFieldClickedEventArgs : EventArgs
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GameFieldClickedEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="GameFieldClickedEventArgs" /> class.
         /// </summary>
-        /// <param name="position">The position.</param>
-        public GameFieldClickedEventArgs(Point position)
+        /// <param name="mousePosition">The mouse position.</param>
+        public GameFieldClickedEventArgs(Point mousePosition)
         {
-            this.Position = position;
+            this.MousePosition = mousePosition;
         }
 
         /// <summary>
-        /// Gets the position.
+        /// Gets the mouse position.
         /// </summary>
         /// <value>
-        /// The position.
+        /// The mouse position.
         /// </value>
-        public Point Position { get; private set; }
+        public Point MousePosition { get; private set; }
     }
 }

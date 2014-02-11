@@ -214,12 +214,12 @@
         /// Starts the round.
         /// </summary>
         /// <param name="gameId">The game identifier.</param>
-        /// <param name="pointX">The point x.</param>
-        /// <param name="pointY">The point y.</param>
-        public void StartRound(Guid gameId, double pointX, double pointY)
+        /// <param name="directionX">The direction x.</param>
+        /// <param name="directionY">The direction y.</param>
+        public void StartRound(Guid gameId, double directionX, double directionY)
         {
             var game = this.GetGame(gameId);
-            Task.Run(() => this.StartRoundCallback(game, pointX, pointY));
+            Task.Run(() => this.StartRoundCallback(game, directionX, directionY));
         }
 
         /// <summary>

@@ -78,9 +78,9 @@
         /// </summary>
         /// <param name="gameId">The game identifier.</param>
         /// <param name="pointX">The point x where the user clicked to start the ball.</param>
-        /// <param name="pointY">The point y where the user clicked to start the ball.</param>
+        /// <param name="directionY">The point y where the user clicked to start the ball.</param>
         [OperationContract(Name = "StartRound")]
-        void StartRound(Guid gameId, double pointX, double pointY);
+        void StartRound(Guid gameId, double pointX, double directionY);
 
         /// <summary>
         /// Ends the round.

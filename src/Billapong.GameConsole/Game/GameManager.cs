@@ -86,16 +86,16 @@
         /// </summary>
         private void OpenGameField()
         {
-            const int windowBorderOffset = 16;
+            const int WindowBorderOffset = 16;
 
             double maxWindowRow = this.CurrentGame.Map.Windows.Max(window => window.Y);
             double maxWindowCol = this.CurrentGame.Map.Windows.Max(window => window.X);
 
-            var gameFieldHeight = (maxWindowRow+1) * GameConfiguration.GameWindowHeight;
-            var gameFieldWidth = (maxWindowCol+1) * GameConfiguration.GameWindowWidth;
+            var gameFieldHeight = (maxWindowRow + 1) * GameConfiguration.GameWindowHeight;
+            var gameFieldWidth = (maxWindowCol + 1) * GameConfiguration.GameWindowWidth;
 
-            var initialVerticalOffset = (SystemParameters.WorkArea.Height / 2) - (gameFieldHeight / 2) - ((maxWindowRow * windowBorderOffset) / 2);
-            var initialHorizontalOffset = (SystemParameters.WorkArea.Width / 2) - (gameFieldWidth / 2) - ((maxWindowCol * windowBorderOffset) / 2);
+            var initialVerticalOffset = (SystemParameters.WorkArea.Height / 2) - (gameFieldHeight / 2) - ((maxWindowRow * WindowBorderOffset) / 2);
+            var initialHorizontalOffset = (SystemParameters.WorkArea.Width / 2) - (gameFieldWidth / 2) - ((maxWindowCol * WindowBorderOffset) / 2);
 
             var verticalOffset = initialVerticalOffset;
 
@@ -112,8 +112,8 @@
                         var gameWindow = new GameWindow();
                         gameWindow.Top = verticalOffset;
                         gameWindow.Left = horizontalOffset;
-                        gameWindow.MinHeight = GameConfiguration.GameWindowHeight + windowBorderOffset;
-                        gameWindow.MinWidth = GameConfiguration.GameWindowWidth + windowBorderOffset;
+                        gameWindow.MinHeight = GameConfiguration.GameWindowHeight + WindowBorderOffset;
+                        gameWindow.MinWidth = GameConfiguration.GameWindowWidth + WindowBorderOffset;
                         gameWindow.MaxHeight = gameWindow.MinHeight;
                         gameWindow.MaxWidth = gameWindow.MinWidth;
                         gameWindow.ResizeMode = ResizeMode.NoResize;
@@ -136,10 +136,10 @@
                         }
                     }
 
-                    horizontalOffset += GameConfiguration.GameWindowWidth + windowBorderOffset;
+                    horizontalOffset += GameConfiguration.GameWindowWidth + WindowBorderOffset;
                 }
 
-                verticalOffset += GameConfiguration.GameWindowHeight + windowBorderOffset;
+                verticalOffset += GameConfiguration.GameWindowHeight + WindowBorderOffset;
             }
         }
 
@@ -181,41 +181,58 @@
             var viewModel = this.windows.FirstOrDefault(x => x.Key.Window.Id == args.WindowId).Key;
             if (viewModel != null)
             {
-                var position = new Point(args.Position.X * (GameConfiguration.BallRadius * 2) - GameConfiguration.BallRadius,
-                    args.Position.Y * (GameConfiguration.BallRadius * 2) - GameConfiguration.BallRadius);
+                var position = new Point((args.Position.X * (GameConfiguration.BallRadius * 2)) - GameConfiguration.BallRadius, (args.Position.Y * (GameConfiguration.BallRadius * 2)) - GameConfiguration.BallRadius);
                 this.CurrentGame.CurrentBallPosition = position;
                 this.CurrentGame.CurrentWindow = viewModel.Window;
                 viewModel.PlaceBall(position);
             }
         }
 
+        /// <summary>
+        /// Starts the round. Gets called from the RoundStarted event of the game controller
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="RoundStartedEventArgs"/> instance containing the event data.</param>
         private void StartRound(object sender, RoundStartedEventArgs args)
         {
-            
-        }
-
-        private void GameFieldClicked(object sender, GameFieldClickedEventArgs args)
-        {
-            var ballPosition = this.CurrentGame.CurrentBallPosition;
-            this.ballAnimationTaskQueue = this.CalculateBallAnimationTasks(this.CurrentGame.CurrentWindow, ballPosition, args.Position);
+            this.ballAnimationTaskQueue = this.CalculateBallAnimationTasks(this.CurrentGame.CurrentWindow, this.CurrentGame.CurrentBallPosition, args.Direction);
 
             var firstTask = this.ballAnimationTaskQueue.Dequeue();
             var viewModel = this.windows.FirstOrDefault(x => x.Key.Window.Id == firstTask.Window.Id).Key;
 
             viewModel.BallAnimationTask = firstTask;
-            //this.gameController.StartRound(new Point());
         }
 
-        private Queue<BallAnimationTask> CalculateBallAnimationTasks(Models.Window initialWindow, Point initialBallPosition, Point mousePosition)
+        /// <summary>
+        /// Gets called when the game field is clicked. Occurs only if a ball is in the senders window
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="GameFieldClickedEventArgs"/> instance containing the event data.</param>
+        private void GameFieldClicked(object sender, GameFieldClickedEventArgs args)
+        {
+            var ballPosition = this.CurrentGame.CurrentBallPosition;
+            var direction = new Vector(args.MousePosition.X, args.MousePosition.Y) - new Vector(ballPosition.X, ballPosition.Y);
+
+            this.gameController.StartRound(direction);
+        }
+
+        /// <summary>
+        /// Calculates the ball animation tasks.
+        /// </summary>
+        /// <param name="initialWindow">The initial window.</param>
+        /// <param name="startPosition">The start position.</param>
+        /// <param name="initialDirection">The initial direction.</param>
+        /// <returns>The calculated animation queue</returns>
+        private Queue<BallAnimationTask> CalculateBallAnimationTasks(Models.Window initialWindow, Point startPosition, Vector initialDirection)
         {
             var animationQueue = new Queue<BallAnimationTask>();
 
             var lastAnimation = false;
 
-            Models.Window currentWindow = initialWindow;
-            Point currentBallPosition = initialBallPosition;
+            var currentWindow = initialWindow;
+            var currentBallPosition = startPosition;
             var currentBallPositionVector = new Vector(currentBallPosition.X, currentBallPosition.Y);
-            var currentDirection = new Vector(mousePosition.X, mousePosition.Y) - currentBallPositionVector;
+            var currentDirection = initialDirection;
             currentDirection.Normalize();
             var counter = 0;
 
@@ -236,10 +253,10 @@
                 var intersectionTestVector = new Vector(intersectionTestPoint.X, intersectionTestPoint.Y);
 
                 // Check for top wall hit
-                var intersectionPoint = Intersects(currentBallPositionVector, intersectionTestVector, new Vector(0, 0), new Vector(GameConfiguration.GameWindowWidth, 0));
+                var intersectionPoint = this.Intersects(currentBallPositionVector, intersectionTestVector, new Vector(0, 0), new Vector(GameConfiguration.GameWindowWidth, 0));
                 if (intersectionPoint != null)
                 {
-                    currentTask.Steps.Add(GetPointAnimation(currentBallPosition, new Point(intersectionPoint.Value.X, intersectionPoint.Value.Y)));
+                    currentTask.Steps.Add(this.GetPointAnimation(currentBallPosition, new Point(intersectionPoint.Value.X, intersectionPoint.Value.Y)));
                     currentBallPosition = new Point(intersectionPoint.Value.X, intersectionPoint.Value.Y);
 
                     var upperWindow = this.CurrentGame.Map.Windows.FirstOrDefault(w => w.X == currentWindow.X && w.Y == currentWindow.Y - 1);
@@ -260,10 +277,10 @@
                 }
 
                 // Check for left wall hit
-                intersectionPoint = Intersects(currentBallPositionVector, intersectionTestVector, new Vector(0, 0), new Vector(0, GameConfiguration.GameWindowWidth));
+                intersectionPoint = this.Intersects(currentBallPositionVector, intersectionTestVector, new Vector(0, 0), new Vector(0, GameConfiguration.GameWindowWidth));
                 if (intersectionPoint != null)
                 {
-                    currentTask.Steps.Add(GetPointAnimation(currentBallPosition, new Point(intersectionPoint.Value.X, intersectionPoint.Value.Y)));
+                    currentTask.Steps.Add(this.GetPointAnimation(currentBallPosition, new Point(intersectionPoint.Value.X, intersectionPoint.Value.Y)));
                     currentBallPosition = new Point(intersectionPoint.Value.X, intersectionPoint.Value.Y);
 
                     var leftWindow = this.CurrentGame.Map.Windows.FirstOrDefault(w => w.X == currentWindow.X - 1 && w.Y == currentWindow.Y);
@@ -284,10 +301,10 @@
                 }
 
                 // Check for right wall hit
-                intersectionPoint = Intersects(currentBallPositionVector, intersectionTestVector, new Vector(GameConfiguration.GameWindowWidth, 0), new Vector(GameConfiguration.GameWindowWidth, GameConfiguration.GameWindowWidth));
+                intersectionPoint = this.Intersects(currentBallPositionVector, intersectionTestVector, new Vector(GameConfiguration.GameWindowWidth, 0), new Vector(GameConfiguration.GameWindowWidth, GameConfiguration.GameWindowWidth));
                 if (intersectionPoint != null)
                 {
-                    currentTask.Steps.Add(GetPointAnimation(currentBallPosition, new Point(intersectionPoint.Value.X, intersectionPoint.Value.Y)));
+                    currentTask.Steps.Add(this.GetPointAnimation(currentBallPosition, new Point(intersectionPoint.Value.X, intersectionPoint.Value.Y)));
                     currentBallPosition = new Point(intersectionPoint.Value.X, intersectionPoint.Value.Y);
 
                     var rightWindow = this.CurrentGame.Map.Windows.FirstOrDefault(w => w.X == currentWindow.X + 1 && w.Y == currentWindow.Y);
@@ -308,10 +325,10 @@
                 }
 
                 // Check for bottom wall hit
-                intersectionPoint = Intersects(currentBallPositionVector, intersectionTestVector, new Vector(0, GameConfiguration.GameWindowWidth), new Vector(GameConfiguration.GameWindowWidth, GameConfiguration.GameWindowWidth));
+                intersectionPoint = this.Intersects(currentBallPositionVector, intersectionTestVector, new Vector(0, GameConfiguration.GameWindowWidth), new Vector(GameConfiguration.GameWindowWidth, GameConfiguration.GameWindowWidth));
                 if (intersectionPoint != null)
                 {
-                    currentTask.Steps.Add(GetPointAnimation(currentBallPosition, new Point(intersectionPoint.Value.X, intersectionPoint.Value.Y)));
+                    currentTask.Steps.Add(this.GetPointAnimation(currentBallPosition, new Point(intersectionPoint.Value.X, intersectionPoint.Value.Y)));
                     currentBallPosition = new Point(intersectionPoint.Value.X, intersectionPoint.Value.Y);
 
                     var bottomWindow = this.CurrentGame.Map.Windows.FirstOrDefault(w => w.X == currentWindow.X && w.Y == currentWindow.Y + 1);
@@ -336,27 +353,37 @@
             return animationQueue;
         }
 
-        private PointAnimation GetPointAnimation(Point currentPosition, Point newPosition)
+        /// <summary>
+        /// Gets the point animation.
+        /// </summary>
+        /// <param name="currentPosition">The current position.</param>
+        /// <param name="targetPosition">The target position.</param>
+        /// <returns>The point animation</returns>
+        private PointAnimation GetPointAnimation(Point currentPosition, Point targetPosition)
         {
             var animation = new PointAnimation();
             animation.By = currentPosition;
-            animation.To = newPosition;
+            animation.To = targetPosition;
+            /* todo (mathp2): Calculate the distance between the points and set the correct duration */
             animation.Duration = TimeSpan.FromSeconds(1);
             return animation;
         }
 
+        /// <summary>
+        /// Gets called when an animation of a window finishes
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void AnimationFinished(object sender, EventArgs args)
         {
-            if (this.ballAnimationTaskQueue != null && this.ballAnimationTaskQueue.Count > 0)
-            {
-                var nextTask = this.ballAnimationTaskQueue.Dequeue();
-                var viewModel = this.windows.FirstOrDefault(w => w.Value.Id == nextTask.Window.Id).Key;
-                if (viewModel != null)
-                {
-                    viewModel.PlaceBall(nextTask.Steps.First().By.Value);
-                    viewModel.BallAnimationTask = nextTask;
-                }
-            }
+            if (this.ballAnimationTaskQueue == null || this.ballAnimationTaskQueue.Count <= 0) return;
+            
+            var nextTask = this.ballAnimationTaskQueue.Dequeue();
+            var viewModel = this.windows.FirstOrDefault(w => w.Value.Id == nextTask.Window.Id).Key;
+            if (viewModel == null) return;
+
+            viewModel.PlaceBall(nextTask.Steps.First().By.Value);
+            viewModel.BallAnimationTask = nextTask;
         }
 
         /// <summary>
@@ -366,31 +393,30 @@
         /// <param name="firstLineEnd">The first line end.</param>
         /// <param name="secondLineStart">The second line start.</param>
         /// <param name="secondLineEnd">The second line end.</param>
-        /// <returns></returns>
-        public Vector? Intersects(Vector firstLineStart, Vector firstLineEnd, Vector secondLineStart, Vector secondLineEnd)
+        /// <returns>The intersection check result</returns>
+        private Vector? Intersects(Vector firstLineStart, Vector firstLineEnd, Vector secondLineStart, Vector secondLineEnd)
         {
-            Vector b = firstLineEnd - firstLineStart;
-            Vector d = secondLineEnd - secondLineStart;
-            var bDotDPerp = b.X * d.Y - b.Y * d.X;
+            var b = firstLineEnd - firstLineStart;
+            var d = secondLineEnd - secondLineStart;
+            var delta = (b.X * d.Y) - (b.Y * d.X);
 
-            // if b dot d == 0, it means the lines are parallel so have infinite intersection points
-            if (bDotDPerp == 0)
-                return null;
+            // check for parallel lines (inifite intersection point)
+            if (Math.Abs(delta) < 0) return null;
 
-            Vector c = secondLineStart - firstLineStart;
-            var t = (c.X * d.Y - c.Y * d.X) / bDotDPerp;
+            var c = secondLineStart - firstLineStart;
+            var t = ((c.X * d.Y) - (c.Y * d.X)) / delta;
             if (t < 0 || t > 1)
             {
                 return null;
             }
 
-            var u = (c.X * b.Y - c.Y * b.X) / bDotDPerp;
+            var u = ((c.X * b.Y) - (c.Y * b.X)) / delta;
             if (u < 0 || u > 1)
             {
                 return null;
             }
 
-            return firstLineStart + t * b;
+            return firstLineStart + (t * b);
         }
     }
 }

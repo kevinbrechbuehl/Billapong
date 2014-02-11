@@ -24,7 +24,12 @@
         /// <summary>
         /// Occurs when the ball should be placed on the gamefield.
         /// </summary>
-        public event EventHandler<BallPlacedOnGameFieldEventArgs> StartPointSet; 
+        public event EventHandler<BallPlacedOnGameFieldEventArgs> StartPointSet = delegate { };
+
+        /// <summary>
+        /// Occurs when the round starts.
+        /// </summary>
+        public event EventHandler<RoundStartedEventArgs> RoundStarted = delegate { };
 
         /// <summary>
         /// Starts the game with a specific id.
@@ -41,19 +46,16 @@
         }
 
         /// <summary>
-        /// Raises the <see cref="E:GameStarted" /> event.
+        /// An error in the game ocurrs and the game has to be canceled by the client.
         /// </summary>
-        /// <param name="args">The <see cref="GameStartedEventArgs"/> instance containing the event data.</param>
-        private void OnGameStarted(GameStartedEventArgs args)
-        {
-            this.GameStarted(this, args);
-        }
-
         public void GameError()
         {
             MessageBox.Show("Upps something went wrong, need to cancel the game...");
         }
 
+        /// <summary>
+        /// Cancels the game.
+        /// </summary>
         public void CancelGame()
         {
             MessageBox.Show("Someone/-thing has canceled the game...");
@@ -71,6 +73,29 @@
             ThreadContext.InvokeOnUiThread(() => this.OnStartPointSet(args));   
         }
 
+
+        /// <summary>
+        /// Starts the round.
+        /// </summary>
+        /// <param name="directionX">The direction x where user clicked to start the ball.</param>
+        /// <param name="directionY">The direction y where user clicked to start the ball.</param>
+        public void StartRound(double directionX, double directionY)
+        {
+            var args = new RoundStartedEventArgs(new Vector(directionX, directionY));
+            ThreadContext.InvokeOnUiThread(() => this.OnRoundStarted(args));
+        }
+
+        /// <summary>
+        /// Ends the round.
+        /// </summary>
+        /// <param name="score">The current score over all player rounds.</param>
+        /// <param name="wasFinalRound">if set to <c>true</c> this was the final round and the game should be finished.</param>
+        /// <exception cref="System.NotImplementedException"></exception>
+        public void EndRound(int score, bool wasFinalRound)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Raises the <see cref="E:StartPointSet" /> event.
         /// </summary>
@@ -80,14 +105,22 @@
             this.StartPointSet(this, args);
         }
 
-        public void StartRound(double pointX, double pointY)
+        /// <summary>
+        /// Raises the <see cref="E:RoundStarted" /> event.
+        /// </summary>
+        /// <param name="args">The <see cref="RoundStartedEventArgs"/> instance containing the event data.</param>
+        private void OnRoundStarted(RoundStartedEventArgs args)
         {
-            throw new NotImplementedException();
+            this.RoundStarted(this, args);
         }
 
-        public void EndRound(int score, bool wasFinalRound)
+        /// <summary>
+        /// Raises the <see cref="E:GameStarted" /> event.
+        /// </summary>
+        /// <param name="args">The <see cref="GameStartedEventArgs"/> instance containing the event data.</param>
+        private void OnGameStarted(GameStartedEventArgs args)
         {
-            throw new NotImplementedException();
+            this.GameStarted(this, args);
         }
     }
 }

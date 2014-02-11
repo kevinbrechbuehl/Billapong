@@ -45,10 +45,10 @@
         /// <summary>
         /// Starts the round.
         /// </summary>
-        /// <param name="pointX">The point x where user clicked to start the ball.</param>
-        /// <param name="pointY">The point y where user clicked to start the ball.</param>
+        /// <param name="directionX">The direction x where user clicked to start the ball.</param>
+        /// <param name="directionY">The direction y where user clicked to start the ball.</param>
         [OperationContract(Name = "StartRound")]
-        void StartRound(double pointX, double pointY);
+        void StartRound(double directionX, double directionY);
 
         /// <summary>
         /// Ends the round.

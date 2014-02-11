@@ -107,9 +107,9 @@
             this.Execute(() => this.Proxy.SetStartPoint(gameId, windowId, pointX, pointY));
         }
 
-        public void StartRound(Guid gameId, double pointX, double pointY)
+        public void StartRound(Guid gameId, double directionX, double directionY)
         {
-            this.Execute(() => this.Proxy.StartRound(gameId, pointX, pointY));
+            this.Execute(() => this.Proxy.StartRound(gameId, directionX, directionY));
         }
 
         public void EndRound(Guid gameId, bool isPlayer1, int score)
