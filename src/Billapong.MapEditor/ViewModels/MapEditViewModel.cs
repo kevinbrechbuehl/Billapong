@@ -109,7 +109,7 @@ namespace Billapong.MapEditor.ViewModels
             // register the callback
             if (map.Id > 0)
             {
-                this.proxy.RegisterCallback(map.Id);
+                this.proxy.RegisterCallback(map.Id); // todo (breck1): nach der ersten änderung am client registrieren
             }
 
             // get the maps config and display it
@@ -123,7 +123,10 @@ namespace Billapong.MapEditor.ViewModels
                 windows[row] = new GameWindow[config.WindowCols];
                 for (var col=0; col<windows[row].Length; col++)
                 {
-                    windows[row][col] = new GameWindow(col, row, this.map.Windows.FirstOrDefault(item => item.X == col && item.Y == row), this.HoleDiameter);
+                    var mapWindow = this.map.Windows != null
+                        ? this.map.Windows.FirstOrDefault(item => item.X == col && item.Y == row)
+                        : null;
+                    windows[row][col] = new GameWindow(col, row, mapWindow, this.HoleDiameter);
                 }
             }
 
