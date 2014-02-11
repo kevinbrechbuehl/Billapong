@@ -34,19 +34,30 @@
         /// </returns>
         public MapConfiguration GetMapConfiguration()
         {
-            int numberOfRows;
-            if (!int.TryParse(ConfigurationManager.AppSettings["MapEditor.NumberOfRows"], out numberOfRows))
+            int windowRows;
+            if (!int.TryParse(ConfigurationManager.AppSettings["Map.WindowRows"], out windowRows))
             {
-                numberOfRows = 3;
+                windowRows = 3;
             }
 
-            int numberOfCols;
-            if (!int.TryParse(ConfigurationManager.AppSettings["MapEditor.NumberOfCols"], out numberOfCols))
+            int windowCols;
+            if (!int.TryParse(ConfigurationManager.AppSettings["Map.WindowCols"], out windowCols))
             {
-                numberOfCols = 4;
+                windowCols = 4;
             }
 
-            return new MapConfiguration() {NumberOfCols = numberOfCols, NumberOfRows = numberOfRows};
+            int holeGrid;
+            if (!int.TryParse(ConfigurationManager.AppSettings["Map.HoleGrid"], out holeGrid))
+            {
+                holeGrid = 15;
+            }
+
+            return new MapConfiguration()
+            {
+                WindowCols = windowCols,
+                WindowRows = windowRows,
+                HoleGrid = holeGrid
+            };
         }
 
         /// <summary>
@@ -67,6 +78,26 @@
             MapController.Current.SaveGeneral(map.Id, map.Name, this.GetCallback());
         }
 
+        public void AddWindow(long mapId, int coordX, int coordY)
+        {
+            MapController.Current.AddWindow(mapId, coordX, coordY);
+        }
+
+        public void RemoveWindow(long mapId, long windowId)
+        {
+            MapController.Current.RemoveWindow(mapId, windowId);
+        }
+
+        public void AddHole(long mapId, long windowId, int coordX, int coordY)
+        {
+            MapController.Current.AddHole(mapId, windowId, coordX, coordY);
+        }
+
+        public void RemoveHole(long mapId, long windowId, long holeId)
+        {
+            MapController.Current.RemoveHole(mapId, windowId, holeId);
+        }
+
         public void RegisterCallback(long mapId)
         {
             MapController.Current.RegisterCallback(mapId, this.GetCallback());
@@ -74,7 +105,7 @@
 
         public void UnregisterCallback(long mapId)
         {
-            throw new System.NotImplementedException();
+            MapController.Current.UnregisterCallback(mapId, this.GetCallback());
         }
 
         /// <summary>

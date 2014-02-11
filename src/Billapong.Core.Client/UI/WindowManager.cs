@@ -9,6 +9,7 @@
         {
             var view = this.GetWindow(viewModel.GetType());
             view.DataContext = viewModel;
+            view.Closing += (sender, args) => viewModel.CloseCallback();
             view.Show();
         }
 

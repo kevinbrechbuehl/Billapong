@@ -1,39 +1,73 @@
 ﻿<Window x:Class="Billapong.MapEditor.Views.MapEditView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MapEdit" Height="700" Width="837" Name="MapEditWindow" ResizeMode="NoResize">
+        xmlns:viewModels="clr-namespace:Billapong.MapEditor.ViewModels"
+        xmlns:views="clr-namespace:Billapong.MapEditor.Views"
+        Title="MapEdit" Height="720" Width="838" Name="MapEditWindow" ResizeMode="NoResize">
 
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
         <StackPanel>
             <DockPanel Margin="10">
-                <TextBlock DockPanel.Dock="Left">Name:</TextBlock>
+                <TextBlock DockPanel.Dock="Left" Width="100">Name:</TextBlock>
                 <Button DockPanel.Dock="Right" Command="{Binding SaveCommand}" Content="Save" Padding="5,1,5,1" />
                 <TextBox Margin="10,0,10,0" Text="{Binding MapName}" />
             </DockPanel>
 
-            <ItemsControl ItemsSource="{Binding GameWindows}" Margin="10">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <ItemsControl ItemsSource="{Binding}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Horizontal" />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid>
-                                        <ToggleButton Command="{Binding ElementName=MapEditWindow, Path=DataContext.ToggleWindowButtonCommand}" Width="200" Height="200" />
-                                        <StackPanel ZIndex="-1">
-                                            <TextBlock Background="Red">Second block</TextBlock>
-                                        </StackPanel>
-                                    </Grid>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+            <StackPanel Margin="10,0" Orientation="Horizontal">
+                <TextBlock Width="100">Selection Mode:</TextBlock>
+                <RadioButton Margin="10,0" GroupName="SelectionMode" IsChecked="true" Command="{Binding ToggleSelectionModeCommand}">Map Windows</RadioButton>
+                <RadioButton GroupName="SelectionMode" Command="{Binding ToggleSelectionModeCommand}">Window Holes</RadioButton>
+            </StackPanel>
+
+            <Border BorderThickness="1" BorderBrush="Black" Margin="10">
+                <ItemsControl ItemsSource="{Binding GameWindows}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ItemsControl ItemsSource="{Binding}">
+                                
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+
+                                        <Border BorderThickness="1" BorderBrush="Black" Margin="-1">
+                                            <ItemsControl ItemsSource="{Binding Holes}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <views:GameFieldCanvas
+                                                            Width="{x:Static viewModels:MapEditViewModel.GameWindowSize}"
+                                                            Height="{x:Static viewModels:MapEditViewModel.GameWindowSize}"
+                                                            Background="{Binding Background}"
+                                                            ClickCommand="{Binding ElementName=MapEditWindow, Path=DataContext.GameWindowClickedCommand}" />
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Ellipse Fill="Black" Width="{Binding ElementName=MapEditWindow, Path=DataContext.HoleDiameter}" Height="{Binding ElementName=MapEditWindow, Path=DataContext.HoleDiameter}" />
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                                <ItemsControl.ItemContainerStyle>
+                                                    <Style>
+                                                        <Setter Property="Canvas.Left" Value="{Binding Left}" />
+                                                        <Setter Property="Canvas.Top" Value="{Binding Top}" />
+                                                    </Style>
+                                                </ItemsControl.ItemContainerStyle>
+                                            </ItemsControl>
+                                        </Border>
+
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                                
+                            </ItemsControl>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Border>
+            
         </StackPanel>
     </ScrollViewer>
 

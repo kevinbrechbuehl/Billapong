@@ -56,12 +56,18 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converter\MapConverter.cs" />
+    <Compile Include="Models\Events\GameHoleClickedEventArgs.cs" />
+    <Compile Include="Models\Events\GameWindowEventArgs.cs" />
     <Compile Include="Models\Events\GeneralDataSavedEventArgs.cs" />
+    <Compile Include="Models\Hole.cs" />
     <Compile Include="Models\Map.cs" />
+    <Compile Include="Models\Parameters\GameWindowClickedArgs.cs" />
+    <Compile Include="Models\GameWindow.cs" />
     <Compile Include="Services\MapEditorCallback.cs" />
     <Compile Include="Services\MapEditorServiceClient.cs" />
     <Compile Include="ViewModels\MapEditViewModel.cs" />
     <Compile Include="ViewModels\MapSelectionViewModel.cs" />
+    <Compile Include="Views\GameFieldCanvas.cs" />
     <Compile Include="Views\MapEditView.xaml.cs">
       <DependentUpon>MapEditView.xaml</DependentUpon>
     </Compile>

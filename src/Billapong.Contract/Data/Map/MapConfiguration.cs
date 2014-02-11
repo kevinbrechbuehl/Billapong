@@ -9,21 +9,30 @@
     public class MapConfiguration
     {
         /// <summary>
-        /// Gets or sets the number of rows.
+        /// Gets or sets the number of window rows.
         /// </summary>
         /// <value>
-        /// The number of rows.
+        /// The number of window rows.
         /// </value>
-        [DataMember(Name = "NumberOfRows", Order = 1)]
-        public int NumberOfRows { get; set; }
+        [DataMember(Name = "WindowRows", Order = 1)]
+        public int WindowRows { get; set; }
 
         /// <summary>
-        /// Gets or sets the number of cols.
+        /// Gets or sets the number of window cols.
         /// </summary>
         /// <value>
-        /// The number of cols.
+        /// The number of window cols.
         /// </value>
-        [DataMember(Name = "NumberOfCols", Order = 1)]
-        public int NumberOfCols { get; set; }
+        [DataMember(Name = "WindowCols", Order = 1)]
+        public int WindowCols { get; set; }
+
+        /// <summary>
+        /// Gets or sets the hole grid.
+        /// </summary>
+        /// <value>
+        /// The hole grid.
+        /// </value>
+        [DataMember(Name = "HoleGrid", Order = 1)]
+        public int HoleGrid { get; set; }
     }
 }

@@ -12,8 +12,20 @@
                 Id = source.Id,
                 Name = source.Name,
                 IsPlayable = source.IsPlayable,
+                Windows = source.Windows.ToList(),
                 NumberOfWindows = source.Windows.Count,
                 NumberOfHoles = source.Windows.Sum(window => window.Holes.Count)
+            };
+        }
+
+        public static Hole ToEntity(this Contract.Data.Map.Hole source, double diameter)
+        {
+            return new Hole
+            {
+                Id = source.Id,
+                X = source.X,
+                Y = source.Y,
+                Diameter = diameter
             };
         }
 

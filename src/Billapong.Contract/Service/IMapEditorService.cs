@@ -39,6 +39,42 @@
         void SaveGeneral(GeneralMapData map);
 
         /// <summary>
+        /// Adds the window.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <param name="coordX">The coord x.</param>
+        /// <param name="coordY">The coord y.</param>
+        [OperationContract(Name = "AddWindow")]
+        void AddWindow(long mapId, int coordX, int coordY);
+
+        /// <summary>
+        /// Removes the window.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <param name="windowId">The window identifier.</param>
+        [OperationContract(Name = "RemoveWindow")]
+        void RemoveWindow(long mapId, long windowId);
+
+        /// <summary>
+        /// Adds the hole.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <param name="windowId">The window identifier.</param>
+        /// <param name="coordX">The coord x.</param>
+        /// <param name="coordY">The coord y.</param>
+        [OperationContract(Name = "AddHole")]
+        void AddHole(long mapId, long windowId, int coordX, int coordY);
+
+        /// <summary>
+        /// Removes the hole.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <param name="windowId">The window identifier.</param>
+        /// <param name="holeId">The hole identifier.</param>
+        [OperationContract(Name = "RemoveHole")]
+        void RemoveHole(long mapId, long windowId, long holeId);
+
+        /// <summary>
         /// Registers the callback.
         /// </summary>
         /// <param name="mapId">The map identifier.</param>
