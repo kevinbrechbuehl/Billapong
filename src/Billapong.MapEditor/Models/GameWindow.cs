@@ -13,9 +13,9 @@ namespace Billapong.MapEditor.Models
     using Converter;
     using Core.Client.UI;
 
-    public class Window : NotificationObject
+    public class GameWindow : NotificationObject
     {
-        public Window(int x, int y, Contract.Data.Map.Window mapWindow, double holeDiameter)
+        public GameWindow(int x, int y, Contract.Data.Map.Window mapWindow, double holeDiameter)
         {
             this.X = x;
             this.Y = y;

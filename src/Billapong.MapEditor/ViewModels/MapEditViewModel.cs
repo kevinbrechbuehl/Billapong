@@ -17,6 +17,7 @@ namespace Billapong.MapEditor.ViewModels
     using Converter;
     using Models;
     using Models.Events;
+    using Models.Parameters;
     using Services;
 
     public class MapEditViewModel : ViewModelBase
@@ -28,6 +29,8 @@ namespace Billapong.MapEditor.ViewModels
         private readonly MapEditorServiceClient proxy;
 
         private readonly MapEditorCallback callback;
+
+        private readonly double gridSize;
 
         private double holeDiameter;
 
@@ -61,7 +64,7 @@ namespace Billapong.MapEditor.ViewModels
 
         private bool isWindowHolesSelectionMode;
 
-        public Models.Window[][] GameWindows { get; private set; }
+        public GameWindow[][] GameWindows { get; private set; }
 
         public DelegateCommand SaveCommand
         {
@@ -79,11 +82,11 @@ namespace Billapong.MapEditor.ViewModels
             }
         }
 
-        public DelegateCommand<Models.Window> ToggleWindowCommand
+        public DelegateCommand<GameWindowClickedArgs> GameWindowClickedCommand
         {
             get
             {
-                return new DelegateCommand<Models.Window>(this.ToggleWindow);
+                return new DelegateCommand<GameWindowClickedArgs>(this.GameWindowClicked);
             }
         }
 
@@ -107,15 +110,16 @@ namespace Billapong.MapEditor.ViewModels
 
             // get the maps config and display it
             var config = this.proxy.GetMapConfiguration();
-            var windows = new Models.Window[config.WindowRows][];
+            var windows = new GameWindow[config.WindowRows][];
+            this.gridSize = GameWindowSize / config.HoleGrid;
             this.HoleDiameter = GameWindowSize/config.HoleGrid;
 
             for (var i = 0; i < windows.Length; i++)
             {
-                windows[i] = new Models.Window[config.WindowCols];
+                windows[i] = new GameWindow[config.WindowCols];
                 for (var j=0; j<windows[i].Length; j++)
                 {
-                    windows[i][j] = new Models.Window(j, i, this.map.Windows.FirstOrDefault(item => item.X == i && item.Y == j), this.HoleDiameter);
+                    windows[i][j] = new GameWindow(j, i, this.map.Windows.FirstOrDefault(item => item.X == i && item.Y == j), this.HoleDiameter);
                 }
             }
 
@@ -136,18 +140,43 @@ namespace Billapong.MapEditor.ViewModels
         private void ToggleSelectionMode()
         {
             this.isWindowHolesSelectionMode = !isWindowHolesSelectionMode;
-            Mouse.OverrideCursor = this.isWindowHolesSelectionMode ? Cursors.Cross : null;
         }
 
-        private void ToggleWindow(Models.Window window)
+        private void GameWindowClicked(GameWindowClickedArgs args)
         {
+            var point = args.Point;
+            var gameWindow = args.GameWindow;
+            
             if (this.isWindowHolesSelectionMode)
             {
-                window.Holes.Add(new Hole {X = 3,  Y = 3, Diameter = this.HoleDiameter });
+                if (!gameWindow.IsChecked)
+                {
+                    // todo (breck1): make mvvm conform
+                    MessageBox.Show("You can't add holes here, please activate the game window first", "Error",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                
+                var coordX = (int)(point.X / this.gridSize);
+                var coordY = (int)(point.Y / this.gridSize);
+
+                var holeOnField = gameWindow.Holes.FirstOrDefault(hole => hole.X == coordX && hole.Y == coordY);
+                if (holeOnField != null)
+                {
+                    gameWindow.Holes.Remove(holeOnField);
+                }
+                else
+                {
+                    gameWindow.Holes.Add(new Hole { X = coordX, Y = coordY, Diameter = this.HoleDiameter });   
+                }
             }
             else
             {
-                window.IsChecked = !window.IsChecked;
+                gameWindow.IsChecked = !gameWindow.IsChecked;
+                if (!gameWindow.IsChecked)
+                {
+                    gameWindow.Holes.Clear();
+                }
             }
         }
     }

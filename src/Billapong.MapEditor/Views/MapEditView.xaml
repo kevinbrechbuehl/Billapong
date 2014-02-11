@@ -2,6 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:viewModels="clr-namespace:Billapong.MapEditor.ViewModels"
+        xmlns:views="clr-namespace:Billapong.MapEditor.Views"
         Title="MapEdit" Height="720" Width="838" Name="MapEditWindow" ResizeMode="NoResize">
 
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
@@ -37,11 +38,11 @@
                                             <ItemsControl ItemsSource="{Binding Holes}">
                                                 <ItemsControl.ItemsPanel>
                                                     <ItemsPanelTemplate>
-                                                        <Canvas Width="{x:Static viewModels:MapEditViewModel.GameWindowSize}" Height="{x:Static viewModels:MapEditViewModel.GameWindowSize}" Background="{Binding Background}">
-                                                            <Canvas.InputBindings>
-                                                                <MouseBinding MouseAction="LeftClick" CommandParameter="{Binding}" Command="{Binding ElementName=MapEditWindow, Path=DataContext.ToggleWindowCommand}" />
-                                                            </Canvas.InputBindings>
-                                                        </Canvas>
+                                                        <views:GameFieldCanvas
+                                                            Width="{x:Static viewModels:MapEditViewModel.GameWindowSize}"
+                                                            Height="{x:Static viewModels:MapEditViewModel.GameWindowSize}"
+                                                            Background="{Binding Background}"
+                                                            ClickCommand="{Binding ElementName=MapEditWindow, Path=DataContext.GameWindowClickedCommand}" />
                                                     </ItemsPanelTemplate>
                                                 </ItemsControl.ItemsPanel>
                                                 <ItemsControl.ItemTemplate>
