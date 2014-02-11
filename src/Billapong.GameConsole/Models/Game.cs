@@ -1,6 +1,7 @@
 ﻿namespace Billapong.GameConsole.Models
 {
     using System;
+    using System.Windows;
     using Configuration;
 
     public class Game
@@ -52,6 +53,22 @@
         /// The type of the game.
         /// </value>
         public GameConfiguration.GameType GameType { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the ball position.
+        /// </summary>
+        /// <value>
+        /// The ball position.
+        /// </value>
+        public Point CurrentBallPosition { get; set; }
+
+        /// <summary>
+        /// Gets or sets the current window.
+        /// </summary>
+        /// <value>
+        /// The current window.
+        /// </value>
+        public Window CurrentWindow { get; set; }
 
         /// <summary>
         /// Initializes the specified game identifier.

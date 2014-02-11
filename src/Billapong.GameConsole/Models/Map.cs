@@ -20,7 +20,7 @@
         {
             get
             {
-               return this.Windows.GroupBy(w => w.X).OrderBy(w => w.First().X).ToDictionary(w => w.Key, y => (IEnumerable<Window>)y.OrderBy(z => z.Y).ToList());
+               return this.Windows.GroupBy(w => w.Y).OrderBy(w => w.First().Y).ToDictionary(w => w.Key, y => (IEnumerable<Window>)y.OrderBy(z => z.X).ToList());
             }
         }
 

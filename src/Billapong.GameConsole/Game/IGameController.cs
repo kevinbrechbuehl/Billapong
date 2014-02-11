@@ -6,8 +6,12 @@
 
     public interface IGameController
     {
-        event EventHandler<BallPlacedOnGameFieldEventArgs> BallPlacedOnGameField;     
+        event EventHandler<BallPlacedOnGameFieldEventArgs> BallPlacedOnGameField;
+
+        event EventHandler<RoundStartedEventArgs> RoundStarted;   
 
         void PlaceBallOnGameField(long windowId, Point position);
+
+        void StartRound(Point position);
     }
 }

@@ -3,8 +3,10 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Windows;
     using System.Windows.Data;
+    using System.Windows.Input;
     using Animation;
     using Core.Client.UI;
     using Models;
@@ -16,12 +18,16 @@
         /// <summary>
         /// The window
         /// </summary>
-        private Window window;
+        private readonly Window window;
+
+        public event EventHandler AnimationFinished = delegate { };
 
         /// <summary>
-        /// The current ball animation task
+        /// The ball
         /// </summary>
-        private BallAnimationTask currentBallAnimationTask;
+        private Ball ball;
+
+        private BallAnimationTask ballAnimationTask;
 
         /// <summary>
         /// Gets the window.
@@ -46,20 +52,24 @@
         public ObservableCollection<Hole> Holes { get; private set; }
 
         /// <summary>
-        /// Gets the balls.
+        /// Gets the ball.
         /// </summary>
         /// <value>
-        /// The balls.
+        /// The ball.
         /// </value>
-        public ObservableCollection<Ball> Balls { get; private set; }
+        public Ball Ball 
+        {
+            get
+            {
+                return this.ball;
+            }
 
-        /// <summary>
-        /// Gets the canvas elements.
-        /// </summary>
-        /// <value>
-        /// The canvas elements.
-        /// </value>
-        public CompositeCollection CanvasElements { get; private set; }
+            private set
+            {
+                this.ball = value;
+                OnPropertyChanged();
+            } 
+        }
 
         /// <summary>
         /// Gets the ball animation queue.
@@ -67,7 +77,19 @@
         /// <value>
         /// The ball animation queue.
         /// </value>
-        public Queue<BallAnimationTask> BallAnimationQueue { get; private set; }
+        public BallAnimationTask BallAnimationTask 
+        {
+            get
+            {
+                return this.ballAnimationTask;
+            }
+
+            set
+            {
+                this.ballAnimationTask = value;
+                OnPropertyChanged();
+            } 
+        }
 
         /// <summary>
         /// Occurs when the game field is clicked.
@@ -88,17 +110,11 @@
             }
         }
 
-        /// <summary>
-        /// Gets the ball animation finished command.
-        /// </summary>
-        /// <value>
-        /// The ball animation finished command.
-        /// </value>
-        public DelegateCommand BallAnimationFinishedCommand
+        public DelegateCommand AnimationFinishedCommand
         {
             get
             {
-                return new DelegateCommand(BallAnimationFinished);
+                return new DelegateCommand(this.OnAnimationFinished);
             }
         }
 
@@ -109,18 +125,12 @@
         public GameWindowViewModel(Window window)
         {
             this.window = window;
-            this.BallAnimationQueue = new Queue<BallAnimationTask>();
             this.Holes = new ObservableCollection<Hole>();
-            this.Balls = new ObservableCollection<Ball>();
-            this.CanvasElements = new CompositeCollection();
 
             foreach (var hole in this.window.Holes)
             {
                 this.Holes.Add(hole);
             }
-
-            this.CanvasElements.Add(new CollectionContainer { Collection = this.Holes });
-            this.CanvasElements.Add(new CollectionContainer { Collection = this.Balls });
         }
 
         /// <summary>
@@ -129,9 +139,7 @@
         /// <param name="position">The position.</param>
         public void PlaceBall(Point position)
         {
-            this.Balls.Clear();
-            var ball = new Ball {Position = position};
-            this.Balls.Add(ball);
+            this.Ball = new Ball {Position = position};
         }
 
         /// <summary>
@@ -141,7 +149,7 @@
         /// <returns>The evaluation result</returns>
         private bool IsGameFieldClickable(Point mousePosition)
         {
-            return this.Balls.Count > 0;
+            return this.Ball != null;
         }
 
         /// <summary>
@@ -154,32 +162,10 @@
             this.GameFieldClicked(this, eventArgs);   
         }
 
-        /// <summary>
-        /// Gets called when the current ball animation is finished
-        /// </summary>
-        private void BallAnimationFinished()
+        private void OnAnimationFinished()
         {
-            if (this.BallAnimationQueue.Count > 0)
-            {
-                var nextTask = this.BallAnimationQueue.Dequeue();
-                var ball = new Ball
-                {
-                    Position = new Point(currentBallAnimationTask.NewPosition.X, currentBallAnimationTask.NewPosition.Y),
-                    PointAnimation = nextTask
-                };
-
-                currentBallAnimationTask = nextTask;
-
-                this.Balls.Clear();
-                this.Balls.Add(ball);
-            }
-            else
-            {
-                if (!currentBallAnimationTask.IsLastAnimation) 
-                { 
-                    this.Balls.Clear();
-                }
-            }
+            this.Ball = null;
+            this.AnimationFinished(this, null);
         }
     }
 }
