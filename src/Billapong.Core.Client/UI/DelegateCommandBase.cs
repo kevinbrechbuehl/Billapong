@@ -62,7 +62,7 @@
         /// Defines the method to be called when the command is invoked.
         /// </summary>
         /// <param name="parameter">Data used by the command.  If the command does not require data to be passed, this object can be set to null.</param>
-        async void ICommand.Execute(object parameter = null)
+        async void ICommand.Execute(object parameter)
         {
             await Execute(parameter);
         }
@@ -74,7 +74,7 @@
         /// <returns>
         /// true if this command can be executed; otherwise, false.
         /// </returns>
-        bool ICommand.CanExecute(object parameter = null)
+        bool ICommand.CanExecute(object parameter)
         {
             return CanExecute(parameter);
         }
