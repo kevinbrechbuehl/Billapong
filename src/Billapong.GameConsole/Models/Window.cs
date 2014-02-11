@@ -38,7 +38,7 @@
         /// The y coordinate.
         /// </value>
         public int Y { get; set; }
-
+        
         /// <summary>
         /// Gets the display name.
         /// </summary>
@@ -52,6 +52,8 @@
                 return string.Format("X: {0} / Y: {1}", this.X, this.Y);
             }
         }
+
+
 
         /// <summary>
         /// Gets or sets a value indicating whether the window is used on this client.

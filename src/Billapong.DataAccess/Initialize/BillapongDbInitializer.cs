@@ -108,8 +108,8 @@
                     },
                     new Window
                     {
-                        X = 0,
-                        Y = 1,
+                        X = 1,
+                        Y = 0,
                         Holes = new List<Hole>
                         {
                             new Hole { X = 1, Y = 4 },
@@ -120,8 +120,8 @@
                     },
                     new Window
                     {
-                        X = 0,
-                        Y = 2,
+                        X = 2,
+                        Y = 0,
                         Holes = new List<Hole>
                         {
                             new Hole { X = 3, Y = 8 }
@@ -129,8 +129,8 @@
                     },
                     new Window
                     {
-                        X = 0,
-                        Y = 3,
+                        X = 3,
+                        Y = 0,
                         Holes = new List<Hole>
                         {
                             new Hole { X = 3, Y = 3 },
@@ -142,8 +142,8 @@
                     },
                     new Window
                     {
-                        X = 1,
-                        Y = 0,
+                        X = 0,
+                        Y = 1,
                         Holes = new List<Hole>
                         {
                             new Hole { X = 1, Y = 8 },
@@ -165,8 +165,8 @@
                     },
                     new Window
                     {
-                        X = 1,
-                        Y = 2,
+                        X = 2,
+                        Y = 1,
                         Holes = new List<Hole>
                         {
                             new Hole { X = 3, Y = 8 }
@@ -174,8 +174,8 @@
                     },
                     new Window
                     {
-                        X = 1,
-                        Y = 3,
+                        X = 3,
+                        Y = 1,
                         Holes = new List<Hole>
                         {
                             new Hole { X = 3, Y = 3 },
@@ -187,8 +187,8 @@
                     },
                     new Window
                     {
-                        X = 2,
-                        Y = 0,
+                        X = 0,
+                        Y = 2,
                         Holes = new List<Hole>
                         {
                             new Hole { X = 1, Y = 8 },
@@ -198,8 +198,8 @@
                     },
                     new Window
                     {
-                        X = 2,
-                        Y = 1,
+                        X = 1,
+                        Y = 2,
                         Holes = new List<Hole>
                         {
                             new Hole { X = 1, Y = 4 },
@@ -219,8 +219,8 @@
                     },
                     new Window
                     {
-                        X = 2,
-                        Y = 3,
+                        X = 3,
+                        Y = 2,
                         Holes = new List<Hole>
                         {
                             new Hole { X = 3, Y = 3 },
@@ -252,8 +252,8 @@
                     },
                     new Window
                     {
-                        X = 0,
-                        Y = 1,
+                        X = 1,
+                        Y = 0,
                         Holes = new List<Hole>
                         {
                             new Hole { X = 1, Y = 4 },
@@ -264,8 +264,8 @@
                     },
                     new Window
                     {
-                        X = 0,
-                        Y = 2,
+                        X = 2,
+                        Y = 0,
                         Holes = new List<Hole>
                         {
                             new Hole { X = 3, Y = 8 }
@@ -273,8 +273,8 @@
                     },
                     new Window
                     {
-                        X = 0,
-                        Y = 3,
+                        X = 3,
+                        Y = 0,
                         Holes = new List<Hole>
                         {
                             new Hole { X = 3, Y = 3 },
@@ -286,8 +286,8 @@
                     },
                     new Window
                     {
-                        X = 1,
-                        Y = 0,
+                        X = 0,
+                        Y = 1,
                         Holes = new List<Hole>
                         {
                             new Hole { X = 1, Y = 1 },
@@ -297,8 +297,8 @@
                     },
                     new Window
                     {
-                        X = 1,
-                        Y = 3,
+                        X = 3,
+                        Y = 1,
                         Holes = new List<Hole>
                         {
                             new Hole { X = 3, Y = 3 },
@@ -310,8 +310,8 @@
                     },
                     new Window
                     {
-                        X = 2,
-                        Y = 0,
+                        X = 0,
+                        Y = 2,
                         Holes = new List<Hole>
                         {
                             new Hole { X = 1, Y = 8 },
@@ -321,8 +321,8 @@
                     },
                     new Window
                     {
-                        X = 2,
-                        Y = 1,
+                        X = 1,
+                        Y = 2,
                         Holes = new List<Hole>
                         {
                             new Hole { X = 1, Y = 4 },
@@ -342,8 +342,8 @@
                     },
                     new Window
                     {
-                        X = 2,
-                        Y = 3,
+                        X = 3,
+                        Y = 2,
                         Holes = new List<Hole>
                         {
                             new Hole { X = 3, Y = 3 },

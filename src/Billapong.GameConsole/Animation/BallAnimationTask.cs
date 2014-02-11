@@ -1,28 +1,29 @@
 ﻿namespace Billapong.GameConsole.Animation
 {
     using System;
-    using System.Windows;
+    using System.Collections.Generic;
+    using System.Windows.Media.Animation;
+    using Models;
 
     /// <summary>
     /// Represents a single animation of the game ball
     /// </summary>
     public class BallAnimationTask
     {
-        /// <summary>
-        /// Gets or sets the new position.
-        /// </summary>
-        /// <value>
-        /// The new position.
-        /// </value>
-        public Point NewPosition { get; set; }
+        public BallAnimationTask()
+        {
+            this.Steps = new List<PointAnimation>();
+        }
+
+        public Window Window { get; set; }
 
         /// <summary>
-        /// Gets or sets the duration.
+        /// Gets the steps.
         /// </summary>
         /// <value>
-        /// The duration.
+        /// The steps.
         /// </value>
-        public TimeSpan Duration { get; set; }
+        public List<PointAnimation> Steps { get; private set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether this animation is the last one.
