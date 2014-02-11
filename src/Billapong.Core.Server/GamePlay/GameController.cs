@@ -204,7 +204,7 @@
         /// <param name="windowId">The window identifier.</param>
         /// <param name="pointX">The point x.</param>
         /// <param name="pointY">The point y.</param>
-        public void SetStartPoint(Guid gameId, long windowId, int pointX, int pointY)
+        public void SetStartPoint(Guid gameId, long windowId, double pointX, double pointY)
         {
             var game = this.GetGame(gameId);
             Task.Run(() => this.SetStartPointCallback(game, windowId, pointX, pointY));
@@ -216,7 +216,7 @@
         /// <param name="gameId">The game identifier.</param>
         /// <param name="pointX">The point x.</param>
         /// <param name="pointY">The point y.</param>
-        public void StartRound(Guid gameId, int pointX, int pointY)
+        public void StartRound(Guid gameId, double pointX, double pointY)
         {
             var game = this.GetGame(gameId);
             Task.Run(() => this.StartRoundCallback(game, pointX, pointY));
@@ -306,7 +306,7 @@
         /// <param name="windowId">The window identifier.</param>
         /// <param name="pointX">The point x.</param>
         /// <param name="pointY">The point y.</param>
-        private void SetStartPointCallback(Game game, long windowId, int pointX, int pointY)
+        private void SetStartPointCallback(Game game, long windowId, double pointX, double pointY)
         {
             // check callbacks
             if (!this.CheckCallbacks(game))
@@ -326,7 +326,7 @@
         /// <param name="game">The game.</param>
         /// <param name="pointX">The point x.</param>
         /// <param name="pointY">The point y.</param>
-        private void StartRoundCallback(Game game, int pointX, int pointY)
+        private void StartRoundCallback(Game game, double pointX, double pointY)
         {
             // check callbacks
             if (!this.CheckCallbacks(game))

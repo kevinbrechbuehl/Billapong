@@ -8,7 +8,7 @@
     {
         public event EventHandler<BallPlacedOnGameFieldEventArgs> BallPlacedOnGameField = delegate { };
        
-        public void PlaceBallOnGameField(long windowId, int pointX, int pointY)
+        public void PlaceBallOnGameField(long windowId, Point position)
         {
             throw new NotImplementedException();
         }

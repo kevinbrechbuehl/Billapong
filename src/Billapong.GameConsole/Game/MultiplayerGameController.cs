@@ -1,6 +1,7 @@
 ﻿namespace Billapong.GameConsole.Game
 {
     using System;
+    using System.Windows;
     using Models.Events;
     using Service;
 
@@ -13,9 +14,9 @@
             GameConsoleContext.Current.GameConsoleCallback.StartPointSet += this.OnBallPlacedOnGameField;
         }
 
-        public void PlaceBallOnGameField(long windowId, int pointX, int pointY)
+        public void PlaceBallOnGameField(long windowId, Point position)
         {
-            GameConsoleContext.Current.GameConsoleServiceClient.SetStartPoint(GameManager.Current.CurrentGame.GameId, windowId, pointX, pointY);
+            GameConsoleContext.Current.GameConsoleServiceClient.SetStartPoint(GameManager.Current.CurrentGame.GameId, windowId, position.X, position.Y);
         }
 
         public void OnBallPlacedOnGameField(object sender, BallPlacedOnGameFieldEventArgs args)

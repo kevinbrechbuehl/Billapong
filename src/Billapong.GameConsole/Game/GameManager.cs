@@ -144,6 +144,9 @@
             }
         }
 
+        /// <summary>
+        /// Places the ball on game field.
+        /// </summary>
         private void PlaceBallOnGameField()
         {
             var possibleStartWindows = this.windows.Where(x => x.Value.IsOwnWindow).ToArray();
@@ -166,16 +169,21 @@
                 }
             }
 
-            this.gameController.PlaceBallOnGameField(randomWindow.Window.Id, pointX, pointY);
+            this.gameController.PlaceBallOnGameField(randomWindow.Window.Id, new Point(pointX, pointY));
         }
 
+        /// <summary>
+        /// Places the ball on game field based on an event callback.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="BallPlacedOnGameFieldEventArgs"/> instance containing the event data.</param>
         private void PlaceBallOnGameField(object sender, BallPlacedOnGameFieldEventArgs args)
         {
             var viewModel = this.windows.FirstOrDefault(x => x.Key.Window.Id == args.WindowId).Key;
             if (viewModel != null)
             {
-                var position = new Point(args.PointX*(GameConfiguration.BallRadius*2) - GameConfiguration.BallRadius,
-                    args.PointY*(GameConfiguration.BallRadius*2) - GameConfiguration.BallRadius);
+                var position = new Point(args.Position.X*(GameConfiguration.BallRadius*2) - GameConfiguration.BallRadius,
+                    args.Position.Y*(GameConfiguration.BallRadius*2) - GameConfiguration.BallRadius);
                 viewModel.PlaceBall(position);
             }
         }

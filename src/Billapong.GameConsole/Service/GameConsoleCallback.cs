@@ -65,9 +65,9 @@
         /// <param name="windowId">The windows identifier.</param>
         /// <param name="pointX">The point x.</param>
         /// <param name="pointY">The point y.</param>
-        public void SetStartPoint(long windowId, int pointX, int pointY)
+        public void SetStartPoint(long windowId, double pointX, double pointY)
         {
-            var args = new BallPlacedOnGameFieldEventArgs(windowId, pointX, pointY);
+            var args = new BallPlacedOnGameFieldEventArgs(windowId, new Point(pointX, pointY));
             ThreadContext.InvokeOnUiThread(() => this.OnStartPointSet(args));   
         }
 
@@ -80,7 +80,7 @@
             this.StartPointSet(this, args);
         }
 
-        public void StartRound(int pointX, int pointY)
+        public void StartRound(double pointX, double pointY)
         {
             throw new NotImplementedException();
         }

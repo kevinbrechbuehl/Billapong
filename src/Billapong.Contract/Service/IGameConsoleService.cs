@@ -71,7 +71,7 @@
         /// <param name="pointX">The point x.</param>
         /// <param name="pointY">The point y.</param>
         [OperationContract(Name = "SetStartPoint")]
-        void SetStartPoint(Guid gameId, long windowId, int pointX, int pointY);
+        void SetStartPoint(Guid gameId, long windowId, double pointX, double pointY);
 
         /// <summary>
         /// Starts the round.
@@ -80,7 +80,7 @@
         /// <param name="pointX">The point x where the user clicked to start the ball.</param>
         /// <param name="pointY">The point y where the user clicked to start the ball.</param>
         [OperationContract(Name = "StartRound")]
-        void StartRound(Guid gameId, int pointX, int pointY);
+        void StartRound(Guid gameId, double pointX, double pointY);
 
         /// <summary>
         /// Ends the round.

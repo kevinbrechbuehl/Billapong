@@ -94,7 +94,7 @@
         /// <param name="windowId">The windows identifier.</param>
         /// <param name="pointX">The point x.</param>
         /// <param name="pointY">The point y.</param>
-        public void SetStartPoint(Guid gameId, long windowId, int pointX, int pointY)
+        public void SetStartPoint(Guid gameId, long windowId, double pointX, double pointY)
         {
             GameController.Current.SetStartPoint(gameId, windowId, pointX, pointY);
         }
@@ -105,7 +105,7 @@
         /// <param name="gameId">The game identifier.</param>
         /// <param name="pointX">The point x where the user clicked to start the ball.</param>
         /// <param name="pointY">The point y where the user clicked to start the ball.</param>
-        public void StartRound(Guid gameId, int pointX, int pointY)
+        public void StartRound(Guid gameId, double pointX, double pointY)
         {
             GameController.Current.StartRound(gameId, pointX, pointY);
         }

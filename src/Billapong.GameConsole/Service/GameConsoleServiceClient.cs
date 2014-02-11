@@ -102,12 +102,12 @@
             this.Execute(() => this.Proxy.CancelGame(gameId));
         }
 
-        public void SetStartPoint(Guid gameId, long windowId, int pointX, int pointY)
+        public void SetStartPoint(Guid gameId, long windowId, double pointX, double pointY)
         {
             this.Execute(() => this.Proxy.SetStartPoint(gameId, windowId, pointX, pointY));
         }
 
-        public void StartRound(Guid gameId, int pointX, int pointY)
+        public void StartRound(Guid gameId, double pointX, double pointY)
         {
             this.Execute(() => this.Proxy.StartRound(gameId, pointX, pointY));
         }
