@@ -86,6 +86,6 @@
         /// </summary>
         /// <param name="mapId">The map identifier.</param>
         [OperationContract(Name = "UnregisterCallback")]
-        void UnregisterCallback(long mapId); // todo (breck1): call this in the client
+        void UnregisterCallback(long mapId);
     }
 }

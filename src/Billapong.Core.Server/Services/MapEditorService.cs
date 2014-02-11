@@ -105,7 +105,7 @@
 
         public void UnregisterCallback(long mapId)
         {
-            throw new System.NotImplementedException();
+            MapController.Current.UnregisterCallback(mapId, this.GetCallback());
         }
 
         /// <summary>

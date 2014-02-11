@@ -11,5 +11,10 @@
         {
             this.WindowManager = new WindowManager();
         }
+
+        public virtual void CloseCallback()
+        {
+            // to nothing by default
+        }
     }
 }

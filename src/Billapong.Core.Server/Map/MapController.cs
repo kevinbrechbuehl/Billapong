@@ -220,6 +220,20 @@
             }
         }
 
+        public void UnregisterCallback(long id, IMapEditorCallback callback)
+        {
+            lock (CallbackLockObject)
+            {
+                if (!this.editors.ContainsKey(id))
+                {
+                    return;
+                }
+
+                var editor = this.editors[id];
+                editor.Callbacks.Remove(callback);
+            }
+        }
+
         private void StartAddWindowCallback(long mapId, long windowId, int coordX, int coordY)
         {
             lock (CallbackLockObject)

@@ -133,6 +133,12 @@ namespace Billapong.MapEditor.ViewModels
             this.GameWindows = windows;
         }
 
+
+        public override void CloseCallback()
+        {
+            this.proxy.UnregisterCallback(this.map.Id);
+        }
+
         public void GeneralDataSaved(object sender, GeneralDataSavedEventArgs args)
         {
             this.map.Id = args.Id;
