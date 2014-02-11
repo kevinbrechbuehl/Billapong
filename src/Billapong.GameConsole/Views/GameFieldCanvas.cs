@@ -15,15 +15,19 @@
 
     public class GameFieldCanvas : Canvas
     {
+        public static readonly DependencyProperty ClickCommandProperty = DependencyProperty.Register("ClickCommand", typeof (ICommand), typeof(GameFieldCanvas), new PropertyMetadata(ClickCommandChanged));
+
+        public static readonly DependencyProperty AnimationFinishedProperty = DependencyProperty.Register("AnimationFinished", typeof (ICommand), typeof(GameFieldCanvas), new PropertyMetadata(AnimationFinishedChanged));
+
+        public static readonly DependencyProperty HolesProperty = DependencyProperty.Register("Holes", typeof(IEnumerable<Hole>), typeof(GameFieldCanvas), new PropertyMetadata(HolesChanged));
+
+        public static readonly DependencyProperty BallProperty = DependencyProperty.Register("Ball", typeof(Ball), typeof(GameFieldCanvas), new PropertyMetadata(BallChanged));
+
+        public static readonly DependencyProperty BallAnimationTaskProperty = DependencyProperty.Register("BallAnimationTask", typeof(BallAnimationTask), typeof(GameFieldCanvas), new PropertyMetadata(BallAnimationTaskChanged));
+
         private Path ballPath;
 
         private Storyboard ballStoryboard;
-
-        public static readonly DependencyProperty ClickCommandProperty =
-            DependencyProperty.Register("ClickCommand", typeof (ICommand), typeof (GameFieldCanvas), new PropertyMetadata(ClickCommandChanged));
-
-        public static readonly DependencyProperty AnimationFinishedProperty =
-            DependencyProperty.Register("AnimationFinished", typeof (ICommand), typeof (GameFieldCanvas), new PropertyMetadata(AnimationFinishedChanged));
 
         public ICommand AnimationFinished
         {
@@ -38,15 +42,6 @@
             canvas.MouseLeftButtonUp -= OnMouseLeftButtonUp;
             canvas.MouseLeftButtonUp += OnMouseLeftButtonUp;
         }
-
-        public static readonly DependencyProperty HolesProperty =
-            DependencyProperty.Register("Holes", typeof (IEnumerable<Hole>), typeof (GameFieldCanvas), new PropertyMetadata(HolesChanged));
-
-        public static readonly DependencyProperty BallProperty =
-            DependencyProperty.Register("Ball", typeof (Ball), typeof (GameFieldCanvas), new PropertyMetadata(BallChanged));
-
-        public static readonly DependencyProperty BallAnimationTaskProperty =
-            DependencyProperty.Register("BallAnimationTask", typeof(BallAnimationTask), typeof(GameFieldCanvas), new PropertyMetadata(BallAnimationTaskChanged));
 
         public BallAnimationTask BallAnimationTask
         {

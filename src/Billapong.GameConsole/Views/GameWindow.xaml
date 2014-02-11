@@ -11,6 +11,7 @@
             BallAnimationTask="{Binding BallAnimationTask}" 
             ClickCommand="{Binding GameFieldClickedCommand}"
             AnimationFinished="{Binding AnimationFinishedCommand}"
+            Background="White"
             />
     </Grid>
 </Window>
