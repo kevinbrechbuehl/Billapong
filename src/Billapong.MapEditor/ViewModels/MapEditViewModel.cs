@@ -170,7 +170,7 @@ namespace Billapong.MapEditor.ViewModels
                 {
                     // todo (breck1): make mvvm conform
                     MessageBox.Show("You can't add holes here, please activate the game window first", "Error",
-                        MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBoxButton.OK, MessageBoxImage.Information);
                     return;
                 }
                 
