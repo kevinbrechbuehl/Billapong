@@ -1,5 +1,7 @@
 ﻿namespace Billapong.GameConsole.Configuration
 {
+    using System;
+
     /// <summary>
     /// The game configuration
     /// </summary>
@@ -32,9 +34,14 @@
 
         public const int GameGridSize = 15;
 
+        /// <summary>
+        /// The base animation duration in milliseconds
+        /// </summary>
+        public const double BaseAnimationDuration = 2000;
+
         public const int HoleDiameter = GameWindowWidth / GameGridSize;
 
-        public const double BallRadius = HoleDiameter * 0.667 / 2;
+        public const double BallDiameter = HoleDiameter * 0.667;
 
         public const int MaxNumberOfHorizontalGameWindows = 4;
 

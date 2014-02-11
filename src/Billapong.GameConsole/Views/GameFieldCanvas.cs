@@ -15,6 +15,12 @@
 
     public class GameFieldCanvas : Canvas
     {
+        public GameFieldCanvas()
+        {
+            this.Width = GameConfiguration.GameWindowWidth;
+            this.Height = GameConfiguration.GameWindowHeight;
+        }
+
         public static readonly DependencyProperty ClickCommandProperty = DependencyProperty.Register("ClickCommand", typeof (ICommand), typeof(GameFieldCanvas), new PropertyMetadata(ClickCommandChanged));
 
         public static readonly DependencyProperty AnimationFinishedProperty = DependencyProperty.Register("AnimationFinished", typeof (ICommand), typeof(GameFieldCanvas), new PropertyMetadata(AnimationFinishedChanged));
@@ -98,8 +104,8 @@
             foreach (var hole in this.Holes)
             {
                 var holeEllipse = new Ellipse();
-                holeEllipse.Width = GameConfiguration.HoleDiameter;
-                holeEllipse.Height = GameConfiguration.HoleDiameter;
+                holeEllipse.Width = hole.Diameter;
+                holeEllipse.Height = hole.Diameter;
                 holeEllipse.Fill = new SolidColorBrush(Colors.Black);
                 this.Children.Add(holeEllipse);
 
@@ -113,8 +119,8 @@
             {
                 var ellipseGeometry = new EllipseGeometry();
                 ellipseGeometry.Center = new Point(this.Ball.Position.X, this.Ball.Position.Y);
-                ellipseGeometry.RadiusX = GameConfiguration.BallRadius;
-                ellipseGeometry.RadiusY = GameConfiguration.BallRadius;
+                ellipseGeometry.RadiusX = this.Ball.Radius;
+                ellipseGeometry.RadiusY = this.Ball.Radius;
 
                 this.ballPath = new Path { Fill = Brushes.Red, Data = ellipseGeometry };
 

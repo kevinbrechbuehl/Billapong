@@ -5,6 +5,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows;
+    using System.Windows.Controls;
     using System.Windows.Media;
     using System.Windows.Media.Animation;
     using Animation;
@@ -19,6 +20,15 @@
     /// </summary>
     public class GameManager
     {
+        private enum WallHit
+        {
+            None,
+            Top,
+            Left,
+            Right,
+            Bottom
+        }
+
         public Game CurrentGame { get; private set; }
 
         public IGameController gameController;
@@ -86,7 +96,7 @@
         /// </summary>
         private void OpenGameField()
         {
-            const int WindowBorderOffset = 16;
+            const int WindowBorderOffset = 2;
 
             double maxWindowRow = this.CurrentGame.Map.Windows.Max(window => window.Y);
             double maxWindowCol = this.CurrentGame.Map.Windows.Max(window => window.X);
@@ -166,7 +176,7 @@
                     pointY = y;
                     positionFound = true;
                 }
-            }
+            } 
 
             this.gameController.PlaceBallOnGameField(randomWindow.Window.Id, new Point(pointX, pointY));
         }
@@ -178,10 +188,17 @@
         /// <param name="args">The <see cref="BallPlacedOnGameFieldEventArgs"/> instance containing the event data.</param>
         private void PlaceBallOnGameField(object sender, BallPlacedOnGameFieldEventArgs args)
         {
+            args = new BallPlacedOnGameFieldEventArgs(29, new Point(7, 7));
+
             var viewModel = this.windows.FirstOrDefault(x => x.Key.Window.Id == args.WindowId).Key;
             if (viewModel != null)
             {
-                var position = new Point((args.Position.X * (GameConfiguration.BallRadius * 2)) - GameConfiguration.BallRadius, (args.Position.Y * (GameConfiguration.BallRadius * 2)) - GameConfiguration.BallRadius);
+                var gridElementSize = GameConfiguration.GameWindowWidth / GameConfiguration.GameGridSize;
+
+                var positionX = (gridElementSize * args.Position.X) + ((gridElementSize - GameConfiguration.BallDiameter) / 2);
+                var positionY = (gridElementSize * args.Position.Y) + ((gridElementSize - GameConfiguration.BallDiameter) / 2);
+                var position = new Point(positionX, positionY);
+
                 this.CurrentGame.CurrentBallPosition = position;
                 this.CurrentGame.CurrentWindow = viewModel.Window;
                 viewModel.PlaceBall(position);
@@ -233,7 +250,6 @@
             var currentBallPosition = startPosition;
             var currentBallPositionVector = new Vector(currentBallPosition.X, currentBallPosition.Y);
             var currentDirection = initialDirection;
-            currentDirection.Normalize();
             var counter = 0;
 
             var currentTask = new BallAnimationTask();
@@ -248,107 +264,120 @@
                     currentTask.IsLastAnimation = true;
                 }
 
+                var wallHit = WallHit.None;
+                Models.Window neighbourWindow = null;
+
+                currentBallPositionVector = new Vector(currentBallPosition.X, currentBallPosition.Y);
+
                 /* todo (mathp2): We need a better way to get a point outside of the window */
-                var intersectionTestPoint = currentBallPosition + (currentDirection * 100000);
+                var intersectionTestPoint = currentBallPosition + (currentDirection * 1000);
                 var intersectionTestVector = new Vector(intersectionTestPoint.X, intersectionTestPoint.Y);
 
                 // Check for top wall hit
                 var intersectionPoint = this.Intersects(currentBallPositionVector, intersectionTestVector, new Vector(0, 0), new Vector(GameConfiguration.GameWindowWidth, 0));
                 if (intersectionPoint != null)
                 {
-                    currentTask.Steps.Add(this.GetPointAnimation(currentBallPosition, new Point(intersectionPoint.Value.X, intersectionPoint.Value.Y)));
-                    currentBallPosition = new Point(intersectionPoint.Value.X, intersectionPoint.Value.Y);
+                    wallHit = WallHit.Top;
 
                     var upperWindow = this.CurrentGame.Map.Windows.FirstOrDefault(w => w.X == currentWindow.X && w.Y == currentWindow.Y - 1);
-                    if (upperWindow == null)
+                    if (upperWindow != null)
                     {
-                        currentDirection.Y *= -1;
+                        neighbourWindow = upperWindow;
                     }
-                    else
-                    {
-                        currentWindow = upperWindow;
-                        animationQueue.Enqueue(currentTask);
-                        currentTask = new BallAnimationTask();
-                        currentTask.Window = currentWindow;
-                        currentBallPosition.Y = GameConfiguration.GameWindowHeight;
-                    }
-
-                    continue;
                 }
 
-                // Check for left wall hit
-                intersectionPoint = this.Intersects(currentBallPositionVector, intersectionTestVector, new Vector(0, 0), new Vector(0, GameConfiguration.GameWindowWidth));
-                if (intersectionPoint != null)
+                if (intersectionPoint == null) 
                 {
-                    currentTask.Steps.Add(this.GetPointAnimation(currentBallPosition, new Point(intersectionPoint.Value.X, intersectionPoint.Value.Y)));
-                    currentBallPosition = new Point(intersectionPoint.Value.X, intersectionPoint.Value.Y);
-
-                    var leftWindow = this.CurrentGame.Map.Windows.FirstOrDefault(w => w.X == currentWindow.X - 1 && w.Y == currentWindow.Y);
-                    if (leftWindow == null)
+                    // Check for left wall hit
+                    intersectionPoint = this.Intersects(currentBallPositionVector, intersectionTestVector, new Vector(0, 0), new Vector(0, GameConfiguration.GameWindowWidth));
+                    if (intersectionPoint != null)
                     {
-                        currentDirection.X *= -1;
-                    }
-                    else
-                    {
-                        currentWindow = leftWindow;
-                        animationQueue.Enqueue(currentTask);
-                        currentTask = new BallAnimationTask();
-                        currentTask.Window = currentWindow;
-                        currentBallPosition.X = GameConfiguration.GameWindowWidth;
-                    }
+                        wallHit = WallHit.Left;
 
-                    continue;
+                        var leftWindow = this.CurrentGame.Map.Windows.FirstOrDefault(w => w.X == currentWindow.X - 1 && w.Y == currentWindow.Y);
+                        if (leftWindow != null)
+                        {
+                            neighbourWindow = leftWindow;
+                        }
+                    }
                 }
 
-                // Check for right wall hit
-                intersectionPoint = this.Intersects(currentBallPositionVector, intersectionTestVector, new Vector(GameConfiguration.GameWindowWidth, 0), new Vector(GameConfiguration.GameWindowWidth, GameConfiguration.GameWindowWidth));
-                if (intersectionPoint != null)
-                {
-                    currentTask.Steps.Add(this.GetPointAnimation(currentBallPosition, new Point(intersectionPoint.Value.X, intersectionPoint.Value.Y)));
-                    currentBallPosition = new Point(intersectionPoint.Value.X, intersectionPoint.Value.Y);
-
-                    var rightWindow = this.CurrentGame.Map.Windows.FirstOrDefault(w => w.X == currentWindow.X + 1 && w.Y == currentWindow.Y);
-                    if (rightWindow == null)
+                if (intersectionPoint == null) 
+                { 
+                    // Check for right wall hit
+                    intersectionPoint = this.Intersects(currentBallPositionVector, intersectionTestVector, new Vector(GameConfiguration.GameWindowWidth, 0), new Vector(GameConfiguration.GameWindowWidth, GameConfiguration.GameWindowWidth));
+                    if (intersectionPoint != null)
                     {
-                        currentDirection.X *= -1;
-                    }
-                    else
-                    {
-                        currentWindow = rightWindow;
-                        animationQueue.Enqueue(currentTask);
-                        currentTask = new BallAnimationTask();
-                        currentTask.Window = currentWindow;
-                        currentBallPosition.X = 0;
-                    }
+                        wallHit = WallHit.Right;
 
-                    continue;
+                        var rightWindow = this.CurrentGame.Map.Windows.FirstOrDefault(w => w.X == currentWindow.X + 1 && w.Y == currentWindow.Y);
+                        if (rightWindow != null)
+                        {
+                            neighbourWindow = rightWindow;
+                        }
+                    }
                 }
 
-                // Check for bottom wall hit
-                intersectionPoint = this.Intersects(currentBallPositionVector, intersectionTestVector, new Vector(0, GameConfiguration.GameWindowWidth), new Vector(GameConfiguration.GameWindowWidth, GameConfiguration.GameWindowWidth));
-                if (intersectionPoint != null)
+                if (intersectionPoint == null)
                 {
-                    currentTask.Steps.Add(this.GetPointAnimation(currentBallPosition, new Point(intersectionPoint.Value.X, intersectionPoint.Value.Y)));
-                    currentBallPosition = new Point(intersectionPoint.Value.X, intersectionPoint.Value.Y);
-
-                    var bottomWindow = this.CurrentGame.Map.Windows.FirstOrDefault(w => w.X == currentWindow.X && w.Y == currentWindow.Y + 1);
-                    if (bottomWindow == null)
+                    // Check for bottom wall hit
+                    intersectionPoint = this.Intersects(currentBallPositionVector, intersectionTestVector, new Vector(0, GameConfiguration.GameWindowWidth), new Vector(GameConfiguration.GameWindowWidth, GameConfiguration.GameWindowWidth));
+                    if (intersectionPoint != null)
                     {
-                        currentDirection.Y *= -1;
+                        wallHit = WallHit.Bottom;
+
+                        var bottomWindow = this.CurrentGame.Map.Windows.FirstOrDefault(w => w.X == currentWindow.X && w.Y == currentWindow.Y + 1);
+                        if (bottomWindow != null)
+                        {
+                            neighbourWindow = bottomWindow;
+                        }
+                    }
+                }
+
+                if (wallHit != WallHit.None)
+                {
+                    var newPosition = new Point(intersectionPoint.Value.X, intersectionPoint.Value.Y);
+                    currentTask.Steps.Add(this.GetPointAnimation(currentBallPosition, newPosition));
+                    currentBallPosition = newPosition;
+
+                    // Ball will leave the window 
+                    if (neighbourWindow != null)
+                    {
+                        currentWindow = neighbourWindow;
+                        animationQueue.Enqueue(currentTask);
+                        currentTask = new BallAnimationTask { Window = currentWindow };
+
+                        // Set new initial position for the next window
+                        switch (wallHit)
+                        {
+                            case WallHit.Top:
+                                currentBallPosition.Y = GameConfiguration.GameWindowWidth;
+                                break;
+                            case WallHit.Left:
+                                currentBallPosition.X = GameConfiguration.GameWindowWidth;
+                                break;
+                            case WallHit.Right:
+                                currentBallPosition.X = 0;
+                                break;
+                            case WallHit.Bottom:
+                                currentBallPosition.Y = 0;
+                                break;
+                        }
                     }
                     else
                     {
-                        currentWindow = bottomWindow;
-                        animationQueue.Enqueue(currentTask);
-                        currentTask = new BallAnimationTask();
-                        currentTask.Window = currentWindow;
-                        currentBallPosition.Y = 0;
+                        // Change ball direction within the current window
+                        if (wallHit == WallHit.Top || wallHit == WallHit.Bottom)
+                        {
+                            currentDirection.Y *= -1;
+                        }
+                        else
+                        {
+                            currentDirection.X *= -1;
+                        }
                     }
                 }
             }
-
-            // Add the last animation
-            animationQueue.Enqueue(currentTask);
 
             return animationQueue;
         }
@@ -361,11 +390,13 @@
         /// <returns>The point animation</returns>
         private PointAnimation GetPointAnimation(Point currentPosition, Point targetPosition)
         {
+            var maxDistance = Math.Sqrt(Math.Pow(GameConfiguration.GameWindowWidth, 2) + Math.Pow(GameConfiguration.GameWindowHeight, 2));
+            var actualDistance = this.DistanceBetween(currentPosition, targetPosition);
+
             var animation = new PointAnimation();
             animation.By = currentPosition;
             animation.To = targetPosition;
-            /* todo (mathp2): Calculate the distance between the points and set the correct duration */
-            animation.Duration = TimeSpan.FromSeconds(1);
+            animation.Duration = TimeSpan.FromMilliseconds(GameConfiguration.BaseAnimationDuration / maxDistance * actualDistance);
             return animation;
         }
 
@@ -417,6 +448,14 @@
             }
 
             return firstLineStart + (t * b);
+        }
+
+        private double DistanceBetween(Point point1, Point point2)
+        {
+            var a = (double)(point2.X - point1.X);
+            var b = (double)(point2.Y - point1.Y);
+
+            return Math.Sqrt(a * a + b * b);
         }
     }
 }

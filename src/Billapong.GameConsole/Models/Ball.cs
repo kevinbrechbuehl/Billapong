@@ -10,7 +10,7 @@
         {
             get
             {
-                return Configuration.GameConfiguration.BallRadius;
+                return Configuration.GameConfiguration.BallDiameter / 2;
             }
         }
 
