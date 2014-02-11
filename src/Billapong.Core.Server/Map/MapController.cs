@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
     using Contract.Data.Map;
     using Contract.Service;
+    using DataAccess.Model.Map;
     using DataAccess.Repository;
     using Map = DataAccess.Model.Map.Map;
 
@@ -119,6 +120,45 @@
             Task.Run(() => this.StartSaveGeneralCallback(map));
         }
 
+        public void AddWindow(long mapId, int coordX, int coordY)
+        {
+            Map map;
+            var window = new DataAccess.Model.Map.Window {X = coordX, Y = coordY};
+            lock (WriterLockObject)
+            {
+                map = this.GetMap(mapId);
+                if (map == null) return;
+
+                map.Windows.Add(window);
+                this.repository.Save();
+            }
+
+             // send the callback
+            Task.Run(() => this.StartAddWindowCallback(mapId, window.Id, coordX, coordY));
+        }
+
+        public void RemoveWindow(long mapId, long windowId)
+        {
+            Map map;
+            int coordX, coordY;
+            lock (WriterLockObject)
+            {
+                map = this.GetMap(mapId);
+                if (map == null) return;
+
+                var window = map.Windows.FirstOrDefault(gameWindow => gameWindow.Id == windowId);
+                if (window == null) return;
+
+                coordX = window.X;
+                coordY = window.Y;
+                map.Windows.Remove(window);
+                this.repository.Save();
+            }
+
+             // send the callback
+            Task.Run(() => this.StartRemoveWindowCallback(mapId, windowId, coordX, coordY));
+        }
+
         public void RegisterCallback(long id, IMapEditorCallback callback)
         {
             lock (CallbackLockObject)
@@ -138,6 +178,38 @@
             }
         }
 
+        private void StartAddWindowCallback(long mapId, long windowId, int coordX, int coordY)
+        {
+            lock (CallbackLockObject)
+            {
+                var editor = this.editors.ContainsKey(mapId) ? this.editors[mapId] : null;
+                if (editor == null) return;
+
+                // todo (breck1): refactor and verify callbacks on every method
+
+                foreach (var callback in editor.Callbacks)
+                {
+                    callback.AddWindow(windowId, coordX, coordY);
+                }
+            }
+        }
+
+        private void StartRemoveWindowCallback(long mapId, long windowId, int coordX, int coordY)
+        {
+            lock (CallbackLockObject)
+            {
+                var editor = this.editors.ContainsKey(mapId) ? this.editors[mapId] : null;
+                if (editor == null) return;
+
+                // todo (breck1): refactor and verify callbacks on every method
+
+                foreach (var callback in editor.Callbacks)
+                {
+                    callback.RemoveWindow(windowId, coordX, coordY);
+                }
+            }
+        }
+
         private void StartSaveGeneralCallback(Map map)
         {
             lock (CallbackLockObject)
@@ -145,7 +217,7 @@
                 var editor = this.editors.ContainsKey(map.Id) ? this.editors[map.Id] : null;
                 if (editor == null) return;
 
-                // todo (breck1): refactor
+                // todo (breck1): refactor and verify callbacks on every method
 
                 var data = new GeneralMapData {Id = map.Id, Name = map.Name};
                 foreach (var callback in editor.Callbacks)

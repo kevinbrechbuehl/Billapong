@@ -23,6 +23,7 @@ namespace Billapong.MapEditor.Models
 
             if (mapWindow != null)
             {
+                this.Id = mapWindow.Id;
                 this.IsChecked = true;
                 foreach (var hole in mapWindow.Holes)
                 {
@@ -34,7 +35,9 @@ namespace Billapong.MapEditor.Models
                 this.IsChecked = false;
             }
         }
-        
+
+        public long Id { get; set; }
+
         public int X { get; private set; }
 
         public int Y { get; private set; }

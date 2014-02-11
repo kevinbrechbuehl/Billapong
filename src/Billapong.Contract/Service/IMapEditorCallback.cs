@@ -14,5 +14,23 @@
         /// <param name="map">The map.</param>
         [OperationContract(Name = "SaveGeneral")]
         void SaveGeneral(GeneralMapData map);
+
+        /// <summary>
+        /// Adds the window.
+        /// </summary>
+        /// <param name="windowId">The window identifier.</param>
+        /// <param name="coordX">The coord x.</param>
+        /// <param name="coordY">The coord y.</param>
+        [OperationContract(Name = "AddWindow")]
+        void AddWindow(long windowId, int coordX, int coordY);
+
+        /// <summary>
+        /// Removes the window.
+        /// </summary>
+        /// <param name="windowId">The window identifier.</param>
+        /// <param name="coordX">The coord x.</param>
+        /// <param name="coordY">The coord y.</param>
+        [OperationContract(Name = "RemoveWindow")]
+        void RemoveWindow(long windowId, int coordX, int coordY);
     }
 }

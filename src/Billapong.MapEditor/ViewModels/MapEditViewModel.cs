@@ -99,6 +99,8 @@ namespace Billapong.MapEditor.ViewModels
             // initialize
             this.callback = new MapEditorCallback();
             this.callback.GeneralDataSaved += this.GeneralDataSaved;
+            this.callback.WindowAdded += this.WindowAdded;
+            this.callback.WindowRemoved += this.WindowRemoved;
             this.proxy = new MapEditorServiceClient(this.callback);
             this.map = map;
 
@@ -114,12 +116,12 @@ namespace Billapong.MapEditor.ViewModels
             this.gridSize = GameWindowSize / config.HoleGrid;
             this.HoleDiameter = GameWindowSize/config.HoleGrid;
 
-            for (var i = 0; i < windows.Length; i++)
+            for (var row = 0; row < windows.Length; row++)
             {
-                windows[i] = new GameWindow[config.WindowCols];
-                for (var j=0; j<windows[i].Length; j++)
+                windows[row] = new GameWindow[config.WindowCols];
+                for (var col=0; col<windows[row].Length; col++)
                 {
-                    windows[i][j] = new GameWindow(j, i, this.map.Windows.FirstOrDefault(item => item.X == i && item.Y == j), this.HoleDiameter);
+                    windows[row][col] = new GameWindow(col, row, this.map.Windows.FirstOrDefault(item => item.X == col && item.Y == row), this.HoleDiameter);
                 }
             }
 
@@ -130,6 +132,21 @@ namespace Billapong.MapEditor.ViewModels
         {
             this.map.Id = args.Id;
             this.MapName = args.Name;
+        }
+
+        private void WindowAdded(object sender, GameWindowEventArgs args)
+        {
+            var gameWindow = this.GameWindows[args.Y][args.X];
+            gameWindow.IsChecked = true;
+            gameWindow.Id = args.Id;
+        }
+
+        private void WindowRemoved(object sender, GameWindowEventArgs args)
+        {
+            var gameWindow = this.GameWindows[args.Y][args.X];
+            gameWindow.IsChecked = false;
+            gameWindow.Id = 0;
+            gameWindow.Holes.Clear();
         }
 
         private void Save()
@@ -172,10 +189,13 @@ namespace Billapong.MapEditor.ViewModels
             }
             else
             {
-                gameWindow.IsChecked = !gameWindow.IsChecked;
-                if (!gameWindow.IsChecked)
+                if (gameWindow.IsChecked)
                 {
-                    gameWindow.Holes.Clear();
+                    this.proxy.RemoveWindow(this.map.Id, gameWindow.Id);
+                }
+                else
+                {
+                    this.proxy.AddWindow(this.map.Id, gameWindow.X, gameWindow.Y);
                 }
             }
         }

@@ -78,6 +78,16 @@
             MapController.Current.SaveGeneral(map.Id, map.Name, this.GetCallback());
         }
 
+        public void AddWindow(long mapId, int coordX, int coordY)
+        {
+            MapController.Current.AddWindow(mapId, coordX, coordY);
+        }
+
+        public void RemoveWindow(long mapId, long windowId)
+        {
+            MapController.Current.RemoveWindow(mapId, windowId);
+        }
+
         public void RegisterCallback(long mapId)
         {
             MapController.Current.RegisterCallback(mapId, this.GetCallback());
