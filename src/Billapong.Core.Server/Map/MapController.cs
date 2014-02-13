@@ -190,6 +190,8 @@
                 var map = this.GetMap(mapId);
                 if (map == null) return;
 
+                // todo (breck1): prüfen ob es an diesen coords schon ein fenster gibt und sonst exception werfen
+
                 map.Windows.Add(window);
                 this.mapRepository.Save();
             }
@@ -242,6 +244,8 @@
 
                 window = map.Windows.FirstOrDefault(gameWindow => gameWindow.Id == windowId);
                 if (window == null) return;
+
+                // todo (breck1): prüfen ob es an diesen coords schon ein loch gibt und sonst exception werfen
 
                 window.Holes.Add(hole);
                 this.mapRepository.Save();
