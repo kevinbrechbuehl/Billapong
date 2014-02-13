@@ -39,7 +39,7 @@
         /// </summary>
         public const double BaseAnimationDuration = 2000;
 
-        public const int HoleDiameter = GameWindowWidth / GameGridSize;
+        public const double HoleDiameter = GameWindowWidth / GameGridSize;
 
         public const double BallDiameter = HoleDiameter * 0.667;
 

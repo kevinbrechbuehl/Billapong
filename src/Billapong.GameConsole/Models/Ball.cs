@@ -1,11 +1,35 @@
 ﻿namespace Billapong.GameConsole.Models
 {
     using System.Windows;
-    using Animation;
     using Core.Client.UI;
 
     public class Ball : NotificationObject
     {
+        /// <summary>
+        /// The position
+        /// </summary>
+        private Point position;
+
+        /// <summary>
+        /// Gets the diameter.
+        /// </summary>
+        /// <value>
+        /// The diameter.
+        /// </value>
+        public double Diameter
+        {
+            get
+            {
+                return Configuration.GameConfiguration.BallDiameter;
+            }
+        }
+
+        /// <summary>
+        /// Gets the radius.
+        /// </summary>
+        /// <value>
+        /// The radius.
+        /// </value>
         public double Radius
         {
             get
@@ -14,8 +38,12 @@
             }
         }
 
-        private Point position;
-
+        /// <summary>
+        /// Gets or sets the position.
+        /// </summary>
+        /// <value>
+        /// The position.
+        /// </value>
         public Point Position
         {
             get
@@ -28,21 +56,5 @@
                 OnPropertyChanged();
             }
         }
-
-        private BallAnimationTask pointAnimation;
-
-        public BallAnimationTask PointAnimation
-        {
-            get
-            {
-                return this.pointAnimation;
-            }
-            set
-            {
-                this.pointAnimation = value;
-                OnPropertyChanged();
-            }
-        }
-
     }
 }

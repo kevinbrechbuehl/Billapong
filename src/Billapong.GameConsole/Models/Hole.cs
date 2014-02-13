@@ -1,5 +1,6 @@
 ﻿namespace Billapong.GameConsole.Models
 {
+    using System;
     using Configuration;
     using Core.Client.UI;
 
@@ -8,6 +9,16 @@
     /// </summary>
     public class Hole : NotificationObject
     {
+        /// <summary>
+        /// The left position
+        /// </summary>
+        private double left;
+
+        /// <summary>
+        /// The top position
+        /// </summary>
+        private double top;
+
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>
@@ -32,7 +43,7 @@
         /// </value> 
         public int Y { get; set; }
 
-        public int Diameter
+        public double Diameter
         {
             get
             {
@@ -40,18 +51,36 @@
             }
         }
 
-        private int left;
-
-        public int Left
+        /// <summary>
+        /// Gets the radius.
+        /// </summary>
+        /// <value>
+        /// The radius.
+        /// </value>
+        public double Radius
         {
             get
             {
-                if (left == 0)
+                return GameConfiguration.HoleDiameter / 2;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the left position.
+        /// </summary>
+        /// <value>
+        /// The left position.
+        /// </value>
+        public double Left
+        {
+            get
+            {
+                if (Math.Abs(this.left) < 0.001)
                 {
                     this.left = this.Diameter*this.X;
                 }
 
-                return left;
+                return this.left;
             }
 
             set
@@ -61,18 +90,22 @@
             }
         }
 
-        private int top;
-
-        public int Top
+        /// <summary>
+        /// Gets or sets the top position.
+        /// </summary>
+        /// <value>
+        /// The top position.
+        /// </value>
+        public double Top
         {
             get
             {
-                if (top == 0)
+                if (Math.Abs(this.top) < 0.001)
                 {
                     this.top = this.Diameter * this.Y;
                 }
 
-                return top;
+                return this.top;
             }
 
             set
