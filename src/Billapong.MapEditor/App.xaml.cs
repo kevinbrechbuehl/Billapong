@@ -1,5 +1,6 @@
 ﻿namespace Billapong.MapEditor
 {
+    using System.Threading;
     using System.Windows;
     using Contract.Data.Tracing;
     using Core.Client.Tracing;
@@ -27,6 +28,11 @@
             this.ShutdownMode = ShutdownMode.OnMainWindowClose;
 
             // initialize tracing
+            #if DEBUG
+                // wait till the server is up and running
+                Thread.Sleep(1000);
+            #endif
+
             Tracer.Initialize(Component.MapEditor);
         }
 

@@ -1,29 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
 namespace Billapong.MapEditor.ViewModels
 {
-    using System.Globalization;
-    using System.ServiceModel.Channels;
-    using System.Windows;
-    using System.Windows.Automation.Peers;
-    using System.Windows.Input;
-    using System.Windows.Media;
-    using Contract.Service;
-    using Core.Client.UI;
     using Converter;
+    using Core.Client.UI;
     using Models;
     using Models.Events;
     using Models.Parameters;
     using Services;
+    using System.Windows;
 
     public class MapEditViewModel : ViewModelBase
     {
         public const double GameWindowSize = 200;
-        
+
         private readonly Map map;
 
         private readonly MapEditorServiceClient proxy;
@@ -60,6 +50,7 @@ namespace Billapong.MapEditor.ViewModels
             set
             {
                 this.isPlayable = value;
+                this.map.IsPlayable = value;
                 OnPropertyChanged();
             }
         }
@@ -76,6 +67,7 @@ namespace Billapong.MapEditor.ViewModels
             set
             {
                 this.mapName = value;
+                this.map.Name = value;
                 OnPropertyChanged();
             }
         }
@@ -161,11 +153,6 @@ namespace Billapong.MapEditor.ViewModels
             }
 
             this.GameWindows = windows;
-        }
-
-        private void Setup(Map map)
-        {
-            
         }
 
         public override void CloseCallback()

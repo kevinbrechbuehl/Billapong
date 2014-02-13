@@ -6,19 +6,42 @@ using System.Threading.Tasks;
 
 namespace Billapong.MapEditor.Models
 {
-    public class Map
+    using Core.Client.UI;
+
+    public class Map : NotificationObject
     {
         public long Id { get; set; }
-        
-        /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
-        /// <value>
-        /// The name.
-        /// </value>
-        public string Name { get; set; }
 
-        public bool IsPlayable { get; set; }
+        private string name;
+
+        public string Name
+        {
+            get
+            {
+                return this.name;
+            }
+
+            set
+            {
+                this.name = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool isPlayable;
+        public bool IsPlayable
+        {
+            get
+            {
+                return this.isPlayable;
+            }
+
+            set
+            {
+                this.isPlayable = value;
+                OnPropertyChanged();
+            }
+        }
 
         public int NumberOfWindows { get; set; }
 
