@@ -1,6 +1,7 @@
 ﻿namespace Billapong.GameConsole.Models
 {
     using System;
+    using System.Windows;
     using Configuration;
     using Core.Client.UI;
 
@@ -112,6 +113,20 @@
             {
                 this.top = value;
                 OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Gets the center position of the hole based on the Left and Top properties
+        /// </summary>
+        /// <value>
+        /// The center position.
+        /// </value>
+        public Point CenterPosition
+        {
+            get
+            {
+                return new Point(this.Left + this.Radius, this.top + this.Radius);
             }
         }
     }

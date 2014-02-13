@@ -28,10 +28,19 @@
             MultiPlayerGame
         }
 
+        /// <summary>
+        /// The game window width
+        /// </summary>
         public const int GameWindowWidth = 300;
 
+        /// <summary>
+        /// The game window height
+        /// </summary>
         public const int GameWindowHeight = 300;
 
+        /// <summary>
+        /// The game grid size
+        /// </summary>
         public const int GameGridSize = 15;
 
         /// <summary>
@@ -39,12 +48,40 @@
         /// </summary>
         public const double BaseAnimationDuration = 2000;
 
+        /// <summary>
+        /// Gets the maximum animation distance.
+        /// </summary>
+        /// <value>
+        /// The maximum animation distance.
+        /// </value>
+        public static double MaxAnimationDistance
+        {
+            get
+            {
+                return Math.Sqrt(Math.Pow(GameWindowWidth, 2) + Math.Pow(GameWindowHeight, 2));
+            }
+        }
+
+        /// <summary>
+        /// The hole diameter
+        /// </summary>
         public const double HoleDiameter = GameWindowWidth / GameGridSize;
 
+        /// <summary>
+        /// The ball diameter
+        /// </summary>
         public const double BallDiameter = HoleDiameter * 0.667;
 
-        public const int MaxNumberOfHorizontalGameWindows = 4;
+        /// <summary>
+        /// The maximum number of window rows
+        /// </summary>
+        public const int MaxNumberOfWindowRows = 4;
 
-        public const int MaxNumberOfVerticalWindows = 3;
+        /// <summary>
+        /// The maximum number of windows per row
+        /// </summary>
+        public const int MaxNumberOfWindowsPerRow = 3;
+
+        
     }
 }

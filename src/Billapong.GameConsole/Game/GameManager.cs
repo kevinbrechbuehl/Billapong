@@ -5,7 +5,6 @@
     using System.Linq;
     using System.Windows;
     using System.Windows.Media;
-    using System.Windows.Media.Animation;
     using Animation;
     using Configuration;
     using Models.Events;
@@ -22,8 +21,7 @@
         /// <summary>
         /// The maximum animation distance
         /// </summary>
-        private readonly double maxAnimationDistance = Math.Sqrt(Math.Pow(GameConfiguration.GameWindowWidth, 2) + Math.Pow(GameConfiguration.GameWindowHeight, 2));
-
+       
         /// <summary>
         /// Defines the possible walls which can get hit
         /// </summary>
@@ -191,10 +189,12 @@
             var positionFound = false;
             var pointX = 0;
             var pointY = 0;
+
+            // todo (mathp2): Possible endless loop if a map has a hole on every position. Performance is also not very good (many repetitions).
             while (!positionFound)
             {
-                int x = random.Next(0, GameConfiguration.GameGridSize);
-                int y = random.Next(0, GameConfiguration.GameGridSize);
+                var x = random.Next(0, GameConfiguration.GameGridSize);
+                var y = random.Next(0, GameConfiguration.GameGridSize);
 
                 if (randomWindow.Window.Holes.FirstOrDefault(hole => hole.X == x && hole.Y == y) == null)
                 {
@@ -214,8 +214,6 @@
         /// <param name="args">The <see cref="BallPlacedOnGameFieldEventArgs"/> instance containing the event data.</param>
         private void PlaceBallOnGameField(object sender, BallPlacedOnGameFieldEventArgs args)
         {
-            //args = new BallPlacedOnGameFieldEventArgs(29, new Point(7, 7));
-
             var viewModel = this.windows.FirstOrDefault(x => x.Key.Window.Id == args.WindowId).Key;
             if (viewModel != null)
             {
@@ -308,12 +306,12 @@
                         Point firstIntersection;
                         Point secondIntersection;
 
-                        var intersection = this.CalculateLineSphereIntersection(hole.Left + hole.Radius, hole.Top + hole.Radius, hole.Radius,
+                        var intersection = CalculationHelpers.CalculateLineSphereIntersection(hole.CenterPosition, hole.Radius,
                             currentBallPosition, intersectionTestPoint, out firstIntersection, out secondIntersection);
                         if (intersection > 0)
                         {
                             // Intersection with a hole. This is the last step before returning the queue.
-                            currentTask.Steps.Add(this.GetPointAnimation(currentBallPosition, firstIntersection));
+                            currentTask.Steps.Add(AnimationHelpers.GetPointAnimation(currentBallPosition, firstIntersection));
                             currentTask.IsLastAnimation = true;
                             animationQueue.Enqueue(currentTask);
                             return animationQueue;
@@ -326,7 +324,7 @@
 
                 if (previousWallHit != WallHit.Bottom)
                 {
-                    intersectionPoint = this.Intersects(currentBallPositionVector, intersectionTestVector,
+                    intersectionPoint = CalculationHelpers.GetLineIntersection(currentBallPositionVector, intersectionTestVector,
                         new Vector(0, 0), new Vector(GameConfiguration.GameWindowWidth, 0));
                     if (intersectionPoint != null)
                     {
@@ -343,7 +341,7 @@
                 if (intersectionPoint == null && previousWallHit != WallHit.Right)
                 {
                     // Check for left wall hit
-                    intersectionPoint = this.Intersects(currentBallPositionVector, intersectionTestVector, 
+                    intersectionPoint = CalculationHelpers.GetLineIntersection(currentBallPositionVector, intersectionTestVector, 
                         new Vector(0, 0), new Vector(0, GameConfiguration.GameWindowWidth));
                     if (intersectionPoint != null)
                     {
@@ -360,7 +358,7 @@
                 if (intersectionPoint == null && previousWallHit != WallHit.Left)
                 {
                     // Check for right wall hit
-                    intersectionPoint = this.Intersects(currentBallPositionVector, intersectionTestVector,
+                    intersectionPoint = CalculationHelpers.GetLineIntersection(currentBallPositionVector, intersectionTestVector,
                         new Vector(GameConfiguration.GameWindowWidth, 0),
                         new Vector(GameConfiguration.GameWindowWidth, GameConfiguration.GameWindowWidth));
                     if (intersectionPoint != null)
@@ -378,7 +376,7 @@
                 if (intersectionPoint == null && previousWallHit != WallHit.Right)
                 {
                     // Check for bottom wall hit
-                    intersectionPoint = this.Intersects(currentBallPositionVector, intersectionTestVector,
+                    intersectionPoint = CalculationHelpers.GetLineIntersection(currentBallPositionVector, intersectionTestVector,
                         new Vector(0, GameConfiguration.GameWindowWidth),
                         new Vector(GameConfiguration.GameWindowWidth, GameConfiguration.GameWindowWidth));
                     if (intersectionPoint != null)
@@ -396,7 +394,7 @@
                 if (wallHit != WallHit.None && intersectionPoint != null)
                 {
                     var newPosition = new Point(intersectionPoint.Value.X, intersectionPoint.Value.Y);
-                    currentTask.Steps.Add(this.GetPointAnimation(currentBallPosition, newPosition));
+                    currentTask.Steps.Add(AnimationHelpers.GetPointAnimation(currentBallPosition, newPosition));
                     currentBallPosition = newPosition;
 
                     // Ball will leave the window 
@@ -442,26 +440,7 @@
         }
 
         /// <summary>
-        /// Gets the point animation.
-        /// </summary>
-        /// <param name="currentPosition">The current position.</param>
-        /// <param name="targetPosition">The target position.</param>
-        /// <returns>The point animation</returns>
-        private PointAnimation GetPointAnimation(Point currentPosition, Point targetPosition)
-        {
-            var actualDistance = this.DistanceBetween(currentPosition, targetPosition);
-
-            var animation = new PointAnimation
-            {
-                By = currentPosition,
-                To = targetPosition,
-                Duration = TimeSpan.FromMilliseconds(GameConfiguration.BaseAnimationDuration / this.maxAnimationDistance * actualDistance)
-            };
-            return animation;
-        }
-
-        /// <summary>
-        /// Gets called when an animation of a window finishes
+        /// Gets called when an animation of a window finishes. Ends the round if the queue is empty
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
@@ -470,6 +449,7 @@
             if (this.ballAnimationTaskQueue == null || this.ballAnimationTaskQueue.Count == 0)
             {
                 MessageBox.Show("Animation queue finished");
+                // todo (mathp2): End the round
                 return;
             }
 
@@ -483,85 +463,6 @@
                 viewModel.PlaceBall(nextBallStartPosition.Value);
                 viewModel.BallAnimationTask = nextTask;
             }
-        }
-
-        /// <summary>
-        /// Checks two lines for intersection
-        /// </summary>
-        /// <param name="firstLineStart">The first line start.</param>
-        /// <param name="firstLineEnd">The first line end.</param>
-        /// <param name="secondLineStart">The second line start.</param>
-        /// <param name="secondLineEnd">The second line end.</param>
-        /// <returns>The intersection check result</returns>
-        private Vector? Intersects(Vector firstLineStart, Vector firstLineEnd, Vector secondLineStart,
-            Vector secondLineEnd)
-        {
-            var b = firstLineEnd - firstLineStart;
-            var d = secondLineEnd - secondLineStart;
-            var delta = (b.X*d.Y) - (b.Y*d.X);
-
-            // check for parallel lines (inifite intersection point)
-            if (Math.Abs(delta) < 0) return null;
-
-            var c = secondLineStart - firstLineStart;
-            var t = ((c.X*d.Y) - (c.Y*d.X))/delta;
-            if (t < 0 || t > 1)
-            {
-                return null;
-            }
-
-            var u = ((c.X*b.Y) - (c.Y*b.X))/delta;
-            if (u < 0 || u > 1)
-            {
-                return null;
-            }
-
-            return firstLineStart + (t*b);
-        }
-
-        private double DistanceBetween(Point point1, Point point2)
-        {
-            var a = point2.X - point1.X;
-            var b = point2.Y - point1.Y;
-
-            return Math.Sqrt(a*a + b*b);
-        }
-
-        private int CalculateLineSphereIntersection(double cx, double cy, double radius, Point point1, Point point2, out Point intersection1, out Point intersection2)
-        {
-            double dx, dy, A, B, C, det, t;
-
-            dx = point2.X - point1.X;
-            dy = point2.Y - point1.Y;
-
-            A = dx*dx + dy*dy;
-            B = 2*(dx*(point1.X - cx) + dy*(point1.Y - cy));
-            C = (point1.X - cx)*(point1.X - cx) + (point1.Y - cy)*(point1.Y - cy) - radius*radius;
-
-            det = B*B - 4*A*C;
-            if ((A <= 0.0000001) || (det < 0))
-            {
-                // No real solutions.
-                intersection1 = new Point();
-                intersection2 = new Point(double.NaN, double.NaN);
-                return 0;
-            }
-
-            if (det == 0)
-            {
-                // One solution.
-                t = -B/(2*A);
-                intersection1 = new Point(point1.X + t*dx, point1.Y + t*dy);
-                intersection2 = new Point(float.NaN, float.NaN);
-                return 1;
-            }
-
-            // Two solutions.
-            t = (float) ((-B + Math.Sqrt(det))/(2*A));
-            intersection1 = new Point(point1.X + t*dx, point1.Y + t*dy);
-            t = (float) ((-B - Math.Sqrt(det))/(2*A));
-            intersection2 = new Point(point1.X + t*dx, point1.Y + t*dy);
-            return 2;
         }
     }
 }
