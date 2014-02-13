@@ -40,19 +40,19 @@ namespace Billapong.MapEditor.Services
             return await this.ExecuteAsync(() => this.Proxy.GetMaps());
         }
 
-        public void DeleteMap(long mapId)
+        public async void DeleteMap(long mapId)
         {
-            this.Execute(() => this.Proxy.DeleteMap(mapId));
+            await this.ExecuteAsync(() => this.Proxy.DeleteMap(mapId));
         }
 
-        public void UpdateName(long mapId, string name)
+        public async void UpdateName(long mapId, string name)
         {
-            this.Execute(() => this.Proxy.UpdateName(mapId, name));
+            await this.ExecuteAsync(() => this.Proxy.UpdateName(mapId, name));
         }
 
-        public void UpdateIsPlayable(long mapId, bool isPlayable)
+        public async void UpdateIsPlayable(long mapId, bool isPlayable)
         {
-            this.Execute(() => this.Proxy.UpdateIsPlayable(mapId, isPlayable));
+            await this.ExecuteAsync(() => this.Proxy.UpdateIsPlayable(mapId, isPlayable));
         }
 
         public async void AddWindow(long mapId, int coordX, int coordY)
@@ -82,18 +82,7 @@ namespace Billapong.MapEditor.Services
 
         public void UnregisterCallback(long mapId)
         {
-            // todo (breck1): call this on window close
             this.Execute(() => this.Proxy.UnregisterCallback(mapId));
-        }
-
-        public async void DeleteMapAsync(long mapId)
-        {
-            await this.ExecuteAsync(() => this.Proxy.DeleteMap(mapId));
-        }
-
-        public async void RegisterCallbackAsync(long mapId)
-        {
-            await this.ExecuteAsync(() => this.Proxy.RegisterCallback(mapId));
         }
     }
 }

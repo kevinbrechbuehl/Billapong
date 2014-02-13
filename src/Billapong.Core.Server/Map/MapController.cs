@@ -1,31 +1,48 @@
 ﻿namespace Billapong.Core.Server.Map
 {
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Contract.Data.Map;
+    using Contract.Exceptions;
     using Contract.Service;
     using DataAccess.Model.Map;
     using DataAccess.Repository;
-    using Map = DataAccess.Model.Map.Map;
-    using Window = DataAccess.Model.Map.Window;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.ServiceModel;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// The map controller
     /// </summary>
     public class MapController
     {
+        /// <summary>
+        /// The database writer lock object
+        /// </summary>
         private static readonly object WriterLockObject = new object();
 
+        /// <summary>
+        /// The callback lock object
+        /// </summary>
         private static readonly object CallbackLockObject = new object();
 
+        /// <summary>
+        /// All editors which are currently connected to the server
+        /// </summary>
         private readonly IDictionary<long, MapEditor> editors = new Dictionary<long, MapEditor>();
         
         /// <summary>
-        /// The repository
+        /// The map repository
         /// </summary>
-        private readonly IRepository<Map> repository;
+        private readonly IRepository<Map> mapRepository;
+
+        /// <summary>
+        /// The window repository
+        /// </summary>
+        private readonly IRepository<Window> windowRepository;
+
+        /// <summary>
+        /// The hole repository
+        /// </summary>
+        private readonly IRepository<Hole> holeRepository;
 
         #region Singleton Implementation
 
@@ -42,7 +59,9 @@
         /// </summary>
         private MapController()
         {
-            this.repository = new Repository<Map>();
+            this.mapRepository = new Repository<Map>();
+            this.windowRepository = new Repository<Window>();
+            this.holeRepository = new Repository<Hole>();
         }
 
         /// <summary>
@@ -64,7 +83,7 @@
         /// </returns>
         public IEnumerable<Map> GetMaps(bool onlyPlayable = false)
         {
-            var maps = this.repository.Get(includeProperties: "Windows, Windows.Holes");
+            var maps = this.mapRepository.Get(includeProperties: "Windows, Windows.Holes");
             if (onlyPlayable)
             {
                 maps = maps.Where(map => map.IsPlayable);
@@ -81,7 +100,7 @@
         /// <returns>Map object from the database</returns>
         public Map GetMapById(long id, bool onlyPlayable = false)
         {
-            var maps = this.repository.Get(filter: map => map.Id == id, includeProperties: "Windows, Windows.Holes");
+            var maps = this.mapRepository.Get(filter: map => map.Id == id, includeProperties: "Windows, Windows.Holes");
             if (onlyPlayable)
             {
                 maps = maps.Where(map => map.IsPlayable);
@@ -91,18 +110,22 @@
         }
 
         /// <summary>
-        /// Deletes the map.
+        /// Deletes a map.
         /// </summary>
         /// <param name="id">The identifier.</param>
         public void DeleteMap(long id)
         {
             lock (WriterLockObject)
             {
-                this.repository.Remove(id);
-                this.repository.Save();
+                this.mapRepository.Remove(id);
+                this.mapRepository.Save();
             }
         }
 
+        /// <summary>
+        /// Creates a new map.
+        /// </summary>
+        /// <returns>Newly created map</returns>
         public Map CreateMap()
         {
             lock (WriterLockObject)
@@ -111,6 +134,11 @@
             }
         }
 
+        /// <summary>
+        /// Updates the name.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <param name="name">The name.</param>
         public void UpdateName(long mapId, string name)
         {
             lock (WriterLockObject)
@@ -119,13 +147,18 @@
                 if (map == null) return;
 
                 map.Name = name;
-                this.repository.Save();
+                this.mapRepository.Save();
             }
 
             // send the callback
-            Task.Run(() => this.StartUpdateNameCallback(mapId, name));
+            Task.Run(() => this.SendUpdateNameCallback(mapId, name));
         }
 
+        /// <summary>
+        /// Updates the is playable flag.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <param name="isPlayable">if set to <c>true</c> the map is playable.</param>
         public void UpdateIsPlayable(long mapId, bool isPlayable)
         {
             // todo (breck1): check if the map can be set to playable
@@ -136,37 +169,46 @@
                 if (map == null) return;
 
                 map.IsPlayable = isPlayable;
-                this.repository.Save();
+                this.mapRepository.Save();
             }
 
             // send the callback
-            Task.Run(() => this.StartUpdateIsPlayableCallback(mapId, isPlayable));
+            Task.Run(() => this.SendUpdateIsPlayableCallback(mapId, isPlayable));
         }
 
+        /// <summary>
+        /// Adds a window to the map.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <param name="coordX">The coord x.</param>
+        /// <param name="coordY">The coord y.</param>
         public void AddWindow(long mapId, int coordX, int coordY)
         {
-            Map map;
-            var window = new DataAccess.Model.Map.Window {X = coordX, Y = coordY};
+            var window = new Window {X = coordX, Y = coordY};
             lock (WriterLockObject)
             {
-                map = this.GetMap(mapId);
+                var map = this.GetMap(mapId);
                 if (map == null) return;
 
                 map.Windows.Add(window);
-                this.repository.Save();
+                this.mapRepository.Save();
             }
 
              // send the callback
-            Task.Run(() => this.StartAddWindowCallback(mapId, window.Id, coordX, coordY));
+            Task.Run(() => this.SendAddWindowCallback(mapId, window.Id, coordX, coordY));
         }
 
+        /// <summary>
+        /// Removes a window.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <param name="windowId">The window identifier.</param>
         public void RemoveWindow(long mapId, long windowId)
         {
-            Map map;
             int coordX, coordY;
             lock (WriterLockObject)
             {
-                map = this.GetMap(mapId);
+                var map = this.GetMap(mapId);
                 if (map == null) return;
 
                 var window = map.Windows.FirstOrDefault(gameWindow => gameWindow.Id == windowId);
@@ -174,18 +216,25 @@
 
                 coordX = window.X;
                 coordY = window.Y;
-                map.Windows.Remove(window);
-                this.repository.Save();
+                this.windowRepository.Remove(window.Id);
+                this.windowRepository.Save();
             }
 
              // send the callback
-            Task.Run(() => this.StartRemoveWindowCallback(mapId, windowId, coordX, coordY));
+            Task.Run(() => this.SendRemoveWindowCallback(mapId, windowId, coordX, coordY));
         }
 
+        /// <summary>
+        /// Adds a hole to a window.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <param name="windowId">The window identifier.</param>
+        /// <param name="coordX">The coord x.</param>
+        /// <param name="coordY">The coord y.</param>
         public void AddHole(long mapId, long windowId, int coordX, int coordY)
         {
-            var hole = new DataAccess.Model.Map.Hole {X = coordX, Y = coordY};
-            DataAccess.Model.Map.Window window;
+            var hole = new Hole {X = coordX, Y = coordY};
+            Window window;
             lock (WriterLockObject)
             {
                 var map = this.GetMap(mapId);
@@ -195,16 +244,22 @@
                 if (window == null) return;
 
                 window.Holes.Add(hole);
-                this.repository.Save();
+                this.mapRepository.Save();
             }
 
             // send the callback
-            Task.Run(() => this.StartAddHoleCallback(mapId, windowId, window.X, window.Y, hole.Id, coordX, coordY));
+            Task.Run(() => this.SendAddHoleCallback(mapId, windowId, window.X, window.Y, hole.Id, coordX, coordY));
         }
 
+        /// <summary>
+        /// Removes a hole.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <param name="windowId">The window identifier.</param>
+        /// <param name="holeId">The hole identifier.</param>
         public void RemoveHole(long mapId, long windowId, long holeId)
         {
-            DataAccess.Model.Map.Window window;
+            Window window;
             lock (WriterLockObject)
             {
                 var map = this.GetMap(mapId);
@@ -216,14 +271,19 @@
                 var hole = window.Holes.FirstOrDefault(gameHole => gameHole.Id == holeId);
                 if (hole == null) return;
 
-                window.Holes.Remove(hole);
-                this.repository.Save();
+                this.holeRepository.Remove(hole.Id);
+                this.holeRepository.Save();
             }
 
             // send the callback
-            Task.Run(() => this.StartRemoveHoleCallback(mapId, windowId, window.X, window.Y, holeId));
+            Task.Run(() => this.SendRemoveHoleCallback(mapId, windowId, window.X, window.Y, holeId));
         }
 
+        /// <summary>
+        /// Registers a callback to a specific map.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="callback">The callback.</param>
         public void RegisterCallback(long id, IMapEditorCallback callback)
         {
             lock (CallbackLockObject)
@@ -243,6 +303,11 @@
             }
         }
 
+        /// <summary>
+        /// Unregisters a callback form a specific map.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="callback">The callback.</param>
         public void UnregisterCallback(long id, IMapEditorCallback callback)
         {
             lock (CallbackLockObject)
@@ -257,109 +322,140 @@
             }
         }
 
-        private void StartUpdateNameCallback(long mapId, string name)
+        /// <summary>
+        /// Sends the update name callback.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <param name="name">The name.</param>
+        private void SendUpdateNameCallback(long mapId, string name)
         {
-            lock (CallbackLockObject)
+            foreach (var callback in this.GetMapEditorCallbacks(mapId))
             {
-                var editor = this.editors.ContainsKey(mapId) ? this.editors[mapId] : null;
-                if (editor == null) return;
-
-                // todo (breck1): refactor and verify callbacks on every method
-
-                foreach (var callback in editor.Callbacks)
-                {
-                    callback.UpdateName(name);
-                }
+                callback.UpdateName(name);
             }
         }
 
-        private void StartUpdateIsPlayableCallback(long mapId, bool isPlayable)
+        /// <summary>
+        /// Sends the update is playable callback.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <param name="isPlayable">if set to <c>true</c> the map is playable.</param>
+        private void SendUpdateIsPlayableCallback(long mapId, bool isPlayable)
         {
-            lock (CallbackLockObject)
+            foreach (var callback in this.GetMapEditorCallbacks(mapId))
             {
-                var editor = this.editors.ContainsKey(mapId) ? this.editors[mapId] : null;
-                if (editor == null) return;
-
-                // todo (breck1): refactor and verify callbacks on every method
-
-                foreach (var callback in editor.Callbacks)
-                {
-                    callback.UpdateIsPlayable(isPlayable);
-                }
+                callback.UpdateIsPlayable(isPlayable);
             }
         }
 
-        private void StartAddWindowCallback(long mapId, long windowId, int coordX, int coordY)
+        /// <summary>
+        /// Sends the add window callback.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <param name="windowId">The window identifier.</param>
+        /// <param name="coordX">The coord x coords.</param>
+        /// <param name="coordY">The coord y coords.</param>
+        private void SendAddWindowCallback(long mapId, long windowId, int coordX, int coordY)
         {
-            lock (CallbackLockObject)
+            foreach (var callback in this.GetMapEditorCallbacks(mapId))
             {
-                var editor = this.editors.ContainsKey(mapId) ? this.editors[mapId] : null;
-                if (editor == null) return;
-
-                // todo (breck1): refactor and verify callbacks on every method
-
-                foreach (var callback in editor.Callbacks)
-                {
-                    callback.AddWindow(windowId, coordX, coordY);
-                }
+                callback.AddWindow(windowId, coordX, coordY);
             }
         }
 
-        private void StartRemoveWindowCallback(long mapId, long windowId, int coordX, int coordY)
+        /// <summary>
+        /// Sends the remove window callback.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <param name="windowId">The window identifier.</param>
+        /// <param name="coordX">The coord x coords.</param>
+        /// <param name="coordY">The coord y coords.</param>
+        private void SendRemoveWindowCallback(long mapId, long windowId, int coordX, int coordY)
         {
-            lock (CallbackLockObject)
+            foreach (var callback in this.GetMapEditorCallbacks(mapId))
             {
-                var editor = this.editors.ContainsKey(mapId) ? this.editors[mapId] : null;
-                if (editor == null) return;
-
-                // todo (breck1): refactor and verify callbacks on every method
-
-                foreach (var callback in editor.Callbacks)
-                {
-                    callback.RemoveWindow(windowId, coordX, coordY);
-                }
+                callback.RemoveWindow(windowId, coordX, coordY);
             }
         }
 
-        private void StartAddHoleCallback(long mapId, long windowId, int windowX, int windowY, long holeId, int holeX, int holeY)
+        /// <summary>
+        /// Sends the add hole callback.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <param name="windowId">The window identifier.</param>
+        /// <param name="windowX">The window x coords.</param>
+        /// <param name="windowY">The window y coords.</param>
+        /// <param name="holeId">The hole identifier.</param>
+        /// <param name="holeX">The hole x coords.</param>
+        /// <param name="holeY">The hole y coords.</param>
+        private void SendAddHoleCallback(long mapId, long windowId, int windowX, int windowY, long holeId, int holeX, int holeY)
         {
-            lock (CallbackLockObject)
+            foreach (var callback in this.GetMapEditorCallbacks(mapId))
             {
-                var editor = this.editors.ContainsKey(mapId) ? this.editors[mapId] : null;
-                if (editor == null) return;
-
-                // todo (breck1): refactor and verify callbacks on every method
-
-                foreach (var callback in editor.Callbacks)
-                {
-                    callback.AddHole(windowId, windowX, windowY, holeId, holeX, holeY);
-                }
+                callback.AddHole(windowId, windowX, windowY, holeId, holeX, holeY);
             }
         }
 
-        private void StartRemoveHoleCallback(long mapId, long windowId, int windowX, int windowY, long holeId)
+        /// <summary>
+        /// Sends the remove hole callback.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <param name="windowId">The window identifier.</param>
+        /// <param name="windowX">The window x coords.</param>
+        /// <param name="windowY">The window y coords.</param>
+        /// <param name="holeId">The hole identifier.</param>
+        private void SendRemoveHoleCallback(long mapId, long windowId, int windowX, int windowY, long holeId)
         {
-            lock (CallbackLockObject)
+            foreach (var callback in this.GetMapEditorCallbacks(mapId))
             {
-                var editor = this.editors.ContainsKey(mapId) ? this.editors[mapId] : null;
-                if (editor == null) return;
-
-                // todo (breck1): refactor and verify callbacks on every method
-
-                foreach (var callback in editor.Callbacks)
-                {
-                    callback.RemoveHole(windowId, windowX, windowY, holeId);
-                }
+                callback.RemoveHole(windowId, windowX, windowY, holeId);
             }
         }
 
+        /// <summary>
+        /// Gets the map editor callbacks.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <returns>Callbacks registered for a specific map</returns>
+        private IEnumerable<IMapEditorCallback> GetMapEditorCallbacks(long mapId)
+        {
+            var callbacks = new List<IMapEditorCallback>();
+            lock (CallbackLockObject)
+            {
+                var editor = this.editors.ContainsKey(mapId) ? this.editors[mapId] : null;
+                if (editor == null) return Enumerable.Empty<IMapEditorCallback>();
+
+                foreach (var callback in editor.Callbacks.ToList())
+                {
+                    if (((ICommunicationObject) callback).State != CommunicationState.Opened)
+                    {
+                        editor.Callbacks.Remove(callback);
+                        continue;
+                    }
+
+                    callbacks.Add(callback);
+                }
+            }
+
+            return callbacks;
+        }
+
+        /// <summary>
+        /// Gets a map from the database.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>Map from the database or a new map if id was 0</returns>
         private Map GetMap(long id = 0)
         {
-            // todo (breck1): exception handling in whole class
-            
             if (id > 0)
             {
-                return this.repository.GetById(id);
+                var databaseMap = this.mapRepository.GetById(id);
+                if (databaseMap == null)
+                {
+                    throw new FaultException<MapNotFoundException>(new MapNotFoundException(id), "Map not found");
+                }
+
+                return databaseMap;
             }
 
             var map = new Map
@@ -368,8 +464,8 @@
                 IsPlayable = false
             };
 
-            this.repository.Add(map);
-            this.repository.Save();
+            this.mapRepository.Add(map);
+            this.mapRepository.Save();
             return map;
         }
     }
