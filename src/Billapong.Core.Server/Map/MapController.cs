@@ -25,7 +25,11 @@
         /// <summary>
         /// The repository
         /// </summary>
-        private readonly IRepository<Map> repository;
+        private readonly IRepository<Map> mapRepository;
+
+        private readonly IRepository<Window> windowRepository;
+
+        private readonly IRepository<DataAccess.Model.Map.Hole> holeRepository;
 
         #region Singleton Implementation
 
@@ -42,7 +46,9 @@
         /// </summary>
         private MapController()
         {
-            this.repository = new Repository<Map>();
+            this.mapRepository = new Repository<Map>();
+            this.windowRepository = new Repository<Window>();
+            this.holeRepository = new Repository<DataAccess.Model.Map.Hole>();
         }
 
         /// <summary>
@@ -64,7 +70,7 @@
         /// </returns>
         public IEnumerable<Map> GetMaps(bool onlyPlayable = false)
         {
-            var maps = this.repository.Get(includeProperties: "Windows, Windows.Holes");
+            var maps = this.mapRepository.Get(includeProperties: "Windows, Windows.Holes");
             if (onlyPlayable)
             {
                 maps = maps.Where(map => map.IsPlayable);
@@ -81,7 +87,7 @@
         /// <returns>Map object from the database</returns>
         public Map GetMapById(long id, bool onlyPlayable = false)
         {
-            var maps = this.repository.Get(filter: map => map.Id == id, includeProperties: "Windows, Windows.Holes");
+            var maps = this.mapRepository.Get(filter: map => map.Id == id, includeProperties: "Windows, Windows.Holes");
             if (onlyPlayable)
             {
                 maps = maps.Where(map => map.IsPlayable);
@@ -98,8 +104,8 @@
         {
             lock (WriterLockObject)
             {
-                this.repository.Remove(id);
-                this.repository.Save();
+                this.mapRepository.Remove(id);
+                this.mapRepository.Save();
             }
         }
 
@@ -119,7 +125,7 @@
                 if (map == null) return;
 
                 map.Name = name;
-                this.repository.Save();
+                this.mapRepository.Save();
             }
 
             // send the callback
@@ -136,7 +142,7 @@
                 if (map == null) return;
 
                 map.IsPlayable = isPlayable;
-                this.repository.Save();
+                this.mapRepository.Save();
             }
 
             // send the callback
@@ -153,7 +159,7 @@
                 if (map == null) return;
 
                 map.Windows.Add(window);
-                this.repository.Save();
+                this.mapRepository.Save();
             }
 
              // send the callback
@@ -174,8 +180,8 @@
 
                 coordX = window.X;
                 coordY = window.Y;
-                map.Windows.Remove(window);
-                this.repository.Save();
+                this.windowRepository.Remove(window.Id);
+                this.windowRepository.Save();
             }
 
              // send the callback
@@ -195,7 +201,7 @@
                 if (window == null) return;
 
                 window.Holes.Add(hole);
-                this.repository.Save();
+                this.mapRepository.Save();
             }
 
             // send the callback
@@ -216,8 +222,8 @@
                 var hole = window.Holes.FirstOrDefault(gameHole => gameHole.Id == holeId);
                 if (hole == null) return;
 
-                window.Holes.Remove(hole);
-                this.repository.Save();
+                this.holeRepository.Remove(hole.Id);
+                this.holeRepository.Save();
             }
 
             // send the callback
@@ -359,7 +365,7 @@
             
             if (id > 0)
             {
-                return this.repository.GetById(id);
+                return this.mapRepository.GetById(id);
             }
 
             var map = new Map
@@ -368,8 +374,8 @@
                 IsPlayable = false
             };
 
-            this.repository.Add(map);
-            this.repository.Save();
+            this.mapRepository.Add(map);
+            this.mapRepository.Save();
             return map;
         }
     }
