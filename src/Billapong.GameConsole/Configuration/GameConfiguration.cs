@@ -46,7 +46,7 @@
         /// <summary>
         /// The base animation duration in milliseconds
         /// </summary>
-        public const double BaseAnimationDuration = 2000;
+        public const double BaseAnimationDuration = 1000;
 
         /// <summary>
         /// Gets the maximum animation distance.
