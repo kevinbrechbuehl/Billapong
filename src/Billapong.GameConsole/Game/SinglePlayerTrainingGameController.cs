@@ -20,6 +20,11 @@
         public event EventHandler<RoundStartedEventArgs> RoundStarted = delegate { };
 
         /// <summary>
+        /// Occurs when the round has ended
+        /// </summary>
+        public event EventHandler<RoundEndedEventArgs> RoundEnded = delegate { };
+
+        /// <summary>
         /// Places the ball on game field.
         /// </summary>
         /// <param name="windowId">The window identifier.</param>
@@ -38,6 +43,17 @@
         {
             var eventArgs = new RoundStartedEventArgs(direction);
             this.RoundStarted(this, eventArgs);
+        }
+
+        /// <summary>
+        /// Ends the round.
+        /// </summary>
+        /// <param name="firstPlayer">if set to <c>true</c> the current player started the game. This is necessary for the server to identify the player.</param>
+        /// <param name="score">The score.</param>
+        public void EndRound(bool firstPlayer, int score)
+        {
+            var eventArgs = new RoundEndedEventArgs(score, false);
+            this.RoundEnded(this, eventArgs);
         }
     }
 }

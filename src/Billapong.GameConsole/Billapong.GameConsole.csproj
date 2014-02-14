@@ -67,6 +67,7 @@
     <Compile Include="Models\Ball.cs" />
     <Compile Include="Models\Events\BallPlacedOnGameFieldEventArgs.cs" />
     <Compile Include="Models\Events\GameFieldClickedEventArgs.cs" />
+    <Compile Include="Models\Events\RoundEndedEventArgs.cs" />
     <Compile Include="Models\Events\RoundStartedEventArgs.cs" />
     <Compile Include="Service\GameConsoleContext.cs" />
     <Compile Include="ViewModels\GameWindowViewModel.cs" />

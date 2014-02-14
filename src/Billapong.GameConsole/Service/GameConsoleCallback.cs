@@ -32,6 +32,11 @@
         public event EventHandler<RoundStartedEventArgs> RoundStarted = delegate { };
 
         /// <summary>
+        /// Occurs when the round ended.
+        /// </summary>
+        public event EventHandler<RoundEndedEventArgs> RoundEnded = delegate { };
+
+        /// <summary>
         /// Starts the game with a specific id.
         /// </summary>
         /// <param name="gameId">The game identifier.</param>
@@ -90,10 +95,10 @@
         /// </summary>
         /// <param name="score">The current score over all player rounds.</param>
         /// <param name="wasFinalRound">if set to <c>true</c> this was the final round and the game should be finished.</param>
-        /// <exception cref="System.NotImplementedException"></exception>
         public void EndRound(int score, bool wasFinalRound)
         {
-            throw new NotImplementedException();
+            var args = new RoundEndedEventArgs(score, wasFinalRound);
+            ThreadContext.InvokeOnUiThread(() => this.OnRoundEnded(args));
         }
 
         /// <summary>
@@ -112,6 +117,15 @@
         private void OnRoundStarted(RoundStartedEventArgs args)
         {
             this.RoundStarted(this, args);
+        }
+
+        /// <summary>
+        /// Raises the <see cref="E:RoundEnded" /> event.
+        /// </summary>
+        /// <param name="args">The <see cref="RoundEndedEventArgs"/> instance containing the event data.</param>
+        private void OnRoundEnded(RoundEndedEventArgs args)
+        {
+            this.RoundEnded(this, args);
         }
 
         /// <summary>

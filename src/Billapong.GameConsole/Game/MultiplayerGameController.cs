@@ -17,6 +17,7 @@
         {
             GameConsoleContext.Current.GameConsoleCallback.StartPointSet += this.OnBallPlacedOnGameField;
             GameConsoleContext.Current.GameConsoleCallback.RoundStarted += this.OnRoundStarted;
+            GameConsoleContext.Current.GameConsoleCallback.RoundEnded += this.OnRoundEnded;
         }
 
         /// <summary>
@@ -28,6 +29,11 @@
         /// Occurs when the round has started
         /// </summary>
         public event EventHandler<RoundStartedEventArgs> RoundStarted = delegate { };
+
+        /// <summary>
+        /// Occurs when the round has ended
+        /// </summary>
+        public event EventHandler<RoundEndedEventArgs> RoundEnded = delegate { };
 
         /// <summary>
         /// Places the ball on game field.
@@ -49,6 +55,16 @@
         }
 
         /// <summary>
+        /// Ends the round.
+        /// </summary>
+        /// <param name="firstPlayer">if set to <c>true</c> [first player].</param>
+        /// <param name="score">The score.</param>
+        public void EndRound(bool firstPlayer, int score)
+        {
+            GameConsoleContext.Current.GameConsoleServiceClient.EndRound(GameManager.Current.CurrentGame.GameId, firstPlayer, score);
+        }
+
+        /// <summary>
         /// Called when the server sends the round start callback.
         /// </summary>
         /// <param name="sender">The sender.</param>
@@ -56,6 +72,16 @@
         public void OnRoundStarted(object sender, RoundStartedEventArgs args)
         {
             this.RoundStarted(this, args);
+        }
+
+        /// <summary>
+        /// Called when the server sends the round ended callback.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="RoundEndedEventArgs"/> instance containing the event data.</param>
+        public void OnRoundEnded(object sender, RoundEndedEventArgs args)
+        {
+            this.RoundEnded(this, args);
         }
 
         /// <summary>

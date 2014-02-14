@@ -102,16 +102,35 @@
             this.Execute(() => this.Proxy.CancelGame(gameId));
         }
 
+        /// <summary>
+        /// Sets the start point.
+        /// </summary>
+        /// <param name="gameId">The game identifier.</param>
+        /// <param name="windowId">The windows identifier.</param>
+        /// <param name="pointX">The point x.</param>
+        /// <param name="pointY">The point y.</param>
         public void SetStartPoint(Guid gameId, long windowId, double pointX, double pointY)
         {
             this.Execute(() => this.Proxy.SetStartPoint(gameId, windowId, pointX, pointY));
         }
 
+        /// <summary>
+        /// Starts the round.
+        /// </summary>
+        /// <param name="gameId">The game identifier.</param>
+        /// <param name="directionX">The direction x.</param>
+        /// <param name="directionY">The direction y.</param>
         public void StartRound(Guid gameId, double directionX, double directionY)
         {
             this.Execute(() => this.Proxy.StartRound(gameId, directionX, directionY));
         }
 
+        /// <summary>
+        /// Ends the round.
+        /// </summary>
+        /// <param name="gameId">The game identifier.</param>
+        /// <param name="isPlayer1">if set to <c>true</c> user it player 1.</param>
+        /// <param name="score">The score of the current round.</param>
         public void EndRound(Guid gameId, bool isPlayer1, int score)
         {
             this.Execute(() => this.Proxy.EndRound(gameId, isPlayer1, score));

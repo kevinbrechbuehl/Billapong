@@ -4,6 +4,9 @@
     using System.Windows;
     using Configuration;
 
+    /// <summary>
+    /// Represents a specific game
+    /// </summary>
     public class Game
     {
         /// <summary>
@@ -69,6 +72,20 @@
         /// The current window.
         /// </value>
         public Window CurrentWindow { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the current player is the first player.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if the current player is the first player; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsFirstPlayer
+        {
+            get
+            {
+                return this.StartGame;
+            }
+        }
 
         /// <summary>
         /// Initializes the specified game identifier.

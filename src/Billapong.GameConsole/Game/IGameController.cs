@@ -20,6 +20,11 @@
         event EventHandler<RoundStartedEventArgs> RoundStarted;
 
         /// <summary>
+        /// Occurs when the round has ended
+        /// </summary>
+        event EventHandler<RoundEndedEventArgs> RoundEnded;
+
+        /// <summary>
         /// Places the ball on game field.
         /// </summary>
         /// <param name="windowId">The window identifier.</param>
@@ -31,5 +36,12 @@
         /// </summary>
         /// <param name="direction">The direction.</param>
         void StartRound(Vector direction);
+
+        /// <summary>
+        /// Ends the round.
+        /// </summary>
+        /// <param name="firstPlayer">if set to <c>true</c> [first player].</param>
+        /// <param name="score">The score.</param>
+        void EndRound(bool firstPlayer, int score);
     }
 }
