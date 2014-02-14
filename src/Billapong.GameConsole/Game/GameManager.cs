@@ -6,9 +6,6 @@
     using System.Windows;
     using System.Windows.Media;
     using Animation;
-
-    using Billapong.GameConsole.Models;
-
     using Configuration;
     using Models.Events;
     using ViewModels;
@@ -41,34 +38,39 @@
         private Queue<BallAnimationTask> ballAnimationTaskQueue;
 
         /// <summary>
-        /// Defines the possible walls which can get hit
+        /// Defines the possible intersections between a ball and the game field
         /// </summary>
-        private enum WallHit
+        private enum Intersection
         {
             /// <summary>
-            /// Initial state
+            /// No intersection
             /// </summary>
             None,
 
             /// <summary>
+            /// The ball hits a hole
+            /// </summary>
+            Hole,
+
+            /// <summary>
             /// The ball hits the top wall
             /// </summary>
-            Top,
+            TopWall,
 
             /// <summary>
             /// The ball hits the left wall
             /// </summary>
-            Left,
+            LeftWall,
 
             /// <summary>
             /// The ball hits the right wall
             /// </summary>
-            Right,
+            RightWall,
 
             /// <summary>
             /// The ball hits the bottom wall
             /// </summary>
-            Bottom
+            BottomWall
         }
 
         /// <summary>
@@ -347,7 +349,7 @@
             var currentDirection = initialDirection;
             var stepCounter = 0;
             var currentTask = new BallAnimationTask { Window = currentWindow };
-            var previousIntersection = WallHit.None;
+            var previousIntersection = Intersection.None;
             var windowPreviouslyChanged = false;
             
             while (!isLastAnimation)
@@ -362,24 +364,24 @@
                 }
 
                 // Calculate the ignorable intersection
-                var ignoredIntersection = WallHit.None;
-                if (previousIntersection != WallHit.None)
+                var ignoredIntersection = Intersection.None;
+                if (previousIntersection != Intersection.None)
                 {
                     if (windowPreviouslyChanged)
                     {
                         switch (previousIntersection)
                         {
-                            case WallHit.Top:
-                                ignoredIntersection = WallHit.Bottom;
+                            case Intersection.TopWall:
+                                ignoredIntersection = Intersection.BottomWall;
                                 break;
-                            case WallHit.Left:
-                                ignoredIntersection = WallHit.Right;
+                            case Intersection.LeftWall:
+                                ignoredIntersection = Intersection.RightWall;
                                 break;
-                            case WallHit.Right:
-                                ignoredIntersection = WallHit.Left;
+                            case Intersection.RightWall:
+                                ignoredIntersection = Intersection.LeftWall;
                                 break;
-                            case WallHit.Bottom:
-                                ignoredIntersection = WallHit.Top;
+                            case Intersection.BottomWall:
+                                ignoredIntersection = Intersection.TopWall;
                                 break;
                         }
                     }
@@ -389,21 +391,20 @@
                     }
                 }
 
-                var wallHit = WallHit.None;
+                var currentIntersection = Intersection.None;
+                Point? intersectionPosition = null;
                 Models.Window neighbourWindow = null;
-                var currentBallPositionVector = new Vector(currentBallPosition.X, currentBallPosition.Y);
 
                 /* todo (mathp2): We need a better way to get a point outside of the window */
                 var intersectionTestPoint = currentBallPosition + (currentDirection * 1000);
-                var intersectionTestVector = new Vector(intersectionTestPoint.X, intersectionTestPoint.Y);
 
                 // Check for hole intersection
                 if (currentWindow.Holes != null) 
                 { 
                     foreach (var hole in currentWindow.Holes)
                     {
-                        Point firstIntersection;
-                        Point secondIntersection;
+                        Point? firstIntersection;
+                        Point? secondIntersection;
 
                         var intersection = CalculationHelpers.CalculateLineSphereIntersection(
                             hole.CenterPosition,
@@ -413,31 +414,33 @@
                             out firstIntersection,
                             out secondIntersection);
 
-                        if (intersection > 0)
+                        if (intersection > 0 && firstIntersection != null)
                         {
-                            // Intersection with a hole. This is the last step before returning the queue.
-                            currentTask.Steps.Add(AnimationHelpers.GetPointAnimation(currentBallPosition, firstIntersection));
-                            currentTask.IsLastAnimation = true;
-                            animationQueue.Enqueue(currentTask);
-                            return animationQueue;
+                            currentIntersection = Intersection.Hole;
+
+                            // This hole intersection is only relevant, if the distance between this intersection and the ball is the shortest
+                            if (intersectionPosition == null
+                                || currentBallPosition.DistanceTo((Point)firstIntersection)
+                                < currentBallPosition.DistanceTo((Point)intersectionPosition))
+                            {
+                                intersectionPosition = firstIntersection;    
+                            }
                         }    
                     }
                 }
 
                 // Check for top wall hit
-                Vector? intersectionPoint = null;
-
-                if (previousIntersection == WallHit.None || ignoredIntersection != WallHit.Top)
+                if (intersectionPosition == null && ignoredIntersection != Intersection.TopWall)
                 {
-                    intersectionPoint = CalculationHelpers.GetLineIntersection(
-                        currentBallPositionVector,
-                        intersectionTestVector,
-                        new Vector(0, 0),
-                        new Vector(GameConfiguration.GameWindowWidth, 0));
+                    intersectionPosition = CalculationHelpers.GetLineIntersection(
+                        currentBallPosition,
+                        intersectionTestPoint,
+                        new Point(0, 0),
+                        new Point(GameConfiguration.GameWindowWidth, 0));
 
-                    if (intersectionPoint != null)
+                    if (intersectionPosition != null)
                     {
-                        previousIntersection = wallHit = WallHit.Top;
+                        previousIntersection = currentIntersection = Intersection.TopWall;
 
                         var upperWindow = this.CurrentGame.Map.Windows.FirstOrDefault(w => w.X == currentWindow.X && w.Y == currentWindow.Y - 1);
                         if (upperWindow != null)
@@ -447,18 +450,18 @@
                     }
                 }
 
-                if (intersectionPoint == null && (previousIntersection == WallHit.None || ignoredIntersection != WallHit.Left))
+                if (intersectionPosition == null && ignoredIntersection != Intersection.LeftWall)
                 {
                     // Check for left wall hit
-                    intersectionPoint = CalculationHelpers.GetLineIntersection(
-                        currentBallPositionVector,
-                        intersectionTestVector,
-                        new Vector(0, 0),
-                        new Vector(0, GameConfiguration.GameWindowWidth));
+                    intersectionPosition = CalculationHelpers.GetLineIntersection(
+                        currentBallPosition,
+                        intersectionTestPoint,
+                        new Point(0, 0),
+                        new Point(0, GameConfiguration.GameWindowWidth));
 
-                    if (intersectionPoint != null)
+                    if (intersectionPosition != null)
                     {
-                        previousIntersection = wallHit = WallHit.Left;
+                        previousIntersection = currentIntersection = Intersection.LeftWall;
 
                         var leftWindow = this.CurrentGame.Map.Windows.FirstOrDefault(w => w.X == currentWindow.X - 1 && w.Y == currentWindow.Y);
                         if (leftWindow != null)
@@ -468,18 +471,18 @@
                     }
                 }
 
-                if (intersectionPoint == null && (previousIntersection == WallHit.None || ignoredIntersection != WallHit.Right))
+                if (intersectionPosition == null && ignoredIntersection != Intersection.RightWall)
                 {
                     // Check for right wall hit
-                    intersectionPoint = CalculationHelpers.GetLineIntersection(
-                        currentBallPositionVector,
-                        intersectionTestVector,
-                        new Vector(GameConfiguration.GameWindowWidth, 0),
-                        new Vector(GameConfiguration.GameWindowWidth, GameConfiguration.GameWindowWidth));
+                    intersectionPosition = CalculationHelpers.GetLineIntersection(
+                        currentBallPosition,
+                        intersectionTestPoint,
+                        new Point(GameConfiguration.GameWindowWidth, 0),
+                        new Point(GameConfiguration.GameWindowWidth, GameConfiguration.GameWindowWidth));
 
-                    if (intersectionPoint != null)
+                    if (intersectionPosition != null)
                     {
-                        previousIntersection = wallHit = WallHit.Right;
+                        previousIntersection = currentIntersection = Intersection.RightWall;
 
                         var rightWindow = this.CurrentGame.Map.Windows.FirstOrDefault(w => w.X == currentWindow.X + 1 && w.Y == currentWindow.Y);
                         if (rightWindow != null)
@@ -489,18 +492,18 @@
                     }
                 }
 
-                if (intersectionPoint == null && (previousIntersection == WallHit.None || ignoredIntersection != WallHit.Bottom))
+                if (intersectionPosition == null && ignoredIntersection != Intersection.BottomWall)
                 {
                     // Check for bottom wall hit
-                    intersectionPoint = CalculationHelpers.GetLineIntersection(
-                        currentBallPositionVector,
-                        intersectionTestVector,
-                        new Vector(0, GameConfiguration.GameWindowWidth),
-                        new Vector(GameConfiguration.GameWindowWidth, GameConfiguration.GameWindowWidth));
+                    intersectionPosition = CalculationHelpers.GetLineIntersection(
+                        currentBallPosition,
+                        intersectionTestPoint,
+                        new Point(0, GameConfiguration.GameWindowWidth),
+                        new Point(GameConfiguration.GameWindowWidth, GameConfiguration.GameWindowWidth));
 
-                    if (intersectionPoint != null)
+                    if (intersectionPosition != null)
                     {
-                        previousIntersection = wallHit = WallHit.Bottom;
+                        previousIntersection = currentIntersection = Intersection.BottomWall;
 
                         var bottomWindow = this.CurrentGame.Map.Windows.FirstOrDefault(w => w.X == currentWindow.X && w.Y == currentWindow.Y + 1);
                         if (bottomWindow != null)
@@ -510,10 +513,19 @@
                     }
                 }
 
-                if (wallHit != WallHit.None && intersectionPoint != null)
+                if (currentIntersection != Intersection.None && intersectionPosition != null)
                 {
-                    var newPosition = new Point(intersectionPoint.Value.X, intersectionPoint.Value.Y);
+                    var newPosition = (Point)intersectionPosition;
                     currentTask.Steps.Add(AnimationHelpers.GetPointAnimation(currentBallPosition, newPosition));
+
+                    // If the ball intersects a hole, end the calculation after this step
+                    if (currentIntersection == Intersection.Hole)
+                    {
+                        currentTask.IsLastAnimation = true;
+                        animationQueue.Enqueue(currentTask);
+                        return animationQueue;
+                    }
+
                     currentBallPosition = newPosition;
 
                     // Ball will leave the window 
@@ -525,18 +537,18 @@
                         windowPreviouslyChanged = true;
 
                         // Set new initial position for the next window
-                        switch (wallHit)
+                        switch (currentIntersection)
                         {
-                            case WallHit.Top:
+                            case Intersection.TopWall:
                                 currentBallPosition.Y = GameConfiguration.GameWindowWidth;
                                 break;
-                            case WallHit.Left:
+                            case Intersection.LeftWall:
                                 currentBallPosition.X = GameConfiguration.GameWindowWidth;
                                 break;
-                            case WallHit.Right:
+                            case Intersection.RightWall:
                                 currentBallPosition.X = 0;
                                 break;
-                            case WallHit.Bottom:
+                            case Intersection.BottomWall:
                                 currentBallPosition.Y = 0;
                                 break;
                         }
@@ -544,7 +556,7 @@
                     else
                     {
                         // Change ball direction within the current window
-                        if (wallHit == WallHit.Top || wallHit == WallHit.Bottom)
+                        if (currentIntersection == Intersection.TopWall || currentIntersection == Intersection.BottomWall)
                         {
                             currentDirection.Y *= -1;
                         }
@@ -558,6 +570,7 @@
                 }
             }
 
+            // Add the last animation task to the queue because we had no wall hit (timeout)
             if (currentTask.Steps.Count > 0)
             {
                 animationQueue.Enqueue(currentTask);
