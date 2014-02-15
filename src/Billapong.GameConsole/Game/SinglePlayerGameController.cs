@@ -17,12 +17,17 @@
         /// <summary>
         /// Occurs when the round has started
         /// </summary>
-        public event EventHandler<RoundStartedEventArgs> RoundStarted;
+        public event EventHandler<RoundStartedEventArgs> RoundStarted = delegate { };
 
         /// <summary>
         /// Occurs when the round has ended
         /// </summary>
-        public event EventHandler<RoundEndedEventArgs> RoundEnded;
+        public event EventHandler<RoundEndedEventArgs> RoundEnded = delegate { };
+
+        /// <summary>
+        /// Occurs when the game got cancelled by a player.
+        /// </summary>
+        public event EventHandler<RoundEndedEventArgs> GameCancelled = delegate { };
 
         /// <summary>
         /// Places the ball on game field.
@@ -54,6 +59,14 @@
         public void EndRound(bool firstPlayer, int score)
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Cancels the game.
+        /// </summary>
+        public void CancelGame()
+        {
+            this.GameCancelled(this, null);
         }
     }
 }

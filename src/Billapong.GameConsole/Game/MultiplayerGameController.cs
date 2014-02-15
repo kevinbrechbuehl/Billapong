@@ -18,6 +18,7 @@
             GameConsoleContext.Current.GameConsoleCallback.StartPointSet += this.OnBallPlacedOnGameField;
             GameConsoleContext.Current.GameConsoleCallback.RoundStarted += this.OnRoundStarted;
             GameConsoleContext.Current.GameConsoleCallback.RoundEnded += this.OnRoundEnded;
+            GameConsoleContext.Current.GameConsoleCallback.GameCancelled += this.OnGameCancelled;
         }
 
         /// <summary>
@@ -34,6 +35,11 @@
         /// Occurs when the round has ended
         /// </summary>
         public event EventHandler<RoundEndedEventArgs> RoundEnded = delegate { };
+
+        /// <summary>
+        /// Occurs when the game got cancelled by a player.
+        /// </summary>
+        public event EventHandler<RoundEndedEventArgs> GameCancelled = delegate { };
 
         /// <summary>
         /// Places the ball on game field.
@@ -57,11 +63,19 @@
         /// <summary>
         /// Ends the round.
         /// </summary>
-        /// <param name="firstPlayer">if set to <c>true</c> [first player].</param>
+        /// <param name="firstPlayer">if set to <c>true</c> the current round was played by the first player.</param>
         /// <param name="score">The score.</param>
         public void EndRound(bool firstPlayer, int score)
         {
             GameConsoleContext.Current.GameConsoleServiceClient.EndRound(GameManager.Current.CurrentGame.GameId, firstPlayer, score);
+        }
+
+        /// <summary>
+        /// Cancels the game.
+        /// </summary>
+        public void CancelGame()
+        {
+            GameConsoleContext.Current.GameConsoleServiceClient.CancelGame(GameManager.Current.CurrentGame.GameId);
         }
 
         /// <summary>
@@ -92,6 +106,16 @@
         public void OnBallPlacedOnGameField(object sender, BallPlacedOnGameFieldEventArgs args)
         {
             this.BallPlacedOnGameField(this, args);
+        }
+
+        /// <summary>
+        /// Called when the server sends the callback to cancel the game.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
+        public void OnGameCancelled(object sender, EventArgs args)
+        {
+            this.GameCancelled(this, null);
         }
     }
 }

@@ -25,6 +25,11 @@
         event EventHandler<RoundEndedEventArgs> RoundEnded;
 
         /// <summary>
+        /// Occurs when the game got cancelled by a player.
+        /// </summary>
+        event EventHandler<RoundEndedEventArgs> GameCancelled;
+
+        /// <summary>
         /// Places the ball on game field.
         /// </summary>
         /// <param name="windowId">The window identifier.</param>
@@ -43,5 +48,10 @@
         /// <param name="firstPlayer">if set to <c>true</c> [first player].</param>
         /// <param name="score">The score.</param>
         void EndRound(bool firstPlayer, int score);
+
+        /// <summary>
+        /// Cancels the game.
+        /// </summary>
+        void CancelGame();
     }
 }

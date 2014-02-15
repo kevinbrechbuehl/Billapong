@@ -28,6 +28,11 @@
         private readonly List<GameWindowViewModel> gameWindowViewModels = new List<GameWindowViewModel>();
 
         /// <summary>
+        /// The game windows
+        /// </summary>
+        private readonly List<Window> gameWindows = new List<Window>();
+
+        /// <summary>
         /// The game controller
         /// </summary>
         private IGameController gameController;
@@ -102,6 +107,7 @@
         public void StartGame(Game game)
         {
             this.CurrentGame = game;
+
             switch (this.CurrentGame.GameType)
             {
                 case GameConfiguration.GameType.SinglePlayerTraining:
@@ -118,12 +124,38 @@
             this.gameController.BallPlacedOnGameField += this.PlaceBallOnGameField;
             this.gameController.RoundStarted += this.StartRound;
             this.gameController.RoundEnded += this.EndRound;
+            this.gameController.GameCancelled += this.CancelGame;
 
             this.OpenGameField();
 
             if (this.CurrentGame.StartGame)
             {
                 this.PlaceBallOnGameField();
+            }
+        }
+
+        /// <summary>
+        /// Cancels the game if it is running.
+        /// </summary>
+        public void CancelGame()
+        {
+            if (this.gameController != null)
+            {
+                this.gameController.CancelGame();
+            }
+        }
+
+        /// <summary>
+        /// Cancels the game based on an event callback.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void CancelGame(object sender, EventArgs args)
+        {
+            if (this.CurrentGame != null)
+            {
+                this.CloseGameField();
+                this.CurrentGame = null;
             }
         }
 
@@ -171,8 +203,7 @@
                         gameWindow.WindowStyle = WindowStyle.None;
 
                         // Todo (mathp2): Remove client color separation somewhen in the future
-                        gameWindow.BorderBrush =
-                            new SolidColorBrush(this.CurrentGame.StartGame ? Colors.Red : Colors.Blue);
+                        gameWindow.BorderBrush = new SolidColorBrush(this.CurrentGame.StartGame ? Colors.Red : Colors.Blue);
                         gameWindow.BorderThickness = new Thickness(1, 1, 1, 1);
 
                         var gameWindowViewModel = new GameWindowViewModel(currentWindow);
@@ -181,6 +212,7 @@
                         gameWindowViewModel.AnimationFinished += this.AnimationFinished;
 
                         this.gameWindowViewModels.Add(gameWindowViewModel);
+                        this.gameWindows.Add(gameWindow);
 
                         if (currentWindow.IsOwnWindow)
                         {
@@ -192,6 +224,17 @@
                 }
 
                 verticalOffset += GameConfiguration.GameWindowHeight + WindowBorderOffset;
+            }
+        }
+
+        /// <summary>
+        /// Closes the game field.
+        /// </summary>
+        private void CloseGameField()
+        {
+            foreach (var window in this.gameWindows)
+            {
+                window.Close();
             }
         }
 

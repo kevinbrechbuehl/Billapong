@@ -37,6 +37,11 @@
         public event EventHandler<RoundEndedEventArgs> RoundEnded = delegate { };
 
         /// <summary>
+        /// Occurs when the game got cancelled by a player.
+        /// </summary>
+        public event EventHandler GameCancelled = delegate { };
+
+        /// <summary>
         /// Starts the game with a specific id.
         /// </summary>
         /// <param name="gameId">The game identifier.</param>
@@ -63,7 +68,7 @@
         /// </summary>
         public void CancelGame()
         {
-            MessageBox.Show("Someone/-thing has canceled the game...");
+            ThreadContext.InvokeOnUiThread(() => this.GameCancelled(this, null));
         }
 
         /// <summary>

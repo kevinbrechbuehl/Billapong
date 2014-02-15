@@ -93,7 +93,7 @@
         /// <param name="gameId">The game identifier.</param>
         /// <param name="map">The map.</param>
         /// <param name="opponentName">Name of the opponent.</param>
-        /// <param name="startGame">if set to <c>true</c> [start game].</param>
+        /// <param name="startGame">if set to <c>true</c> the current player starts the game.</param>
         /// <param name="gameType">Type of the game.</param>
         public void Init(Guid gameId, Map map, string opponentName, bool startGame, GameConfiguration.GameType gameType)
         {

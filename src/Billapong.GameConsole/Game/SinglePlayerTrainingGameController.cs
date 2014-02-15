@@ -25,6 +25,11 @@
         public event EventHandler<RoundEndedEventArgs> RoundEnded = delegate { };
 
         /// <summary>
+        /// Occurs when the game got cancelled by a player.
+        /// </summary>
+        public event EventHandler<RoundEndedEventArgs> GameCancelled;
+
+        /// <summary>
         /// Places the ball on game field.
         /// </summary>
         /// <param name="windowId">The window identifier.</param>
@@ -54,6 +59,14 @@
         {
             var eventArgs = new RoundEndedEventArgs(score, false);
             this.RoundEnded(this, eventArgs);
+        }
+
+        /// <summary>
+        /// Cancels the game.
+        /// </summary>
+        public void CancelGame()
+        {
+            this.GameCancelled(this, null);
         }
     }
 }
