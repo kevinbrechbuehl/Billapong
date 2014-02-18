@@ -31,12 +31,12 @@
         /// <summary>
         /// The game window width
         /// </summary>
-        public const int GameWindowWidth = 300;
+        public const int GameWindowWidth = 200;
 
         /// <summary>
         /// The game window height
         /// </summary>
-        public const int GameWindowHeight = 300;
+        public const int GameWindowHeight = 200;
 
         /// <summary>
         /// The game grid size
