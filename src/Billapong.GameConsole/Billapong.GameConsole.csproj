@@ -68,7 +68,9 @@
     <Compile Include="Models\Events\GameFieldClickedEventArgs.cs" />
     <Compile Include="Models\Events\RoundEndedEventArgs.cs" />
     <Compile Include="Models\Events\RoundStartedEventArgs.cs" />
+    <Compile Include="Models\Player.cs" />
     <Compile Include="Service\GameConsoleContext.cs" />
+    <Compile Include="ViewModels\GameStateViewModel.cs" />
     <Compile Include="ViewModels\GameWindowViewModel.cs" />
     <Compile Include="Models\Events\GameStartedEventArgs.cs" />
     <Compile Include="Models\Game.cs" />
@@ -93,6 +95,9 @@
     <Compile Include="Views\GameLobby.xaml.cs">
       <DependentUpon>GameLobby.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\GameState.xaml.cs">
+      <DependentUpon>GameState.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LoadingScreen.xaml.cs">
       <DependentUpon>LoadingScreen.xaml</DependentUpon>
     </Compile>
@@ -114,6 +119,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GameMainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GameState.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -26,20 +26,20 @@
         public Map Map { get; private set; }
 
         /// <summary>
-        /// Gets the name of the opponent.
+        /// Gets the local player.
         /// </summary>
         /// <value>
-        /// The name of the opponent.
+        /// The local player.
         /// </value>
-        public string OpponentName { get; private set; }
+        public Player LocalPlayer { get; private set; }
 
         /// <summary>
-        /// Gets the name of the own.
+        /// Gets the opponent.
         /// </summary>
         /// <value>
-        /// The name of the own.
+        /// The opponent.
         /// </value>
-        public string OwnName { get; private set; }
+        public Player Opponent { get; private set; }
 
         /// <summary>
         /// Gets a value indicating whether the current player starts the game.
@@ -74,18 +74,12 @@
         public Window CurrentWindow { get; set; }
 
         /// <summary>
-        /// Gets a value indicating whether the current player is the first player.
+        /// Gets or sets the current player.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if the current player is the first player; otherwise, <c>false</c>.
+        /// The current player.
         /// </value>
-        public bool IsFirstPlayer
-        {
-            get
-            {
-                return this.StartGame;
-            }
-        }
+        public Player CurrentPlayer { get; set; }
 
         /// <summary>
         /// Initializes the specified game identifier.
@@ -94,15 +88,27 @@
         /// <param name="map">The map.</param>
         /// <param name="opponentName">Name of the opponent.</param>
         /// <param name="startGame">if set to <c>true</c> the current player starts the game.</param>
+        /// <param name="isGameOwner">if set to <c>true</c> the current player owns the game.</param>
         /// <param name="gameType">Type of the game.</param>
-        public void Init(Guid gameId, Map map, string opponentName, bool startGame, GameConfiguration.GameType gameType)
+        public void Init(Guid gameId, Map map, string opponentName, bool startGame, bool isGameOwner, GameConfiguration.GameType gameType)
         {
             this.GameId = gameId;
             this.Map = map;
-            this.OpponentName = opponentName;
-            this.OwnName = Properties.Settings.Default.PlayerName;
             this.StartGame = startGame;
             this.GameType = gameType;
+
+            var localPlayer = new Player(Properties.Settings.Default.PlayerName, isGameOwner, true);
+            this.LocalPlayer = localPlayer;
+            if (!string.IsNullOrWhiteSpace(opponentName))
+            {
+                var opponent = new Player(opponentName, !isGameOwner, false);
+                this.Opponent = opponent;
+                this.CurrentPlayer = startGame ? this.LocalPlayer : this.Opponent;
+            }
+            else
+            {
+                this.CurrentPlayer = this.LocalPlayer;
+            }
         }
     }
 }

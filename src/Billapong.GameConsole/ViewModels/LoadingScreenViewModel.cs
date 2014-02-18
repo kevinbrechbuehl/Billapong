@@ -39,7 +39,6 @@
             this.LoadingMessage = loadingMessage;
             this.BackButtonContent = "Cancel";
             this.gameType = gameType;
-
             this.isGameOwner = isGameOwner;
         }
 
@@ -51,9 +50,14 @@
         public void StartGame(object sender, GameStartedEventArgs args)
         {
             var game = new Game();
-            game.Init(args.GameId, args.Map, args.Opponent, args.StartGame, this.gameType);
+            game.Init(args.GameId, args.Map, args.Opponent, args.StartGame, this.isGameOwner, this.gameType);
 
+
+            var gameStateViewModel = new GameStateViewModel();
             GameManager.Current.StartGame(game);
+
+            this.SwitchWindowContent(gameStateViewModel);
+
         }
 
         protected override void NavigateBack()

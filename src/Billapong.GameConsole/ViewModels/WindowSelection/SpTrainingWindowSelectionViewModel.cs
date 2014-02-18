@@ -26,7 +26,7 @@
         protected override void StartGame()
         {
             var game = new Game();
-            game.Init(new Guid(), this.Map, null, true, GameConfiguration.GameType.SinglePlayerTraining);
+            game.Init(new Guid(), this.Map, null, true, true, GameConfiguration.GameType.SinglePlayerTraining);
             GameManager.Current.StartGame(game);
         }
     }

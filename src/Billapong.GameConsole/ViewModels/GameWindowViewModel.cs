@@ -7,6 +7,7 @@
     using System.Windows;
     using System.Windows.Data;
     using System.Windows.Input;
+    using System.Windows.Media;
     using Animation;
     using Core.Client.UI;
     using Models;
@@ -137,9 +138,10 @@
         /// Places the ball at the specified position.
         /// </summary>
         /// <param name="position">The position.</param>
-        public void PlaceBall(Point position)
+        /// <param name="color">The color.</param>
+        public void PlaceBall(Point position, Color color)
         {
-            this.Ball = new Ball {Position = position};
+            this.Ball = new Ball {Position = position, Color = color};
         }
 
         /// <summary>

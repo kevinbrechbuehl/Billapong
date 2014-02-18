@@ -95,6 +95,14 @@
         /// <param name="args">The <see cref="RoundEndedEventArgs"/> instance containing the event data.</param>
         public void OnRoundEnded(object sender, RoundEndedEventArgs args)
         {
+            GameManager.Current.CurrentGame.CurrentPlayer.Score = args.Score;
+
+            if (!args.GameEnded)
+            {
+                var game = GameManager.Current.CurrentGame;
+                GameManager.Current.CurrentGame.CurrentPlayer = game.CurrentPlayer == game.LocalPlayer ? game.Opponent : game.LocalPlayer;
+            }
+
             this.RoundEnded(this, args);
         }
 

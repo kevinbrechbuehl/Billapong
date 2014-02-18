@@ -1,6 +1,7 @@
 ﻿namespace Billapong.GameConsole.Models
 {
     using System.Windows;
+    using System.Windows.Media;
     using Core.Client.UI;
 
     public class Ball : NotificationObject
@@ -9,6 +10,11 @@
         /// The position
         /// </summary>
         private Point position;
+
+        /// <summary>
+        /// The color
+        /// </summary>
+        private Color color;
 
         /// <summary>
         /// Gets the diameter.
@@ -56,5 +62,20 @@
                 OnPropertyChanged();
             }
         }
+
+        public Color Color
+        {
+            get
+            {
+                return this.color;
+            }
+
+            set
+            {
+                this.color = value;
+                OnPropertyChanged();
+            }
+        }
+
     }
 }

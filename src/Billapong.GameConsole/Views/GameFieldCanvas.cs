@@ -122,7 +122,7 @@
                 ellipseGeometry.RadiusX = this.Ball.Radius;
                 ellipseGeometry.RadiusY = this.Ball.Radius;
 
-                this.ballPath = new Path { Fill = Brushes.Red, Data = ellipseGeometry };
+                this.ballPath = new Path { Fill = new SolidColorBrush(this.Ball.Color), Data = ellipseGeometry };
 
                 NameScope.SetNameScope(this, new NameScope());
                 this.RegisterName("BallEllipseGeometry", ellipseGeometry);

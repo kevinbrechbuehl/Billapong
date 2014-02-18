@@ -288,7 +288,7 @@
 
                 this.CurrentGame.CurrentBallPosition = position;
                 this.CurrentGame.CurrentWindow = viewModel.Window;
-                viewModel.PlaceBall(position);
+                viewModel.PlaceBall(position, this.CurrentGame.CurrentPlayer.PlayerColor);
             }
         }
 
@@ -330,9 +330,11 @@
             }
             else
             {
-                MessageBox.Show("The current round ended. Next round starts now");
-
-                // todo (mathp2): Here we need to update the score in the status window and trigger the next round if the action is up to the current player
+                // Start the next round if the local player is next
+                if (this.CurrentGame.CurrentPlayer.IsLocalPlayer)
+                {
+                    this.PlaceBallOnGameField();
+                }
             }
         }
 
@@ -360,7 +362,10 @@
             if (this.ballAnimationTaskQueue == null || this.ballAnimationTaskQueue.Count == 0)
             {
                 // todo (mathp2): Here we need to know the score of the current round
-                this.gameController.EndRound(this.CurrentGame.IsFirstPlayer, 1000);
+                if (this.CurrentGame.CurrentPlayer.IsLocalPlayer) { 
+                    this.gameController.EndRound(this.CurrentGame.CurrentPlayer.IsFirstPlayer, 1000);
+                }
+
                 return;
             }
 
@@ -371,7 +376,7 @@
             var nextBallStartPosition = nextTask.Steps.First().By;
             if (nextBallStartPosition != null)
             {
-                viewModel.PlaceBall(nextBallStartPosition.Value);
+                viewModel.PlaceBall(nextBallStartPosition.Value, this.CurrentGame.CurrentPlayer.PlayerColor);
                 viewModel.BallAnimationTask = nextTask;
             }
         }
