@@ -53,8 +53,8 @@
             game.Init(args.GameId, args.Map, args.Opponent, args.StartGame, this.isGameOwner, this.gameType);
 
 
-            var gameStateViewModel = new GameStateViewModel();
-            GameManager.Current.StartGame(game);
+            var gameStateViewModel = new GameStateViewModel(game);
+            GameManager.Current.StartGame(game, gameStateViewModel);
 
             this.SwitchWindowContent(gameStateViewModel);
 

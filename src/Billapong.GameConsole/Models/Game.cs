@@ -3,12 +3,18 @@
     using System;
     using System.Windows;
     using Configuration;
+    using Core.Client.UI;
 
     /// <summary>
     /// Represents a specific game
     /// </summary>
-    public class Game
+    public class Game : NotificationObject
     {
+        /// <summary>
+        /// The current round
+        /// </summary>
+        private int currentRound = 1;
+
         /// <summary>
         /// Gets the game identifier.
         /// </summary>
@@ -64,6 +70,24 @@
         /// The ball position.
         /// </value>
         public Point CurrentBallPosition { get; set; }
+
+        /// <summary>
+        /// Gets or sets the current round.
+        /// </summary>
+        /// <value>
+        /// The current round.
+        /// </value>
+        public int CurrentRound {
+            get
+            {
+                return this.currentRound;
+            }
+            set
+            {
+                this.currentRound = value;
+                OnPropertyChanged();
+            } 
+        }
 
         /// <summary>
         /// Gets or sets the current window.

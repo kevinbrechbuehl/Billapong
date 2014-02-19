@@ -2,6 +2,7 @@
 {
     using System;
     using System.Windows;
+    using Models;
     using Models.Events;
     using Service;
 
@@ -96,6 +97,7 @@
         public void OnRoundEnded(object sender, RoundEndedEventArgs args)
         {
             GameManager.Current.CurrentGame.CurrentPlayer.Score = args.Score;
+            GameManager.Current.CurrentGame.CurrentPlayer.CurrentRoundState = Player.RoundState.OpponentsTurn;
 
             if (!args.GameEnded)
             {

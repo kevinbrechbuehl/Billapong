@@ -3,61 +3,66 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:converters="clr-namespace:Billapong.GameConsole.Converter"
+             xmlns:models="clr-namespace:Billapong.GameConsole.Models"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="300">
+    <UserControl.Resources>
+        <converters:PlayerRoundStateToVisibilityConverter x:Key="playerRoundStateToVisibilityConverter" />
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.3*" />
             <RowDefinition Height="*"/>
             <RowDefinition Height="0.5*" />
         </Grid.RowDefinitions>
-        
-        <TextBlock Text="Round 5" Grid.Row="0" HorizontalAlignment="Center" FontWeight="Bold" />
-        
-        <Grid Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.2*" />
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            
-            <Ellipse Fill="Red" Width="10" Height="10" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" />
-            <TextBlock Text="Player 1" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" />
-            <TextBlock Text="10000000" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 5 0" />
-            
-            <Ellipse Fill="Blue" Width="10" Height="10" Grid.Row="1" Grid.Column="0">
-                <Ellipse.Triggers>
-                    <EventTrigger RoutedEvent="Ellipse.Loaded">
-                        <EventTrigger.Actions>
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)"
-                                                      Duration="0:0:1"
-                                                      FillBehavior="HoldEnd"
-                                                      RepeatBehavior="Forever">
-                                        <ColorAnimationUsingKeyFrames.KeyFrames>
-                                            <DiscreteColorKeyFrame KeyTime="Uniform" Value="Transparent"/>
-                                            <DiscreteColorKeyFrame KeyTime="Uniform" Value="Blue"/>
-                                        </ColorAnimationUsingKeyFrames.KeyFrames>
-                                    </ColorAnimationUsingKeyFrames>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger.Actions>
-                    </EventTrigger>
-                </Ellipse.Triggers>
-            </Ellipse>
-            <TextBlock Text="Kevin" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" />
-            <TextBlock Text="7" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 5 0" />
-            
-        </Grid>
+
+        <TextBlock Text="{Binding Game.CurrentRound, StringFormat={}Round: {0}}" Grid.Row="0" HorizontalAlignment="Center" FontWeight="Bold" />
+
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding Players}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel IsItemsHost="True" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.2*" />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <Ellipse Fill="{Binding ColorBrush}" Width="10" Height="10" Grid.Column="0" Visibility="{Binding CurrentRoundState, Converter={StaticResource playerRoundStateToVisibilityConverter}}">
+                            <!--Ellipse.Triggers>
+                                <EventTrigger RoutedEvent="Ellipse.Loaded">
+                                   
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)"
+                                                          Duration="0:0:1"
+                                                          FillBehavior="HoldEnd"
+                                                          RepeatBehavior="Forever">
+                                                    <ColorAnimationUsingKeyFrames.KeyFrames>
+                                                        <DiscreteColorKeyFrame KeyTime="Uniform" Value="Transparent"/>
+                                                        <DiscreteColorKeyFrame KeyTime="Uniform" Value="{Binding PlayerColor, Mode=OneTime}"/>
+                                                    </ColorAnimationUsingKeyFrames.KeyFrames>
+                                                </ColorAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                </EventTrigger>
+                            </-->
+                        </Ellipse>
+                        <TextBlock Text="{Binding Name}" Grid.Column="1" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding Score}" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 5 0" />
+                </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
 
         <StackPanel Grid.Row="2">
-        <Button Content="Cancel Game" Style="{StaticResource NavigationButton}" />
+            <Button Content="Cancel Game" Command="{Binding CancelGameCommand}" Style="{StaticResource NavigationButton}" />
         </StackPanel>
     </Grid>
 </UserControl>

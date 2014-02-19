@@ -7,10 +7,12 @@
     using System.Windows.Media;
     using Animation;
     using Configuration;
+    using Models;
     using Models.Events;
     using ViewModels;
     using Views;
     using Game = Models.Game;
+    using Window = System.Windows.Window;
 
     /// <summary>
     /// Handles the running game of Billapong
@@ -41,6 +43,11 @@
         /// The ball animation task queue
         /// </summary>
         private Queue<BallAnimationTask> ballAnimationTaskQueue;
+
+        /// <summary>
+        /// The game state view model
+        /// </summary>
+        private GameStateViewModel gameStateViewModel;
 
         /// <summary>
         /// Defines the possible intersections between a ball and the game field
@@ -104,9 +111,12 @@
         /// Starts the game.
         /// </summary>
         /// <param name="game">The game.</param>
-        public void StartGame(Game game)
+        /// <param name="stateViewModel">The state view model.</param>
+        public void StartGame(Game game, GameStateViewModel stateViewModel)
         {
             this.CurrentGame = game;
+            this.gameStateViewModel = stateViewModel;
+            this.gameStateViewModel.StartGame();
 
             switch (this.CurrentGame.GameType)
             {
@@ -289,6 +299,7 @@
                 this.CurrentGame.CurrentBallPosition = position;
                 this.CurrentGame.CurrentWindow = viewModel.Window;
                 viewModel.PlaceBall(position, this.CurrentGame.CurrentPlayer.PlayerColor);
+                this.CurrentGame.CurrentPlayer.CurrentRoundState = Player.RoundState.BallPlaced;
             }
         }
 
@@ -311,6 +322,7 @@
                 if (viewModel != null)
                 {
                     viewModel.BallAnimationTask = firstTask;
+                    this.CurrentGame.CurrentPlayer.CurrentRoundState = Player.RoundState.BallMoving;
                 }
             }
         }

@@ -57,6 +57,8 @@
         /// <param name="score">The score.</param>
         public void EndRound(bool firstPlayer, int score)
         {
+            GameManager.Current.CurrentGame.CurrentRound++;
+            GameManager.Current.CurrentGame.CurrentPlayer.Score += score;
             var eventArgs = new RoundEndedEventArgs(score, false);
             this.RoundEnded(this, eventArgs);
         }
