@@ -9,6 +9,7 @@
     using System.Linq;
     using System.ServiceModel;
     using System.Threading.Tasks;
+    using DataAccess.UnitOfWork;
 
     /// <summary>
     /// The map controller
@@ -33,7 +34,7 @@
         /// <summary>
         /// The map repository
         /// </summary>
-        private readonly IRepository<Map> mapRepository;
+        private readonly UnitOfWork UnitOfWork;
 
         /// <summary>
         /// The window repository
@@ -60,9 +61,7 @@
         /// </summary>
         private MapController()
         {
-            this.mapRepository = new Repository<Map>();
-            this.windowRepository = new Repository<Window>();
-            this.holeRepository = new Repository<Hole>();
+            this.UnitOfWork = new UnitOfWork();
         }
 
         /// <summary>
@@ -84,7 +83,7 @@
         /// </returns>
         public IEnumerable<Map> GetMaps(bool onlyPlayable = false)
         {
-            var maps = this.mapRepository.Get(includeProperties: "Windows, Windows.Holes");
+            var maps = this.UnitOfWork.MapRepository.Get(includeProperties: "Windows, Windows.Holes");
             if (onlyPlayable)
             {
                 maps = maps.Where(map => map.IsPlayable);
@@ -101,7 +100,7 @@
         /// <returns>Map object from the database</returns>
         public Map GetMapById(long id, bool onlyPlayable = false)
         {
-            var maps = this.mapRepository.Get(filter: map => map.Id == id, includeProperties: "Windows, Windows.Holes");
+            var maps = this.UnitOfWork.MapRepository.Get(filter: map => map.Id == id, includeProperties: "Windows, Windows.Holes");
             if (onlyPlayable)
             {
                 maps = maps.Where(map => map.IsPlayable);
@@ -118,8 +117,8 @@
         {
             lock (WriterLockObject)
             {
-                this.mapRepository.Remove(id);
-                this.mapRepository.Save();
+                this.UnitOfWork.MapRepository.Remove(id);
+                this.UnitOfWork.MapRepository.Save();
             }
         }
 
@@ -148,7 +147,7 @@
                 if (map == null) return;
 
                 map.Name = name;
-                this.mapRepository.Save();
+                this.UnitOfWork.Save();
             }
 
             // send the callback
@@ -170,7 +169,7 @@
                 if (map == null) return;
 
                 map.IsPlayable = isPlayable;
-                this.mapRepository.Save();
+                this.UnitOfWork.Save();
             }
 
             // send the callback
@@ -195,7 +194,7 @@
                 if (map.Windows.FirstOrDefault(innerWindow => innerWindow.X == coordX && innerWindow.Y == coordY) != null) return;
 
                 map.Windows.Add(window);
-                this.mapRepository.Save();
+                this.UnitOfWork.Save();
             }
 
              // send the callback
@@ -220,8 +219,8 @@
 
                 coordX = window.X;
                 coordY = window.Y;
-                this.windowRepository.Remove(window.Id);
-                this.windowRepository.Save();
+                this.UnitOfWork.WindowRepository.Remove(window.Id);
+                this.UnitOfWork.Save();
             }
 
              // send the callback
@@ -251,7 +250,7 @@
                 if (window.Holes.FirstOrDefault(innerHole => innerHole.X == coordX && innerHole.Y == coordY) != null) return;
 
                 window.Holes.Add(hole);
-                this.mapRepository.Save();
+                this.UnitOfWork.Save();
             }
 
             // send the callback
@@ -278,8 +277,8 @@
                 var hole = window.Holes.FirstOrDefault(gameHole => gameHole.Id == holeId);
                 if (hole == null) return;
 
-                this.holeRepository.Remove(hole.Id);
-                this.holeRepository.Save();
+                this.UnitOfWork.HoleRepository.Remove(hole.Id);
+                this.UnitOfWork.Save();
             }
 
             // send the callback
@@ -456,7 +455,7 @@
         {
             if (id > 0)
             {
-                var databaseMap = this.mapRepository.GetById(id);
+                var databaseMap = this.UnitOfWork.MapRepository.GetById(id);
                 if (databaseMap == null)
                 {
                     throw new FaultException<MapNotFoundException>(new MapNotFoundException(id), "Map not found");
@@ -471,8 +470,8 @@
                 IsPlayable = false
             };
 
-            this.mapRepository.Add(map);
-            this.mapRepository.Save();
+            this.UnitOfWork.MapRepository.Add(map);
+            this.UnitOfWork.Save();
             return map;
         }
     }
