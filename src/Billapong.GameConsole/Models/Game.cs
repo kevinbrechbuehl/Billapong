@@ -90,6 +90,14 @@
         }
 
         /// <summary>
+        /// Gets or sets the current round score.
+        /// </summary>
+        /// <value>
+        /// The current round score.
+        /// </value>
+        public int CurrentRoundScore { get; set; }
+
+        /// <summary>
         /// Gets or sets the current window.
         /// </summary>
         /// <value>

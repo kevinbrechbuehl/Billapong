@@ -315,6 +315,8 @@
                 this.CurrentGame.CurrentBallPosition,
                 args.Direction);
 
+            this.CurrentGame.CurrentRoundScore = CalculateRoundScore(this.ballAnimationTaskQueue);
+
             if (this.ballAnimationTaskQueue.Count > 0)
             {
                 var firstTask = this.ballAnimationTaskQueue.Dequeue();
@@ -374,8 +376,8 @@
             if (this.ballAnimationTaskQueue == null || this.ballAnimationTaskQueue.Count == 0)
             {
                 // todo (mathp2): Here we need to know the score of the current round
-                if (this.CurrentGame.CurrentPlayer.IsLocalPlayer) { 
-                    this.gameController.EndRound(this.CurrentGame.CurrentPlayer.IsFirstPlayer, 1000);
+                if (this.CurrentGame.CurrentPlayer.IsLocalPlayer) {
+                    this.gameController.EndRound(this.CurrentGame.CurrentPlayer.IsFirstPlayer, this.CurrentGame.CurrentRoundScore);
                 }
 
                 return;
@@ -637,6 +639,59 @@
             }
 
             return animationQueue;
+        }
+
+        /// <summary>
+        /// Calculates the round score.
+        /// </summary>
+        /// <param name="ballAnimationQueue">The ball animation queue.</param>
+        /// <returns>The calculated score of the round</returns>
+        private static int CalculateRoundScore(Queue<BallAnimationTask> ballAnimationQueue)
+        {
+            if (ballAnimationQueue == null || ballAnimationQueue.Count == 0)
+            {
+                return 0;
+            }
+
+            int wallHits = 0;
+            double ballDistance = 0;
+
+            foreach (var task in ballAnimationQueue)
+            {
+                foreach (var step in task.Steps)
+                {
+                    if (step.By != null && step.To != null)
+                    {  
+                        ballDistance += step.By.Value.DistanceTo(step.To.Value);
+                    }
+
+                    // Except for the last step within this task, every step is a wall hit
+                    if (!step.Equals(task.Steps.Last()))
+                    {
+                        wallHits++;
+                    }
+                }
+            }
+
+            return CalculateRoundScore(wallHits, ballDistance, GameConfiguration.GameWindowWidth);
+        }
+
+        /// <summary>
+        /// Calculates the round score.
+        /// </summary>
+        /// <param name="wallHits">The wall hits.</param>
+        /// <param name="ballDistance">The ball distance.</param>
+        /// <param name="gameWindowLength">Length of the game window.</param>
+        /// <returns>The calculated score</returns>
+        private static int CalculateRoundScore(int wallHits, double ballDistance, int gameWindowLength)
+        {
+            // Normalize the score of the distance to ensure the same score over different window sizes
+            var distanceScore = ballDistance / gameWindowLength;
+
+            // We need bigger high scores than the normalized value :)
+            distanceScore *= 10;
+
+            return Convert.ToInt32((wallHits + 1) * distanceScore);
         }
     }
 }
