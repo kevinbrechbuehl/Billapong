@@ -1,5 +1,6 @@
 ﻿namespace Billapong.Core.Server.Map
 {
+    using System;
     using Contract.Exceptions;
     using Contract.Service;
     using DataAccess.Model.Map;
@@ -190,7 +191,8 @@
                 var map = this.GetMap(mapId);
                 if (map == null) return;
 
-                // todo (breck1): prüfen ob es an diesen coords schon ein fenster gibt und sonst exception werfen
+                // do nothing if window already exists
+                if (map.Windows.FirstOrDefault(innerWindow => innerWindow.X == coordX && innerWindow.Y == coordY) != null) return;
 
                 map.Windows.Add(window);
                 this.mapRepository.Save();
@@ -245,7 +247,8 @@
                 window = map.Windows.FirstOrDefault(gameWindow => gameWindow.Id == windowId);
                 if (window == null) return;
 
-                // todo (breck1): prüfen ob es an diesen coords schon ein loch gibt und sonst exception werfen
+                // do nothing if hole already exists
+                if (window.Holes.FirstOrDefault(innerHole => innerHole.X == coordX && innerHole.Y == coordY) != null) return;
 
                 window.Holes.Add(hole);
                 this.mapRepository.Save();
