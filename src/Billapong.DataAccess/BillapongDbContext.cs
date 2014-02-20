@@ -42,8 +42,8 @@
         /// </remarks>
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Map>().HasMany(x => x.Windows).WithRequired();
-            modelBuilder.Entity<Window>().HasMany(x => x.Holes).WithRequired();
+            modelBuilder.Entity<Map>().HasMany(x => x.Windows).WithRequired().WillCascadeOnDelete();
+            modelBuilder.Entity<Window>().HasMany(x => x.Holes).WithRequired().WillCascadeOnDelete();
             
             base.OnModelCreating(modelBuilder);
         }

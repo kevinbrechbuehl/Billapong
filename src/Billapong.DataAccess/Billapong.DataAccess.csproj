@@ -58,10 +58,12 @@
     <Compile Include="Model\IEntity.cs" />
     <Compile Include="Model\Tracing\LogMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
-	  <ExcludeFromStyleCop>true</ExcludeFromStyleCop> 
-	</Compile>
+      <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\Repository.cs" />
+    <Compile Include="UnitOfWork\IUnitOfWork.cs" />
+    <Compile Include="UnitOfWork\UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
