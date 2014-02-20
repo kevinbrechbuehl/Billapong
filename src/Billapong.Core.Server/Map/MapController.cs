@@ -161,12 +161,16 @@
         /// <param name="isPlayable">if set to <c>true</c> the map is playable.</param>
         public void UpdateIsPlayable(long mapId, bool isPlayable)
         {
-            // todo (breck1): check if the map can be set to playable
-            
             lock (WriterLockObject)
             {
                 var map = this.GetMap(mapId);
                 if (map == null) return;
+
+                // verify if current map is really playable
+                if (isPlayable)
+                {
+                    isPlayable = this.IsPlayable(map);
+                }
 
                 map.IsPlayable = isPlayable;
                 this.UnitOfWork.Save();
@@ -184,10 +188,11 @@
         /// <param name="coordY">The coord y.</param>
         public void AddWindow(long mapId, int coordX, int coordY)
         {
+            Map map;
             var window = new Window {X = coordX, Y = coordY};
             lock (WriterLockObject)
             {
-                var map = this.GetMap(mapId);
+                map = this.GetMap(mapId);
                 if (map == null) return;
 
                 // do nothing if window already exists
@@ -199,6 +204,7 @@
 
              // send the callback
             Task.Run(() => this.SendAddWindowCallback(mapId, window.Id, coordX, coordY));
+            Task.Run(() => this.VerifyIsPlayable(map));
         }
 
         /// <summary>
@@ -209,9 +215,10 @@
         public void RemoveWindow(long mapId, long windowId)
         {
             int coordX, coordY;
+            Map map;
             lock (WriterLockObject)
             {
-                var map = this.GetMap(mapId);
+                map = this.GetMap(mapId);
                 if (map == null) return;
 
                 var window = map.Windows.FirstOrDefault(gameWindow => gameWindow.Id == windowId);
@@ -225,6 +232,7 @@
 
              // send the callback
             Task.Run(() => this.SendRemoveWindowCallback(mapId, windowId, coordX, coordY));
+            Task.Run(() => this.VerifyIsPlayable(map));
         }
 
         /// <summary>
@@ -473,6 +481,49 @@
             this.UnitOfWork.MapRepository.Add(map);
             this.UnitOfWork.Save();
             return map;
+        }
+
+        /// <summary>
+        /// Verifies if current map is playable and set flag to false if not.
+        /// </summary>
+        /// <param name="map">The map.</param>
+        private void VerifyIsPlayable(Map map)
+        {
+            if (!map.IsPlayable || this.IsPlayable(map)) return;
+
+            lock (WriterLockObject)
+            {
+                map.IsPlayable = false;
+                this.UnitOfWork.Save();
+            }
+
+            this.SendUpdateIsPlayableCallback(map.Id, false);
+        }
+
+        /// <summary>
+        /// Determines whether the specified map is playable.
+        /// </summary>
+        /// <param name="map">The map.</param>
+        /// <returns>True if map is playable, false otherwise</returns>
+        private bool IsPlayable(Map map)
+        {
+            // todo (breck1): gibt aktuell noch 3 wenn jeder ein nachbar ist, auch wenn die bläcke nicht aneinander sind
+            
+            if (map.Windows.Count == 0) return false;
+            if (map.Windows.Count == 1) return true;
+
+            foreach (var window in map.Windows)
+            {
+                if (!map.Windows.Any(neighbor => (neighbor.X == window.X + 1 && neighbor.Y == window.Y)
+                                                 || (neighbor.X == window.X - 1 && neighbor.Y == window.Y)
+                                                 || (neighbor.Y == window.Y + 1 && neighbor.X == window.X)
+                                                 || (neighbor.Y == window.Y - 1 && neighbor.X == window.X)))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }
