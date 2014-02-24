@@ -2,6 +2,7 @@
 {
     using System;
     using System.Windows;
+    using Core.Client.Tracing;
     using Models;
     using Models.Events;
     using Service;
@@ -11,6 +12,11 @@
     /// </summary>
     public class MultiplayerGameController : IGameController
     {
+        /// <summary>
+        /// Number of bounces
+        /// </summary>
+        private int bounceCount;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MultiplayerGameController"/> class.
         /// </summary>
@@ -99,10 +105,50 @@
             GameManager.Current.CurrentGame.CurrentPlayer.Score = args.Score;
             GameManager.Current.CurrentGame.CurrentPlayer.CurrentRoundState = Player.RoundState.OpponentsTurn;
 
+            this.bounceCount++;
+
             if (!args.GameEnded)
             {
+                if (this.bounceCount % 2 == 0 && this.bounceCount > 1)
+                {
+                    GameManager.Current.CurrentGame.CurrentRound = (this.bounceCount / 2) + 1;
+                }
+
                 var game = GameManager.Current.CurrentGame;
-                GameManager.Current.CurrentGame.CurrentPlayer = game.CurrentPlayer == game.LocalPlayer ? game.Opponent : game.LocalPlayer;
+                GameManager.Current.CurrentGame.CurrentPlayer = game.CurrentPlayer == game.LocalPlayer
+                    ? game.Opponent
+                    : game.LocalPlayer;
+            }
+            else
+            {
+                if (GameManager.Current.CurrentGame.CurrentPlayer.IsLocalPlayer)
+                {
+                    const string wonLogMessage = "The game ended. {0} won the game with a score of {1} points against {2} with a score of {3}";
+                    if (GameManager.Current.CurrentGame.LocalPlayer.Score >
+                        GameManager.Current.CurrentGame.Opponent.Score)
+                    {
+                        GameManager.Current.LogMessage(
+                            string.Format(wonLogMessage, GameManager.Current.CurrentGame.LocalPlayer.Name,
+                                GameManager.Current.CurrentGame.LocalPlayer.Score,
+                                GameManager.Current.CurrentGame.Opponent.Name,
+                                GameManager.Current.CurrentGame.Opponent.Score), Tracer.Info);
+                    }
+                    else if (GameManager.Current.CurrentGame.LocalPlayer.Score <
+                             GameManager.Current.CurrentGame.Opponent.Score)
+                    {
+                        GameManager.Current.LogMessage(
+                            string.Format(wonLogMessage, GameManager.Current.CurrentGame.Opponent.Name,
+                                GameManager.Current.CurrentGame.Opponent.Score,
+                                GameManager.Current.CurrentGame.LocalPlayer.Name,
+                                GameManager.Current.CurrentGame.LocalPlayer.Score), Tracer.Info);
+                    }
+                    else
+                    {
+                        GameManager.Current.LogMessage(string.Format("The game ended. {0} and {1} played a draw with a score of {2}", GameManager.Current.CurrentGame.LocalPlayer.Name, GameManager.Current.CurrentGame.Opponent.Name, GameManager.Current.CurrentGame.LocalPlayer.Score), Tracer.Info);
+                    }
+
+                    Tracer.ProcessQueuedMessages();
+                }
             }
 
             this.RoundEnded(this, args);

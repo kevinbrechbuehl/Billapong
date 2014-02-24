@@ -18,6 +18,11 @@
         /// </summary>
         private readonly IRepository<LogMessage> repository;
 
+        /// <summary>
+        /// The lock object
+        /// </summary>
+        private static readonly object LockObject = new object();
+
         #region Singleton Implementation
 
         /// <summary>
@@ -66,8 +71,11 @@
             };
 
             // save the log message to the database
-            this.repository.Add(logMessage);
-            this.repository.Save();
+            lock (LockObject)
+            {
+                this.repository.Add(logMessage);
+                this.repository.Save();
+            }
 
             // Also trace the message, to use this feature as well :)
             Trace.WriteLine(string.Format("{0} - {1} - {2}", timestamp, logLevel, message), string.Format("{0} ({1})", component, sender));
@@ -82,25 +90,28 @@
         /// <returns>List of log messages</returns>
         public IEnumerable<LogMessage> GetLogMessages(LogLevel logLevel, Component component, int numberOfMessages)
         {
-            var messages = this.repository.Get(filter: message => message.LogLevel >= (int)logLevel);
-
-            // filter component
-            if (component != Component.All)
+            lock (LockObject)
             {
-                var componentString = component.ToString();
-                messages = messages.Where(message => message.Component == componentString);
+                var messages = this.repository.Get(filter: message => message.LogLevel >= (int) logLevel);
+
+                // filter component
+                if (component != Component.All)
+                {
+                    var componentString = component.ToString();
+                    messages = messages.Where(message => message.Component == componentString);
+                }
+
+                // sort descending by date
+                messages = messages.OrderByDescending(message => message.Timestamp);
+
+                // get only specific number of entries
+                if (numberOfMessages > 0)
+                {
+                    messages = messages.Take(numberOfMessages);
+                }
+
+                return messages;
             }
-
-            // sort descending by date
-            messages = messages.OrderByDescending(message => message.Timestamp);
-
-            // get only specific number of entries
-            if (numberOfMessages > 0)
-            {
-                messages = messages.Take(numberOfMessages);
-            }
-
-            return messages;
         }
 
         /// <summary>
@@ -108,7 +119,10 @@
         /// </summary>
         public void ClearLog()
         {
-            this.repository.RemoveAll();
+            lock (LockObject)
+            {
+                this.repository.RemoveAll();
+            }
         }
     }
 }

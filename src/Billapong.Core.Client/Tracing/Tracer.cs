@@ -139,6 +139,14 @@
         }
 
         /// <summary>
+        /// Processes the queued messages.
+        /// </summary>
+        public static void ProcessQueuedMessages()
+        {
+            Current.SendMessagesInQueue();
+        }
+
+        /// <summary>
         /// Initializes the configuration.
         /// </summary>
         /// <param name="component">The component name.</param>

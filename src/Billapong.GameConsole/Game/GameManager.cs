@@ -7,6 +7,7 @@
     using System.Windows.Media;
     using Animation;
     using Configuration;
+    using Core.Client.Tracing;
     using Models;
     using Models.Events;
     using ViewModels;
@@ -133,7 +134,7 @@
 
             this.gameController.BallPlacedOnGameField += this.PlaceBallOnGameField;
             this.gameController.RoundStarted += this.StartRound;
-            this.gameController.RoundEnded += this.EndRound;
+            this.gameController.RoundEnded += this.RoundEnded;
             this.gameController.GameCancelled += this.CancelGame;
 
             this.OpenGameField();
@@ -330,11 +331,11 @@
         }
 
         /// <summary>
-        /// Ends the round. Gets called from the RoundEnded event of the game controller
+        /// Gets called from the RoundEnded event of the game controller when the round has ended
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="args">The <see cref="RoundEndedEventArgs"/> instance containing the event data.</param>
-        private void EndRound(object sender, RoundEndedEventArgs args)
+        private void RoundEnded(object sender, RoundEndedEventArgs args)
         {
             if (args.GameEnded)
             {
@@ -375,9 +376,9 @@
         {
             if (this.ballAnimationTaskQueue == null || this.ballAnimationTaskQueue.Count == 0)
             {
-                // todo (mathp2): Here we need to know the score of the current round
                 if (this.CurrentGame.CurrentPlayer.IsLocalPlayer) {
                     this.gameController.EndRound(this.CurrentGame.CurrentPlayer.IsFirstPlayer, this.CurrentGame.CurrentRoundScore);
+                    this.LogMessage(string.Format("Player '{0}' finished round {1} with a round score of {2} points", this.CurrentGame.CurrentPlayer.Name, this.CurrentGame.CurrentRound, this.CurrentGame.CurrentRoundScore), Tracer.Info);
                 }
 
                 return;
@@ -392,6 +393,7 @@
             {
                 viewModel.PlaceBall(nextBallStartPosition.Value, this.CurrentGame.CurrentPlayer.PlayerColor);
                 viewModel.BallAnimationTask = nextTask;
+                this.LogMessage(string.Format("Ball changed to window with id {0}", nextTask.Window.Id), Tracer.Debug);
             }
         }
 
@@ -674,6 +676,19 @@
             }
 
             return CalculateRoundScore(wallHits, ballDistance, GameConfiguration.GameWindowWidth);
+        }
+
+        public void LogMessage(string message, Action<string> logMethod)
+        {
+            if (logMethod == null || string.IsNullOrWhiteSpace(message))
+            {
+                return;
+            }
+
+            var logMessage = string.Format("Game Id: {2}{5}Player: {0}{5}Map: {1}{5}Round: {3}{5}Message: {4}",
+                this.CurrentGame.GameId, this.CurrentGame.CurrentPlayer.Name, this.CurrentGame.Map.Name,
+                this.CurrentGame.CurrentRound, message, Environment.NewLine);
+            logMethod(logMessage);
         }
 
         /// <summary>
