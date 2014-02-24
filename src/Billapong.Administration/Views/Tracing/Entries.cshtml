@@ -15,7 +15,7 @@
         @foreach (var message in Model)
         {
             <tr class="@(odd ? "odd" : "even")">
-                <td>@message.Timestamp.ToString("dd.MM.yyyy hh:mm:ss.fff tt")</td>
+                <td>@message.Timestamp.ToString("dd.MM.yyyy HH:mm:ss.fff tt")</td>
                 <td>@message.Sender</td>
                 <td>@message.Component</td>
                 <td>@message.LogLevel</td>
