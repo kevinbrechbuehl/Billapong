@@ -414,6 +414,7 @@
             var currentTask = new BallAnimationTask { Window = currentWindow };
             var previousIntersection = Intersection.None;
             var windowPreviouslyChanged = false;
+            const double ballRadius = GameConfiguration.BallDiameter / 2;
             
             while (!isLastAnimation)
             {
@@ -425,6 +426,8 @@
                     isLastAnimation = true;
                     currentTask.IsLastAnimation = true;
                 }
+
+                var borderPositionCorrection = new Point();
 
                 // Calculate the ignorable intersection
                 var ignoredIntersection = Intersection.None;
@@ -510,6 +513,10 @@
                         {
                             neighbourWindow = upperWindow;
                         }
+                        else
+                        {
+                            borderPositionCorrection.Y += ballRadius;
+                        }
                     }
                 }
 
@@ -530,6 +537,10 @@
                         if (leftWindow != null)
                         {
                             neighbourWindow = leftWindow;
+                        }
+                        else
+                        {
+                            borderPositionCorrection.X += ballRadius;
                         }
                     }
                 }
@@ -552,6 +563,10 @@
                         {
                             neighbourWindow = rightWindow;
                         }
+                        else
+                        {
+                            borderPositionCorrection.X -= ballRadius;
+                        }
                     }
                 }
 
@@ -573,12 +588,21 @@
                         {
                             neighbourWindow = bottomWindow;
                         }
+                        else
+                        {
+                            borderPositionCorrection.Y -= ballRadius;
+                        }
                     }
                 }
 
                 if (currentIntersection != Intersection.None && intersectionPosition != null)
                 {
                     var newPosition = (Point)intersectionPosition;
+
+                    // Apply correction
+                    newPosition.X += borderPositionCorrection.X;
+                    newPosition.Y += borderPositionCorrection.Y;
+
                     currentTask.Steps.Add(AnimationHelpers.GetPointAnimation(currentBallPosition, newPosition));
 
                     // If the ball intersects a hole, end the calculation after this step
