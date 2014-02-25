@@ -1,17 +1,14 @@
 ﻿namespace Billapong.GameConsole.ViewModels
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Linq;
-    using System.Windows;
-    using System.Windows.Data;
-    using System.Windows.Input;
-    using System.Windows.Media;
     using Animation;
     using Core.Client.UI;
+    using Game;
     using Models;
     using Models.Events;
+    using System;
+    using System.Collections.ObjectModel;
+    using System.Windows;
+    using System.Windows.Media;
     using Window = Models.Window;
 
     public class GameWindowViewModel : ViewModelBase
@@ -21,6 +18,9 @@
         /// </summary>
         private readonly Window window;
 
+        /// <summary>
+        /// Occurs when the animation within this windows has finished
+        /// </summary>
         public event EventHandler AnimationFinished = delegate { };
 
         /// <summary>
@@ -28,6 +28,9 @@
         /// </summary>
         private Ball ball;
 
+        /// <summary>
+        /// The ball animation task
+        /// </summary>
         private BallAnimationTask ballAnimationTask;
 
         /// <summary>
@@ -151,7 +154,7 @@
         /// <returns>The evaluation result</returns>
         private bool IsGameFieldClickable(Point mousePosition)
         {
-            return this.Ball != null;
+            return this.Ball != null && GameManager.Current.CurrentGame.LocalPlayer.CurrentRoundState == Player.RoundState.BallPlaced;
         }
 
         /// <summary>
