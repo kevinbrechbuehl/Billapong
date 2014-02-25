@@ -10,6 +10,25 @@
     /// </summary>
     public class Game : NotificationObject
     {
+
+        public enum GameState
+        {
+            /// <summary>
+            /// The game is running
+            /// </summary>
+            Running,
+
+            /// <summary>
+            /// The game ended normally
+            /// </summary>
+            Ended,
+
+            /// <summary>
+            /// The game got canceled
+            /// </summary>
+            Canceled
+        }
+
         /// <summary>
         /// The current round
         /// </summary>
@@ -112,6 +131,14 @@
         /// The current player.
         /// </value>
         public Player CurrentPlayer { get; set; }
+
+        /// <summary>
+        /// Gets or sets the state of the current game.
+        /// </summary>
+        /// <value>
+        /// The state of the current game.
+        /// </value>
+        public GameState CurrentGameState { get; set; }
 
         /// <summary>
         /// Initializes the specified game identifier.

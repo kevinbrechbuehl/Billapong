@@ -90,9 +90,8 @@
         }
 
         /// <summary>
-        /// Navigates back to the preview view
+        /// Navigates back to the previous view
         /// </summary>
-        /// <param name="properties">The properties.</param>
         protected virtual void NavigateBack()
         {
             if (this.PreviousViewModel != null)

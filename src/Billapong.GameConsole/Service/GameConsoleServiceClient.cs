@@ -52,7 +52,7 @@
         }
 
         /// <summary>
-        /// Opens a new game and go into the lobby.
+        /// Opens a new game on the server
         /// </summary>
         /// <param name="mapId">The map identifier.</param>
         /// <param name="visibleWindows">The visible windows.</param>
@@ -63,6 +63,18 @@
         public Guid OpenGame(long mapId, IEnumerable<long> visibleWindows, string username)
         {
             return this.Execute(() => this.Proxy.OpenGame(mapId, visibleWindows, username));
+        }
+
+        /// <summary>
+        /// Opens the game asynchronous.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <param name="visibleWindows">The visible windows.</param>
+        /// <param name="username">The username.</param>
+        /// <returns></returns>
+        public async Task<Guid> OpenGameAsync(long mapId, IEnumerable<long> visibleWindows, string username)
+        {
+            return await this.ExecuteAsync(() => this.Proxy.OpenGame(mapId, visibleWindows, username));
         }
 
         /// <summary>
@@ -91,6 +103,16 @@
         public void JoinGame(Guid gameId, string username)
         {
             this.Execute(() => this.Proxy.JoinGame(gameId, username));
+        }
+
+        /// <summary>
+        /// Joins the game asynchronous.
+        /// </summary>
+        /// <param name="gameId">The game identifier.</param>
+        /// <param name="username">The username.</param>
+        public async void JoinGameAsync(Guid gameId, string username)
+        {
+            await this.ExecuteAsync(() => this.Proxy.JoinGame(gameId, username));
         }
 
         /// <summary>

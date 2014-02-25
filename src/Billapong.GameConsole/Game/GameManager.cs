@@ -116,6 +116,7 @@
         public void StartGame(Game game, GameStateViewModel stateViewModel)
         {
             this.CurrentGame = game;
+            this.CurrentGame.CurrentGameState = Game.GameState.Running;
             this.gameStateViewModel = stateViewModel;
             this.gameStateViewModel.StartGame();
 
@@ -150,7 +151,7 @@
         /// </summary>
         public void CancelGame()
         {
-            if (this.gameController != null)
+            if (this.gameController != null && this.CurrentGame.CurrentGameState == Game.GameState.Running)
             {
                 this.gameController.CancelGame();
             }
@@ -165,8 +166,9 @@
         {
             if (this.CurrentGame != null)
             {
+                this.CurrentGame.CurrentGameState = Game.GameState.Canceled;
+                this.gameStateViewModel.CancelGame();
                 this.CloseGameField();
-                this.CurrentGame = null;
             }
         }
 
@@ -300,7 +302,7 @@
                 this.CurrentGame.CurrentBallPosition = position;
                 this.CurrentGame.CurrentWindow = viewModel.Window;
                 viewModel.PlaceBall(position, this.CurrentGame.CurrentPlayer.PlayerColor);
-                this.CurrentGame.CurrentPlayer.CurrentRoundState = Player.RoundState.BallPlaced;
+                this.CurrentGame.CurrentPlayer.CurrentPlayerState = Player.PlayerState.BallPlaced;
             }
         }
 
@@ -325,7 +327,7 @@
                 if (viewModel != null)
                 {
                     viewModel.BallAnimationTask = firstTask;
-                    this.CurrentGame.CurrentPlayer.CurrentRoundState = Player.RoundState.BallMoving;
+                    this.CurrentGame.CurrentPlayer.CurrentPlayerState = Player.PlayerState.BallMoving;
                 }
             }
         }
@@ -339,8 +341,7 @@
         {
             if (args.GameEnded)
             {
-                this.CloseGameField();
-                // todo (mathp2): Here we need to inform the user about the result
+                this.EndLocalGame();
             }
             else
             {
@@ -350,6 +351,16 @@
                     this.PlaceBallOnGameField();
                 }
             }
+        }
+
+        /// <summary>
+        /// Ends the game.
+        /// </summary>
+        private void EndLocalGame()
+        {
+            this.CurrentGame.CurrentGameState = Game.GameState.Ended;
+            this.gameStateViewModel.EndGame();
+            this.CloseGameField();
         }
 
         /// <summary>

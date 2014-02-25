@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace Billapong.GameConsole.Views
 {
     /// <summary>
-    /// Interaction logic for GameState.xaml
+    /// Interaction logic for PlayerState.xaml
     /// </summary>
     public partial class GameState : UserControl
     {

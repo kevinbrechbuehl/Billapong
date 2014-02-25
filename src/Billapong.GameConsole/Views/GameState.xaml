@@ -6,15 +6,16 @@
              xmlns:converters="clr-namespace:Billapong.GameConsole.Converter"
              xmlns:models="clr-namespace:Billapong.GameConsole.Models"
              mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="300">
+             d:DesignHeight="170" d:DesignWidth="300">
     <UserControl.Resources>
-        <converters:PlayerRoundStateToVisibilityConverter x:Key="playerRoundStateToVisibilityConverter" />
+        <converters:PlayerStateToVisibilityConverter x:Key="playerStateToVisibilityConverter" />
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.3*" />
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="0.5*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <TextBlock Text="{Binding Game.CurrentRound, StringFormat={}Round: {0}}" Grid.Row="0" HorizontalAlignment="Center" FontWeight="Bold" />
@@ -34,7 +35,7 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
 
-                        <Ellipse Fill="{Binding ColorBrush}" Width="10" Height="10" Grid.Column="0" Visibility="{Binding CurrentRoundState, Converter={StaticResource playerRoundStateToVisibilityConverter}}">
+                        <Ellipse Fill="{Binding ColorBrush}" Width="10" Height="10" Grid.Column="0" Visibility="{Binding CurrentPlayerState, Converter={StaticResource playerStateToVisibilityConverter}}">
                             <!--Ellipse.Triggers>
                                 <EventTrigger RoutedEvent="Ellipse.Loaded">
                                    
@@ -60,9 +61,11 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+        
+        <TextBlock Grid.Row="2" Text="{Binding StatusMessage}" FontWeight="Bold" TextWrapping="Wrap" Margin="5 0 0 0" />
 
-        <StackPanel Grid.Row="2">
-            <Button Content="Cancel Game" Command="{Binding CancelGameCommand}" Style="{StaticResource NavigationButton}" />
+        <StackPanel Grid.Row="3">
+            <Button Content="{Binding ActionButtonText}" Command="{Binding ActionButtonCommand}" Style="{StaticResource NavigationButton}" />
         </StackPanel>
     </Grid>
 </UserControl>

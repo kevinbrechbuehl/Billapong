@@ -57,7 +57,7 @@
     <Compile Include="Animation\AnimationHelpers.cs" />
     <Compile Include="Configuration\GameConfiguration.cs" />
     <Compile Include="Converter\Map\MapConverter.cs" />
-    <Compile Include="Converter\PlayerRoundStateToVisibilityConverter.cs" />
+    <Compile Include="Converter\PlayerStateToVisibilityConverter.cs" />
     <Compile Include="Game\CalculationHelpers.cs" />
     <Compile Include="Game\GameManager.cs" />
     <Compile Include="Game\IGameController.cs" />

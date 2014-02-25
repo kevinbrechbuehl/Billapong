@@ -1,21 +1,17 @@
 ﻿namespace Billapong.GameConsole.ViewModels
 {
-    using System.Windows;
+    using System;
     using Configuration;
     using Game;
     using Models;
     using Models.Events;
+    using Service;
 
     /// <summary>
     /// The loading screen view model
     /// </summary>
     public class LoadingScreenViewModel : MainWindowContentViewModelBase
     {
-        /// <summary>
-        /// The loading message
-        /// </summary>
-        private string loadingMessage;
-
         /// <summary>
         /// Defines whether the current user is the game owner
         /// </summary>
@@ -24,7 +20,12 @@
         /// <summary>
         /// The game type
         /// </summary>
-        private GameConfiguration.GameType gameType;
+        private readonly GameConfiguration.GameType gameType;
+
+        /// <summary>
+        /// The loading message
+        /// </summary>
+        private string loadingMessage;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LoadingScreenViewModel" /> class.
@@ -43,41 +44,15 @@
         }
 
         /// <summary>
-        /// Starts the game.
+        /// Gets or sets the current game identifier.
         /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="args">The <see cref="GameStartedEventArgs"/> instance containing the event data.</param>
-        public void StartGame(object sender, GameStartedEventArgs args)
-        {
-            var game = new Game();
-            game.Init(args.GameId, args.Map, args.Opponent, args.StartGame, this.isGameOwner, this.gameType);
-
-
-            var gameStateViewModel = new GameStateViewModel(game);
-            GameManager.Current.StartGame(game, gameStateViewModel);
-
-            this.SwitchWindowContent(gameStateViewModel);
-
-        }
-
-        protected override void NavigateBack()
-        {
-
-            // Todo (mathp2): Offenes Spiel schliessen oder verlassen
-            if (this.isGameOwner)
-            {
-                MessageBox.Show("Todo: Now we have to cancel the game on the server");
-            }
-            else
-            {
-                MessageBox.Show("Todo: Stop joining game?");
-            }
-
-            base.NavigateBack();
-        }
+        /// <value>
+        /// The current game identifier.
+        /// </value>
+        public Guid CurrentGameId { get; set; }
 
         /// <summary>
-        /// Gets or sets the loading message.
+        /// Gets the loading message.
         /// </summary>
         /// <value>
         /// The loading message.
@@ -92,8 +67,37 @@
             private set
             {
                 this.loadingMessage = value;
-                OnPropertyChanged();
+                this.OnPropertyChanged();
             }
+        }
+
+        /// <summary>
+        /// Starts the game.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="GameStartedEventArgs"/> instance containing the event data.</param>
+        public void StartGame(object sender, GameStartedEventArgs args)
+        {
+            var game = new Game();
+            game.Init(args.GameId, args.Map, args.Opponent, args.StartGame, this.isGameOwner, this.gameType);
+
+            var gameStateViewModel = new GameStateViewModel(game);
+            GameManager.Current.StartGame(game, gameStateViewModel);
+
+            this.SwitchWindowContent(gameStateViewModel);
+        }
+
+        /// <summary>
+        /// Navigates back to the previous view
+        /// </summary>
+        protected override void NavigateBack()
+        {
+            if (this.CurrentGameId != Guid.Empty)
+            {
+                GameConsoleContext.Current.GameConsoleServiceClient.CancelGame(this.CurrentGameId);
+            }
+
+            base.NavigateBack();
         }
     }
 }

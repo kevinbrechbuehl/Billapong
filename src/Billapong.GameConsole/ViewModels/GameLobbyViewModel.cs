@@ -127,8 +127,9 @@
             try
             {
                 var loadingScreen = new LoadingScreenViewModel("Joining game. Please wait...", GameConfiguration.GameType.MultiPlayerGame);
+                loadingScreen.CurrentGameId = this.SelectedLobbyGame.Id;
                 GameConsoleContext.Current.GameConsoleCallback.GameStarted += loadingScreen.StartGame;
-                GameConsoleContext.Current.GameConsoleServiceClient.JoinGame(this.SelectedLobbyGame.Id, Properties.Settings.Default.PlayerName);
+                GameConsoleContext.Current.GameConsoleServiceClient.JoinGameAsync(this.SelectedLobbyGame.Id, Properties.Settings.Default.PlayerName);
                 this.SwitchWindowContent(loadingScreen);
             }
             catch (FaultException<GameNotOpenException> ex)

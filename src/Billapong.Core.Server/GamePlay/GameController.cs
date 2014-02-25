@@ -305,8 +305,7 @@
         private void StartGameCallback(Game game)
         {
             // evaluate if player one would start
-            //var player1Start = (new Random()).Next(0, 2) == 0;
-            var player1Start = true;
+            var player1Start = (new Random()).Next(0, 2) == 0;
 
             // check callbacks
             if (!this.CheckCallbacks(game))
@@ -338,8 +337,13 @@
             }
 
             // send callback
-            game.Players[0].Callback.CancelGame();
-            game.Players[1].Callback.CancelGame();
+            foreach (var player in game.Players)
+            {
+                if (player != null)
+                {
+                    player.Callback.CancelGame();
+                }
+            }
 
             // remove the game from collection
             this.RemoveGame(game.Id);
@@ -447,8 +451,9 @@
         {
             foreach (var player in game.Players)
             {
+                if (player == null) continue;
                 var callback = player.Callback;
-                if (callback == null || ((ICommunicationObject)callback).State != CommunicationState.Opened)
+                if (callback == null || ((ICommunicationObject) callback).State != CommunicationState.Opened)
                 {
                     return false;
                 }

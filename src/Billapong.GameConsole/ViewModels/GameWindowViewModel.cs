@@ -154,7 +154,7 @@
         /// <returns>The evaluation result</returns>
         private bool IsGameFieldClickable(Point mousePosition)
         {
-            return this.Ball != null && GameManager.Current.CurrentGame.LocalPlayer.CurrentRoundState == Player.RoundState.BallPlaced;
+            return this.Ball != null && GameManager.Current.CurrentGame.LocalPlayer.CurrentPlayerState == Player.PlayerState.BallPlaced;
         }
 
         /// <summary>

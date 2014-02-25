@@ -103,7 +103,7 @@
         public void OnRoundEnded(object sender, RoundEndedEventArgs args)
         {
             GameManager.Current.CurrentGame.CurrentPlayer.Score = args.Score;
-            GameManager.Current.CurrentGame.CurrentPlayer.CurrentRoundState = Player.RoundState.OpponentsTurn;
+            GameManager.Current.CurrentGame.CurrentPlayer.CurrentPlayerState = Player.PlayerState.OpponentsTurn;
 
             this.bounceCount++;
 
@@ -121,11 +121,14 @@
             }
             else
             {
-                if (GameManager.Current.CurrentGame.CurrentPlayer.IsLocalPlayer)
+                const string wonLogMessage = "The game ended. {0} won the game with a score of {1} points against {2} with a score of {3}";
+                if (GameManager.Current.CurrentGame.LocalPlayer.Score >
+                    GameManager.Current.CurrentGame.Opponent.Score)
                 {
-                    const string wonLogMessage = "The game ended. {0} won the game with a score of {1} points against {2} with a score of {3}";
-                    if (GameManager.Current.CurrentGame.LocalPlayer.Score >
-                        GameManager.Current.CurrentGame.Opponent.Score)
+                    GameManager.Current.CurrentGame.LocalPlayer.CurrentPlayerState = Player.PlayerState.Won;
+                    GameManager.Current.CurrentGame.Opponent.CurrentPlayerState = Player.PlayerState.Lost;
+
+                    if (GameManager.Current.CurrentGame.CurrentPlayer.IsLocalPlayer)
                     {
                         GameManager.Current.LogMessage(
                             string.Format(wonLogMessage, GameManager.Current.CurrentGame.LocalPlayer.Name,
@@ -133,8 +136,14 @@
                                 GameManager.Current.CurrentGame.Opponent.Name,
                                 GameManager.Current.CurrentGame.Opponent.Score), Tracer.Info);
                     }
-                    else if (GameManager.Current.CurrentGame.LocalPlayer.Score <
-                             GameManager.Current.CurrentGame.Opponent.Score)
+                }
+                else if (GameManager.Current.CurrentGame.LocalPlayer.Score <
+                            GameManager.Current.CurrentGame.Opponent.Score)
+                {
+                    GameManager.Current.CurrentGame.LocalPlayer.CurrentPlayerState = Player.PlayerState.Lost;
+                    GameManager.Current.CurrentGame.Opponent.CurrentPlayerState = Player.PlayerState.Won;
+
+                    if (GameManager.Current.CurrentGame.CurrentPlayer.IsLocalPlayer)
                     {
                         GameManager.Current.LogMessage(
                             string.Format(wonLogMessage, GameManager.Current.CurrentGame.Opponent.Name,
@@ -142,13 +151,23 @@
                                 GameManager.Current.CurrentGame.LocalPlayer.Name,
                                 GameManager.Current.CurrentGame.LocalPlayer.Score), Tracer.Info);
                     }
-                    else
-                    {
-                        GameManager.Current.LogMessage(string.Format("The game ended. {0} and {1} played a draw with a score of {2}", GameManager.Current.CurrentGame.LocalPlayer.Name, GameManager.Current.CurrentGame.Opponent.Name, GameManager.Current.CurrentGame.LocalPlayer.Score), Tracer.Info);
-                    }
-
-                    Tracer.ProcessQueuedMessages();
                 }
+                else
+                {
+                    GameManager.Current.CurrentGame.LocalPlayer.CurrentPlayerState = Player.PlayerState.Draw;
+                    GameManager.Current.CurrentGame.Opponent.CurrentPlayerState = Player.PlayerState.Draw;
+
+                    if (GameManager.Current.CurrentGame.CurrentPlayer.IsLocalPlayer)
+                    {
+                        GameManager.Current.LogMessage(
+                            string.Format("The game ended. {0} and {1} played a draw with a score of {2}",
+                                GameManager.Current.CurrentGame.LocalPlayer.Name,
+                                GameManager.Current.CurrentGame.Opponent.Name,
+                                GameManager.Current.CurrentGame.LocalPlayer.Score), Tracer.Info);
+                    }
+                }
+
+                Tracer.ProcessQueuedMessages();
             }
 
             this.RoundEnded(this, args);
