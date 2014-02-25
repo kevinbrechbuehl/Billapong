@@ -24,8 +24,31 @@ $(document).ready(function () {
     if ($("#tracing").length > 0) {
         refreshLogEntries();
     }
+    
+    if ($("#maphighscores").length > 0) {
+        refreshMapHighScores();
+    }
 
 });
+
+function refreshMapHighScores() {
+    $("#maphighscores .loading").show();
+    $("#maphighscores .result").hide();
+    $("#maphighscores .error").hide();
+
+    var url = "/highscore/maphighscores";
+    $.get(url, function (data) {
+        $("#maphighscores .result").html(data);
+    }).done(function () {
+        $("#maphighscores .loading").hide();
+        $("#maphighscores .error").hide();
+        $("#maphighscores .result").show();
+    }).fail(function () {
+        $("#maphighscores .loading").hide();
+        $("#maphighscores .error").show();
+        $("#maphighscores .result").hide();
+    });
+}
 
 function refreshGames() {
     $("#games .loading").show();

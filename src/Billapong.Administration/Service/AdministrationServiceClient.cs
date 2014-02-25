@@ -39,5 +39,28 @@
         {
             return this.Execute(() => this.Proxy.GetGames());
         }
+
+        /// <summary>
+        /// Gets the map high scores.
+        /// </summary>
+        /// <returns>
+        /// A highscore entry for each map with it's highest score
+        /// </returns>
+        public IEnumerable<HighScore> GetMapHighScores()
+        {
+            return this.Execute(() => this.Proxy.GetMapHighScores());
+        }
+
+        /// <summary>
+        /// Gets the map scores.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <returns>
+        /// All score entries for a map
+        /// </returns>
+        public IEnumerable<HighScore> GetMapScores(long mapId)
+        {
+            return this.Execute(() => this.Proxy.GetMapScores(mapId));
+        }
     }
 }

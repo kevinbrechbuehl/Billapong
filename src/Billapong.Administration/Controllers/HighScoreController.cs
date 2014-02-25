@@ -6,15 +6,32 @@ using System.Web.Mvc;
 
 namespace Billapong.Administration.Controllers
 {
+    using System.Net;
+    using Core.Client.Tracing;
+    using Service;
+
     public class HighScoreController : Controller
     {
-        //
-        // GET: /HighScore/
         public ActionResult Index()
         {
-            // todo (breck1): implement action -> zuerst auflistung von allen maps und dann eine detailseite für auflistung der highscores einer map
-            
-            return null;
+            return View();
+        }
+
+        public ActionResult MapHighScores()
+        {
+            try
+            {
+                Tracer.Debug("Refreshing highscores of all maps");
+
+                var proxy = new AdministrationServiceClient();
+                return this.PartialView(proxy.GetMapHighScores());
+            }
+            catch (Exception ex)
+            {
+                Tracer.Error("Error while retrieving the highscores", ex);
+            }
+
+            return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
         }
 
         public ActionResult Map(long id)

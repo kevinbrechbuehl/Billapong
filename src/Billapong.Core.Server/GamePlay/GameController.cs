@@ -280,6 +280,21 @@
             }
         }
 
+        public IEnumerable<HighScore> GetHighScores()
+        {
+            return this.unitOfWork.MapRepository.Get()
+                .Select(map => map.HighScores.OrderByDescending(score => score.Score).FirstOrDefault())
+                .Where(score => score != null)
+                .ToList();
+        }
+
+        public IEnumerable<HighScore> GetHighScores(long mapId)
+        {
+            return this.unitOfWork.HighScoreRepository
+                .Get(filter: score => score.Map.Id == mapId, includeProperties: "Map")
+                .OrderByDescending(score => score.Score);
+        }
+
         private void SaveHighScore(Game game)
         {
             

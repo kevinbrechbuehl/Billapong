@@ -31,5 +31,20 @@
         /// <returns>All current available games on the server</returns>
         [OperationContract(Name = "GetGames")]
         IEnumerable<Game> GetGames();
+
+        /// <summary>
+        /// Gets the map high scores.
+        /// </summary>
+        /// <returns>A highscore entry for each map with it's highest score</returns>
+        [OperationContract(Name = "GetMapHighScores")]
+        IEnumerable<HighScore> GetMapHighScores();
+
+        /// <summary>
+        /// Gets the map scores.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <returns>All score entries for a map</returns>
+        [OperationContract(Name = "GetMapScores")]
+        IEnumerable<HighScore> GetMapScores(long mapId);
     }
 }

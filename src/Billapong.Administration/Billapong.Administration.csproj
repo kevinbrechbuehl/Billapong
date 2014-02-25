@@ -120,7 +120,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Resources\" />
-    <Folder Include="Views\HighScore\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Billapong.Contract\Billapong.Contract.csproj">
@@ -150,6 +149,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Game\Games.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\HighScore\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\HighScore\MapHighScores.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
