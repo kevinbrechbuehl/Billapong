@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Billapong.Contract.Data.GamePlay.HighScore>
+
+@if (Model.Any())
+{
+    <table class="list">
+        <tr>
+            <th>@Global.MapName</th>
+            <th>@Global.PlayerName</th>
+            <th>@Global.HighScore</th>
+            <th></th>
+        </tr>
+
+        @{ var odd = true; }
+        @foreach (var highScore in Model)
+        {
+            <tr class="@(odd ? "odd" : "even")">
+                <td>@highScore.MapName</td>
+                <td>@highScore.PlayerName</td>
+                <td>@highScore.Score.ToString()</td>
+                <td>@Html.ActionLink(Global.Details, "Map", new { id = highScore.MapId })</td>
+            </tr>
+
+            odd = !odd;
+        }
+
+    </table>
+}
+else
+{
+    @Html.Raw(Global.CurrentlyNoHighScores)
+}

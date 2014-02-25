@@ -100,6 +100,7 @@
     <Compile Include="App_Start\Tracing.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\GameController.cs" />
+    <Compile Include="Controllers\HighScoreController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TracingController.cs" />
     <Compile Include="Global.asax.cs">
@@ -148,6 +149,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Game\Games.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\HighScore\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\HighScore\MapHighScores.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -132,6 +132,12 @@
   <data name="CurrentlyNoGames" xml:space="preserve">
     <value>There are currently no games available.</value>
   </data>
+  <data name="CurrentlyNoHighScores" xml:space="preserve">
+    <value>&lt;p&gt;There are currently no highscores available&lt;/p&gt;</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
   <data name="ErrorOccurred" xml:space="preserve">
     <value>&lt;p&gt;An error occurred. Please try again later.&lt;/p&gt;</value>
   </data>
@@ -143,6 +149,12 @@
   </data>
   <data name="GamesTitle" xml:space="preserve">
     <value>Games</value>
+  </data>
+  <data name="HighScore" xml:space="preserve">
+    <value>High Score</value>
+  </data>
+  <data name="HighScoresTitle" xml:space="preserve">
+    <value>High Scores</value>
   </data>
   <data name="HomeIntroduction" xml:space="preserve">
     <value>&lt;p&gt;Welcome to the Administration Interface for Billapong. Please choose an action in the navigation on the left.&lt;/p&gt;</value>
@@ -170,6 +182,9 @@
   </data>
   <data name="Player2Name" xml:space="preserve">
     <value>Player 2 Name</value>
+  </data>
+  <data name="PlayerName" xml:space="preserve">
+    <value>Player Name</value>
   </data>
   <data name="Refresh" xml:space="preserve">
     <value>Refresh</value>

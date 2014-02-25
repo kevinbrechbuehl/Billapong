@@ -1,6 +1,7 @@
 ﻿namespace Billapong.DataAccess.UnitOfWork
 {
     using System;
+    using Model.GamePlay;
     using Model.Map;
     using Repository;
 
@@ -27,6 +28,11 @@
         /// The hole repository
         /// </summary>
         private IRepository<Hole> holeRepository;
+
+        /// <summary>
+        /// The high score repository
+        /// </summary>
+        private IRepository<HighScore> highScoreRepository; 
 
         /// <summary>
         /// Gets the map repository.
@@ -59,6 +65,17 @@
         public IRepository<Hole> HoleRepository
         {
             get { return this.holeRepository ?? (this.holeRepository = new Repository<Hole>(this.Context)); }
+        }
+
+        /// <summary>
+        /// Gets the high score repository.
+        /// </summary>
+        /// <value>
+        /// The high score repository.
+        /// </value>
+        public IRepository<HighScore> HighScoreRepository
+        {
+            get { return this.highScoreRepository ?? (this.highScoreRepository = new Repository<HighScore>(this.Context)); }
         }
 
         /// <summary>

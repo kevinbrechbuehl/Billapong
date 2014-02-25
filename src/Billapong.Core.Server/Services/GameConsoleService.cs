@@ -111,6 +111,17 @@
         }
 
         /// <summary>
+        /// Adds the high score.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <param name="playerName">Name of the player.</param>
+        /// <param name="score">The score.</param>
+        public void AddHighScore(long mapId, string playerName, int score)
+        {
+            GameController.Current.AddHighScore(mapId, playerName, score);
+        }
+
+        /// <summary>
         /// Ends the round.
         /// </summary>
         /// <param name="gameId">The game identifier.</param>

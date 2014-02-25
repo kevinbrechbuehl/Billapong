@@ -159,6 +159,17 @@
         }
 
         /// <summary>
+        /// Adds the high score.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <param name="playerName">Name of the player.</param>
+        /// <param name="score">The score.</param>
+        public void AddHighScore(long mapId, string playerName, int score)
+        {
+            this.Execute(() => this.Proxy.AddHighScore(mapId, playerName, score));
+        }
+
+        /// <summary>
         /// Gets the maps asynchronous.
         /// </summary>
         /// <returns>The maps.</returns>

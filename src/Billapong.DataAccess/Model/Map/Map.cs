@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel.DataAnnotations;
+    using GamePlay;
 
     /// <summary>
     /// Represents a map
@@ -51,5 +52,13 @@
         /// The windows.
         /// </value>
         public virtual ICollection<Window> Windows { get; set; }
+
+        /// <summary>
+        /// Gets or sets the high scores.
+        /// </summary>
+        /// <value>
+        /// The high scores.
+        /// </value>
+        public virtual ICollection<HighScore> HighScores { get; set; }
     }
 }

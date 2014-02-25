@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = @Global.HighScoresTitle;
+}
+
+<div id="maphighscores">
+    <div class="loading">
+        <img src="~/Images/spinner.gif" />
+    </div>
+
+    <div class="result">
+
+    </div>
+
+    <div class="error">
+        @Html.Raw(Global.ErrorOccurred)
+    </div>
+</div>
+
+

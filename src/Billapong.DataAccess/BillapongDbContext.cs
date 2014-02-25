@@ -1,6 +1,7 @@
 ﻿namespace Billapong.DataAccess
 {
     using System.Data.Entity;
+    using Model.GamePlay;
     using Model.Map;
     using Model.Tracing;
 
@@ -24,6 +25,14 @@
         /// The maps.
         /// </value>
         public DbSet<Map> Maps { get; set; }
+
+        /// <summary>
+        /// Gets or sets the high scores.
+        /// </summary>
+        /// <value>
+        /// The high scores.
+        /// </value>
+        public DbSet<HighScore> HighScores { get; set; }
 
         /// <summary>
         /// This method is called when the model for a derived context has been initialized, but

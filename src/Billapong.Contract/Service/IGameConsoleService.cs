@@ -90,5 +90,14 @@
         /// <param name="score">The score of the current round.</param>
         [OperationContract(Name = "EndRound")]
         void EndRound(Guid gameId, bool isPlayer1, int score);
+
+        /// <summary>
+        /// Adds the high score.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <param name="playerName">Name of the player.</param>
+        /// <param name="score">The score.</param>
+        [OperationContract(Name = "AddHighScore")]
+        void AddHighScore(long mapId, string playerName, int score);
     }
 }
