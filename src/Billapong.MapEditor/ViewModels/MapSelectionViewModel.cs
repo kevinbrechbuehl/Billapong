@@ -101,7 +101,6 @@
 
         private void DeleteMap(Map map)
         {
-            // todo (breck1): decouple this from the viewmodel, i.e. with http://deanchalk.com/2010/05/06/wpf-mvvm-simple-messagebox-show-with-action-func/
             if (MessageBox.Show(string.Format("Are you sure you want to delete the map '{0}'?", ((Map)map).Name),
                 "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
