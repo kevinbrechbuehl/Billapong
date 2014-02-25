@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.ServiceModel;
     using Data.GamePlay;
+    using Data.Map;
     using Data.Tracing;
 
     /// <summary>

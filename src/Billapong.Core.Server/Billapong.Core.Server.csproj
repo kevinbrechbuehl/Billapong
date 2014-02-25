@@ -43,7 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converter\GamePlay\GameConverter.cs" />
-    <Compile Include="Converter\GamePlay\HighScoreConverter.cs" />
+    <Compile Include="Converter\Map\HighScoreConverter.cs" />
     <Compile Include="Converter\Map\MapConverter.cs" />
     <Compile Include="Converter\Tracing\LogMessageConverter.cs" />
     <Compile Include="GamePlay\Game.cs" />

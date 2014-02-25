@@ -336,6 +336,21 @@
             }
         }
 
+        public IEnumerable<HighScore> GetHighScores()
+        {
+            return this.UnitOfWork.MapRepository.Get()
+                .Select(map => map.HighScores.OrderByDescending(score => score.Score).FirstOrDefault())
+                .Where(score => score != null)
+                .ToList();
+        }
+
+        public IEnumerable<HighScore> GetHighScores(long mapId)
+        {
+            return this.UnitOfWork.HighScoreRepository
+                .Get(filter: score => score.Map.Id == mapId, includeProperties: "Map")
+                .OrderByDescending(score => score.Score);
+        }
+
         /// <summary>
         /// Sends the update name callback.
         /// </summary>

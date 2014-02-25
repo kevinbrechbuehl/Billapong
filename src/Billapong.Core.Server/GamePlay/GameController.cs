@@ -3,7 +3,7 @@
     using Contract.Exceptions;
     using Contract.Service;
     using Converter.Map;
-    using DataAccess.Model.GamePlay;
+    using DataAccess.Model.Map;
     using DataAccess.UnitOfWork;
     using System;
     using System.Collections.Generic;
@@ -278,21 +278,6 @@
                 this.unitOfWork.HighScoreRepository.Add(highscore);
                 this.unitOfWork.Save();
             }
-        }
-
-        public IEnumerable<HighScore> GetHighScores()
-        {
-            return this.unitOfWork.MapRepository.Get()
-                .Select(map => map.HighScores.OrderByDescending(score => score.Score).FirstOrDefault())
-                .Where(score => score != null)
-                .ToList();
-        }
-
-        public IEnumerable<HighScore> GetHighScores(long mapId)
-        {
-            return this.unitOfWork.HighScoreRepository
-                .Get(filter: score => score.Map.Id == mapId, includeProperties: "Map")
-                .OrderByDescending(score => score.Score);
         }
 
         private void SaveHighScore(Game game)

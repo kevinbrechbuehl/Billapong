@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace Billapong.DataAccessTest.GamePlay
 {
-    using DataAccess.Model.GamePlay;
     using DataAccess.Model.Map;
     using DataAccess.Repository;
     using DataAccess.UnitOfWork;
