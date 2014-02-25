@@ -1,6 +1,5 @@
 ﻿namespace Billapong.GameConsole.ViewModels
 {
-    using System.Collections.ObjectModel;
     using Core.Client.UI;
     using Game;
     using Models;
@@ -22,8 +21,6 @@
             this.WindowHeight = 170;
             this.WindowWidth = 300;
             this.Game = game;
-
-            this.Players = new ObservableCollection<Player>();
         }
 
         public DelegateCommand ActionButtonCommand
@@ -33,8 +30,6 @@
                 return new DelegateCommand(this.ActionButtonClick);
             }
         }
-
-        public ObservableCollection<Player> Players { get; private set; }
 
         public Game Game { get; private set; }
 
@@ -75,13 +70,6 @@
         public void StartGame()
         {
             this.ActionButtonText = "Cancel game";
-
-            this.Players.Add(GameManager.Current.CurrentGame.LocalPlayer);
-
-            if (GameManager.Current.CurrentGame.Opponent != null)
-            {
-                this.Players.Add(GameManager.Current.CurrentGame.Opponent);
-            }
         }
 
         public void CancelGame()

@@ -3,13 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:converters="clr-namespace:Billapong.GameConsole.Converter"
-             xmlns:models="clr-namespace:Billapong.GameConsole.Models"
+             xmlns:views="clr-namespace:Billapong.GameConsole.Views"
              mc:Ignorable="d" 
              d:DesignHeight="170" d:DesignWidth="300">
-    <UserControl.Resources>
-        <converters:PlayerStateToVisibilityConverter x:Key="playerStateToVisibilityConverter" />
-    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -20,47 +16,10 @@
 
         <TextBlock Text="{Binding Game.CurrentRound, StringFormat={}Round: {0}}" Grid.Row="0" HorizontalAlignment="Center" FontWeight="Bold" />
 
-        <ItemsControl Grid.Row="1" ItemsSource="{Binding Players}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel IsItemsHost="True" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.2*" />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-
-                        <Ellipse Fill="{Binding ColorBrush}" Width="10" Height="10" Grid.Column="0" Visibility="{Binding CurrentPlayerState, Converter={StaticResource playerStateToVisibilityConverter}}">
-                            <!--Ellipse.Triggers>
-                                <EventTrigger RoutedEvent="Ellipse.Loaded">
-                                   
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)"
-                                                          Duration="0:0:1"
-                                                          FillBehavior="HoldEnd"
-                                                          RepeatBehavior="Forever">
-                                                    <ColorAnimationUsingKeyFrames.KeyFrames>
-                                                        <DiscreteColorKeyFrame KeyTime="Uniform" Value="Transparent"/>
-                                                        <DiscreteColorKeyFrame KeyTime="Uniform" Value="{Binding PlayerColor, Mode=OneTime}"/>
-                                                    </ColorAnimationUsingKeyFrames.KeyFrames>
-                                                </ColorAnimationUsingKeyFrames>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                </EventTrigger>
-                            </-->
-                        </Ellipse>
-                        <TextBlock Text="{Binding Name}" Grid.Column="1" VerticalAlignment="Center" />
-                        <TextBlock Text="{Binding Score}" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 5 0" />
-                </Grid>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        <StackPanel Grid.Row="1">
+            <views:PlayerInformation DataContext="{Binding Game.LocalPlayer}" Visibility="{Binding Game.LocalPlayer, Converter={StaticResource NullToVisibilityConverter}}" />
+            <views:PlayerInformation DataContext="{Binding Game.Opponent}" Visibility="{Binding Game.Opponent, Converter={StaticResource NullToVisibilityConverter}}" />
+        </StackPanel>
         
         <TextBlock Grid.Row="2" Text="{Binding StatusMessage}" FontWeight="Bold" TextWrapping="Wrap" Margin="5 0 0 0" />
 

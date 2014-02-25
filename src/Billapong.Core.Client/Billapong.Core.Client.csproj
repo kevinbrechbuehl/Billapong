@@ -56,6 +56,7 @@
     <Compile Include="Tracing\TracingServiceClient.cs" />
     <Compile Include="UI\Converter\BooleanConverter.cs" />
     <Compile Include="UI\Converter\BooleanToVisibilityConverter.cs" />
+    <Compile Include="UI\Converter\NullToVisibilityConverter.cs" />
     <Compile Include="UI\DelegateCommand.cs" />
     <Compile Include="UI\DelegateCommandBase.cs" />
     <Compile Include="UI\DelegateCommandGeneric.cs" />
