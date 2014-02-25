@@ -339,9 +339,8 @@
         {
             if (args.GameEnded)
             {
-                MessageBox.Show("This was the last round. Game ended");
-
-                // todo (mathp2): Here we need to end the game for the user
+                this.CloseGameField();
+                // todo (mathp2): Here we need to inform the user about the result
             }
             else
             {
