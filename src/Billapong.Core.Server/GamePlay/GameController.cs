@@ -1,16 +1,16 @@
 ﻿namespace Billapong.Core.Server.GamePlay
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.ServiceModel;
-    using System.Threading.Tasks;
     using Contract.Exceptions;
     using Contract.Service;
     using Converter.Map;
-    using DataAccess.Model.Map;
-    using DataAccess.Repository;
+    using DataAccess.Model.GamePlay;
+    using DataAccess.UnitOfWork;
+    using System;
+    using System.Collections.Generic;
     using System.Configuration;
+    using System.Linq;
+    using System.ServiceModel;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Game controller for handling the gameplay
@@ -21,11 +21,11 @@
         /// The lock object
         /// </summary>
         private static readonly object LockObject = new object();
-        
+
         /// <summary>
-        /// The repository
+        /// The unit of work
         /// </summary>
-        private readonly IRepository<Map> mapRepository;
+        private readonly UnitOfWork unitOfWork;
 
         /// <summary>
         /// Dictionary to store all open and playing games
@@ -52,7 +52,7 @@
         /// </summary>
         private GameController()
         {
-            this.mapRepository = new Repository<Map>();
+            this.unitOfWork = new UnitOfWork();
 
             // set the number of rounds to play
             if (!int.TryParse(ConfigurationManager.AppSettings["GamePlay.NumberOfRounds"], out this.numberOfTotalRounds))
@@ -85,7 +85,7 @@
         public Guid OpenGame(long mapId, IEnumerable<long> visibleWindows, string username, IGameConsoleCallback callback)
         {
             // load the map
-            var map = this.mapRepository.GetById(mapId);
+            var map = this.unitOfWork.MapRepository.GetById(mapId);
             if (map == null)
             {
                 throw new FaultException<MapNotFoundException>(new MapNotFoundException(mapId), "Map not found");
@@ -244,12 +244,29 @@
             if (wasLastRound)
             {
                 this.RemoveGame(gameId);
-
-                // todo (breck1): save the highscore for both players into the database
+                this.SaveHighScore(game);
             }
 
             // send the callback
             Task.Run(() => this.EndRoundCallback(game, player.Score, wasLastRound));
+        }
+
+        private void SaveHighScore(Game game)
+        {
+            
+            foreach (var player in game.Players)
+            {
+                var highScore = new HighScore();
+                highScore.Map = game.Map;
+                highScore.PlayerName = player.Name;
+                highScore.Score = player.Score;
+
+                lock (LockObject)
+                {
+                    this.unitOfWork.HighScoreRepository.Add(highScore);
+                    this.unitOfWork.Save();
+                }
+            }
         }
 
         /// <summary>
