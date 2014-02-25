@@ -16,14 +16,14 @@
         /// <summary>
         /// The round state
         /// </summary>
-        private RoundState roundState;
+        private PlayerState playerState;
 
         private SolidColorBrush colorBrush;
 
         /// <summary>
         /// The different round states for the player
         /// </summary>
-        public enum RoundState
+        public enum PlayerState
         {
             /// <summary>
             /// The current turn belongs to the opponent
@@ -39,7 +39,22 @@
             /// <summary>
             /// The ball of the current player is moving
             /// </summary>
-            BallMoving
+            BallMoving,
+
+            /// <summary>
+            /// The player won the game
+            /// </summary>
+            Won,
+
+            /// <summary>
+            /// The player lost the game
+            /// </summary>
+            Lost,
+
+            /// <summary>
+            /// The player played a draw
+            /// </summary>
+            Draw,
         }
 
         /// <summary>
@@ -119,21 +134,21 @@
         }
 
         /// <summary>
-        /// Gets or sets the state of the current round.
+        /// Gets or sets the state of the current player.
         /// </summary>
         /// <value>
-        /// The state of the current round.
+        /// The state of the current game.
         /// </value>
-        public RoundState CurrentRoundState
+        public PlayerState CurrentPlayerState
         {
             get
             {
-                return this.roundState;
+                return this.playerState;
             }
 
             set
             {
-                this.roundState = value;
+                this.playerState = value;
                 OnPropertyChanged();
             }
         }

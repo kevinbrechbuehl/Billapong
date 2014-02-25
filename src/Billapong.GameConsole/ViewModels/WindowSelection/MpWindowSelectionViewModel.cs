@@ -23,15 +23,12 @@
         /// <summary>
         /// Starts the game.
         /// </summary>
-        protected override void StartGame()
+        protected async override void StartGame()
         {
             var loadingScreen = new LoadingScreenViewModel("Waiting for opponent...", GameConfiguration.GameType.MultiPlayerGame, true);
             GameConsoleContext.Current.GameConsoleCallback.GameStarted += loadingScreen.StartGame;
-            var gameId = GameConsoleContext.Current.GameConsoleServiceClient.OpenGame(this.Map.Id, this.Map.Windows.Where(window => window.IsOwnWindow).Select(window => window.Id), Properties.Settings.Default.PlayerName);
-
+            loadingScreen.CurrentGameId = await GameConsoleContext.Current.GameConsoleServiceClient.OpenGameAsync(this.Map.Id, this.Map.Windows.Where(window => window.IsOwnWindow).Select(window => window.Id), Properties.Settings.Default.PlayerName);
             this.SwitchWindowContent(loadingScreen);
         }
-
-
     }
 }
