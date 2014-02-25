@@ -1,7 +1,6 @@
 ﻿namespace Billapong.DataAccess
 {
     using System.Data.Entity;
-    using Model.GamePlay;
     using Model.Map;
     using Model.Tracing;
 

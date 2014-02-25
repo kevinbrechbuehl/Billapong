@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using Contract.Data.GamePlay;
+    using Contract.Data.Map;
     using Contract.Data.Tracing;
     using Contract.Service;
     using Core.Client;

@@ -4,11 +4,14 @@
     using System.Linq;
     using System.ServiceModel;
     using Contract.Data.GamePlay;
+    using Contract.Data.Map;
     using Contract.Data.Tracing;
     using Contract.Service;
     using Converter.GamePlay;
+    using Converter.Map;
     using Converter.Tracing;
     using GamePlay;
+    using Map;
     using Tracing;
     using Game = Contract.Data.GamePlay.Game;
 
@@ -59,7 +62,7 @@
         public IEnumerable<HighScore> GetMapHighScores()
         {
             // todo (breck1): This should only be possible if administrator role is authenticated
-            return GameController.Current.GetHighScores().Select(score => score.ToContract());
+            return MapController.Current.GetHighScores().Select(score => score.ToContract());
         }
 
         /// <summary>
@@ -72,7 +75,7 @@
         public IEnumerable<HighScore> GetMapScores(long mapId)
         {
             // todo (breck1): This should only be possible if administrator role is authenticated
-            return GameController.Current.GetHighScores(mapId).Select(score => score.ToContract());
+            return MapController.Current.GetHighScores(mapId).Select(score => score.ToContract());
         }
     }
 }

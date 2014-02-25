@@ -1,7 +1,6 @@
 ﻿namespace Billapong.DataAccess.UnitOfWork
 {
     using System;
-    using Model.GamePlay;
     using Model.Map;
     using Repository;
 

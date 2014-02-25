@@ -52,7 +52,7 @@
   <ItemGroup>
     <Compile Include="BillapongDbContext.cs" />
     <Compile Include="Initialize\BillapongDbInitializer.cs" />
-    <Compile Include="Model\GamePlay\HighScore.cs" />
+    <Compile Include="Model\Map\HighScore.cs" />
     <Compile Include="Model\Map\Hole.cs" />
     <Compile Include="Model\Map\Map.cs" />
     <Compile Include="Model\Map\Window.cs" />

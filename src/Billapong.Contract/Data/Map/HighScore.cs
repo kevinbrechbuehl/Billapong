@@ -1,4 +1,4 @@
-﻿namespace Billapong.Contract.Data.GamePlay
+﻿namespace Billapong.Contract.Data.Map
 {
     using System.Runtime.Serialization;
 

@@ -1,4 +1,4 @@
-﻿namespace Billapong.DataAccess.Model.GamePlay
+﻿namespace Billapong.DataAccess.Model.Map
 {
     using System.ComponentModel.DataAnnotations;
 
@@ -23,7 +23,7 @@
         /// The map.
         /// </value>
         [Required]
-        public virtual Map.Map Map { get; set; }
+        public virtual Model.Map.Map Map { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the player.
