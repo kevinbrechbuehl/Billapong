@@ -14,10 +14,11 @@
 |____/___|_____|_____/_/   \_\_|    \___/|_| \_|\____|
         </TextBlock>
        
-        <Button Name="startSinglePlayerTraining" Command="{Binding OpenMapSelectionCommand}" CommandParameter="training" Style="{StaticResource MenuButton}">Start singleplayer training</Button>
-        <Button Name="startSinglePlayerGame" Command="{Binding OpenMapSelectionCommand}" CommandParameter="single" Style="{StaticResource MenuButton}">Start singleplayer game</Button>
-        <Button Name="startMultiplayerGame" Command="{Binding OpenMapSelectionCommand}" CommandParameter="multiplayer" Style="{StaticResource MenuButton}">Start multiplayer game</Button>
-        <Button Name="joinMultiplayerGame" Command="{Binding OpenGameLobbyCommand}" Style="{StaticResource MenuButton}">Join multiplayer game</Button>
-        <Button Name="openSettings" Command="{Binding OpenSettingsCommand}" Style="{StaticResource MenuButton}">Settings</Button>
+        <Button Command="{Binding OpenMapSelectionCommand}" CommandParameter="training" Style="{StaticResource MenuButton}">Start singleplayer training</Button>
+        <Button Command="{Binding OpenMapSelectionCommand}" CommandParameter="single" Style="{StaticResource MenuButton}">Start singleplayer game</Button>
+        <Button Command="{Binding OpenMapSelectionCommand}" CommandParameter="multiplayer" Style="{StaticResource MenuButton}">Start multiplayer game</Button>
+        <Button Command="{Binding OpenGameLobbyCommand}" Style="{StaticResource MenuButton}">Join multiplayer game</Button>
+        <Button Command="{Binding StartMapEditorCommand}" Style="{StaticResource MenuButton}">Map Editor</Button>
+        <Button Command="{Binding OpenSettingsCommand}" Style="{StaticResource MenuButton}">Settings</Button>
     </StackPanel>
 </UserControl>

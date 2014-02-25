@@ -1,5 +1,6 @@
 ﻿namespace Billapong.GameConsole.ViewModels
 {
+    using System.Diagnostics;
     using Configuration;
     using Core.Client.UI;
 
@@ -53,11 +54,19 @@
             }
         }
 
+        public DelegateCommand StartMapEditorCommand
+        {
+            get
+            {
+                return new DelegateCommand(this.StartMapEditor);
+            }
+        }
+
         /// <summary>
         /// Opens the map selection.
         /// </summary>
         /// <param name="parameter">The parameter.</param>
-        public void OpenMapSelection(string parameter)
+        private void OpenMapSelection(string parameter)
         {
             if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.PlayerName))
             {
@@ -88,8 +97,7 @@
         /// <summary>
         /// Opens the game lobby.
         /// </summary>
-        /// <param name="parameters">The parameters.</param>
-        public void OpenGameLobby()
+        private void OpenGameLobby()
         {
             var viewModel = new GameLobbyViewModel();
             this.SwitchWindowContent(viewModel);
@@ -98,11 +106,20 @@
         /// <summary>
         /// Opens the settings.
         /// </summary>
-        /// <param name="parameters">The parameters.</param>
-        public void OpenSettings()
+        private void OpenSettings()
         {
             var viewModel = new SettingsViewModel();
             this.SwitchWindowContent(viewModel);
+        }
+
+        /// <summary>
+        /// Starts the map editor.
+        /// </summary>
+        private void StartMapEditor()
+        {
+            // todo (mathp2): We need to make a difference between visual studio and the final deployment
+            var startInfo = new ProcessStartInfo(@"..\..\..\Billapong.MapEditor\bin\Debug\Billapong.MapEditor.exe");
+            Process.Start(startInfo);
         }
     }
 }
