@@ -214,10 +214,39 @@
                         gameWindow.MaxWidth = gameWindow.MinWidth;
                         gameWindow.ResizeMode = ResizeMode.NoResize;
                         gameWindow.WindowStyle = WindowStyle.None;
+                        gameWindow.BorderBrush = new SolidColorBrush(Colors.Black);
 
-                        // Todo (mathp2): Remove client color separation somewhen in the future
-                        gameWindow.BorderBrush = new SolidColorBrush(this.CurrentGame.StartGame ? Colors.Red : Colors.Blue);
-                        gameWindow.BorderThickness = new Thickness(1, 1, 1, 1);
+                        // Calculate the game field borders
+                        var borderThickness = new Thickness();
+                        if (
+                            this.CurrentGame.Map.Windows.FirstOrDefault(
+                                w => w.X == currentWindow.X - 1 && w.Y == currentWindow.Y) == null)
+                        {
+                            borderThickness.Left = 1;
+                        }
+
+                        if (
+                            this.CurrentGame.Map.Windows.FirstOrDefault(
+                                w => w.X == currentWindow.X + 1 && w.Y == currentWindow.Y) == null)
+                        {
+                            borderThickness.Right = 1;
+                        }
+
+                        if (
+                            this.CurrentGame.Map.Windows.FirstOrDefault(
+                                w => w.X == currentWindow.X && w.Y == currentWindow.Y - 1) == null)
+                        {
+                            borderThickness.Top = 1;
+                        }
+
+                        if (
+                            this.CurrentGame.Map.Windows.FirstOrDefault(
+                                w => w.X == currentWindow.X && w.Y == currentWindow.Y + 1) == null)
+                        {
+                            borderThickness.Bottom = 1;
+                        }
+
+                        gameWindow.BorderThickness = borderThickness;
 
                         var gameWindowViewModel = new GameWindowViewModel(currentWindow);
                         gameWindow.DataContext = gameWindowViewModel;
@@ -386,7 +415,8 @@
         {
             if (this.ballAnimationTaskQueue == null || this.ballAnimationTaskQueue.Count == 0)
             {
-                if (this.CurrentGame.CurrentPlayer.IsLocalPlayer) {
+                if (this.CurrentGame.CurrentPlayer.IsLocalPlayer) 
+                {
                     this.gameController.EndRound(this.CurrentGame.CurrentPlayer.IsFirstPlayer, this.CurrentGame.CurrentRoundScore);
                     this.LogMessage(string.Format("Player '{0}' finished round {1} with a round score of {2} points", this.CurrentGame.CurrentPlayer.Name, this.CurrentGame.CurrentRound, this.CurrentGame.CurrentRoundScore), Tracer.Info);
                 }
