@@ -12,7 +12,14 @@ namespace Billapong.Administration.Controllers
         // GET: /HighScore/
         public ActionResult Index()
         {
-            // todo (breck1): implement view -> zuerst auflistung von allen maps und allen usern und auf weiterer Seite dann die scores dafür
+            // todo (breck1): implement action -> zuerst auflistung von allen maps und dann eine detailseite für auflistung der highscores einer map
+            
+            return null;
+        }
+
+        public ActionResult Map(long id)
+        {
+            // todo (breck1): implement action
             
             return null;
         }
