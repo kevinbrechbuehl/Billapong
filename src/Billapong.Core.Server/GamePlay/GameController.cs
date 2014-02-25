@@ -251,6 +251,35 @@
             Task.Run(() => this.EndRoundCallback(game, player.Score, wasLastRound));
         }
 
+        /// <summary>
+        /// Adds the high score to the database.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <param name="playerName">Name of the player.</param>
+        /// <param name="score">The score.</param>
+        public void AddHighScore(long mapId, string playerName, int score)
+        {
+            // load the map
+            var map = this.unitOfWork.MapRepository.GetById(mapId);
+            if (map == null)
+            {
+                throw new FaultException<MapNotFoundException>(new MapNotFoundException(mapId), "Map not found");
+            }
+
+            var highscore = new HighScore
+            {
+                Map = map,
+                PlayerName = playerName,
+                Score = score
+            };
+
+            lock (LockObject)
+            {
+                this.unitOfWork.HighScoreRepository.Add(highscore);
+                this.unitOfWork.Save();
+            }
+        }
+
         private void SaveHighScore(Game game)
         {
             

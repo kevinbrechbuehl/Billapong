@@ -41,6 +41,6 @@
         /// The score.
         /// </value>
         [Required]
-        public long Score { get; set; }
+        public int Score { get; set; }
     }
 }
