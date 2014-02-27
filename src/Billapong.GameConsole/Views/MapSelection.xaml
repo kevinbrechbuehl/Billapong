@@ -40,7 +40,7 @@
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListBox">
-                                            <TextBlock Text="No open games found"/>
+                                            <TextBlock Text="No maps found"/>
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>
@@ -55,7 +55,7 @@
                 </ListBox.ItemTemplate>
             </ListBox>
 
-            <TextBlock DockPanel.Dock="Top" Visibility="{Binding Path=IsDataLoading, Converter={StaticResource BooleanToVisibility}}" HorizontalAlignment="Center" VerticalAlignment="Center">Searching for open games...</TextBlock>
+            <TextBlock DockPanel.Dock="Top" Visibility="{Binding Path=IsDataLoading, Converter={StaticResource BooleanToVisibility}}" HorizontalAlignment="Center" VerticalAlignment="Center">Searching for maps...</TextBlock>
         </DockPanel>
 
         <Separator Grid.Column="1">
