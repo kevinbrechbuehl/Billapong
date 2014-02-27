@@ -2,10 +2,34 @@
 {
     using Core.Client.UI;
 
+    /// <summary>
+    /// Respresents the logic of the settings view
+    /// </summary>
     public class SettingsViewModel : MainWindowContentViewModelBase
     {
+        /// <summary>
+        /// The player name
+        /// </summary>
         private string playerName;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SettingsViewModel"/> class.
+        /// </summary>
+        public SettingsViewModel()
+        {
+            this.WindowHeight = 350;
+            this.WindowWidth = 400;
+
+            this.PlayerName = Properties.Settings.Default.PlayerName;
+            this.BackButtonContent = "Back to menu";
+        }
+
+        /// <summary>
+        /// Gets or sets the name of the player.
+        /// </summary>
+        /// <value>
+        /// The name of the player.
+        /// </value>
         public string PlayerName
         {
             get
@@ -16,10 +40,16 @@
             set
             {
                 this.playerName = value;
-                OnPropertyChanged();
+                this.OnPropertyChanged();
             }
         }
 
+        /// <summary>
+        /// Gets the save settings command.
+        /// </summary>
+        /// <value>
+        /// The save settings command.
+        /// </value>
         public DelegateCommand SaveSettingsCommand
         {
             get
@@ -28,20 +58,15 @@
             }
         }
 
-
-        public SettingsViewModel()
-        {
-            this.WindowHeight = 350;
-            this.WindowWidth = 400;
-
-            this.PlayerName = Properties.Settings.Default.PlayerName;
-            this.BackButtonContent = "Back to menu";
-        }
-
+        /// <summary>
+        /// Saves the settings.
+        /// </summary>
         public void SaveSettings()
         {
             Properties.Settings.Default.PlayerName = this.PlayerName;
             Properties.Settings.Default.Save();
+
+            this.NavigateBack();
         }
     }
 }
