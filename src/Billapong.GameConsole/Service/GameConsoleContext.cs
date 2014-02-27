@@ -13,7 +13,7 @@
         private static readonly GameConsoleContext Instance = new GameConsoleContext();
 
         /// <summary>
-        /// Initializes the <see cref="GameConsoleContext"/> class.
+        /// Initializes static members of the <see cref="GameConsoleContext"/> class.
         /// </summary>
         static GameConsoleContext()
         {
@@ -53,7 +53,7 @@
         private GameConsoleCallback gameConsoleCallback;
 
         /// <summary>
-        /// Gets or sets the game console service client.
+        /// Gets the game console service client.
         /// </summary>
         /// <value>
         /// The game console service client.
@@ -62,12 +62,7 @@
         {
             get
             {
-                if (this.gameConsoleServiceClient == null)
-                {
-                    this.gameConsoleServiceClient = new GameConsoleServiceClient(this.GameConsoleCallback);
-                }
-
-                return this.gameConsoleServiceClient;
+                return this.gameConsoleServiceClient ?? (this.gameConsoleServiceClient = new GameConsoleServiceClient(this.GameConsoleCallback));
             }
         }
 
@@ -81,12 +76,7 @@
         {
             get
             {
-                if (this.gameConsoleCallback == null)
-                {
-                    this.gameConsoleCallback = new GameConsoleCallback();
-                }
-
-                return this.gameConsoleCallback;
+                return this.gameConsoleCallback ?? (this.gameConsoleCallback = new GameConsoleCallback());
             }
         }
     }

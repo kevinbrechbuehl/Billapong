@@ -39,7 +39,7 @@
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
 
-                                        <Border BorderThickness="1" BorderBrush="Black" Margin="-1">
+                                        <Border BorderThickness="1" BorderBrush="Black" Margin="0">
                                             <ItemsControl ItemsSource="{Binding Holes}">
                                                 <ItemsControl.ItemsPanel>
                                                     <ItemsPanelTemplate>

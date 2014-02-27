@@ -83,7 +83,6 @@
             ThreadContext.InvokeOnUiThread(() => this.OnStartPointSet(args));   
         }
 
-
         /// <summary>
         /// Starts the round.
         /// </summary>

@@ -2,10 +2,11 @@
 {
     using System;
     using System.Collections.ObjectModel;
+    using System.Linq;
+    using Billapong.GameConsole.Game;
     using Configuration;
-    using Core.Client.UI;
-    using WindowSelection;
     using Converter.Map;
+    using Core.Client.UI;
     using Models;
     using Service;
 
@@ -22,7 +23,52 @@
         /// <summary>
         /// The is data loading
         /// </summary>
-        private bool isDataLoading = false;
+        private bool isDataLoading;
+
+        /// <summary>
+        /// The window selection view model
+        /// </summary>
+        private WindowSelectionViewModel windowSelectionViewModel;
+
+        /// <summary>
+        /// The open game command
+        /// </summary>
+        private DelegateCommand openGameCommand;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MapSelectionViewModel" /> class.
+        /// </summary>
+        /// <param name="gameType">Type of the game.</param>
+        public MapSelectionViewModel(GameConfiguration.GameType gameType)
+        {
+            this.WindowHeight = 380;
+            this.WindowWidth = 700;
+            this.BackButtonContent = "Back to menu";
+
+            this.gameType = gameType;
+            this.Maps = new ObservableCollection<Map>();
+            this.LoadMaps();
+        }
+
+        /// <summary>
+        /// Gets the window selection view model.
+        /// </summary>
+        /// <value>
+        /// The window selection view model.
+        /// </value>
+        public WindowSelectionViewModel WindowSelectionViewModel
+        {
+            get
+            {
+                return this.windowSelectionViewModel;
+            }
+
+            private set
+            {
+                this.windowSelectionViewModel = value;
+                this.OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether the view data is loading.
@@ -40,23 +86,8 @@
             set
             {
                 this.isDataLoading = value;
-                OnPropertyChanged();
+                this.OnPropertyChanged();
             }
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MapSelectionViewModel" /> class.
-        /// </summary>
-        /// <param name="gameType">Type of the game.</param>
-        public MapSelectionViewModel(GameConfiguration.GameType gameType)
-        {
-            this.WindowHeight = 400;
-            this.WindowWidth = 500;
-            this.BackButtonContent = "Back to menu";
-
-            this.gameType = gameType;
-            this.Maps = new ObservableCollection<Map>();
-            this.LoadMaps();
         }
 
         /// <summary>
@@ -68,17 +99,48 @@
         public ObservableCollection<Map> Maps { get; private set; }
 
         /// <summary>
-        /// Gets the open window selection command.
+        /// Gets or sets the selected map.
         /// </summary>
         /// <value>
-        /// The open window selection command.
+        /// The selected map.
         /// </value>
-        public DelegateCommand<Map> OpenWindowSelectionCommand
+        public Map SelectedMap { get; set; }
+
+        /// <summary>
+        /// Gets the map selection changed command.
+        /// </summary>
+        /// <value>
+        /// The map selection changed command.
+        /// </value>
+        public DelegateCommand MapSelectionChangedCommand
         {
             get
             {
-                return new DelegateCommand<Map>(this.OpenWindowSelection);
+                return new DelegateCommand(this.MapSelectionChanged);
             }
+        }
+
+        /// <summary>
+        /// Gets the open game command.
+        /// </summary>
+        /// <value>
+        /// The open game command.
+        /// </value>
+        public DelegateCommand OpenGameCommand
+        {
+            get
+            {
+                return this.openGameCommand ?? (this.openGameCommand = new DelegateCommand(this.OpenGame, this.CanOpenGame));
+            }
+        }
+
+        /// <summary>
+        /// Gets called when the selected map changes
+        /// </summary>
+        private void MapSelectionChanged()
+        {
+            this.WindowSelectionViewModel = new WindowSelectionViewModel(this.SelectedMap);
+            this.WindowSelectionViewModel.WindowSelectionChanged += this.WindowSelectionChanged;
         }
 
         /// <summary>
@@ -94,15 +156,62 @@
             }
 
             this.IsDataLoading = false;
-        } 
+        }
 
         /// <summary>
-        /// Opens the window selection.
+        /// Gets called when the selected windows changed
         /// </summary>
-        private void OpenWindowSelection(Map map)
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        private void WindowSelectionChanged(object sender, EventArgs args)
         {
-            var viewModel = WindowSelectionViewModelFactory.CreateInstance(this.gameType, map);
-            this.SwitchWindowContent(viewModel);
+            this.OpenGameCommand.RaiseCanExecuteChanged();
+        }
+
+        /// <summary>
+        /// Determines whether the game can be opened in the current state.
+        /// </summary>
+        /// <returns>The determination result</returns>
+        private bool CanOpenGame()
+        {
+            return this.windowSelectionViewModel != null && this.windowSelectionViewModel.SelectedWindows.Any();
+        }
+
+        /// <summary>
+        /// Opens the game.
+        /// </summary>
+        private async void OpenGame()
+        {
+            IMainWindowContentViewModel nextWindow = null;
+
+            foreach (var window in this.WindowSelectionViewModel.SelectedWindows)
+            {
+                var mapWindow = this.SelectedMap.Windows.FirstOrDefault(w => w.Id == window.Id);
+                if (mapWindow != null)
+                {
+                    mapWindow.IsOwnWindow = window.IsChecked;
+                }
+            }
+
+            // todo (mathp2): Implement behaviour for the single player mode
+            switch (this.gameType)
+            {
+                case GameConfiguration.GameType.SinglePlayerTraining:
+                    var game = new Game();
+                    game.Init(new Guid(), this.SelectedMap, null, true, true, GameConfiguration.GameType.SinglePlayerTraining);
+                    var gameStateViewModel = new GameStateViewModel(game);
+                    GameManager.Current.StartGame(game, gameStateViewModel);
+                    nextWindow = gameStateViewModel;
+                    break;
+                case GameConfiguration.GameType.MultiPlayerGame:
+                    var loadingScreenViewModel = new LoadingScreenViewModel("Waiting for opponent...", GameConfiguration.GameType.MultiPlayerGame, true);
+                    GameConsoleContext.Current.GameConsoleCallback.GameStarted += loadingScreenViewModel.StartGame;
+                    loadingScreenViewModel.CurrentGameId = await GameConsoleContext.Current.GameConsoleServiceClient.OpenGameAsync(this.SelectedMap.Id, this.WindowSelectionViewModel.SelectedWindows.Select(x => x.Id), Properties.Settings.Default.PlayerName);
+                    nextWindow = loadingScreenViewModel;
+                    break;
+            }
+
+            this.SwitchWindowContent(nextWindow);
         }
     }
 }

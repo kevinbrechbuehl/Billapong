@@ -1,27 +1,25 @@
 ﻿namespace Billapong.GameConsole.ViewModels
 {
+    using System;
+    using System.Collections.ObjectModel;
+    using System.Windows;
+    using System.Windows.Media;
     using Animation;
     using Core.Client.UI;
     using Game;
     using Models;
     using Models.Events;
-    using System;
-    using System.Collections.ObjectModel;
-    using System.Windows;
-    using System.Windows.Media;
     using Window = Models.Window;
 
+    /// <summary>
+    /// Handles the logic of a single window within the game field
+    /// </summary>
     public class GameWindowViewModel : ViewModelBase
     {
         /// <summary>
         /// The window
         /// </summary>
         private readonly Window window;
-
-        /// <summary>
-        /// Occurs when the animation within this windows has finished
-        /// </summary>
-        public event EventHandler AnimationFinished = delegate { };
 
         /// <summary>
         /// The ball
@@ -32,6 +30,31 @@
         /// The ball animation task
         /// </summary>
         private BallAnimationTask ballAnimationTask;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GameWindowViewModel"/> class.
+        /// </summary>
+        /// <param name="window">The window.</param>
+        public GameWindowViewModel(Window window)
+        {
+            this.window = window;
+            this.Holes = new ObservableCollection<Hole>();
+
+            foreach (var hole in this.window.Holes)
+            {
+                this.Holes.Add(hole);
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the animation within this windows has finished
+        /// </summary>
+        public event EventHandler AnimationFinished = delegate { };
+
+        /// <summary>
+        /// Occurs when the game field is clicked.
+        /// </summary>
+        public event EventHandler<GameFieldClickedEventArgs> GameFieldClicked = delegate { };
 
         /// <summary>
         /// Gets the window.
@@ -61,7 +84,7 @@
         /// <value>
         /// The ball.
         /// </value>
-        public Ball Ball 
+        public Ball Ball
         {
             get
             {
@@ -71,17 +94,17 @@
             private set
             {
                 this.ball = value;
-                OnPropertyChanged();
-            } 
+                this.OnPropertyChanged();
+            }
         }
 
         /// <summary>
-        /// Gets the ball animation queue.
+        /// Gets or sets the ball animation task.
         /// </summary>
         /// <value>
-        /// The ball animation queue.
+        /// The ball animation task.
         /// </value>
-        public BallAnimationTask BallAnimationTask 
+        public BallAnimationTask BallAnimationTask
         {
             get
             {
@@ -91,14 +114,9 @@
             set
             {
                 this.ballAnimationTask = value;
-                OnPropertyChanged();
-            } 
+                this.OnPropertyChanged();
+            }
         }
-
-        /// <summary>
-        /// Occurs when the game field is clicked.
-        /// </summary>
-        public event EventHandler<GameFieldClickedEventArgs> GameFieldClicked = delegate { };
 
         /// <summary>
         /// Gets the game field clicked command.
@@ -110,30 +128,21 @@
         {
             get
             {
-                return new DelegateCommand<Point>(OnGameFieldClicked, IsGameFieldClickable);
+                return new DelegateCommand<Point>(this.OnGameFieldClicked, this.IsGameFieldClickable);
             }
         }
 
+        /// <summary>
+        /// Gets the animation finished command.
+        /// </summary>
+        /// <value>
+        /// The animation finished command.
+        /// </value>
         public DelegateCommand AnimationFinishedCommand
         {
             get
             {
                 return new DelegateCommand(this.OnAnimationFinished);
-            }
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GameWindowViewModel"/> class.
-        /// </summary>
-        /// <param name="window">The window.</param>
-        public GameWindowViewModel(Window window)
-        {
-            this.window = window;
-            this.Holes = new ObservableCollection<Hole>();
-
-            foreach (var hole in this.window.Holes)
-            {
-                this.Holes.Add(hole);
             }
         }
 
@@ -144,7 +153,7 @@
         /// <param name="color">The color.</param>
         public void PlaceBall(Point position, Color color)
         {
-            this.Ball = new Ball {Position = position, Color = color};
+            this.Ball = new Ball { Position = position, Color = color };
         }
 
         /// <summary>
@@ -167,6 +176,9 @@
             this.GameFieldClicked(this, eventArgs);   
         }
 
+        /// <summary>
+        /// Called when the animation of the storyboard finished
+        /// </summary>
         private void OnAnimationFinished()
         {
             this.Ball = null;

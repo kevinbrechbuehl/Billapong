@@ -4,6 +4,9 @@
     using Game;
     using Models;
 
+    /// <summary>
+    /// Shows the current game state
+    /// </summary>
     public class GameStateViewModel : MainWindowContentViewModelBase
     {
         /// <summary>
@@ -16,6 +19,10 @@
         /// </summary>
         private string actionButtonText;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GameStateViewModel"/> class.
+        /// </summary>
+        /// <param name="game">The game.</param>
         public GameStateViewModel(Game game)
         {
             this.WindowHeight = 170;
@@ -23,6 +30,12 @@
             this.Game = game;
         }
 
+        /// <summary>
+        /// Gets the action button command.
+        /// </summary>
+        /// <value>
+        /// The action button command.
+        /// </value>
         public DelegateCommand ActionButtonCommand
         {
             get
@@ -31,6 +44,12 @@
             }
         }
 
+        /// <summary>
+        /// Gets the game.
+        /// </summary>
+        /// <value>
+        /// The game.
+        /// </value>
         public Game Game { get; private set; }
 
         /// <summary>
@@ -53,6 +72,12 @@
             } 
         }
 
+        /// <summary>
+        /// Gets or sets the action button text.
+        /// </summary>
+        /// <value>
+        /// The action button text.
+        /// </value>
         public string ActionButtonText
         {
             get
@@ -67,20 +92,29 @@
             }
         }
 
+        /// <summary>
+        /// Starts the game.
+        /// </summary>
         public void StartGame()
         {
             this.ActionButtonText = "Cancel game";
         }
 
+        /// <summary>
+        /// Cancels the game.
+        /// </summary>
         public void CancelGame()
         {
             this.StatusMessage = "Game got canceled";
             this.ActionButtonText = "Return to menu";
         }
 
+        /// <summary>
+        /// Ends the game.
+        /// </summary>
         public void EndGame()
         {
-            string endingMessage = null;
+            string endingMessage;
             switch (GameManager.Current.CurrentGame.LocalPlayer.CurrentPlayerState)
             {
                 case Player.PlayerState.Won:

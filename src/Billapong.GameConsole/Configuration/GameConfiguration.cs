@@ -75,12 +75,12 @@
         /// <summary>
         /// The maximum number of window rows
         /// </summary>
-        public const int MaxNumberOfWindowRows = 4;
+        public const int MaxNumberOfWindowRows = 3;
 
         /// <summary>
         /// The maximum number of windows per row
         /// </summary>
-        public const int MaxNumberOfWindowsPerRow = 3;
+        public const int MaxNumberOfWindowsPerRow = 4;
 
         
     }

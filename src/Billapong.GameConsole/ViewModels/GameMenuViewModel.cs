@@ -46,6 +46,12 @@
             }
         }
 
+        /// <summary>
+        /// Gets the open settings command.
+        /// </summary>
+        /// <value>
+        /// The open settings command.
+        /// </value>
         public DelegateCommand OpenSettingsCommand
         {
             get
@@ -54,6 +60,12 @@
             }
         }
 
+        /// <summary>
+        /// Gets the start map editor command.
+        /// </summary>
+        /// <value>
+        /// The start map editor command.
+        /// </value>
         public DelegateCommand StartMapEditorCommand
         {
             get

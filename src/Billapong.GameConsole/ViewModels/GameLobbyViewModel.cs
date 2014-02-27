@@ -19,8 +19,34 @@
         /// </summary>
         private LobbyGame selectedLobbyGame;
 
+        /// <summary>
+        /// The join game command
+        /// </summary>
         private DelegateCommand joinGameCommand;
 
+        /// <summary>
+        /// The is data loading
+        /// </summary>
+        private bool isDataLoading;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GameLobbyViewModel"/> class.
+        /// </summary>
+        public GameLobbyViewModel()
+        {
+            this.WindowHeight = 400;
+            this.WindowWidth = 500;
+            this.BackButtonContent = "Back to menu";
+            this.OpenGames = new ObservableCollection<LobbyGame>();
+            this.LoadOpenGames();
+        }
+
+        /// <summary>
+        /// Gets or sets the selected lobby game.
+        /// </summary>
+        /// <value>
+        /// The selected lobby game.
+        /// </value>
         public LobbyGame SelectedLobbyGame
         {
             get
@@ -31,15 +57,10 @@
             set
             {
                 this.selectedLobbyGame = value;
-                OnPropertyChanged();
+                this.OnPropertyChanged();
                 this.JoinGameCommand.RaiseCanExecuteChanged();
             }
         }
-
-        /// <summary>
-        /// The is data loading
-        /// </summary>
-        private bool isDataLoading = false;
 
         /// <summary>
         /// Gets or sets a value indicating whether the view data is loading.
@@ -57,20 +78,8 @@
             set
             {
                 this.isDataLoading = value;
-                OnPropertyChanged();
+                this.OnPropertyChanged();
             }
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GameLobbyViewModel"/> class.
-        /// </summary>
-        public GameLobbyViewModel()
-        {
-            this.WindowHeight = 400;
-            this.WindowWidth = 500;
-            this.BackButtonContent = "Back to menu";
-            this.OpenGames = new ObservableCollection<LobbyGame>();
-            this.LoadOpenGames();
         }
 
         /// <summary>
@@ -150,6 +159,7 @@
             {
                 this.OpenGames.Add(game);
             }
+
             this.IsDataLoading = false;
         }
     }

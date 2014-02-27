@@ -37,6 +37,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -70,6 +71,8 @@
     <Compile Include="Models\Events\RoundEndedEventArgs.cs" />
     <Compile Include="Models\Events\RoundStartedEventArgs.cs" />
     <Compile Include="Models\Player.cs" />
+    <Compile Include="Models\MapSelection\MapSelectionWindowHole.cs" />
+    <Compile Include="Models\MapSelection\MapSelectionWindow.cs" />
     <Compile Include="Service\GameConsoleContext.cs" />
     <Compile Include="ViewModels\GameStateViewModel.cs" />
     <Compile Include="ViewModels\GameWindowViewModel.cs" />
@@ -85,13 +88,9 @@
     <Compile Include="ViewModels\IMainWindowContentViewModel.cs" />
     <Compile Include="ViewModels\LoadingScreenViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
-    <Compile Include="ViewModels\WindowSelection\MpWindowSelectionViewModel.cs" />
-    <Compile Include="ViewModels\WindowSelection\SpTrainingWindowSelectionViewModel.cs" />
     <Compile Include="ViewModels\MapSelectionViewModel.cs" />
     <Compile Include="ViewModels\MainWindowContentViewModelBase.cs" />
-    <Compile Include="ViewModels\WindowSelection\SpWindowSelectionViewModel.cs" />
-    <Compile Include="ViewModels\WindowSelection\WindowSelectionViewModelBase.cs" />
-    <Compile Include="ViewModels\WindowSelection\WindowSelectionViewModelFactory.cs" />
+    <Compile Include="ViewModels\WindowSelectionViewModel.cs" />
     <Compile Include="Views\GameFieldCanvas.cs" />
     <Compile Include="Views\GameLobby.xaml.cs">
       <DependentUpon>GameLobby.xaml</DependentUpon>

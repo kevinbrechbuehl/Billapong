@@ -71,7 +71,7 @@
         /// <param name="mapId">The map identifier.</param>
         /// <param name="visibleWindows">The visible windows.</param>
         /// <param name="username">The username.</param>
-        /// <returns></returns>
+        /// <returns>The guid of the game</returns>
         public async Task<Guid> OpenGameAsync(long mapId, IEnumerable<long> visibleWindows, string username)
         {
             return await this.ExecuteAsync(() => this.Proxy.OpenGame(mapId, visibleWindows, username));

@@ -1,30 +1,26 @@
 ﻿<Window x:Class="Billapong.GameConsole.Views.GameMainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:viewModel="clr-namespace:Billapong.GameConsole.ViewModels"
-        xmlns:windowSelection="clr-namespace:Billapong.GameConsole.ViewModels.WindowSelection"
+        xmlns:viewModels="clr-namespace:Billapong.GameConsole.ViewModels"
         xmlns:views="clr-namespace:Billapong.GameConsole.Views"
         Title="Billapong" Height="{Binding WindowHeight}" MinHeight="{Binding WindowHeight}" MaxHeight="{Binding WindowHeight}" Width="{Binding WindowWidth}" MinWidth="{Binding WindowWidth}" MaxWidth="{Binding WindowWidth}">
     <Window.Resources>
-        <DataTemplate DataType="{x:Type viewModel:GameMenuViewModel}">
+        <DataTemplate DataType="{x:Type viewModels:GameMenuViewModel}">
             <views:GameMenu />
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:MapSelectionViewModel}">
+        <DataTemplate DataType="{x:Type viewModels:MapSelectionViewModel}">
             <views:MapSelection />
         </DataTemplate>
-        <DataTemplate DataType="{x:Type windowSelection:WindowSelectionViewModelBase}">
-            <views:WindowSelection />
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:GameLobbyViewModel}">
+        <DataTemplate DataType="{x:Type viewModels:GameLobbyViewModel}">
             <views:GameLobby />
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:SettingsViewModel}">
+        <DataTemplate DataType="{x:Type viewModels:SettingsViewModel}">
             <views:Settings />
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:LoadingScreenViewModel}">
+        <DataTemplate DataType="{x:Type viewModels:LoadingScreenViewModel}">
             <views:LoadingScreen />
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:GameStateViewModel}">
+        <DataTemplate DataType="{x:Type viewModels:GameStateViewModel}">
             <views:GameState />
         </DataTemplate>
     </Window.Resources>

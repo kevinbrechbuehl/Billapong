@@ -2,6 +2,10 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.ServiceModel.Configuration;
+
+    using Billapong.GameConsole.Models.MapSelection;
+
     using Models;
 
     /// <summary>
@@ -42,6 +46,23 @@
             }
 
             return map;
+        }
+
+        /// <summary>
+        /// Converts the entity hole to the map selection window hole.
+        /// </summary>
+        /// <param name="hole">The hole.</param>
+        /// <param name="holeDiameter">The hole diameter.</param>
+        /// <returns></returns>
+        public static MapSelectionWindowHole ToMapSelectionWindowHole(this Hole hole, double holeDiameter)
+        {
+            var mapSelectionWindowHole = new MapSelectionWindowHole();
+            mapSelectionWindowHole.X = hole.X;
+            mapSelectionWindowHole.Y = hole.Y;
+            mapSelectionWindowHole.Id = hole.Id;
+            mapSelectionWindowHole.Diameter = holeDiameter;
+
+            return mapSelectionWindowHole;
         }
 
         /// <summary>
