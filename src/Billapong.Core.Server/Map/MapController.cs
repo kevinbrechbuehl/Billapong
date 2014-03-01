@@ -522,23 +522,53 @@
         /// <returns>True if map is playable, false otherwise</returns>
         private bool IsPlayable(Map map)
         {
-            // todo (breck1): gibt aktuell noch 3 wenn jeder ein nachbar ist, auch wenn die bläcke nicht aneinander sind
-            
             if (map.Windows.Count == 0) return false;
             if (map.Windows.Count == 1) return true;
 
-            foreach (var window in map.Windows)
+            var graph = this.GetActiveGraph(map, new List<long>(), map.Windows.First());
+            return map.Windows.All(window => graph.Contains(window.Id));
+        }
+
+        /// <summary>
+        /// Gets the graph with all active windows.
+        /// </summary>
+        /// <param name="map">The map.</param>
+        /// <param name="graph">The graph.</param>
+        /// <param name="window">The window.</param>
+        /// <returns>List with all window id's based on the graph</returns>
+        private IList<long> GetActiveGraph(Map map, IList<long> graph, Window window)
+        {
+            graph.Add(window.Id);
+
+            // neighbor to the right is active
+            var sibling = map.Windows.FirstOrDefault(neighbor => neighbor.X == window.X + 1 && neighbor.Y == window.Y);
+            if (sibling != null && !graph.Contains(sibling.Id))
             {
-                if (!map.Windows.Any(neighbor => (neighbor.X == window.X + 1 && neighbor.Y == window.Y)
-                                                 || (neighbor.X == window.X - 1 && neighbor.Y == window.Y)
-                                                 || (neighbor.Y == window.Y + 1 && neighbor.X == window.X)
-                                                 || (neighbor.Y == window.Y - 1 && neighbor.X == window.X)))
-                {
-                    return false;
-                }
+                graph = this.GetActiveGraph(map, graph, sibling);
             }
 
-            return true;
+            // neighbor to the left is active
+            sibling = map.Windows.FirstOrDefault(neighbor => neighbor.X == window.X - 1 && neighbor.Y == window.Y);
+            if (sibling != null && !graph.Contains(sibling.Id))
+            {
+                graph = this.GetActiveGraph(map, graph, sibling);
+            }
+
+            // neighbor below is active
+            sibling = map.Windows.FirstOrDefault(neighbor => neighbor.X == window.X && neighbor.Y == window.Y + 1);
+            if (sibling != null && !graph.Contains(sibling.Id))
+            {
+                graph = this.GetActiveGraph(map, graph, sibling);
+            }
+
+            // neightbor above is active
+            sibling = map.Windows.FirstOrDefault(neighbor => neighbor.X == window.X && neighbor.Y == window.Y - 1);
+            if (sibling != null && !graph.Contains(sibling.Id))
+            {
+                graph = this.GetActiveGraph(map, graph, sibling);
+            }
+
+            return graph;
         }
     }
 }

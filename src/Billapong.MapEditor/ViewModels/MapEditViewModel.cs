@@ -2,6 +2,8 @@
 
 namespace Billapong.MapEditor.ViewModels
 {
+    using System.Collections;
+    using System.Collections.Generic;
     using System.Windows.Navigation;
     using Converter;
     using Core.Client.UI;
@@ -267,28 +269,54 @@ namespace Billapong.MapEditor.ViewModels
 
         private bool IsMapPlayable()
         {
-            // todo (breck1): gibt aktuell noch 3 wenn jeder ein nachbar ist, auch wenn die bläcke nicht aneinander sind
-            
-            int numberOfWindows = 0;
+            var graph = this.GetActiveGraph();
+            return graph.Any() && this.GameWindows.All(windows => windows.Where(window => window.IsChecked).All(t1 => graph.Contains(t1.Id)));
+        }
+
+        private IList<long> GetActiveGraph()
+        {
             for (var row = 0; row < this.GameWindows.Length; row++)
             {
                 for (var col = 0; col < this.GameWindows[row].Length; col++)
                 {
                     if (!this.GameWindows[row][col].IsChecked) continue;
-                    numberOfWindows++;
-                    
-                    if (!(row > 0 && this.GameWindows[row - 1][col].IsChecked)
-                        && !(row + 1 < this.GameWindows.Length && this.GameWindows[row + 1][col].IsChecked)
-                        && !(col > 0 && this.GameWindows[row][col - 1].IsChecked)
-                        && !(col + 1 < this.GameWindows[row].Length && this.GameWindows[row][col + 1].IsChecked)
-                        && numberOfWindows > 1)
-                    {
-                        return false;
-                    }
+
+                    return this.GetActiveGraph(new List<long>(), row, col);
                 }
             }
 
-            return numberOfWindows > 0;
+            return Enumerable.Empty<long>().ToList();
+        }
+
+        private IList<long> GetActiveGraph(IList<long> graph, int row, int col)
+        {
+            graph.Add(this.GameWindows[row][col].Id);
+            
+            // neighbor above is active
+            if (row > 0 && this.GameWindows[row - 1][col].IsChecked && !graph.Contains(this.GameWindows[row - 1][col].Id))
+            {
+                graph = this.GetActiveGraph(graph, row - 1, col);
+            }
+
+            // neightbor below is active
+            if (row + 1 < this.GameWindows.Length && this.GameWindows[row + 1][col].IsChecked && !graph.Contains(this.GameWindows[row + 1][col].Id))
+            {
+                graph = this.GetActiveGraph(graph, row + 1, col);
+            }
+
+            // neightbor to the left is active
+            if (col > 0 && this.GameWindows[row][col - 1].IsChecked && !graph.Contains(this.GameWindows[row][col - 1].Id))
+            {
+                graph = this.GetActiveGraph(graph, row, col - 1);
+            }
+
+            // neightbor to the right is active
+            if (col + 1 < this.GameWindows[row].Length && this.GameWindows[row][col + 1].IsChecked && !graph.Contains(this.GameWindows[row][col + 1].Id))
+            {
+                graph = this.GetActiveGraph(graph, row, col + 1);
+            }
+
+            return graph;
         }
     }
 }
