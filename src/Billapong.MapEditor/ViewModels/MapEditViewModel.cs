@@ -270,7 +270,7 @@ namespace Billapong.MapEditor.ViewModels
         private bool IsMapPlayable()
         {
             var graph = this.GetActiveGraph();
-            return graph.Any() && this.GameWindows.All(windows => windows.Where(window => window.IsChecked).All(t1 => graph.Contains(t1.Id)));
+            return graph.Any() && this.GameWindows.All(windows => windows.Where(window => window.IsChecked).All(window => graph.Contains(window.Id)));
         }
 
         private IList<long> GetActiveGraph()
