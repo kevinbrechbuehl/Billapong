@@ -76,8 +76,6 @@
             this.proxy = new MapEditorServiceClient();
             this.Maps = new ObservableCollection<Map>();
             this.LoadMaps();
-
-            // todo (breck1): Die gesamte Ansicht sollte live aktualisiert werden, wenn neue Sachen im Editor Window gemacht werden
         }
 
         private async void LoadMaps()
