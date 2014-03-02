@@ -2,9 +2,13 @@
 
 namespace Billapong.MapEditor.ViewModels
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Windows.Navigation;
+
+    using Billapong.Contract.Data.Map;
+
     using Converter;
     using Core.Client.UI;
     using Models;
@@ -12,6 +16,9 @@ namespace Billapong.MapEditor.ViewModels
     using Models.Parameters;
     using Services;
     using System.Windows;
+
+    using Hole = Billapong.MapEditor.Models.Hole;
+    using Map = Billapong.MapEditor.Models.Map;
 
     public class MapEditViewModel : ViewModelBase
     {
@@ -111,7 +118,7 @@ namespace Billapong.MapEditor.ViewModels
             }
         }
 
-        public MapEditViewModel(Map map = null)
+        public MapEditViewModel(Map map)
         {
             // initialize
             this.callback = new MapEditorCallback();
@@ -123,12 +130,6 @@ namespace Billapong.MapEditor.ViewModels
             this.callback.HoleRemoved += this.HoleRemoved;
             this.proxy = new MapEditorServiceClient(this.callback);
             
-            // validate map
-            if (map == null)
-            {
-                map = this.proxy.CreateMap().ToEntity();
-            }
-
             // set map properties
             this.map = map;
             this.IsPlayable = map.IsPlayable;
@@ -178,6 +179,17 @@ namespace Billapong.MapEditor.ViewModels
             var gameWindow = this.GameWindows[args.Y][args.X];
             gameWindow.IsChecked = true;
             gameWindow.Id = args.Id;
+
+            // adapt map model
+            this.map.NumberOfWindows++;
+            var window = new Contract.Data.Map.Window
+                             {
+                                 Id = args.Id,
+                                 X = args.X,
+                                 Y = args.Y,
+                                 Holes = new List<Contract.Data.Map.Hole>()
+                             };
+            this.map.Windows.Add(window);
         }
 
         private void WindowRemoved(object sender, GameWindowEventArgs args)
@@ -186,21 +198,53 @@ namespace Billapong.MapEditor.ViewModels
             gameWindow.IsChecked = false;
             gameWindow.Id = 0;
             gameWindow.Holes.Clear();
+
+            // adapt map model
+            this.map.NumberOfWindows--;
+            var window = this.map.Windows.FirstOrDefault(w => w.Id == args.Id);
+            if (window != null)
+            {
+                this.map.NumberOfHoles -= window.Holes.Count;
+                this.map.Windows.Remove(window);
+            }
         }
 
         private void HoleAdded(object sender, GameHoleClickedEventArgs args)
         {
             var gameWindow = this.GameWindows[args.WindowY][args.WindowX];
             gameWindow.Holes.Add(new Hole { Id = args.HoleId, X = args.HoleX, Y = args.HoleY, Diameter = this.HoleDiameter });
+
+            // adapt map model
+            this.map.NumberOfHoles++;
+            var window = this.map.Windows.FirstOrDefault(w => w.X == args.WindowX && w.Y == args.WindowY);
+            if (window != null)
+            {
+                var hole = new Contract.Data.Map.Hole { Id = args.HoleId, X = args.HoleX, Y = args.HoleY };
+                window.Holes = window.Holes.ToList(); // this is necessary to convert the collection to a list...
+                window.Holes.Add(hole);
+            }
         }
 
         private void HoleRemoved(object sender, GameHoleClickedEventArgs args)
         {
             var gameWindow = this.GameWindows[args.WindowY][args.WindowX];
-            var hole = gameWindow.Holes.FirstOrDefault(gameHole => gameHole.Id == args.HoleId);
-            if (hole != null)
+            var gameHole = gameWindow.Holes.FirstOrDefault(h => h.Id == args.HoleId);
+            if (gameHole != null)
             {
-                gameWindow.Holes.Remove(hole);
+                gameWindow.Holes.Remove(gameHole);
+            }
+
+            // adapt map model
+            this.map.NumberOfHoles--;
+            var window = this.map.Windows.FirstOrDefault(w => w.X == args.WindowX && w.Y == args.WindowY);
+            if (window != null)
+            {
+                var hole = window.Holes.FirstOrDefault(h => h.Id == args.HoleId);
+                if (hole != null)
+                {
+                    window.Holes = window.Holes.ToList(); // this is necessary to convert the collection to a list...
+                    window.Holes.Remove(hole);
+                }
             }
         }
 
@@ -222,7 +266,7 @@ namespace Billapong.MapEditor.ViewModels
             }
             else
             {
-                MessageBox.Show("Map is currently not valid", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(string.Format("Map is currently not valid. Please verify the following rules:{0}{0}- You have at least one active window{0}- Each window must be connected to another window{0}- You have at least one hole", Environment.NewLine), "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 this.IsPlayable = false;
             }
         }

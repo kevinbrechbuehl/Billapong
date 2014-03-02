@@ -20,18 +20,18 @@
         {
             base.OnStartup(e);
 
+            // initialize tracing
+            #if DEBUG
+                // wait till the server is up and running
+                Thread.Sleep(1000);
+            #endif
+
             // load the main window
             (new WindowManager()).Open(new MapSelectionViewModel());
 
             // add events
             this.DispatcherUnhandledException += this.App_DispatcherUnhandledException;
             this.ShutdownMode = ShutdownMode.OnMainWindowClose;
-
-            // initialize tracing
-            #if DEBUG
-                // wait till the server is up and running
-                Thread.Sleep(1000);
-            #endif
 
             Tracer.Initialize(Component.MapEditor);
         }

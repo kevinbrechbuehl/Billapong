@@ -115,7 +115,9 @@
 
         private void CreateNewMap()
         {
-            this.WindowManager.Open(new MapEditViewModel());
+            var map = this.proxy.CreateMap().ToEntity();
+            this.Maps.Add(map);
+            this.EditMap(map);
         }
 
         private void RefreshMaps()

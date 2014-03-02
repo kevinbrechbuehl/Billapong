@@ -43,9 +43,35 @@ namespace Billapong.MapEditor.Models
             }
         }
 
-        public int NumberOfWindows { get; set; }
+        private int numberOfWindows;
 
-        public int NumberOfHoles { get; set; }
+        public int NumberOfWindows
+        {
+            get
+            {
+                return this.numberOfWindows;
+            }
+            set
+            {
+                this.numberOfWindows = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        private int numberOfHoles;
+
+        public int NumberOfHoles
+        {
+            get
+            {
+                return this.numberOfHoles;
+            }
+            set
+            {
+                this.numberOfHoles = value;
+                this.OnPropertyChanged();
+            }
+        }
 
         public IList<Contract.Data.Map.Window> Windows { get; set; }
     }
