@@ -11,7 +11,8 @@
                 MapId = source.Map.Id,
                 MapName = source.Map.Name,
                 PlayerName = source.PlayerName,
-                Score = source.Score
+                Score = source.Score,
+                Timestamp = source.Timestamp
             };
         }
     }

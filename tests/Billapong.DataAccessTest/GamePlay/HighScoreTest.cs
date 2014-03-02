@@ -25,7 +25,8 @@ namespace Billapong.DataAccessTest.GamePlay
             {
                 Map = unitOfWork.MapRepository.GetById(1),
                 PlayerName = "Test",
-                Score = 1234
+                Score = 1234,
+                Timestamp = DateTime.Now
             };
 
             // act
@@ -47,7 +48,8 @@ namespace Billapong.DataAccessTest.GamePlay
             {
                 Map = unitOfWork.MapRepository.GetById(1),
                 PlayerName = "Test",
-                Score = 1234
+                Score = 1234,
+                Timestamp = DateTime.Now
             };
 
             // act

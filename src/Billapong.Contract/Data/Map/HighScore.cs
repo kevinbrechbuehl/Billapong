@@ -1,5 +1,6 @@
 ﻿namespace Billapong.Contract.Data.Map
 {
+    using System;
     using System.Runtime.Serialization;
 
     [DataContract(Name = "HighScore", Namespace = Globals.DataContractNamespaceName)]
@@ -40,5 +41,14 @@
         /// </value>
         [DataMember(Name = "Score", Order = 1)]
         public int Score { get; set; }
+
+        /// <summary>
+        /// Gets or sets the timestamp.
+        /// </summary>
+        /// <value>
+        /// The timestamp.
+        /// </value>
+        [DataMember(Name = "Timestamp", Order = 1)]
+        public DateTime Timestamp { get; set; }
     }
 }

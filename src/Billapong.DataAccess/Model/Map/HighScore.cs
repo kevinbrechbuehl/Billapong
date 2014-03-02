@@ -1,5 +1,6 @@
 ﻿namespace Billapong.DataAccess.Model.Map
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
@@ -23,7 +24,7 @@
         /// The map.
         /// </value>
         [Required]
-        public virtual Model.Map.Map Map { get; set; }
+        public virtual Map Map { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the player.
@@ -42,5 +43,14 @@
         /// </value>
         [Required]
         public int Score { get; set; }
+
+        /// <summary>
+        /// Gets or sets the timestamp.
+        /// </summary>
+        /// <value>
+        /// The timestamp.
+        /// </value>
+        [Required]
+        public DateTime Timestamp { get; set; }
     }
 }

@@ -270,7 +270,8 @@
             {
                 Map = map,
                 PlayerName = playerName,
-                Score = score
+                Score = score,
+                Timestamp = DateTime.Now
             };
 
             lock (LockObject)
@@ -282,13 +283,14 @@
 
         private void SaveHighScore(Game game)
         {
-            
+            var now = DateTime.Now;
             foreach (var player in game.Players)
             {
                 var highScore = new HighScore();
                 highScore.Map = game.Map;
                 highScore.PlayerName = player.Name;
                 highScore.Score = player.Score;
+                highScore.Timestamp = now;
 
                 lock (LockObject)
                 {

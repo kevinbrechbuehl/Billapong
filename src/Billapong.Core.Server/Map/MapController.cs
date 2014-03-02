@@ -339,7 +339,7 @@
         public IEnumerable<HighScore> GetHighScores()
         {
             return this.UnitOfWork.MapRepository.Get()
-                .Select(map => map.HighScores.OrderByDescending(score => score.Score).FirstOrDefault())
+                .Select(map => map.HighScores.OrderByDescending(score => score.Score).ThenByDescending(score => score.Timestamp).FirstOrDefault())
                 .Where(score => score != null)
                 .ToList();
         }
@@ -348,7 +348,8 @@
         {
             return this.UnitOfWork.HighScoreRepository
                 .Get(filter: score => score.Map.Id == mapId, includeProperties: "Map")
-                .OrderByDescending(score => score.Score);
+                .OrderByDescending(score => score.Score)
+                .ThenByDescending(score => score.Timestamp);
         }
 
         /// <summary>
