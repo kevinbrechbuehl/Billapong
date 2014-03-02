@@ -1,23 +1,31 @@
-﻿@model IEnumerable<Billapong.Contract.Data.Map.HighScore>
+﻿@model Billapong.Administration.Models.HighScore.ScoresViewModel
 
-@if (Model.Any())
+@if (Model.Scores.Any())
 {
     <table class="list">
         <tr>
             <th>@Global.MapName</th>
             <th>@Global.PlayerName</th>
             <th>@Global.HighScore</th>
-            <th></th>
+            
+            @if (Model.ShowDetailColumn)
+            {
+                <th></th>
+            }
         </tr>
 
         @{ var odd = true; }
-        @foreach (var highScore in Model)
+        @foreach (var highScore in Model.Scores)
         {
             <tr class="@(odd ? "odd" : "even")">
                 <td>@highScore.MapName</td>
                 <td>@highScore.PlayerName</td>
                 <td>@highScore.Score.ToString()</td>
-                <td>@Html.ActionLink(Global.Details, "Map", new { id = highScore.MapId })</td>
+                
+                @if (Model.ShowDetailColumn)
+                {
+                    <td>@Html.ActionLink(Global.Details, "Map", new { id = highScore.MapId })</td>
+                }
             </tr>
 
             odd = !odd;

@@ -1,0 +1,21 @@
+﻿@model Billapong.Administration.Models.HighScore.MapScoresViewModel
+           
+@{
+    ViewBag.Title = string.Format(@Global.HighScoresForMapTitle, Model.MapId);
+}
+
+<p>@Html.ActionLink(Global.BackToOverview, "Index")</p>
+
+<div id="mapscores" mapid="@Model.MapId">
+    <div class="loading">
+        <img src="~/Images/spinner.gif" />
+    </div>
+
+    <div class="result">
+
+    </div>
+
+    <div class="error">
+        @Html.Raw(Global.ErrorOccurred)
+    </div>
+</div>

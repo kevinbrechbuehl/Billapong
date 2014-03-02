@@ -120,6 +120,9 @@
   <data name="All" xml:space="preserve">
     <value>All</value>
   </data>
+  <data name="BackToOverview" xml:space="preserve">
+    <value>Back to the overview</value>
+  </data>
   <data name="ClearLog" xml:space="preserve">
     <value>Clear Log</value>
   </data>
@@ -152,6 +155,9 @@
   </data>
   <data name="HighScore" xml:space="preserve">
     <value>High Score</value>
+  </data>
+  <data name="HighScoresForMapTitle" xml:space="preserve">
+    <value>High Scores for map with id '{0}'</value>
   </data>
   <data name="HighScoresTitle" xml:space="preserve">
     <value>High Scores</value>

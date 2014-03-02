@@ -1,5 +1,6 @@
 ﻿namespace Billapong.Administration.Helpers
 {
+    using System;
     using System.Web.Mvc;
     using System.Web.Mvc.Html;
 
@@ -18,10 +19,8 @@
         /// <returns>Html string with the link</returns>
         public static MvcHtmlString MenuLink(this HtmlHelper htmlHelper, string linkText, string actionName, string controllerName)
         {
-            var currentAction = htmlHelper.ViewContext.RouteData.GetRequiredString("action");
             var currentController = htmlHelper.ViewContext.RouteData.GetRequiredString("controller");
-
-            if (actionName == currentAction && controllerName == currentController)
+            if (controllerName.Equals(currentController, StringComparison.InvariantCultureIgnoreCase))
             {
                 return htmlHelper.ActionLink(linkText, actionName, controllerName, null, new { @class = "active" });
             }

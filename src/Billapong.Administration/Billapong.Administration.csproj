@@ -107,6 +107,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\HtmlHelpers.cs" />
+    <Compile Include="Models\HighScore\MapScoresViewModel.cs" />
+    <Compile Include="Models\HighScore\ScoresViewModel.cs" />
     <Compile Include="Models\Tracing\IndexViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
@@ -154,7 +156,10 @@
     <Content Include="Views\HighScore\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\HighScore\MapHighScores.cshtml" />
+    <Content Include="Views\HighScore\ScoresTable.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\HighScore\Map.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

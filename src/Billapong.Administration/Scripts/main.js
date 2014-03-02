@@ -28,8 +28,31 @@ $(document).ready(function () {
     if ($("#maphighscores").length > 0) {
         refreshMapHighScores();
     }
+    
+    if ($("#mapscores").length > 0) {
+        refreshMapScores();
+    }
 
 });
+
+function refreshMapScores() {
+    $("#mapscores .loading").show();
+    $("#mapscores .result").hide();
+    $("#mapscores .error").hide();
+
+    var url = "/highscore/MapScores/" + $("#mapscores").attr("mapId");
+    $.get(url, function (data) {
+        $("#mapscores .result").html(data);
+    }).done(function () {
+        $("#mapscores .loading").hide();
+        $("#mapscores .error").hide();
+        $("#mapscores .result").show();
+    }).fail(function () {
+        $("#mapscores .loading").hide();
+        $("#mapscores .error").show();
+        $("#mapscores .result").hide();
+    });
+}
 
 function refreshMapHighScores() {
     $("#maphighscores .loading").show();

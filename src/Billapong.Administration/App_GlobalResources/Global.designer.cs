@@ -70,6 +70,15 @@ namespace Billapong.Administration.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Back to the overview.
+        /// </summary>
+        public static string BackToOverview {
+            get {
+                return ResourceManager.GetString("BackToOverview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clear Log.
         /// </summary>
         public static string ClearLog {
@@ -165,6 +174,15 @@ namespace Billapong.Administration.Resources {
         public static string HighScore {
             get {
                 return ResourceManager.GetString("HighScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to High Scores for map with id &apos;{0}&apos;.
+        /// </summary>
+        public static string HighScoresForMapTitle {
+            get {
+                return ResourceManager.GetString("HighScoresForMapTitle", resourceCulture);
             }
         }
         
