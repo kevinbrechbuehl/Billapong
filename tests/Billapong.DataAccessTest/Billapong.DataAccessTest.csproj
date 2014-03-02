@@ -75,6 +75,10 @@
       <Project>{80157A62-73EC-4A78-BFD7-422FF16E49A8}</Project>
       <Name>Billapong.DataAccess</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Billapong.Tests.Common\Billapong.Tests.Common.csproj">
+      <Project>{01b1bb11-276b-4ec9-87bc-e8387c5b8c98}</Project>
+      <Name>Billapong.Tests.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -6,13 +6,19 @@ using System.Threading.Tasks;
 
 namespace Billapong.DataAccessTest.GamePlay
 {
+    using System.Data.Entity;
+
+    using Billapong.DataAccess;
+    using Billapong.DataAccess.Initialize;
+    using Billapong.Tests.Common;
+
     using DataAccess.Model.Map;
     using DataAccess.Repository;
     using DataAccess.UnitOfWork;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class HighScoreTest
+    public class HighScoreTest : TestBase
     {
         [TestMethod]
         public void AddHighScoreTest()

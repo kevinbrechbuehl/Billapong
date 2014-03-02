@@ -2,6 +2,9 @@
 {
     using System;
     using System.Linq;
+
+    using Billapong.Tests.Common;
+
     using DataAccess.Model.Tracing;
     using DataAccess.Repository;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -10,7 +13,7 @@
     /// Tests The LogMessage class
     /// </summary>
     [TestClass]
-    public class TracingRepositoryTest
+    public class TracingRepositoryTest : TestBase
     {
         /// <summary>
         /// Tests the repository

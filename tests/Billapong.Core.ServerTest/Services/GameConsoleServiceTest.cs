@@ -1,11 +1,14 @@
 ﻿namespace Billapong.Core.ServerTest.Services
 {
     using System.Linq;
+
+    using Billapong.Tests.Common;
+
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Server.Services;
 
     [TestClass]
-    public class GameConsoleServiceTest
+    public class GameConsoleServiceTest : TestBase
     {
         [TestMethod]
         public void GetMapsTest()
