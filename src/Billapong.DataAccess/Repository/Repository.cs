@@ -89,8 +89,8 @@
         /// </summary>
         public virtual void RemoveAll()
         {
-            var tablename = ((IObjectContextAdapter)this.context).ObjectContext.CreateObjectSet<TEntity>().EntitySet.Name;
-            this.context.Database.ExecuteSqlCommand(string.Format("TRUNCATE TABLE {0}", tablename));
+            this.databaseSet.RemoveRange(this.Get());
+            this.Save();
         }
 
         /// <summary>
