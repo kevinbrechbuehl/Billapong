@@ -524,6 +524,7 @@
         {
             if (map.Windows.Count == 0) return false;
             if (map.Windows.Count == 1) return true;
+            if (map.Windows.Sum(window => window.Holes.Count) == 0) return false;
 
             var graph = this.GetActiveGraph(map, new List<long>(), map.Windows.First());
             return map.Windows.All(window => graph.Contains(window.Id));
