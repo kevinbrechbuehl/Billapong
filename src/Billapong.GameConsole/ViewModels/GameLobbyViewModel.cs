@@ -3,6 +3,9 @@
     using System.Collections.ObjectModel;
     using System.ServiceModel;
     using System.Windows;
+
+    using Billapong.GameConsole.Properties;
+
     using Configuration;
     using Contract.Data.GamePlay;
     using Contract.Exceptions;
@@ -36,7 +39,7 @@
         {
             this.WindowHeight = 400;
             this.WindowWidth = 500;
-            this.BackButtonContent = "Back to menu";
+            this.BackButtonContent = Resources.BackToMenu;
             this.OpenGames = new ObservableCollection<LobbyGame>();
             this.LoadOpenGames();
         }
@@ -135,15 +138,18 @@
         {
             try
             {
-                var loadingScreen = new LoadingScreenViewModel("Joining game. Please wait...", GameConfiguration.GameType.MultiPlayerGame);
-                loadingScreen.CurrentGameId = this.SelectedLobbyGame.Id;
+                var loadingScreen = new LoadingScreenViewModel(Resources.JoiningGameMessage, GameConfiguration.GameType.MultiPlayerGame)
+                                        {
+                                            CurrentGameId = this .SelectedLobbyGame.Id
+                                        };
+
                 GameConsoleContext.Current.GameConsoleCallback.GameStarted += loadingScreen.StartGame;
-                GameConsoleContext.Current.GameConsoleServiceClient.JoinGameAsync(this.SelectedLobbyGame.Id, Properties.Settings.Default.PlayerName);
+                GameConsoleContext.Current.GameConsoleServiceClient.JoinGame(this.SelectedLobbyGame.Id, Settings.Default.PlayerName);
                 this.SwitchWindowContent(loadingScreen);
             }
-            catch (FaultException<GameNotOpenException> ex)
+            catch (FaultException<GameNotOpenException>)
             {
-                MessageBox.Show("Game already opened!" + ex.Detail.Message, "Error");
+                MessageBox.Show(Resources.GameAlreadyOpened, Resources.Error);
             }
         }
 

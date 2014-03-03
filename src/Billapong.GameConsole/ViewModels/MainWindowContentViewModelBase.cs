@@ -101,6 +101,15 @@
         }
 
         /// <summary>
+        /// Returns to menu.
+        /// </summary>
+        protected virtual void ReturnToMenu()
+        {
+            var gameMenuViewModel = new GameMenuViewModel();
+            this.SwitchWindowContent(gameMenuViewModel);
+        }
+
+        /// <summary>
         /// Raises the <see cref="E:WindowContentSwitchRequested" /> event.
         /// </summary>
         /// <param name="e">The <see cref="WindowContentSwitchRequestedEventArgs"/> instance containing the event data.</param>
