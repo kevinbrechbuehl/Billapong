@@ -25,9 +25,9 @@
         event EventHandler<RoundEndedEventArgs> RoundEnded;
 
         /// <summary>
-        /// Occurs when the game got cancelled by a player.
+        /// Occurs when the game got canceled by a player.
         /// </summary>
-        event EventHandler<RoundEndedEventArgs> GameCancelled;
+        event EventHandler<RoundEndedEventArgs> GameCanceled;
 
         /// <summary>
         /// Places the ball on game field.

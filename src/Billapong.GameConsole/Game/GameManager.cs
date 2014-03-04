@@ -136,7 +136,7 @@
             this.gameController.BallPlacedOnGameField += this.PlaceBallOnGameField;
             this.gameController.RoundStarted += this.StartRound;
             this.gameController.RoundEnded += this.RoundEnded;
-            this.gameController.GameCancelled += this.CancelGame;
+            this.gameController.GameCanceled += this.CancelGame;
 
             this.OpenGameField();
 

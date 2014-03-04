@@ -25,7 +25,7 @@
             GameConsoleContext.Current.GameConsoleCallback.StartPointSet += this.OnBallPlacedOnGameField;
             GameConsoleContext.Current.GameConsoleCallback.RoundStarted += this.OnRoundStarted;
             GameConsoleContext.Current.GameConsoleCallback.RoundEnded += this.OnRoundEnded;
-            GameConsoleContext.Current.GameConsoleCallback.GameCancelled += this.OnGameCancelled;
+            GameConsoleContext.Current.GameConsoleCallback.GameCancelled += this.OnGameCanceled;
         }
 
         /// <summary>
@@ -46,7 +46,7 @@
         /// <summary>
         /// Occurs when the game got cancelled by a player.
         /// </summary>
-        public event EventHandler<RoundEndedEventArgs> GameCancelled = delegate { };
+        public event EventHandler<RoundEndedEventArgs> GameCanceled = delegate { };
 
         /// <summary>
         /// Places the ball on game field.
@@ -188,9 +188,9 @@
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
-        public void OnGameCancelled(object sender, EventArgs args)
+        public void OnGameCanceled(object sender, EventArgs args)
         {
-            this.GameCancelled(this, null);
+            this.GameCanceled(this, null);
         }
     }
 }

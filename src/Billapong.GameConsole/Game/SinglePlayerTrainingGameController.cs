@@ -27,7 +27,7 @@
         /// <summary>
         /// Occurs when the game got cancelled by a player.
         /// </summary>
-        public event EventHandler<RoundEndedEventArgs> GameCancelled;
+        public event EventHandler<RoundEndedEventArgs> GameCanceled = delegate { };
 
         /// <summary>
         /// Places the ball on game field.
@@ -68,7 +68,7 @@
         /// </summary>
         public void CancelGame()
         {
-            this.GameCancelled(this, null);
+            this.GameCanceled(this, null);
         }
     }
 }
