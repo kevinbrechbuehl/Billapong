@@ -261,7 +261,7 @@
 
             if (service.State != CommunicationState.Created)
             {
-                var type = service.GetType();
+                var type = service.Description.ServiceType;
                 service = new ServiceHost(type);
                 this.serviceHosts[serviceName] = service;
             }
