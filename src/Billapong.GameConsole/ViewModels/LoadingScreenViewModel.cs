@@ -1,6 +1,10 @@
 ﻿namespace Billapong.GameConsole.ViewModels
 {
     using System;
+    using System.Windows;
+
+    using Billapong.GameConsole.Properties;
+
     using Configuration;
     using Game;
     using Models;
@@ -92,12 +96,20 @@
         /// </summary>
         protected override void NavigateBack()
         {
-            if (this.CurrentGameId != Guid.Empty)
+            try
             {
-                GameConsoleContext.Current.GameConsoleServiceClient.CancelGame(this.CurrentGameId);
-            }
+                if (this.CurrentGameId != Guid.Empty)
+                {
+                    GameConsoleContext.Current.GameConsoleServiceClient.CancelGame(this.CurrentGameId);
+                }
 
-            base.NavigateBack();
+                base.NavigateBack();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, Resources.Error);
+                this.ReturnToMenu();
+            }
         }
     }
 }
