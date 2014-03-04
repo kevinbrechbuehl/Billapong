@@ -18,6 +18,21 @@
         private int bounceCount;
 
         /// <summary>
+        /// Indicates, whether the current round has ended for this player
+        /// </summary>
+        private bool currentRoundEnded = false;
+
+        /// <summary>
+        /// Indicates, whether the game server sent the round ended event for the current round 
+        /// </summary>
+        private bool currentRoundEndedEventRecieved = false;
+
+        /// <summary>
+        /// The current round ended arguments
+        /// </summary>
+        private RoundEndedEventArgs currentRoundEndedArguments;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="MultiplayerGameController"/> class.
         /// </summary>
         public MultiplayerGameController()
@@ -74,7 +89,18 @@
         /// <param name="score">The score.</param>
         public void EndRound(bool firstPlayer, int score)
         {
-            GameConsoleContext.Current.GameConsoleServiceClient.EndRound(GameManager.Current.CurrentGame.GameId, firstPlayer, score);
+            currentRoundEnded = true;
+
+            // We only want to send the end round command to the server if this was the current players turn
+            if (GameManager.Current.CurrentGame.CurrentPlayer.IsLocalPlayer)
+            {
+                GameConsoleContext.Current.GameConsoleServiceClient.EndRound(GameManager.Current.CurrentGame.GameId, firstPlayer, score);
+            }
+            // Fire the RoundEnded event if the server already sent the appropriate event
+            else if (this.currentRoundEndedEventRecieved && this.currentRoundEndedArguments != null)
+            {
+                this.OnRoundEnded(this.currentRoundEndedArguments);
+            }
         }
 
         /// <summary>
@@ -101,6 +127,23 @@
         /// <param name="sender">The sender.</param>
         /// <param name="args">The <see cref="RoundEndedEventArgs"/> instance containing the event data.</param>
         public void OnRoundEnded(object sender, RoundEndedEventArgs args)
+        {
+            if (currentRoundEnded)
+            {
+                this.OnRoundEnded(args);
+            }
+            else
+            {
+                this.currentRoundEndedEventRecieved = true;
+                this.currentRoundEndedArguments = args;
+            }
+        }
+
+        /// <summary>
+        /// Gets called when the server sent the RoundEnded event and the local player is ready for the next round
+        /// </summary>
+        /// <param name="args">The <see cref="RoundEndedEventArgs"/> instance containing the event data.</param>
+        public void OnRoundEnded(RoundEndedEventArgs args)
         {
             GameManager.Current.CurrentGame.CurrentPlayer.Score = args.Score;
             GameManager.Current.CurrentGame.CurrentPlayer.CurrentPlayerState = Player.PlayerState.OpponentsTurn;
@@ -171,6 +214,11 @@
             }
 
             this.RoundEnded(this, args);
+
+            // Reset the data for the current round
+            this.currentRoundEnded = false;
+            this.currentRoundEndedEventRecieved = false;
+            this.currentRoundEndedArguments = null;
         }
 
         /// <summary>

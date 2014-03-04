@@ -496,9 +496,10 @@
             {
                 if (this.CurrentGame.CurrentPlayer.IsLocalPlayer) 
                 {
-                    this.gameController.EndRound(this.CurrentGame.CurrentPlayer.IsFirstPlayer, this.CurrentGame.CurrentRoundScore);
                     this.LogMessage(string.Format("Player '{0}' finished round {1} with a round score of {2} points", this.CurrentGame.CurrentPlayer.Name, this.CurrentGame.CurrentRound, this.CurrentGame.CurrentRoundScore), Tracer.Info);
                 }
+
+                this.gameController.EndRound(this.CurrentGame.CurrentPlayer.IsFirstPlayer, this.CurrentGame.CurrentRoundScore);
 
                 return;
             }
