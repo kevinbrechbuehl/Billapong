@@ -89,16 +89,16 @@
         /// <param name="score">The score.</param>
         public void EndRound(bool firstPlayer, int score)
         {
-            currentRoundEnded = true;
+            this.currentRoundEnded = true;
 
             // We only want to send the end round command to the server if this was the current players turn
             if (GameManager.Current.CurrentGame.CurrentPlayer.IsLocalPlayer)
             {
                 GameConsoleContext.Current.GameConsoleServiceClient.EndRound(GameManager.Current.CurrentGame.GameId, firstPlayer, score);
             }
-            // Fire the RoundEnded event if the server already sent the appropriate event
             else if (this.currentRoundEndedEventRecieved && this.currentRoundEndedArguments != null)
             {
+                // Fire the RoundEnded event if the server already sent the appropriate event
                 this.OnRoundEnded(this.currentRoundEndedArguments);
             }
         }
@@ -128,7 +128,7 @@
         /// <param name="args">The <see cref="RoundEndedEventArgs"/> instance containing the event data.</param>
         public void OnRoundEnded(object sender, RoundEndedEventArgs args)
         {
-            if (currentRoundEnded)
+            if (this.currentRoundEnded)
             {
                 this.OnRoundEnded(args);
             }
@@ -175,10 +175,13 @@
                     if (GameManager.Current.CurrentGame.CurrentPlayer.IsLocalPlayer)
                     {
                         GameManager.Current.LogMessage(
-                            string.Format(wonLogMessage, GameManager.Current.CurrentGame.LocalPlayer.Name,
+                            string.Format(
+                                wonLogMessage,
+                                GameManager.Current.CurrentGame.LocalPlayer.Name,
                                 GameManager.Current.CurrentGame.LocalPlayer.Score,
                                 GameManager.Current.CurrentGame.Opponent.Name,
-                                GameManager.Current.CurrentGame.Opponent.Score), Tracer.Info);
+                                GameManager.Current.CurrentGame.Opponent.Score),
+                            Tracer.Info);
                     }
                 }
                 else if (GameManager.Current.CurrentGame.LocalPlayer.Score <
@@ -190,10 +193,13 @@
                     if (GameManager.Current.CurrentGame.CurrentPlayer.IsLocalPlayer)
                     {
                         GameManager.Current.LogMessage(
-                            string.Format(wonLogMessage, GameManager.Current.CurrentGame.Opponent.Name,
+                            string.Format(
+                                wonLogMessage, 
+                                GameManager.Current.CurrentGame.Opponent.Name,
                                 GameManager.Current.CurrentGame.Opponent.Score,
                                 GameManager.Current.CurrentGame.LocalPlayer.Name,
-                                GameManager.Current.CurrentGame.LocalPlayer.Score), Tracer.Info);
+                                GameManager.Current.CurrentGame.LocalPlayer.Score), 
+                                Tracer.Info);
                     }
                 }
                 else
@@ -204,14 +210,18 @@
                     if (GameManager.Current.CurrentGame.CurrentPlayer.IsLocalPlayer)
                     {
                         GameManager.Current.LogMessage(
-                            string.Format("The game ended. {0} and {1} played a draw with a score of {2}",
+                            string.Format(
+                                "The game ended. {0} and {1} played a draw with a score of {2}",
                                 GameManager.Current.CurrentGame.LocalPlayer.Name,
                                 GameManager.Current.CurrentGame.Opponent.Name,
-                                GameManager.Current.CurrentGame.LocalPlayer.Score), Tracer.Info);
+                                GameManager.Current.CurrentGame.LocalPlayer.Score), 
+                                Tracer.Info);
                     }
                 }
 
                 Tracer.ProcessQueuedMessages();
+
+                this.GameEndCleanup();
             }
 
             this.RoundEnded(this, args);
@@ -240,6 +250,17 @@
         public void OnGameCanceled(object sender, EventArgs args)
         {
             this.GameCanceled(this, null);
+        }
+
+        /// <summary>
+        /// Cleans up the current instance after a game is finished
+        /// </summary>
+        private void GameEndCleanup()
+        {
+            GameConsoleContext.Current.GameConsoleCallback.StartPointSet -= this.OnBallPlacedOnGameField;
+            GameConsoleContext.Current.GameConsoleCallback.RoundStarted -= this.OnRoundStarted;
+            GameConsoleContext.Current.GameConsoleCallback.RoundEnded -= this.OnRoundEnded;
+            GameConsoleContext.Current.GameConsoleCallback.GameCancelled -= this.OnGameCanceled;
         }
     }
 }

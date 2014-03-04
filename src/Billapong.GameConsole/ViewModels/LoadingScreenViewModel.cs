@@ -88,6 +88,9 @@
             var gameStateViewModel = new GameStateViewModel(game);
             GameManager.Current.StartGame(game, gameStateViewModel);
 
+            // Remove the current method from the GameStarted event
+            GameConsoleContext.Current.GameConsoleCallback.GameStarted -= this.StartGame;
+
             this.SwitchWindowContent(gameStateViewModel);
         }
 

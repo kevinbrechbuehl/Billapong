@@ -28,12 +28,12 @@
         /// <summary>
         /// The list with all game window view models
         /// </summary>
-        private readonly List<GameWindowViewModel> gameWindowViewModels = new List<GameWindowViewModel>();
+        private List<GameWindowViewModel> gameWindowViewModels;
 
         /// <summary>
         /// The game windows
         /// </summary>
-        private readonly List<Window> gameWindows = new List<Window>();
+        private List<Window> gameWindows;
 
         /// <summary>
         /// The game controller
@@ -115,6 +115,7 @@
         /// <param name="stateViewModel">The state view model.</param>
         public void StartGame(Game game, GameStateViewModel stateViewModel)
         {
+            this.PrepareNewGame();
             this.CurrentGame = game;
             this.CurrentGame.CurrentGameState = Game.GameState.Running;
             this.gameStateViewModel = stateViewModel;
@@ -246,6 +247,18 @@
                 this.gameStateViewModel.CancelGame();
                 this.CloseGameField();
             }
+        }
+
+        /// <summary>
+        /// Prepares the new game.
+        /// </summary>
+        private void PrepareNewGame()
+        {
+            this.gameWindowViewModels = new List<GameWindowViewModel>();
+            this.gameWindows = new List<Window>();
+            this.gameController = null;
+            this.ballAnimationTaskQueue = null;
+            this.gameStateViewModel = null;
         }
 
         /// <summary>
