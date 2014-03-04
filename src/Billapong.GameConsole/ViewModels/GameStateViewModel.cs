@@ -1,5 +1,7 @@
 ﻿namespace Billapong.GameConsole.ViewModels
 {
+    using Billapong.GameConsole.Properties;
+
     using Core.Client.UI;
     using Game;
     using Models;
@@ -97,7 +99,7 @@
         /// </summary>
         public void StartGame()
         {
-            this.ActionButtonText = "Cancel game";
+            this.ActionButtonText = Resources.CancelGame;
         }
 
         /// <summary>
@@ -105,8 +107,8 @@
         /// </summary>
         public void CancelGame()
         {
-            this.StatusMessage = "Game got canceled";
-            this.ActionButtonText = "Return to menu";
+            this.StatusMessage = Resources.GameGotCanceled;
+            this.ActionButtonText = Resources.BackToMenu;
         }
 
         /// <summary>
@@ -118,18 +120,18 @@
             switch (GameManager.Current.CurrentGame.LocalPlayer.CurrentPlayerState)
             {
                 case Player.PlayerState.Won:
-                    endingMessage = "Game ended. You won! :)";
+                    endingMessage = Resources.GameWonMessage;
                     break;
                 case Player.PlayerState.Lost:
-                    endingMessage = "Game ended. You lost :(";
+                    endingMessage = Resources.GameLostMessage;
                     break;
                 default:
-                    endingMessage = "Game ended. Draw!";
+                    endingMessage = Resources.GameDrawMessage;
                     break;
             }
 
             this.StatusMessage = endingMessage;
-            this.ActionButtonText = "Return to menu";
+            this.ActionButtonText = Resources.BackToMenu;
         }
 
         /// <summary>

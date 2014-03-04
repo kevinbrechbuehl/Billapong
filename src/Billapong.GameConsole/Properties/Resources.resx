@@ -120,13 +120,34 @@
   <data name="BackToMenu" xml:space="preserve">
     <value>Back to menu</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CancelGame" xml:space="preserve">
+    <value>Cancel game</value>
+  </data>
   <data name="Error" xml:space="preserve">
     <value>Error</value>
   </data>
   <data name="GameAlreadyOpened" xml:space="preserve">
     <value>Game is already opened!</value>
   </data>
+  <data name="GameDrawMessage" xml:space="preserve">
+    <value>Game ended. Draw!</value>
+  </data>
+  <data name="GameGotCanceled" xml:space="preserve">
+    <value>Game got canceled</value>
+  </data>
+  <data name="GameLostMessage" xml:space="preserve">
+    <value>Game ended. You lost :(</value>
+  </data>
+  <data name="GameWonMessage" xml:space="preserve">
+    <value>Game ended. You won! :)</value>
+  </data>
   <data name="JoiningGameMessage" xml:space="preserve">
     <value>Joining game. Please wait...</value>
+  </data>
+  <data name="WaitingForOpponent" xml:space="preserve">
+    <value>Waiting for opponent...</value>
   </data>
 </root>

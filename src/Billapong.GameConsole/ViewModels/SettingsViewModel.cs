@@ -1,5 +1,7 @@
 ﻿namespace Billapong.GameConsole.ViewModels
 {
+    using Billapong.GameConsole.Properties;
+
     using Core.Client.UI;
 
     /// <summary>
@@ -20,8 +22,8 @@
             this.WindowHeight = 350;
             this.WindowWidth = 400;
 
-            this.PlayerName = Properties.Settings.Default.PlayerName;
-            this.BackButtonContent = "Back to menu";
+            this.PlayerName = Settings.Default.PlayerName;
+            this.BackButtonContent = Resources.BackToMenu;
         }
 
         /// <summary>
@@ -63,8 +65,8 @@
         /// </summary>
         public void SaveSettings()
         {
-            Properties.Settings.Default.PlayerName = this.PlayerName;
-            Properties.Settings.Default.Save();
+            Settings.Default.PlayerName = this.PlayerName;
+            Settings.Default.Save();
 
             this.NavigateBack();
         }

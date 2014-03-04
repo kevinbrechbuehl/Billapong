@@ -4,6 +4,8 @@
     using System.Collections.ObjectModel;
     using System.Linq;
     using Billapong.GameConsole.Game;
+    using Billapong.GameConsole.Properties;
+
     using Configuration;
     using Converter.Map;
     using Core.Client.UI;
@@ -43,7 +45,7 @@
         {
             this.WindowHeight = 380;
             this.WindowWidth = 700;
-            this.BackButtonContent = "Back to menu";
+            this.BackButtonContent = Resources.BackToMenu;
 
             this.gameType = gameType;
             this.Maps = new ObservableCollection<Map>();
@@ -204,7 +206,7 @@
                     nextWindow = gameStateViewModel;
                     break;
                 case GameConfiguration.GameType.MultiPlayerGame:
-                    var loadingScreenViewModel = new LoadingScreenViewModel("Waiting for opponent...", GameConfiguration.GameType.MultiPlayerGame, true);
+                    var loadingScreenViewModel = new LoadingScreenViewModel(Resources.WaitingForOpponent, GameConfiguration.GameType.MultiPlayerGame, true);
                     GameConsoleContext.Current.GameConsoleCallback.GameStarted += loadingScreenViewModel.StartGame;
                     loadingScreenViewModel.CurrentGameId = await GameConsoleContext.Current.GameConsoleServiceClient.OpenGameAsync(this.SelectedMap.Id, this.WindowSelectionViewModel.SelectedWindows.Select(x => x.Id), Properties.Settings.Default.PlayerName);
                     nextWindow = loadingScreenViewModel;

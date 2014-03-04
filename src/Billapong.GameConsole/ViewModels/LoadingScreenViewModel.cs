@@ -42,7 +42,7 @@
             this.WindowWidth = 200;
             this.WindowHeight = 200;
             this.LoadingMessage = loadingMessage;
-            this.BackButtonContent = "Cancel";
+            this.BackButtonContent = Resources.Cancel;
             this.gameType = gameType;
             this.isGameOwner = isGameOwner;
         }
