@@ -11,6 +11,7 @@
             view.DataContext = viewModel;
             view.Closing += (sender, args) => viewModel.CloseCallback();
             view.Show();
+            view.Focus();
         }
 
         private Window GetWindow(Type viewModelType)
