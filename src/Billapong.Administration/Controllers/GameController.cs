@@ -14,6 +14,7 @@ namespace Billapong.Administration.Controllers
     {
         public ActionResult Index()
         {
+            Tracer.Info("Call Index() method on GameController");
             return View();
         }
 
@@ -21,6 +22,7 @@ namespace Billapong.Administration.Controllers
         {
             try
             {
+                Tracer.Info("Call Games() method on GameController");
                 Tracer.Debug("Refreshing games");
                 
                 var proxy = new AdministrationServiceClient();

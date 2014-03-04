@@ -22,6 +22,7 @@
         /// <returns>The result view.</returns>
         public ActionResult Index()
         {
+            Tracer.Info("Call Index() method on TracingController");
             var model = new IndexViewModel();
 
             // add loglevels
@@ -59,6 +60,7 @@
         {
             try
             {
+                Tracer.Info("Call Entries() method on TracingController");
                 Tracer.Debug("Refreshing log entries");
 
                 var proxy = new AdministrationServiceClient();
@@ -85,6 +87,7 @@
         {
             try
             {
+                Tracer.Info("Call Clear() method on TracingController");
                 Tracer.Debug("Clearing log entries");
 
                 var proxy = new AdministrationServiceClient();

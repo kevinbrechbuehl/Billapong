@@ -17,6 +17,7 @@ namespace Billapong.Administration.Controllers
     {
         public ActionResult Index()
         {
+            Tracer.Info("Call Index() method on HighScoreController");
             return View();
         }
 
@@ -24,6 +25,7 @@ namespace Billapong.Administration.Controllers
         {
             try
             {
+                Tracer.Info("Call MapHighScores() method on HighScoreController");
                 Tracer.Debug("Refreshing highscores of all maps");
 
                 var proxy = new AdministrationServiceClient();
@@ -39,6 +41,7 @@ namespace Billapong.Administration.Controllers
 
         public ActionResult Map(long id)
         {
+            Tracer.Info("Call Map(long id) method on HighScoreController");
             return this.View(new MapScoresViewModel { MapId = id });
         }
 
@@ -46,6 +49,7 @@ namespace Billapong.Administration.Controllers
         {
             try
             {
+                Tracer.Info("Call MapScores(long id) method on HighScoreController");
                 Tracer.Debug(string.Format("Refreshing scores of map with id '{0}'", id));
 
                 var proxy = new AdministrationServiceClient();
