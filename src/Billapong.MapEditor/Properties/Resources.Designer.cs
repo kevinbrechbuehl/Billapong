@@ -178,6 +178,15 @@ namespace Billapong.MapEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Map does not exist anymore!.
+        /// </summary>
+        public static string MapNotExist {
+            get {
+                return ResourceManager.GetString("MapNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Billapong - Map Editor - Map Selection.
         /// </summary>
         public static string MapSelectionTitle {

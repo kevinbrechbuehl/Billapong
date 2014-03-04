@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace Billapong.MapEditor.Services
 {
+    using System.Threading;
+
     using Contract.Data.Map;
     using Contract.Service;
     using Core.Client;
@@ -38,6 +40,16 @@ namespace Billapong.MapEditor.Services
         public async Task<IEnumerable<Map>> GetMapsAsync()
         {
             return await this.ExecuteAsync(() => this.Proxy.GetMaps());
+        }
+
+        public async Task<MapConfiguration> GetMapConfigurationAsync()
+        {
+            return await this.ExecuteAsync(() => this.Proxy.GetMapConfiguration());
+        }
+
+        public async Task<Map> CreateMapAsync()
+        {
+            return await this.ExecuteAsync(() => this.Proxy.CreateMap());
         }
 
         public async void DeleteMap(long mapId)
