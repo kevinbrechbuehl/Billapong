@@ -44,6 +44,12 @@
         /// </value> 
         public int Y { get; set; }
 
+        /// <summary>
+        /// Gets the diameter.
+        /// </summary>
+        /// <value>
+        /// The diameter.
+        /// </value>
         public double Diameter
         {
             get
@@ -78,7 +84,7 @@
             {
                 if (Math.Abs(this.left) < 0.001)
                 {
-                    this.left = this.Diameter*this.X;
+                    this.left = this.Diameter * this.X;
                 }
 
                 return this.left;
@@ -87,7 +93,7 @@
             set
             {
                 this.left = value;
-                OnPropertyChanged();
+                this.OnPropertyChanged();
             }
         }
 
@@ -112,7 +118,7 @@
             set
             {
                 this.top = value;
-                OnPropertyChanged();
+                this.OnPropertyChanged();
             }
         }
 

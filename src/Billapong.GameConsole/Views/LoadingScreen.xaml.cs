@@ -7,9 +7,12 @@
     /// </summary>
     public partial class LoadingScreen : UserControl
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LoadingScreen"/> class.
+        /// </summary>
         public LoadingScreen()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

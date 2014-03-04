@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-namespace Billapong.GameConsole.Views
+﻿namespace Billapong.GameConsole.Views
 {
     using System.Windows.Controls;
 
@@ -13,9 +7,12 @@ namespace Billapong.GameConsole.Views
     /// </summary>
     public partial class PlayerInformation : UserControl
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PlayerInformation"/> class.
+        /// </summary>
         public PlayerInformation()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

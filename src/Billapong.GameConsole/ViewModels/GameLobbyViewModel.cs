@@ -140,7 +140,7 @@
             {
                 var loadingScreen = new LoadingScreenViewModel(Resources.JoiningGameMessage, GameConfiguration.GameType.MultiPlayerGame)
                                         {
-                                            CurrentGameId = this .SelectedLobbyGame.Id
+                                            CurrentGameId = this.SelectedLobbyGame.Id
                                         };
 
                 GameConsoleContext.Current.GameConsoleCallback.GameStarted += loadingScreen.StartGame;

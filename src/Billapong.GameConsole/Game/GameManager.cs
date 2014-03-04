@@ -55,6 +55,14 @@
         private GameStateViewModel gameStateViewModel;
 
         /// <summary>
+        /// Prevents a default instance of the <see cref="GameManager"/> class from being created.
+        /// </summary>
+        private GameManager()
+        {
+            GameConsoleContext.Current.GameConsoleCallback.GameErrorOccured += this.ErrorOccured;
+        }
+
+        /// <summary>
         /// Defines the possible intersections between a ball and the game field
         /// </summary>
         private enum Intersection
@@ -105,14 +113,6 @@
         }
 
         /// <summary>
-        /// Prevents a default instance of the <see cref="GameManager"/> class from being created.
-        /// </summary>
-        private GameManager()
-        {
-            GameConsoleContext.Current.GameConsoleCallback.GameErrorOccured += this.ErrorOccured;
-        }
-
-        /// <summary>
         /// Gets the current game.
         /// </summary>
         /// <value>
@@ -153,7 +153,7 @@
 
             this.OpenGameField();
 
-            if (this.CurrentGame.StartGame)
+            if (this.CurrentGame.LocalPlayer.HasFirstTurn)
             {
                 this.PlaceBallOnGameField();
             }
@@ -389,7 +389,7 @@
         private void ErrorOccured(object sender, EventArgs args)
         {
             MessageBox.Show(
-                "An unexpected error occured. The game will cancel now",
+                Resources.UnexpectedGameError,
                 Resources.Error,
                 MessageBoxButton.OK,
                 MessageBoxImage.Error);

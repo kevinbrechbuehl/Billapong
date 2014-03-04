@@ -1,5 +1,8 @@
 ﻿namespace Billapong.GameConsole.Models.MapSelection
 {
+    /// <summary>
+    /// Represents a hole within a window of the map selection screen
+    /// </summary>
     public class MapSelectionWindowHole
     {
         /// <summary>

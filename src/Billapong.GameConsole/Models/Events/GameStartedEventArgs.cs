@@ -53,7 +53,5 @@
         ///   <c>true</c> if the current player starts the first round; otherwise, <c>false</c>.
         /// </value>
         public bool StartGame { get; private set; }
-
-
     }
 }

@@ -151,6 +151,15 @@ namespace Billapong.GameConsole.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An unexpected error occured. The game will now cancel.
+        /// </summary>
+        internal static string UnexpectedGameError {
+            get {
+                return ResourceManager.GetString("UnexpectedGameError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Waiting for opponent....
         /// </summary>
         internal static string WaitingForOpponent {

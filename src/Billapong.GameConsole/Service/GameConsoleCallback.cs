@@ -65,7 +65,7 @@
         /// </summary>
         public void GameError()
         {
-            ThreadContext.InvokeOnUiThread(this.GameError);
+            ThreadContext.InvokeOnUiThread(this.OnGameError);
         }
 
         /// <summary>

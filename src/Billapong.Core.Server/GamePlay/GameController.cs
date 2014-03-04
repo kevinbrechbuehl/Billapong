@@ -422,7 +422,7 @@
             foreach (var player in game.Players)
             {
                 var callback = player.Callback;
-                if (((ICommunicationObject)callback).State != CommunicationState.Opened)
+                if (((ICommunicationObject)callback).State == CommunicationState.Opened)
                 {
                     callback.GameError();
                 }

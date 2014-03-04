@@ -18,7 +18,25 @@
         /// </summary>
         private PlayerState playerState;
 
+        /// <summary>
+        /// The color brush
+        /// </summary>
         private SolidColorBrush colorBrush;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Player" /> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="isFirstPlayer">if set to <c>true</c> this player started the game.</param>
+        /// <param name="isLocalPlayer">if set to <c>true</c> the player represents the local user.</param>
+        /// <param name="hasFirstTurn">if set to <c>true</c> [has first turn].</param>
+        public Player(string name, bool isFirstPlayer, bool isLocalPlayer, bool hasFirstTurn)
+        {
+            this.Name = name;
+            this.IsFirstPlayer = isFirstPlayer;
+            this.IsLocalPlayer = isLocalPlayer;
+            this.HasFirstTurn = hasFirstTurn;
+        }
 
         /// <summary>
         /// The different round states for the player
@@ -28,7 +46,6 @@
             /// <summary>
             /// The current turn belongs to the opponent
             /// </summary>
-            /// 
             OpponentsTurn,
 
             /// <summary>
@@ -54,20 +71,7 @@
             /// <summary>
             /// The player played a draw
             /// </summary>
-            Draw,
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Player" /> class.
-        /// </summary>
-        /// <param name="name">The name.</param>
-        /// <param name="isFirstPlayer">if set to <c>true</c> [is first player].</param>
-        /// <param name="isLocalPlayer">if set to <c>true</c> [is local player].</param>
-        public Player(string name, bool isFirstPlayer, bool isLocalPlayer)
-        {
-            this.Name = name;
-            this.IsFirstPlayer = isFirstPlayer;
-            this.IsLocalPlayer = isLocalPlayer;
+            Draw
         }
 
         /// <summary>
@@ -95,6 +99,14 @@
         public bool IsLocalPlayer { get; private set; }
 
         /// <summary>
+        /// Gets a value indicating whether the player has the first turn.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if the player has the first turn; otherwise, <c>false</c>.
+        /// </value>
+        public bool HasFirstTurn { get; private set; }
+
+        /// <summary>
         /// Gets the color of the player.
         /// </summary>
         /// <value>
@@ -109,7 +121,7 @@
         }
 
         /// <summary>
-        /// Gets or sets the color brush.
+        /// Gets the color brush.
         /// </summary>
         /// <value>
         /// The color brush.
@@ -129,7 +141,7 @@
             private set
             {
                 this.colorBrush = value;
-                OnPropertyChanged();
+                this.OnPropertyChanged();
             }
         }
 
@@ -149,7 +161,7 @@
             set
             {
                 this.playerState = value;
-                OnPropertyChanged();
+                this.OnPropertyChanged();
             }
         }
 
@@ -161,11 +173,15 @@
         /// </value>
         public int Score
         {
-            get { return score; }
+            get
+            {
+                return this.score; 
+            }
+
             set
             {
-                score = value;
-                OnPropertyChanged();
+                this.score = value;
+                this.OnPropertyChanged();
             }
         }
     }

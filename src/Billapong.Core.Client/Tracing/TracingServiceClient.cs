@@ -15,9 +15,9 @@
         /// Logs the specified messages.
         /// </summary>
         /// <param name="messages">The messages.</param>
-        public void Log(IEnumerable<LogMessage> messages)
+        public async void Log(IEnumerable<LogMessage> messages)
         {
-            this.ExecuteAsync(() => this.Proxy.Log(messages));
+            await this.ExecuteAsync(() => this.Proxy.Log(messages));
         }
 
         /// <summary>

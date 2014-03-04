@@ -155,7 +155,5 @@
         {
            await this.ExecuteAsync(() => this.Proxy.AddHighScore(mapId, playerName, score));
         }
-
-
     }
 }

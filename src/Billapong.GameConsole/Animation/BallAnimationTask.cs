@@ -1,6 +1,5 @@
 ﻿namespace Billapong.GameConsole.Animation
 {
-    using System;
     using System.Collections.Generic;
     using System.Windows.Media.Animation;
     using Models;
@@ -10,11 +9,20 @@
     /// </summary>
     public class BallAnimationTask
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BallAnimationTask"/> class.
+        /// </summary>
         public BallAnimationTask()
         {
             this.Steps = new List<PointAnimation>();
         }
 
+        /// <summary>
+        /// Gets or sets the window.
+        /// </summary>
+        /// <value>
+        /// The window.
+        /// </value>
         public Window Window { get; set; }
 
         /// <summary>

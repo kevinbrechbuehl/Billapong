@@ -147,6 +147,9 @@
   <data name="JoiningGameMessage" xml:space="preserve">
     <value>Joining game. Please wait...</value>
   </data>
+  <data name="UnexpectedGameError" xml:space="preserve">
+    <value>An unexpected error occured. The game will now cancel</value>
+  </data>
   <data name="WaitingForOpponent" xml:space="preserve">
     <value>Waiting for opponent...</value>
   </data>

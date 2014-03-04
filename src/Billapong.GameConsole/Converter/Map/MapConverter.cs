@@ -53,7 +53,7 @@
         /// </summary>
         /// <param name="hole">The hole.</param>
         /// <param name="holeDiameter">The hole diameter.</param>
-        /// <returns></returns>
+        /// <returns>The map selection window hole</returns>
         public static MapSelectionWindowHole ToMapSelectionWindowHole(this Hole hole, double holeDiameter)
         {
             var mapSelectionWindowHole = new MapSelectionWindowHole();

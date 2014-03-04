@@ -8,27 +8,6 @@
     public static class GameConfiguration
     {
         /// <summary>
-        /// The game types
-        /// </summary>
-        public enum GameType
-        {
-            /// <summary>
-            /// The single player training
-            /// </summary>
-            SinglePlayerTraining,
-
-            /// <summary>
-            /// The single player game
-            /// </summary>
-            SinglePlayerGame,
-
-            /// <summary>
-            /// The multi player game
-            /// </summary>
-            MultiPlayerGame
-        }
-
-        /// <summary>
         /// The game window width
         /// </summary>
         public const int GameWindowWidth = 200;
@@ -47,20 +26,6 @@
         /// The base animation duration in milliseconds
         /// </summary>
         public const double BaseAnimationDuration = 1000;
-
-        /// <summary>
-        /// Gets the maximum animation distance.
-        /// </summary>
-        /// <value>
-        /// The maximum animation distance.
-        /// </value>
-        public static double MaxAnimationDistance
-        {
-            get
-            {
-                return Math.Sqrt(Math.Pow(GameWindowWidth, 2) + Math.Pow(GameWindowHeight, 2));
-            }
-        }
 
         /// <summary>
         /// The hole diameter
@@ -87,6 +52,39 @@
         /// </summary>
         public const int MaxNumberOfWindowsPerRow = 4;
 
-        
+        /// <summary>
+        /// The game types
+        /// </summary>
+        public enum GameType
+        {
+            /// <summary>
+            /// The single player training
+            /// </summary>
+            SinglePlayerTraining,
+
+            /// <summary>
+            /// The single player game
+            /// </summary>
+            SinglePlayerGame,
+
+            /// <summary>
+            /// The multi player game
+            /// </summary>
+            MultiPlayerGame
+        }
+
+        /// <summary>
+        /// Gets the maximum animation distance.
+        /// </summary>
+        /// <value>
+        /// The maximum animation distance.
+        /// </value>
+        public static double MaxAnimationDistance
+        {
+            get
+            {
+                return Math.Sqrt(Math.Pow(GameWindowWidth, 2) + Math.Pow(GameWindowHeight, 2));
+            }
+        }
     }
 }

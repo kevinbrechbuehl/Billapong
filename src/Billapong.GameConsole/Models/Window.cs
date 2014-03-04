@@ -53,8 +53,6 @@
             }
         }
 
-
-
         /// <summary>
         /// Gets or sets a value indicating whether the window is used on this client.
         /// </summary>

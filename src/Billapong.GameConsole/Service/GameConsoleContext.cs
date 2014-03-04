@@ -5,19 +5,20 @@
     /// </summary>
     public class GameConsoleContext
     {
-        #region Singleton implementation
-
         /// <summary>
         /// The singleton instance
         /// </summary>
         private static readonly GameConsoleContext Instance = new GameConsoleContext();
 
         /// <summary>
-        /// Initializes static members of the <see cref="GameConsoleContext"/> class.
+        /// The game console service client
         /// </summary>
-        static GameConsoleContext()
-        {
-        }
+        private GameConsoleServiceClient gameConsoleServiceClient;
+
+        /// <summary>
+        /// The game console callback
+        /// </summary>
+        private GameConsoleCallback gameConsoleCallback;
 
         /// <summary>
         /// Prevents a default instance of the <see cref="GameConsoleContext"/> class from being created.
@@ -39,18 +40,6 @@
                 return Instance;
             }
         }
-
-        #endregion
-
-        /// <summary>
-        /// The game console service client
-        /// </summary>
-        private GameConsoleServiceClient gameConsoleServiceClient;
-
-        /// <summary>
-        /// The game console callback
-        /// </summary>
-        private GameConsoleCallback gameConsoleCallback;
 
         /// <summary>
         /// Gets the game console service client.

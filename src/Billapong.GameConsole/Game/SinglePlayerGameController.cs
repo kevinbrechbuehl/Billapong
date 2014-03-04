@@ -34,20 +34,16 @@
         /// </summary>
         /// <param name="windowId">The window identifier.</param>
         /// <param name="position">The position.</param>
-        /// <exception cref="System.NotImplementedException"></exception>
         public void PlaceBallOnGameField(long windowId, Point position)
         {
-            throw new NotImplementedException();
         }
 
         /// <summary>
         /// Starts the round.
         /// </summary>
         /// <param name="direction">The direction.</param>
-        /// <exception cref="System.NotImplementedException"></exception>
         public void StartRound(Vector direction)
         {
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -55,10 +51,8 @@
         /// </summary>
         /// <param name="firstPlayer">if set to <c>true</c> [first player].</param>
         /// <param name="score">The score.</param>
-        /// <exception cref="System.NotImplementedException"></exception>
         public void EndRound(bool firstPlayer, int score)
         {
-            throw new NotImplementedException();
         }
 
         /// <summary>

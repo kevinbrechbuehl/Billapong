@@ -10,7 +10,14 @@
     /// </summary>
     public class Game : NotificationObject
     {
+        /// <summary>
+        /// The current round
+        /// </summary>
+        private int currentRound = 1;
 
+        /// <summary>
+        /// Defines the possible game states
+        /// </summary>
         public enum GameState
         {
             /// <summary>
@@ -28,11 +35,6 @@
             /// </summary>
             Canceled
         }
-
-        /// <summary>
-        /// The current round
-        /// </summary>
-        private int currentRound = 1;
 
         /// <summary>
         /// Gets the game identifier.
@@ -67,14 +69,6 @@
         public Player Opponent { get; private set; }
 
         /// <summary>
-        /// Gets a value indicating whether the current player starts the game.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if the current player starts the game; otherwise, <c>false</c>.
-        /// </value>
-        public bool StartGame { get; private set; }
-
-        /// <summary>
         /// Gets the type of the game.
         /// </summary>
         /// <value>
@@ -96,15 +90,17 @@
         /// <value>
         /// The current round.
         /// </value>
-        public int CurrentRound {
+        public int CurrentRound 
+        {
             get
             {
                 return this.currentRound;
             }
+
             set
             {
                 this.currentRound = value;
-                OnPropertyChanged();
+                this.OnPropertyChanged();
             } 
         }
 
@@ -153,14 +149,13 @@
         {
             this.GameId = gameId;
             this.Map = map;
-            this.StartGame = startGame;
             this.GameType = gameType;
 
-            var localPlayer = new Player(Properties.Settings.Default.PlayerName, isGameOwner, true);
+            var localPlayer = new Player(Properties.Settings.Default.PlayerName, isGameOwner, true, startGame);
             this.LocalPlayer = localPlayer;
             if (!string.IsNullOrWhiteSpace(opponentName))
             {
-                var opponent = new Player(opponentName, !isGameOwner, false);
+                var opponent = new Player(opponentName, !isGameOwner, false, !startGame);
                 this.Opponent = opponent;
                 this.CurrentPlayer = startGame ? this.LocalPlayer : this.Opponent;
             }

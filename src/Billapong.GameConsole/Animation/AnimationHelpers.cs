@@ -6,6 +6,9 @@
     using Configuration;
     using Game;
 
+    /// <summary>
+    /// Provides some helper methods for the animations
+    /// </summary>
     public static class AnimationHelpers
     {
         /// <summary>
@@ -24,8 +27,8 @@
                 To = targetPosition,
                 Duration = TimeSpan.FromMilliseconds(GameConfiguration.BaseAnimationDuration / GameConfiguration.MaxAnimationDistance * actualDistance)
             };
+
             return animation;
         }
-
     }
 }

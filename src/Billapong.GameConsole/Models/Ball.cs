@@ -4,6 +4,9 @@
     using System.Windows.Media;
     using Core.Client.UI;
 
+    /// <summary>
+    /// Represents the game ball
+    /// </summary>
     public class Ball : NotificationObject
     {
         /// <summary>
@@ -56,13 +59,20 @@
             {
                 return this.position;
             }
+
             set
             {
                 this.position = value;
-                OnPropertyChanged();
+                this.OnPropertyChanged();
             }
         }
 
+        /// <summary>
+        /// Gets or sets the color.
+        /// </summary>
+        /// <value>
+        /// The color.
+        /// </value>
         public Color Color
         {
             get
@@ -73,9 +83,8 @@
             set
             {
                 this.color = value;
-                OnPropertyChanged();
+                this.OnPropertyChanged();
             }
         }
-
     }
 }

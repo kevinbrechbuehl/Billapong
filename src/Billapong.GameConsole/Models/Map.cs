@@ -16,6 +16,12 @@
             this.Windows = new List<Window>();
         }
 
+        /// <summary>
+        /// Gets the windows grouped by rows.
+        /// </summary>
+        /// <value>
+        /// The window rows.
+        /// </value>
         public IDictionary<int, IEnumerable<Window>> Rows
         {
             get
