@@ -12,7 +12,7 @@
         {
             var playerState = (Player.PlayerState) value;
 
-            if (playerState == Player.PlayerState.OpponentsTurn)
+            if (playerState == Player.PlayerState.OpponentsTurn || playerState == Player.PlayerState.Lost)
             {
                 return Visibility.Collapsed;
             }
