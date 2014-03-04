@@ -3,6 +3,9 @@
     using System.Collections.ObjectModel;
     using System.Threading;
     using System.Windows;
+
+    using Billapong.MapEditor.Properties;
+
     using Converter;
     using Core.Client.UI;
     using Models;
@@ -99,8 +102,7 @@
 
         private void DeleteMap(Map map)
         {
-            if (MessageBox.Show(string.Format("Are you sure you want to delete the map '{0}'?", ((Map)map).Name),
-                "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            if (MessageBox.Show(string.Format(Resources.DeleteMapQuestion, ((Map)map).Name), Resources.ConfirmationTitle, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 this.DeleteMap(map.Id);
             }

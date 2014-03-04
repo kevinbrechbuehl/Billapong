@@ -8,6 +8,7 @@ namespace Billapong.MapEditor.ViewModels
     using System.Windows.Navigation;
 
     using Billapong.Contract.Data.Map;
+    using Billapong.MapEditor.Properties;
 
     using Converter;
     using Core.Client.UI;
@@ -266,7 +267,7 @@ namespace Billapong.MapEditor.ViewModels
             }
             else
             {
-                MessageBox.Show(string.Format("Map is currently not valid. Please verify the following rules:{0}{0}- You have at least one active window{0}- Each window must be connected to another window{0}- You have at least one hole", Environment.NewLine), "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(string.Format(Resources.MapIsNotPlayable, Environment.NewLine), Resources.ErrorTitle, MessageBoxButton.OK, MessageBoxImage.Warning);
                 this.IsPlayable = false;
             }
         }
@@ -280,8 +281,7 @@ namespace Billapong.MapEditor.ViewModels
             {
                 if (!gameWindow.IsChecked)
                 {
-                    MessageBox.Show("You can't add holes here, please activate the game window first", "Error",
-                        MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show(Resources.CannotAddHoles, Resources.ErrorTitle, MessageBoxButton.OK, MessageBoxImage.Information);
                     return;
                 }
                 
