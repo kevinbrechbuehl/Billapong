@@ -1,6 +1,8 @@
 ﻿namespace Billapong.Core.Client.Tracing
 {
     using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     using Contract.Data.Tracing;
     using Contract.Service;
 
@@ -27,6 +29,11 @@
         public TracingConfiguration GetConfig()
         {
             return this.Execute(() => this.Proxy.GetConfig());
+        }
+
+        public async Task<TracingConfiguration> GetConfigAsync()
+        {
+            return await this.ExecuteAsync(() => this.Proxy.GetConfig());
         }
     }
 }

@@ -77,9 +77,9 @@
         /// Initializes the tracer and load the configuration.
         /// </summary>
         /// <param name="component">The component name.</param>
-        public static void Initialize(Component component)
+        public static async Task Initialize(Component component)
         {
-            Current.InitializeConfig(component);
+            await Current.InitializeConfig(component);
         }
 
         /// <summary>
@@ -150,21 +150,18 @@
         /// Initializes the configuration.
         /// </summary>
         /// <param name="component">The component name.</param>
-        private void InitializeConfig(Component component)
+        private async Task InitializeConfig(Component component)
         {
             this.component = component;
 
             Tracer.Debug(string.Format("Start initializing tracing for component '{0}'", component));
 
             // load the config async, so the client can start in this time
-            Task.Factory.StartNew(() =>
-            {
-                var config = this.proxy.GetConfig();
-                this.logLevel = config.LogLevel;
-                this.messageRetentionCount = config.MessageRetentionCount;
-                this.isInitialized = true;
-                Tracer.Info(string.Format("Tracer for component '{0}' has been initialized", component));
-            });
+            var config = await this.proxy.GetConfigAsync();
+            this.logLevel = config.LogLevel;
+            this.messageRetentionCount = config.MessageRetentionCount;
+            this.isInitialized = true;
+            Tracer.Info(string.Format("Tracer for component '{0}' has been initialized", component));
         }
 
         /// <summary>
