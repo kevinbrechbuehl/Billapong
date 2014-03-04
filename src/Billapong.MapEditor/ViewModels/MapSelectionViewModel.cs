@@ -113,11 +113,12 @@
             this.WindowManager.Open(new MapEditViewModel(map));
         }
 
-        private void CreateNewMap()
+        private async void CreateNewMap()
         {
-            var map = this.proxy.CreateMap().ToEntity();
-            this.Maps.Add(map);
-            this.EditMap(map);
+            var map = await this.proxy.CreateMapAsync();
+            var entity = map.ToEntity();
+            this.Maps.Add(entity);
+            this.EditMap(entity);
         }
 
         private void RefreshMaps()
