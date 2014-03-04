@@ -156,6 +156,9 @@
   <data name="MapIsNotPlayable" xml:space="preserve">
     <value>Map is currently not valid. Please verify the following rules:{0}{0}- You have at least one active window{0}- Each window must be connected to another window{0}- You have at least one hole</value>
   </data>
+  <data name="MapNotExist" xml:space="preserve">
+    <value>Map does not exist anymore!</value>
+  </data>
   <data name="MapSelectionTitle" xml:space="preserve">
     <value>Billapong - Map Editor - Map Selection</value>
   </data>

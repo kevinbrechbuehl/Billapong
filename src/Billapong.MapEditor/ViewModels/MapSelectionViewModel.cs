@@ -1,7 +1,10 @@
 ﻿namespace Billapong.MapEditor.ViewModels
 {
     using System.Collections.ObjectModel;
+    using System.Linq;
+    using System.ServiceModel.Channels;
     using System.Threading;
+    using System.Threading.Tasks;
     using System.Windows;
 
     using Billapong.MapEditor.Properties;
@@ -81,7 +84,7 @@
             this.LoadMaps();
         }
 
-        private async void LoadMaps()
+        private async Task LoadMaps()
         {
             this.IsDataLoading = true;
             var maps = await this.proxy.GetMapsAsync();
@@ -108,9 +111,19 @@
             }
         }
 
-        private void EditMap(Map map)
+        private async void EditMap(Map map)
         {
-            this.WindowManager.Open(new MapEditViewModel(map));
+            // refresh maps for getting correct versions
+            await this.LoadMaps();
+
+            var mapToEdit = this.Maps.FirstOrDefault(m => m.Id == map.Id);
+            if (mapToEdit == null)
+            {
+                MessageBox.Show(Resources.MapNotExist, Resources.ErrorTitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            this.WindowManager.Open(new MapEditViewModel(mapToEdit));
         }
 
         private async void CreateNewMap()

@@ -87,14 +87,14 @@ namespace Billapong.MapEditor.Services
             await this.ExecuteAsync(() => this.Proxy.RemoveHole(mapId, windowId, holeId));
         }
 
-        public async void RegisterCallback(long mapId)
+        public void RegisterCallback(long mapId)
         {
-            await this.ExecuteAsync(() => this.Proxy.RegisterCallback(mapId));
+            this.Execute(() => this.Proxy.RegisterCallback(mapId));
         }
 
-        public async void UnregisterCallback(long mapId)
+        public void UnregisterCallback(long mapId)
         {
-            await this.ExecuteAsync(() => this.Proxy.UnregisterCallback(mapId));
+            this.Execute(() => this.Proxy.UnregisterCallback(mapId));
         }
     }
 }
