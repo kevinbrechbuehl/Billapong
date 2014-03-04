@@ -166,7 +166,7 @@
             var player = new Player();
             player.Name = username;
             player.Callback = callback;
-            player.VisibleWindows.AddRange(game.Map.Windows.Count > 1
+            player.VisibleWindows.AddRange(game.Map.Windows.Count > player1VisibleWindows.Count
                 ? game.Map.Windows.Select(window => window.Id).Where(id => !player1VisibleWindows.Contains(id))
                 : player1VisibleWindows);
 
