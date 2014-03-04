@@ -406,8 +406,8 @@
 
                 this.CurrentGame.CurrentBallPosition = position;
                 this.CurrentGame.CurrentWindow = viewModel.Window;
-                viewModel.PlaceBall(position, this.CurrentGame.CurrentPlayer.PlayerColor);
                 this.CurrentGame.CurrentPlayer.CurrentPlayerState = Player.PlayerState.BallPlaced;
+                viewModel.PlaceBall(position, this.CurrentGame.CurrentPlayer.PlayerColor);
             }
         }
 
@@ -478,6 +478,9 @@
             var ballPosition = this.CurrentGame.CurrentBallPosition;
             var direction = new Vector(args.MousePosition.X, args.MousePosition.Y) -
                             new Vector(ballPosition.X, ballPosition.Y);
+            
+            // The ball has to move into the opposite direction
+            direction.Negate();
 
             this.gameController.StartRound(direction);
         }

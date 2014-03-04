@@ -73,6 +73,11 @@
         public const double BallDiameter = HoleDiameter * 0.667;
 
         /// <summary>
+        /// The length of the queue line
+        /// </summary>
+        public const double QueueLineLength = BallDiameter * 4;
+
+        /// <summary>
         /// The maximum number of window rows
         /// </summary>
         public const int MaxNumberOfWindowRows = 3;
