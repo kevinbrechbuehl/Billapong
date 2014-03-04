@@ -6,6 +6,10 @@
     using System.Windows;
     using System.Windows.Media;
     using Animation;
+
+    using Billapong.GameConsole.Properties;
+    using Billapong.GameConsole.Service;
+
     using Configuration;
     using Core.Client.Tracing;
     using Models;
@@ -98,6 +102,14 @@
             {
                 return SingletonInstance;
             }
+        }
+
+        /// <summary>
+        /// Prevents a default instance of the <see cref="GameManager"/> class from being created.
+        /// </summary>
+        private GameManager()
+        {
+            GameConsoleContext.Current.GameConsoleCallback.GameErrorOccured += this.ErrorOccured;
         }
 
         /// <summary>
@@ -241,7 +253,7 @@
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void CancelGame(object sender, EventArgs args)
         {
-            if (this.CurrentGame != null)
+            if (this.CurrentGame != null && this.gameStateViewModel != null)
             {
                 this.CurrentGame.CurrentGameState = Game.GameState.Canceled;
                 this.gameStateViewModel.CancelGame();
@@ -367,6 +379,22 @@
             {
                 window.Close();
             }
+        }
+
+        /// <summary>
+        /// Gets called when a unexpected error occurs
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        private void ErrorOccured(object sender, EventArgs args)
+        {
+            MessageBox.Show(
+                "An unexpected error occured. The game will cancel now",
+                Resources.Error,
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+
+            this.CancelGame(sender, args);
         }
 
         /// <summary>

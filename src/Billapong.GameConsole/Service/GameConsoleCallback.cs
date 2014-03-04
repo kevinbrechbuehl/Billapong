@@ -37,6 +37,11 @@
         public event EventHandler<RoundEndedEventArgs> RoundEnded = delegate { };
 
         /// <summary>
+        /// Occurs when a game error is thrown by the server
+        /// </summary>
+        public event EventHandler GameErrorOccured = delegate { }; 
+
+        /// <summary>
         /// Occurs when the game got cancelled by a player.
         /// </summary>
         public event EventHandler GameCancelled = delegate { };
@@ -60,7 +65,7 @@
         /// </summary>
         public void GameError()
         {
-            MessageBox.Show("Upps something went wrong, need to cancel the game...");
+            ThreadContext.InvokeOnUiThread(this.GameError);
         }
 
         /// <summary>
@@ -139,6 +144,14 @@
         private void OnGameStarted(GameStartedEventArgs args)
         {
             this.GameStarted(this, args);
+        }
+
+        /// <summary>
+        /// Called when a game error occurs
+        /// </summary>
+        private void OnGameError()
+        {
+            this.GameErrorOccured(this, null);
         }
     }
 }
