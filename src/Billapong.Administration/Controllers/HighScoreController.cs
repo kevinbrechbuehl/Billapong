@@ -17,7 +17,6 @@ namespace Billapong.Administration.Controllers
     {
         public ActionResult Index()
         {
-            Tracer.Info("Call Index() method on HighScoreController");
             return View();
         }
 
@@ -25,15 +24,14 @@ namespace Billapong.Administration.Controllers
         {
             try
             {
-                Tracer.Info("Call MapHighScores() method on HighScoreController");
-                Tracer.Debug("Refreshing highscores of all maps");
+                //Tracer.Debug("Refreshing highscores of all maps");
 
                 var proxy = new AdministrationServiceClient();
                 return this.PartialView("ScoresTable", new ScoresViewModel {ShowDetailColumn = true, Scores = proxy.GetMapHighScores()});
             }
             catch (Exception ex)
             {
-                Tracer.Error("Error while retrieving the highscores", ex);
+                //Tracer.Error("Error while retrieving the highscores", ex);
             }
 
             return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
@@ -41,7 +39,6 @@ namespace Billapong.Administration.Controllers
 
         public ActionResult Map(long id)
         {
-            Tracer.Info("Call Map(long id) method on HighScoreController");
             return this.View(new MapScoresViewModel { MapId = id });
         }
 
@@ -49,15 +46,14 @@ namespace Billapong.Administration.Controllers
         {
             try
             {
-                Tracer.Info("Call MapScores(long id) method on HighScoreController");
-                Tracer.Debug(string.Format("Refreshing scores of map with id '{0}'", id));
+                //Tracer.Debug(string.Format("Refreshing scores of map with id '{0}'", id));
 
                 var proxy = new AdministrationServiceClient();
                 return this.PartialView("ScoresTable", new ScoresViewModel { Scores = proxy.GetMapScores(id) });
             }
             catch (Exception ex)
             {
-                Tracer.Error(string.Format("Error while retrieving the scores for map '{0}'", id), ex);
+                //Tracer.Error(string.Format("Error while retrieving the scores for map '{0}'", id), ex);
             }
 
             return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);

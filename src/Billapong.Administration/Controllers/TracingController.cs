@@ -22,7 +22,6 @@
         /// <returns>The result view.</returns>
         public ActionResult Index()
         {
-            Tracer.Info("Call Index() method on TracingController");
             var model = new IndexViewModel();
 
             // add loglevels
@@ -60,8 +59,7 @@
         {
             try
             {
-                Tracer.Info("Call Entries() method on TracingController");
-                Tracer.Debug("Refreshing log entries");
+                //Tracer.Debug("Refreshing log entries");
 
                 var proxy = new AdministrationServiceClient();
                 return this.PartialView(proxy.GetLogMessages(new LogListener
@@ -73,7 +71,7 @@
             }
             catch (Exception ex)
             {
-                Tracer.Error("Error while retrieving log entries", ex);
+                //Tracer.Error("Error while retrieving log entries", ex);
             }
 
             return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
@@ -87,8 +85,9 @@
         {
             try
             {
-                Tracer.Info("Call Clear() method on TracingController");
-                Tracer.Debug("Clearing log entries");
+                // todo (breck1): Tracing funktioniert wegen async aktuell in der ganzen admin nicht...
+                
+                //Tracer.Debug("Clearing log entries");
 
                 var proxy = new AdministrationServiceClient();
                 proxy.ClearLog();
@@ -96,7 +95,7 @@
             }
             catch (Exception ex)
             {
-                Tracer.Error("Error while clearing log", ex);
+                //Tracer.Error("Error while clearing log", ex);
             }
             
             return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);

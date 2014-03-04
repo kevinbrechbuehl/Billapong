@@ -14,7 +14,6 @@ namespace Billapong.Administration.Controllers
     {
         public ActionResult Index()
         {
-            Tracer.Info("Call Index() method on GameController");
             return View();
         }
 
@@ -22,15 +21,14 @@ namespace Billapong.Administration.Controllers
         {
             try
             {
-                Tracer.Info("Call Games() method on GameController");
-                Tracer.Debug("Refreshing games");
+                //Tracer.Debug("Refreshing games");
                 
                 var proxy = new AdministrationServiceClient();
                 return this.PartialView(proxy.GetGames());
             }
             catch (Exception ex)
             {
-                Tracer.Error("Error while retrieving the games", ex);
+                //Tracer.Error("Error while retrieving the games", ex);
             }
 
             return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
