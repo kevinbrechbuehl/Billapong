@@ -136,6 +136,7 @@
             {
                 this.currentRoundEndedEventRecieved = true;
                 this.currentRoundEndedArguments = args;
+                GameManager.Current.LogMessage("The round was out of sync and gets now synchronized again", Tracer.Debug);
             }
         }
 
