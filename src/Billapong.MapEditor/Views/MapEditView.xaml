@@ -3,25 +3,26 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:viewModels="clr-namespace:Billapong.MapEditor.ViewModels"
         xmlns:views="clr-namespace:Billapong.MapEditor.Views"
-        Title="MapEdit" Height="744" Width="838" Name="MapEditWindow" ResizeMode="NoResize">
+        xmlns:resx="clr-namespace:Billapong.MapEditor.Properties"
+        Title="{x:Static resx:Resources.MapEditTitle}" Height="744" Width="838" Name="MapEditWindow" ResizeMode="NoResize">
 
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
         <StackPanel>
             <DockPanel Margin="10">
-                <TextBlock DockPanel.Dock="Left" Width="100">Name:</TextBlock>
-                <Button DockPanel.Dock="Right" Command="{Binding SaveNameCommand}" Content="Save" Padding="5,1,5,1" />
+                <TextBlock Text="{x:Static resx:Resources.NameDoublePoint}" DockPanel.Dock="Left" Width="100" />
+                <Button DockPanel.Dock="Right" Command="{Binding SaveNameCommand}" Content="{x:Static resx:Resources.Save}" Padding="5,1,5,1" />
                 <TextBox Margin="10,0,10,0" Text="{Binding MapName}" />
             </DockPanel>
 
             <StackPanel Margin="10,0,10,10" Orientation="Horizontal">
-                <TextBlock Width="100">Settings:</TextBlock>
-                <CheckBox Margin="10,0" IsChecked="{Binding IsPlayable}" Command="{Binding ToggleIsPlayableCommand}">Is Playable</CheckBox>
+                <TextBlock Text="{x:Static resx:Resources.SettingsDoublePoint}" Width="100" />
+                <CheckBox Content="{x:Static resx:Resources.IsPlayable}" Margin="10,0" IsChecked="{Binding IsPlayable}" Command="{Binding ToggleIsPlayableCommand}" />
             </StackPanel>
 
             <StackPanel Margin="10,0" Orientation="Horizontal">
-                <TextBlock Width="100">Selection Mode:</TextBlock>
-                <RadioButton Margin="10,0" GroupName="SelectionMode" IsChecked="true" Command="{Binding ToggleSelectionModeCommand}">Map Windows</RadioButton>
-                <RadioButton GroupName="SelectionMode" Command="{Binding ToggleSelectionModeCommand}">Window Holes</RadioButton>
+                <TextBlock Text="{x:Static resx:Resources.SelectionModeDoublePoint}" Width="100" />
+                <RadioButton Content="{x:Static resx:Resources.MapWindows}" Margin="10,0" GroupName="SelectionMode" IsChecked="true" Command="{Binding ToggleSelectionModeCommand}" />
+                <RadioButton Content="{x:Static resx:Resources.WindowHoles}" GroupName="SelectionMode" Command="{Binding ToggleSelectionModeCommand}" />
             </StackPanel>
 
             <Border BorderThickness="1" BorderBrush="Black" Margin="10">
