@@ -43,12 +43,13 @@
             {
                 MessageBox.Show(
                     string.Format(
-                        "Tracing could not be initialized, please restart the complete application:{0}{0}{1}",
+                        "Tracing could not be initialized, please restart the application:{0}{0}{1}",
                         Environment.NewLine,
                         ex.Message),
                     "Error",
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
+                this.Shutdown();
             }
             
         }

@@ -1,5 +1,6 @@
 ﻿namespace Billapong.GameConsole
 {
+    using System;
     using System.Windows;
     using Contract.Data.Tracing;
     using Core.Client.Tracing;
@@ -13,14 +14,29 @@
         /// Raises the <see cref="E:System.Windows.Application.Startup" /> event.
         /// </summary>
         /// <param name="e">A <see cref="T:System.Windows.StartupEventArgs" /> that contains the event data.</param>
-        protected override void OnStartup(StartupEventArgs e)
+        protected async override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
             this.DispatcherUnhandledException += this.App_DispatcherUnhandledException;
             this.ShutdownMode = ShutdownMode.OnMainWindowClose;
 
-            Tracer.Initialize(Component.GameConsole);
+            try
+            {
+                await Tracer.Initialize(Component.GameConsole);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    string.Format(
+                        "Tracing could not be initialized, please restart the application:{0}{0}{1}",
+                        Environment.NewLine,
+                        ex.Message),
+                    "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                this.Shutdown();
+            }
         }
 
         /// <summary>
