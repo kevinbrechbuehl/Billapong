@@ -202,6 +202,7 @@
 
             if (canvas.ClickCommand.CanExecute(mousePosition))
             {
+                canvas.HideQueueLine();
                 canvas.ClickCommand.Execute(mousePosition);
             }
         }
@@ -289,8 +290,6 @@
         /// </summary>
         private void AnimateBall()
         {
-            this.HideQueueLine();
-
             if (this.BallAnimationTask != null && this.BallAnimationTask.Steps.Any())
             {
                 this.ballStoryboard = new Storyboard();
