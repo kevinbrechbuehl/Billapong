@@ -578,7 +578,7 @@
             var currentTask = new BallAnimationTask { Window = currentWindow };
             var previousIntersection = Intersection.None;
             var windowPreviouslyChanged = false;
-            const double ballRadius = GameConfiguration.BallDiameter / 2;
+            const double BallRadius = GameConfiguration.BallDiameter / 2;
             
             while (!isLastAnimation)
             {
@@ -679,7 +679,7 @@
                         }
                         else
                         {
-                            borderPositionCorrection.Y += ballRadius;
+                            borderPositionCorrection.Y += BallRadius;
                         }
                     }
                 }
@@ -704,7 +704,7 @@
                         }
                         else
                         {
-                            borderPositionCorrection.X += ballRadius;
+                            borderPositionCorrection.X += BallRadius;
                         }
                     }
                 }
@@ -729,7 +729,7 @@
                         }
                         else
                         {
-                            borderPositionCorrection.X -= ballRadius;
+                            borderPositionCorrection.X -= BallRadius;
                         }
                     }
                 }
@@ -754,7 +754,7 @@
                         }
                         else
                         {
-                            borderPositionCorrection.Y -= ballRadius;
+                            borderPositionCorrection.Y -= BallRadius;
                         }
                     }
                 }
