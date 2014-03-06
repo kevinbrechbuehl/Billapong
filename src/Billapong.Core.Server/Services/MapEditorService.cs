@@ -4,6 +4,9 @@
     using System.Configuration;
     using System.Linq;
     using System.ServiceModel;
+
+    using Billapong.Core.Server.Tracing;
+
     using Contract.Data.Map;
     using Contract.Service;
     using Converter.Map;
@@ -23,6 +26,7 @@
         /// </returns>
         public IEnumerable<Map> GetMaps()
         {
+            Tracer.Debug("MapEditorService :: GetMaps() called");
             return MapController.Current.GetMaps().Select(map => map.ToContract()).ToList();
         }
 
@@ -34,6 +38,8 @@
         /// </returns>
         public MapConfiguration GetMapConfiguration()
         {
+            Tracer.Debug("MapEditorService :: GetMapConfiguration() called");
+            
             int windowRows;
             if (!int.TryParse(ConfigurationManager.AppSettings["Map.WindowRows"], out windowRows))
             {
@@ -62,6 +68,7 @@
 
         public Map CreateMap()
         {
+            Tracer.Debug("MapEditorService :: CreateMap() called");
             return MapController.Current.CreateMap().ToContract();
         }
 
@@ -71,46 +78,55 @@
         /// <param name="mapId">The map identifier.</param>
         public void DeleteMap(long mapId)
         {
+            Tracer.Debug(string.Format("MapEditorService :: DeleteMap called with mapId={0}", mapId));
             MapController.Current.DeleteMap(mapId);
         }
 
         public void UpdateName(long mapId, string name)
         {
+            Tracer.Debug(string.Format("MapEditorService :: UpdateName() called with mapId={0}, name={1}", mapId, name));
             MapController.Current.UpdateName(mapId, name);
         }
 
         public void UpdateIsPlayable(long mapId, bool isPlayable)
         {
+            Tracer.Debug(string.Format("MapEditorService :: UpdateIsPlayable() called with mapId={0}, isPlayable={1}", mapId, isPlayable));
             MapController.Current.UpdateIsPlayable(mapId, isPlayable);
         }
 
         public void AddWindow(long mapId, int coordX, int coordY)
         {
+            Tracer.Debug(string.Format("MapEditorService :: AddWindow() called with mapId={0}, coordX={1}, coordY={2}", mapId, coordX, coordY));
             MapController.Current.AddWindow(mapId, coordX, coordY);
         }
 
         public void RemoveWindow(long mapId, long windowId)
         {
+            Tracer.Debug(string.Format("MapEditorService :: RemoveWindow() called with mapId={0}, windowId={1}", mapId, windowId));
             MapController.Current.RemoveWindow(mapId, windowId);
         }
 
         public void AddHole(long mapId, long windowId, int coordX, int coordY)
         {
+            Tracer.Debug(string.Format("MapEditorService :: AddHole() called with mapId={0}, windowId={1} coordX={2}, coordY={3}", mapId, windowId, coordX, coordY));
             MapController.Current.AddHole(mapId, windowId, coordX, coordY);
         }
 
         public void RemoveHole(long mapId, long windowId, long holeId)
         {
+            Tracer.Debug(string.Format("MapEditorService :: RemoveHole() called with mapId={0}, windowId={1}, holeId={2}", mapId, windowId, holeId));
             MapController.Current.RemoveHole(mapId, windowId, holeId);
         }
 
         public void RegisterCallback(long mapId)
         {
+            Tracer.Debug(string.Format("MapEditorService :: RegisterCallback() called with mapId={0}", mapId));
             MapController.Current.RegisterCallback(mapId, this.GetCallback());
         }
 
         public void UnregisterCallback(long mapId)
         {
+            Tracer.Debug(string.Format("MapEditorService :: UnregisterCallback() called with mapId={0}", mapId));
             MapController.Current.UnregisterCallback(mapId, this.GetCallback());
         }
 

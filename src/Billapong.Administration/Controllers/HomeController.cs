@@ -7,8 +7,6 @@
     /// </summary>
     public class HomeController : Controller
     {
-        // GET: /Home/
-
         /// <summary>
         /// The index action
         /// </summary>

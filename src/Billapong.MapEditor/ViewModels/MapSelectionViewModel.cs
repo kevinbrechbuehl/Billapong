@@ -1,12 +1,14 @@
 ﻿namespace Billapong.MapEditor.ViewModels
 {
     using System.Collections.ObjectModel;
+    using System.Diagnostics;
     using System.Linq;
     using System.ServiceModel.Channels;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Windows;
 
+    using Billapong.Core.Client.Tracing;
     using Billapong.MapEditor.Properties;
 
     using Converter;
@@ -86,6 +88,8 @@
 
         private async Task LoadMaps()
         {
+            Tracer.Info("MapSelectionViewModel :: refresh maps");
+            
             this.IsDataLoading = true;
             var maps = await this.proxy.GetMapsAsync();
             this.Maps.Clear();
@@ -99,6 +103,7 @@
 
         private void DeleteMap(long id)
         {
+            Tracer.Info(string.Format("MapSelectionViewModel :: Delete map with id '{0}'", id));
             this.proxy.DeleteMap(id);
             this.LoadMaps();
         }
@@ -128,6 +133,8 @@
 
         private async void CreateNewMap()
         {
+            Tracer.Info("MapSelectionViewModel :: Create new map");
+            
             var map = await this.proxy.CreateMapAsync();
             var entity = map.ToEntity();
             this.Maps.Add(entity);

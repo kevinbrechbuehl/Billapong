@@ -60,6 +60,7 @@
     <Compile Include="Services\MapEditorService.cs" />
     <Compile Include="Services\TracingService.cs" />
     <Compile Include="Tracing\Logger.cs" />
+    <Compile Include="Tracing\Tracer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Billapong.Contract\Billapong.Contract.csproj">

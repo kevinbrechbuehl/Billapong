@@ -29,5 +29,17 @@ namespace Billapong.MapEditor.Models.Events
         public int WindowX { get; private set; }
 
         public int WindowY { get; private set; }
+
+        public override string ToString()
+        {
+            return string.Format(
+                "WindowId={0}, WindowX={1}, Window={2}, HoleId={3}, HoleX={4}, HoleY={5}",
+                WindowId,
+                WindowX,
+                WindowY,
+                HoleId,
+                HoleX,
+                HoleY);
+        }
     }
 }

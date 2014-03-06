@@ -21,14 +21,14 @@ namespace Billapong.Administration.Controllers
         {
             try
             {
-                Tracer.Debug("Refreshing games");
+                //Tracer.Debug("Refreshing games");
                 
                 var proxy = new AdministrationServiceClient();
                 return this.PartialView(proxy.GetGames());
             }
             catch (Exception ex)
             {
-                Tracer.Error("Error while retrieving the games", ex);
+                //Tracer.Error("Error while retrieving the games", ex);
             }
 
             return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);

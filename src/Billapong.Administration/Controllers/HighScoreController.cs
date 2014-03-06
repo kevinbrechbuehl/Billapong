@@ -7,6 +7,7 @@ using System.Web.Mvc;
 namespace Billapong.Administration.Controllers
 {
     using System.Net;
+    using System.Threading.Tasks;
 
     using Billapong.Administration.Models.HighScore;
 
@@ -20,11 +21,11 @@ namespace Billapong.Administration.Controllers
             return View();
         }
 
-        public ActionResult MapHighScores()
+        public async Task<ActionResult> MapHighScores()
         {
             try
             {
-                Tracer.Debug("Refreshing highscores of all maps");
+                Tracer.Info("Refreshing highscores of all maps");
 
                 var proxy = new AdministrationServiceClient();
                 return this.PartialView("ScoresTable", new ScoresViewModel {ShowDetailColumn = true, Scores = proxy.GetMapHighScores()});
@@ -42,11 +43,11 @@ namespace Billapong.Administration.Controllers
             return this.View(new MapScoresViewModel { MapId = id });
         }
 
-        public ActionResult MapScores(long id)
+        public async Task<ActionResult> MapScores(long id)
         {
             try
             {
-                Tracer.Debug(string.Format("Refreshing scores of map with id '{0}'", id));
+                Tracer.Info(string.Format("Refreshing scores of map with id '{0}'", id));
 
                 var proxy = new AdministrationServiceClient();
                 return this.PartialView("ScoresTable", new ScoresViewModel { Scores = proxy.GetMapScores(id) });

@@ -20,5 +20,10 @@ namespace Billapong.MapEditor.Models.Events
         public int X { get; private set; }
 
         public int Y { get; private set; }
+
+        public override string ToString()
+        {
+            return string.Format("Id={0}, X={1}, Y={2}", Id, X, Y);
+        }
     }
 }

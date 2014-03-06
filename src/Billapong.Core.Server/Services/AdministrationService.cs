@@ -31,6 +31,7 @@
         public IEnumerable<LogMessage> GetLogMessages(LogListener logListener)
         {
             // todo (breck1): This should only be possible if administrator role is authenticated
+            Tracer.Debug("AdministrationService :: GetLogMessages() called");
             return Logger.Current.GetLogMessages(logListener.LogLevel, logListener.Component, logListener.NumberOfMessages).Select(message => message.ToContract()).ToList();
         }
 
@@ -40,6 +41,7 @@
         public void ClearLog()
         {
             // todo (breck1): This should only be possible if administrator role is authenticated
+            Tracer.Debug("AdministrationService :: ClearLog() called");
             Logger.Current.ClearLog();
         }
 
@@ -50,6 +52,7 @@
         public IEnumerable<Game> GetGames()
         {
             // todo (breck1): This should only be possible if administrator role is authenticated
+            Tracer.Debug("AdministrationService :: GetGames() called");
             return GameController.Current.GetAllGames().Select(game => game.ToContract());
         }
 
@@ -62,6 +65,7 @@
         public IEnumerable<HighScore> GetMapHighScores()
         {
             // todo (breck1): This should only be possible if administrator role is authenticated
+            Tracer.Debug("AdministrationService :: GetMapHighScores() called");
             return MapController.Current.GetHighScores().Select(score => score.ToContract());
         }
 
@@ -75,6 +79,7 @@
         public IEnumerable<HighScore> GetMapScores(long mapId)
         {
             // todo (breck1): This should only be possible if administrator role is authenticated
+            Tracer.Debug(string.Format("AdministrationService :: GetMapScores() called with mapId={0}", mapId));
             return MapController.Current.GetHighScores(mapId).Select(score => score.ToContract());
         }
     }

@@ -8,6 +8,7 @@ namespace Billapong.MapEditor.ViewModels
     using System.Windows.Navigation;
 
     using Billapong.Contract.Data.Map;
+    using Billapong.Core.Client.Tracing;
     using Billapong.MapEditor.Properties;
 
     using Converter;
@@ -121,6 +122,9 @@ namespace Billapong.MapEditor.ViewModels
 
         public MapEditViewModel(Map map)
         {
+            // Trace
+            Tracer.Debug(string.Format("MapEditViewModel :: Calling new MapEditViewModel() with map id '{0}'", map.Id));
+            
             // initialize
             this.callback = new MapEditorCallback();
             this.callback.NameUpdated += this.NameUpdated;
@@ -162,6 +166,7 @@ namespace Billapong.MapEditor.ViewModels
 
         public override void CloseCallback()
         {
+            Tracer.Debug("MapEditViewModel :: Close callback retrieved");
             this.proxy.UnregisterCallback(this.map.Id);
         }
 
@@ -256,6 +261,7 @@ namespace Billapong.MapEditor.ViewModels
 
         private void SaveName()
         {
+            Tracer.Info(string.Format("MapEditViewModel :: Call SaveName() and update name of map id '{0}' to '{1}", this.map.Id, this.MapName));
             this.proxy.UpdateName(this.map.Id, this.MapName);
         }
 
@@ -263,10 +269,12 @@ namespace Billapong.MapEditor.ViewModels
         {
             if (!this.IsPlayable || this.IsMapPlayable())
             {
+                Tracer.Info(string.Format("MapEditViewModel :: Call ToggleIsPlayable() and set to {0}", this.IsPlayable));    
                 this.proxy.UpdateIsPlayable(this.map.Id, this.IsPlayable);   
             }
             else
             {
+                Tracer.Debug("MapEditViewModel :: ToggleIsPlayable() :: Map is currently not playable");
                 MessageBox.Show(string.Format(Resources.MapIsNotPlayable, Environment.NewLine), Resources.ErrorTitle, MessageBoxButton.OK, MessageBoxImage.Warning);
                 this.IsPlayable = false;
             }
@@ -291,10 +299,12 @@ namespace Billapong.MapEditor.ViewModels
                 var holeOnField = gameWindow.Holes.FirstOrDefault(hole => hole.X == coordX && hole.Y == coordY);
                 if (holeOnField != null)
                 {
+                    Tracer.Info(string.Format("MapEditViewModel :: Remove hole '{0}' on window '{1}' on map '{2}'", holeOnField.Id, gameWindow.Id, this.map.Id));
                     this.proxy.RemoveHole(this.map.Id, gameWindow.Id, holeOnField.Id);
                 }
                 else
                 {
+                    Tracer.Info(string.Format("MapEditViewModel :: Add hole on coords '{0}/{1}' to window '{2}' on map '{3}'", coordX, coordY, gameWindow.Id, this.map.Id));
                     this.proxy.AddHole(this.map.Id, gameWindow.Id, coordX, coordY);
                 }
             }
@@ -302,10 +312,12 @@ namespace Billapong.MapEditor.ViewModels
             {
                 if (gameWindow.IsChecked)
                 {
+                    Tracer.Info(string.Format("MapEditViewModel :: Remove window '{0}' from map '{1}'", gameWindow.Id, this.map.Id));
                     this.proxy.RemoveWindow(this.map.Id, gameWindow.Id);
                 }
                 else
                 {
+                    Tracer.Info(string.Format("MapEditViewModel :: Add windows on coords '{0}/{1}' to map '{2}", gameWindow.X, gameWindow.Y, this.map.Id));
                     this.proxy.AddWindow(this.map.Id, gameWindow.X, gameWindow.Y);
                 }
             }
