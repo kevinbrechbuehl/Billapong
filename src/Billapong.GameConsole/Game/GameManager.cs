@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Media;
     using Animation;
@@ -175,7 +176,7 @@
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="logMethod">The log method.</param>
-        public void LogMessage(string message, Action<string> logMethod)
+        public void LogMessage(string message, Func<string, Task> logMethod)
         {
             if (logMethod == null || string.IsNullOrWhiteSpace(message))
             {
