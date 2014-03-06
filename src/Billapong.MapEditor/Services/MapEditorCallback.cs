@@ -61,8 +61,8 @@ namespace Billapong.MapEditor.Services
 
         public void AddHole(long windowId, int windowX, int windowY, long holeId, int holeX, int holeY)
         {
-            Tracer.Debug(string.Format("MapEditViewModel :: Hole added callback retrieved ({0})", args));
             var args = new GameHoleClickedEventArgs(windowId, windowX, windowY, holeId, holeX, holeY);
+            Tracer.Debug(string.Format("MapEditViewModel :: Hole added callback retrieved ({0})", args));
             ThreadContext.InvokeOnUiThread(() => this.HoleAdded(this, args));
         }
 

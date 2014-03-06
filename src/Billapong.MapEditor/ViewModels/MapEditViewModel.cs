@@ -123,7 +123,7 @@ namespace Billapong.MapEditor.ViewModels
         public MapEditViewModel(Map map)
         {
             // Trace
-            Tracer.Info(string.Format("MapEditViewModel :: Calling new MapEditViewModel() with map id '{0}'", map.Id));
+            Tracer.Debug(string.Format("MapEditViewModel :: Calling new MapEditViewModel() with map id '{0}'", map.Id));
             
             // initialize
             this.callback = new MapEditorCallback();
@@ -172,20 +172,16 @@ namespace Billapong.MapEditor.ViewModels
 
         private void NameUpdated(object sender, UpdateNameEventArgs args)
         {
-            Tracer.Debug(string.Format("MapEditViewModel :: Name updated callback retrieved (Name={0})", args.Name));
             this.MapName = args.Name;
         }
 
         private void IsPlayableUpdated(object sender, UpdateIsPlayableEventArgs args)
         {
-            Tracer.Debug(string.Format("MapEditViewModel :: Is playable callback retrieved (Flag={0})", args.IsPlayable));
             this.IsPlayable = args.IsPlayable;
         }
 
         private void WindowAdded(object sender, GameWindowEventArgs args)
         {
-            Tracer.Debug(string.Format("MapEditViewModel :: Window added callback retrieved ({0})", args));
-            
             var gameWindow = this.GameWindows[args.Y][args.X];
             gameWindow.IsChecked = true;
             gameWindow.Id = args.Id;
@@ -204,8 +200,6 @@ namespace Billapong.MapEditor.ViewModels
 
         private void WindowRemoved(object sender, GameWindowEventArgs args)
         {
-            Tracer.Debug(string.Format("MapEditViewModel :: Window removed callback retrieved ({0})", args));
-            
             var gameWindow = this.GameWindows[args.Y][args.X];
             gameWindow.IsChecked = false;
             gameWindow.Id = 0;
@@ -223,8 +217,6 @@ namespace Billapong.MapEditor.ViewModels
 
         private void HoleAdded(object sender, GameHoleClickedEventArgs args)
         {
-            Tracer.Debug(string.Format("MapEditViewModel :: Hole added callback retrieved ({0})", args));
-            
             var gameWindow = this.GameWindows[args.WindowY][args.WindowX];
             gameWindow.Holes.Add(new Hole { Id = args.HoleId, X = args.HoleX, Y = args.HoleY, Diameter = this.HoleDiameter });
 
@@ -241,8 +233,6 @@ namespace Billapong.MapEditor.ViewModels
 
         private void HoleRemoved(object sender, GameHoleClickedEventArgs args)
         {
-            Tracer.Debug(string.Format("MapEditViewModel :: Hole removed callback retrieved ({0})", args));
-            
             var gameWindow = this.GameWindows[args.WindowY][args.WindowX];
             var gameHole = gameWindow.Holes.FirstOrDefault(h => h.Id == args.HoleId);
             if (gameHole != null)

@@ -21,6 +21,8 @@
         /// <param name="messages">The messages.</param>
         public void Log(IEnumerable<LogMessage> messages)
         {
+            Tracer.Debug("TracingService :: Log() called");
+            
             var config = this.GetConfig();
             foreach (var message in messages.Where(message => (int)message.LogLevel >= (int)config.LogLevel))
             {
@@ -36,6 +38,8 @@
         /// </returns>
         public TracingConfiguration GetConfig()
         {
+            Tracer.Debug("TracingService :: GetConfig() called");
+            
             LogLevel logLevel;
             if (!Enum.TryParse(ConfigurationManager.AppSettings["Tracing.LogLevel"], out logLevel))
             {

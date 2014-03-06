@@ -1,6 +1,9 @@
 ﻿namespace Billapong.Core.Server.Map
 {
     using System;
+
+    using Billapong.Core.Server.Tracing;
+
     using Contract.Exceptions;
     using Contract.Service;
     using DataAccess.Model.Map;
@@ -361,6 +364,7 @@
         {
             foreach (var callback in this.GetMapEditorCallbacks(mapId))
             {
+                Tracer.Debug(string.Format("MapController :: Send UpdateName() callback with mapId={0}, name={1}", mapId, name));
                 callback.UpdateName(name);
             }
         }
@@ -374,6 +378,7 @@
         {
             foreach (var callback in this.GetMapEditorCallbacks(mapId))
             {
+                Tracer.Debug(string.Format("MapController :: Send UpdateIsPlayable() callback with mapId={0}, isPlayable={1}", mapId, isPlayable));
                 callback.UpdateIsPlayable(isPlayable);
             }
         }
@@ -389,6 +394,7 @@
         {
             foreach (var callback in this.GetMapEditorCallbacks(mapId))
             {
+                Tracer.Debug(string.Format("MapController :: Send AddWindow() callback with mapId={0}, windowId={1}, coordX={2}, coordY={3}", mapId, windowId, coordX, coordY));
                 callback.AddWindow(windowId, coordX, coordY);
             }
         }
@@ -404,6 +410,7 @@
         {
             foreach (var callback in this.GetMapEditorCallbacks(mapId))
             {
+                Tracer.Debug(string.Format("MapController :: Send RemoveWindow() callback with mapId={0}, windowId={1}, coordX={2}, coordY={3}", mapId, windowId, coordX, coordY));
                 callback.RemoveWindow(windowId, coordX, coordY);
             }
         }
@@ -422,6 +429,7 @@
         {
             foreach (var callback in this.GetMapEditorCallbacks(mapId))
             {
+                Tracer.Debug(string.Format("MapController :: Send AddHole() callback with mapId={0}, windowId={1}, windowX={2}, windowY={3}, holeId={4}, holeX={5}, holeY={6}", mapId, windowId, windowX, windowY, holeId, holeX, holeY));
                 callback.AddHole(windowId, windowX, windowY, holeId, holeX, holeY);
             }
         }
@@ -438,6 +446,7 @@
         {
             foreach (var callback in this.GetMapEditorCallbacks(mapId))
             {
+                Tracer.Debug(string.Format("MapController :: Send RemoveHole() callback with mapId={0}, windowId={1}, windowX={2}, windowY={3}, holeId={4}", mapId, windowId, windowX, windowY, holeId));
                 callback.RemoveHole(windowId, windowX, windowY, holeId);
             }
         }
