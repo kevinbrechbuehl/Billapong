@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
+    using System.Threading.Tasks;
     using System.Web;
     using System.Web.Mvc;
     using Contract.Data.Tracing;
@@ -55,11 +56,11 @@
         /// <param name="logLevel">The log level.</param>
         /// <param name="numberOfEntries">The number of entries.</param>
         /// <returns>Partial view with a table containing all requested log entries</returns>
-        public ActionResult Entries(Component component = Component.All, LogLevel logLevel = LogLevel.Debug, int numberOfEntries = 0)
+        public async Task<ActionResult> Entries(Component component = Component.All, LogLevel logLevel = LogLevel.Debug, int numberOfEntries = 0)
         {
             try
             {
-                //Tracer.Debug("Refreshing log entries");
+                Tracer.Info("Refreshing log entries");
 
                 var proxy = new AdministrationServiceClient();
                 return this.PartialView(proxy.GetLogMessages(new LogListener
@@ -71,7 +72,7 @@
             }
             catch (Exception ex)
             {
-                //Tracer.Error("Error while retrieving log entries", ex);
+                Tracer.Error("Error while retrieving log entries", ex);
             }
 
             return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
@@ -81,13 +82,11 @@
         /// Clears this instance.
         /// </summary>
         /// <returns>Http status code for the result.</returns>
-        public ActionResult Clear()
+        public async Task<ActionResult> Clear()
         {
             try
             {
-                // todo (breck1): Tracing funktioniert wegen async aktuell in der ganzen admin nicht...
-                
-                //Tracer.Debug("Clearing log entries");
+                Tracer.Info("Clearing log entries");
 
                 var proxy = new AdministrationServiceClient();
                 proxy.ClearLog();
@@ -95,7 +94,7 @@
             }
             catch (Exception ex)
             {
-                //Tracer.Error("Error while clearing log", ex);
+                Tracer.Error("Error while clearing log", ex);
             }
             
             return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);

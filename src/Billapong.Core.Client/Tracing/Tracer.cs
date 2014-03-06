@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
+    using System.ServiceModel.Channels;
     using System.Threading.Tasks;
     using Contract.Data.Tracing;
     using Component = Contract.Data.Tracing.Component;
@@ -85,10 +86,10 @@
         /// <summary>
         /// Shutdown the tracing. Send all messages in the queue to the server.
         /// </summary>
-        public static void Shutdown()
+        public static async Task Shutdown()
         {
             Tracer.Info(string.Format("Shutdown tracing for component '{0}'", Current.component));
-            Current.SendMessagesInQueue();
+            await Current.SendMessagesInQueue();
             Current.isInitialized = false;
         }
 
@@ -96,30 +97,30 @@
         /// Logs a debug message
         /// </summary>
         /// <param name="message">The message.</param>
-        public static void Debug(string message)
+        public static async Task Debug(string message)
         {
             Trace.TraceInformation("DEBUG: {0}", message);
-            Current.Log(LogLevel.Debug, message);
+            await Current.Log(LogLevel.Debug, message);
         }
 
         /// <summary>
         /// Logs an info message
         /// </summary>
         /// <param name="message">The message.</param>
-        public static void Info(string message)
+        public static async Task Info(string message)
         {
             Trace.TraceInformation("INFO: {0}", message);
-            Current.Log(LogLevel.Info, message);
+            await Current.Log(LogLevel.Info, message);
         }
 
         /// <summary>
         /// Logs a warning message
         /// </summary>
         /// <param name="message">The message.</param>
-        public static void Warn(string message)
+        public static async Task Warn(string message)
         {
             Trace.TraceWarning(message);
-            Current.Log(LogLevel.Warn, message);
+            await Current.Log(LogLevel.Warn, message);
         }
 
         /// <summary>
@@ -127,7 +128,7 @@
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="exception">The exception.</param>
-        public static void Error(string message, Exception exception = null)
+        public static async Task Error(string message, Exception exception = null)
         {
             if (exception != null)
             {
@@ -135,15 +136,15 @@
             }
 
             Trace.TraceError(message);
-            Current.Log(LogLevel.Error, message);
+            await Current.Log(LogLevel.Error, message);
         }
 
         /// <summary>
         /// Processes the queued messages.
         /// </summary>
-        public static void ProcessQueuedMessages()
+        public static async Task ProcessQueuedMessages()
         {
-            Current.SendMessagesInQueue();
+            await Current.SendMessagesInQueue();
         }
 
         /// <summary>
@@ -154,14 +155,14 @@
         {
             this.component = component;
 
-            Tracer.Debug(string.Format("Start initializing tracing for component '{0}'", component));
+            await Tracer.Debug(string.Format("Start initializing tracing for component '{0}'", component));
 
             // load the config async, so the client can start in this time
             var config = await this.proxy.GetConfigAsync();
             this.logLevel = config.LogLevel;
             this.messageRetentionCount = config.MessageRetentionCount;
             this.isInitialized = true;
-            Tracer.Info(string.Format("Tracer for component '{0}' has been initialized", component));
+            await Tracer.Info(string.Format("Tracer for component '{0}' has been initialized", component));
         }
 
         /// <summary>
@@ -169,7 +170,7 @@
         /// </summary>
         /// <param name="logLevel">The log level.</param>
         /// <param name="message">The message.</param>
-        private void Log(LogLevel logLevel, string message)
+        private async Task Log(LogLevel logLevel, string message)
         {
             if ((int)logLevel >= (int)this.logLevel)
             {
@@ -188,7 +189,7 @@
                 // only send to the server if message retention count is reached
                 if (this.logMessages.Count >= this.messageRetentionCount)
                 {
-                    this.SendMessagesInQueue();
+                    await this.SendMessagesInQueue();
                 }
             }
         }
@@ -196,8 +197,10 @@
         /// <summary>
         /// Sends the messages in the queue to the server.
         /// </summary>
-        private void SendMessagesInQueue()
+        private async Task SendMessagesInQueue()
         {
+            var messages = new List<LogMessage>();
+            
             lock (LockObject)
             {
                 // warn because tracer has not yet been initialized
@@ -207,9 +210,11 @@
                     return;
                 }
 
-                this.proxy.Log(this.logMessages.ToList());
+                messages.AddRange(this.logMessages);
                 this.logMessages.Clear();
             }
+
+            await this.proxy.LogAsync(messages);
         }
     }
 }

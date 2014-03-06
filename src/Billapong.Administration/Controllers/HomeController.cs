@@ -2,8 +2,6 @@
 {
     using System.Web.Mvc;
 
-    using Billapong.Core.Client.Tracing;
-
     /// <summary>
     /// The home controller
     /// </summary>
