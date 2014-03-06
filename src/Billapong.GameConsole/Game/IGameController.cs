@@ -30,6 +30,11 @@
         event EventHandler<RoundEndedEventArgs> GameCanceled;
 
         /// <summary>
+        /// Occurs when an exception is catched that needs to end the game
+        /// </summary>
+        event EventHandler ErrorOccurred;
+
+        /// <summary>
         /// Places the ball on game field.
         /// </summary>
         /// <param name="windowId">The window identifier.</param>

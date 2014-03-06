@@ -64,22 +64,49 @@
         public event EventHandler<RoundEndedEventArgs> GameCanceled = delegate { };
 
         /// <summary>
+        /// Occurs when an exception is catched that needs to end the game
+        /// </summary>
+        public event EventHandler ErrorOccurred = delegate { };
+
+        /// <summary>
         /// Places the ball on game field.
         /// </summary>
         /// <param name="windowId">The window identifier.</param>
         /// <param name="position">The position.</param>
-        public void PlaceBallOnGameField(long windowId, Point position)
+        public async void PlaceBallOnGameField(long windowId, Point position)
         {
-            GameConsoleContext.Current.GameConsoleServiceClient.SetStartPoint(GameManager.Current.CurrentGame.GameId, windowId, position.X, position.Y);
+            try
+            {
+                await GameConsoleContext.Current.GameConsoleServiceClient.SetStartPointAsync(
+                    GameManager.Current.CurrentGame.GameId,
+                    windowId,
+                    position.X,
+                    position.Y);
+            }
+            catch (Exception ex)
+            {
+                this.HandleError(ex);
+            }
         }
 
         /// <summary>
         /// Starts the round.
         /// </summary>
         /// <param name="direction">The direction.</param>
-        public void StartRound(Vector direction)
+        public async void StartRound(Vector direction)
         {
-            GameConsoleContext.Current.GameConsoleServiceClient.StartRound(GameManager.Current.CurrentGame.GameId, direction.X, direction.Y);
+            try
+            {
+                await
+                    GameConsoleContext.Current.GameConsoleServiceClient.StartRoundAsync(
+                        GameManager.Current.CurrentGame.GameId,
+                        direction.X,
+                        direction.Y);
+            }
+            catch (Exception ex)
+            {
+                this.HandleError(ex);
+            }
         }
 
         /// <summary>
@@ -87,14 +114,25 @@
         /// </summary>
         /// <param name="firstPlayer">if set to <c>true</c> the current round was played by the first player.</param>
         /// <param name="score">The score.</param>
-        public void EndRound(bool firstPlayer, int score)
+        public async void EndRound(bool firstPlayer, int score)
         {
             this.currentRoundEnded = true;
 
             // We only want to send the end round command to the server if this was the current players turn
             if (GameManager.Current.CurrentGame.CurrentPlayer.IsLocalPlayer)
             {
-                GameConsoleContext.Current.GameConsoleServiceClient.EndRound(GameManager.Current.CurrentGame.GameId, firstPlayer, score);
+                try
+                {
+                    await GameConsoleContext.Current.GameConsoleServiceClient.EndRoundAsync(
+                        GameManager.Current.CurrentGame.GameId,
+                        firstPlayer,
+                        score);
+                }
+                catch (Exception ex)
+                {
+                    Tracer.Error(ex.Message, ex);
+                    this.ErrorOccurred(this, null);
+                }
             }
             else if (this.currentRoundEndedEventRecieved && this.currentRoundEndedArguments != null)
             {
@@ -106,9 +144,17 @@
         /// <summary>
         /// Cancels the game.
         /// </summary>
-        public void CancelGame()
+        public async void CancelGame()
         {
-            GameConsoleContext.Current.GameConsoleServiceClient.CancelGame(GameManager.Current.CurrentGame.GameId);
+            try
+            {
+                await GameConsoleContext.Current.GameConsoleServiceClient.CancelGameAsync(GameManager.Current.CurrentGame.GameId);
+            }
+            catch (Exception ex)
+            {
+                // We log the error and close the game, but we do not resend the CancelGame command because it failed already
+                this.HandleError(ex, false);
+            }
         }
 
         /// <summary>
@@ -165,7 +211,7 @@
             }
             else
             {
-                const string wonLogMessage = "The game ended. {0} won the game with a score of {1} points against {2} with a score of {3}";
+                const string WonLogMessage = "The game ended. {0} won the game with a score of {1} points against {2} with a score of {3}";
                 if (GameManager.Current.CurrentGame.LocalPlayer.Score >
                     GameManager.Current.CurrentGame.Opponent.Score)
                 {
@@ -176,7 +222,7 @@
                     {
                         GameManager.Current.LogMessage(
                             string.Format(
-                                wonLogMessage,
+                                WonLogMessage,
                                 GameManager.Current.CurrentGame.LocalPlayer.Name,
                                 GameManager.Current.CurrentGame.LocalPlayer.Score,
                                 GameManager.Current.CurrentGame.Opponent.Name,
@@ -194,7 +240,7 @@
                     {
                         GameManager.Current.LogMessage(
                             string.Format(
-                                wonLogMessage, 
+                                WonLogMessage, 
                                 GameManager.Current.CurrentGame.Opponent.Name,
                                 GameManager.Current.CurrentGame.Opponent.Score,
                                 GameManager.Current.CurrentGame.LocalPlayer.Name,
@@ -250,6 +296,22 @@
         public void OnGameCanceled(object sender, EventArgs args)
         {
             this.GameCanceled(this, null);
+        }
+
+        /// <summary>
+        /// Handles the error.
+        /// </summary>
+        /// <param name="ex">The ex.</param>
+        /// <param name="sendCancelCommandToServer">if set to <c>true</c> the CancelGame command is sent to the server.</param>
+        private void HandleError(Exception ex, bool sendCancelCommandToServer = true)
+        {
+            Tracer.Error(ex.Message, ex);
+            if (sendCancelCommandToServer)
+            {
+                this.CancelGame();
+            }
+
+            this.ErrorOccurred(this, null);
         }
 
         /// <summary>

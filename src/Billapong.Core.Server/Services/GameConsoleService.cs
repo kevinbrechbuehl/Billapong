@@ -6,7 +6,6 @@
     using System.ServiceModel;
     using Contract.Data.GamePlay;
     using Contract.Data.Map;
-    using Contract.Exceptions;
     using Contract.Service;
     using Converter.GamePlay;
     using Converter.Map;

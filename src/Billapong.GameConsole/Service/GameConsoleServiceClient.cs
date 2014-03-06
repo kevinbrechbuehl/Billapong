@@ -93,22 +93,55 @@
         }
 
         /// <summary>
-        /// Joins a game asynchronous.
+        /// Joins a game.
         /// </summary>
         /// <param name="gameId">The game identifier / correlation id of the game.</param>
         /// <param name="username">The username.</param>
-        public async void JoinGame(Guid gameId, string username)
+        public void JoinGame(Guid gameId, string username)
+        {
+            this.Execute(() => this.Proxy.JoinGame(gameId, username));
+        }
+
+        /// <summary>
+        /// Joins the game asynchronous.
+        /// </summary>
+        /// <param name="gameId">The game identifier.</param>
+        /// <param name="username">The username.</param>
+        /// <returns>The task</returns>
+        public async Task JoinGameAsync(Guid gameId, string username)
         {
             await this.ExecuteAsync(() => this.Proxy.JoinGame(gameId, username));
+        }
+
+        /// <summary>
+        /// Cancels a game.
+        /// </summary>
+        /// <param name="gameId">The game identifier.</param>
+        public void CancelGame(Guid gameId)
+        {
+           this.Execute(() => this.Proxy.CancelGame(gameId));
         }
 
         /// <summary>
         /// Cancels a game asynchronous.
         /// </summary>
         /// <param name="gameId">The game identifier.</param>
-        public async void CancelGame(Guid gameId)
+        /// <returns>The task</returns>
+        public async Task CancelGameAsync(Guid gameId)
         {
-           await this.ExecuteAsync(() => this.Proxy.CancelGame(gameId));
+            await this.ExecuteAsync(() => this.Proxy.CancelGame(gameId));
+        }
+
+        /// <summary>
+        /// Sets the start point.
+        /// </summary>
+        /// <param name="gameId">The game identifier.</param>
+        /// <param name="windowId">The windows identifier.</param>
+        /// <param name="pointX">The point x.</param>
+        /// <param name="pointY">The point y.</param>
+        public void SetStartPoint(Guid gameId, long windowId, double pointX, double pointY)
+        {
+            this.Execute(() => this.Proxy.SetStartPoint(gameId, windowId, pointX, pointY));
         }
 
         /// <summary>
@@ -118,9 +151,21 @@
         /// <param name="windowId">The windows identifier.</param>
         /// <param name="pointX">The point x.</param>
         /// <param name="pointY">The point y.</param>
-        public async void SetStartPoint(Guid gameId, long windowId, double pointX, double pointY)
+        /// <returns>The task</returns>
+        public async Task SetStartPointAsync(Guid gameId, long windowId, double pointX, double pointY)
         {
             await this.ExecuteAsync(() => this.Proxy.SetStartPoint(gameId, windowId, pointX, pointY));
+        }
+
+        /// <summary>
+        /// Starts the round.
+        /// </summary>
+        /// <param name="gameId">The game identifier.</param>
+        /// <param name="directionX">The direction x.</param>
+        /// <param name="directionY">The direction y.</param>
+        public void StartRound(Guid gameId, double directionX, double directionY)
+        {
+           this.Execute(() => this.Proxy.StartRound(gameId, directionX, directionY));
         }
 
         /// <summary>
@@ -129,9 +174,21 @@
         /// <param name="gameId">The game identifier.</param>
         /// <param name="directionX">The direction x.</param>
         /// <param name="directionY">The direction y.</param>
-        public async void StartRound(Guid gameId, double directionX, double directionY)
+        /// <returns>The task</returns>
+        public async Task StartRoundAsync(Guid gameId, double directionX, double directionY)
         {
-           await this.ExecuteAsync(() => this.Proxy.StartRound(gameId, directionX, directionY));
+            await this.ExecuteAsync(() => this.Proxy.StartRound(gameId, directionX, directionY));
+        }
+
+        /// <summary>
+        /// Ends the round.
+        /// </summary>
+        /// <param name="gameId">The game identifier.</param>
+        /// <param name="isPlayer1">if set to <c>true</c> user it player 1.</param>
+        /// <param name="score">The score of the current round.</param>
+        public void EndRound(Guid gameId, bool isPlayer1, int score)
+        {
+            this.Execute(() => this.Proxy.EndRound(gameId, isPlayer1, score));
         }
 
         /// <summary>
@@ -140,9 +197,21 @@
         /// <param name="gameId">The game identifier.</param>
         /// <param name="isPlayer1">if set to <c>true</c> user it player 1.</param>
         /// <param name="score">The score of the current round.</param>
-        public async void EndRound(Guid gameId, bool isPlayer1, int score)
+        /// <returns>The task</returns>
+        public async Task EndRoundAsync(Guid gameId, bool isPlayer1, int score)
         {
             await this.ExecuteAsync(() => this.Proxy.EndRound(gameId, isPlayer1, score));
+        }
+
+        /// <summary>
+        /// Adds the high score.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <param name="playerName">Name of the player.</param>
+        /// <param name="score">The score.</param>
+        public void AddHighScore(long mapId, string playerName, int score)
+        {
+           this.Execute(() => this.Proxy.AddHighScore(mapId, playerName, score));
         }
 
         /// <summary>
@@ -151,9 +220,10 @@
         /// <param name="mapId">The map identifier.</param>
         /// <param name="playerName">Name of the player.</param>
         /// <param name="score">The score.</param>
-        public async void AddHighScore(long mapId, string playerName, int score)
+        /// <returns>The task</returns>
+        public async Task AddHighScoreAsync(long mapId, string playerName, int score)
         {
-           await this.ExecuteAsync(() => this.Proxy.AddHighScore(mapId, playerName, score));
+            await this.ExecuteAsync(() => this.Proxy.AddHighScore(mapId, playerName, score));
         }
     }
 }

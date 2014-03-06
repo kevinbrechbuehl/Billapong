@@ -60,7 +60,7 @@
         /// </summary>
         private GameManager()
         {
-            GameConsoleContext.Current.GameConsoleCallback.GameErrorOccured += this.ErrorOccured;
+            GameConsoleContext.Current.GameConsoleCallback.GameErrorOccurred += this.ErrorOccurred;
         }
 
         /// <summary>
@@ -151,6 +151,7 @@
             this.gameController.RoundStarted += this.StartRound;
             this.gameController.RoundEnded += this.RoundEnded;
             this.gameController.GameCanceled += this.CancelGame;
+            this.gameController.ErrorOccurred += this.ErrorOccurred;
 
             this.OpenGameField();
 
@@ -386,8 +387,8 @@
         /// Gets called when a unexpected error occurs
         /// </summary>
         /// <param name="sender">The sender.</param>
-        /// <param name="args">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-        private void ErrorOccured(object sender, EventArgs args)
+        /// <param name="args">The <see cref="GameErrorEventArgs"/> instance containing the event data.</param>
+        private void ErrorOccurred(object sender, EventArgs args)
         {
             MessageBox.Show(
                 Resources.UnexpectedGameError,
@@ -395,7 +396,7 @@
                 MessageBoxButton.OK,
                 MessageBoxImage.Error);
 
-            this.CancelGame(sender, args);
+                this.CancelGame(sender, args);
         }
 
         /// <summary>

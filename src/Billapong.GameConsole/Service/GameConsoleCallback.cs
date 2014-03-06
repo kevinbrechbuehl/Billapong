@@ -39,7 +39,7 @@
         /// <summary>
         /// Occurs when a game error is thrown by the server
         /// </summary>
-        public event EventHandler GameErrorOccured = delegate { }; 
+        public event EventHandler GameErrorOccurred = delegate { }; 
 
         /// <summary>
         /// Occurs when the game got cancelled by a player.
@@ -151,7 +151,7 @@
         /// </summary>
         private void OnGameError()
         {
-            this.GameErrorOccured(this, null);
+            this.GameErrorOccurred(this, null);
         }
     }
 }
