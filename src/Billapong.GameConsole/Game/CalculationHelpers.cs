@@ -118,16 +118,14 @@
 
                 secondIntersection = new Point(lineStart.X + (t * dx), lineStart.Y + (t * dy));
 
-                // Check, whether the distance of the second intersection is longer to the line start than the first intersection
-                if (lineStart.DistanceTo(secondIntersection.Value) > lineStart.DistanceTo(firstIntersection.Value))
+                // Check, whether the distance of the second intersection is shorter to the line start than the first intersection
+                if (lineStart.DistanceTo(secondIntersection.Value) < lineStart.DistanceTo(firstIntersection.Value))
                 {
-                    return 2;
+                    // Switch the intersections because they are in the wrong order
+                    var tempIntersection = firstIntersection;
+                    firstIntersection = secondIntersection;
+                    secondIntersection = tempIntersection;
                 }
-
-                // Switch the intersections because they are in the wrong order
-                var tempIntersection = firstIntersection;
-                firstIntersection = secondIntersection;
-                secondIntersection = tempIntersection;
 
                 return 2;
             }
