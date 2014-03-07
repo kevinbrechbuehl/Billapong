@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:resx="clr-namespace:Billapong.GameConsole.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel>
@@ -14,11 +15,11 @@
 |____/___|_____|_____/_/   \_\_|    \___/|_| \_|\____|
         </TextBlock>
        
-        <Button Command="{Binding OpenMapSelectionCommand}" CommandParameter="training" Style="{StaticResource MenuButton}">Start singleplayer training</Button>
-        <Button Command="{Binding OpenMapSelectionCommand}" CommandParameter="single" Style="{StaticResource MenuButton}">Start singleplayer game</Button>
-        <Button Command="{Binding OpenMapSelectionCommand}" CommandParameter="multiplayer" Style="{StaticResource MenuButton}">Start multiplayer game</Button>
-        <Button Command="{Binding OpenGameLobbyCommand}" Style="{StaticResource MenuButton}">Join multiplayer game</Button>
-        <Button Command="{Binding StartMapEditorCommand}" Style="{StaticResource MenuButton}">Map Editor</Button>
-        <Button Command="{Binding OpenSettingsCommand}" Style="{StaticResource MenuButton}">Settings</Button>
+        <Button Command="{Binding OpenMapSelectionCommand}" CommandParameter="training" Style="{StaticResource MenuButton}" Content="{x:Static resx:Resources.StartSinglePlayerTraining}" />
+        <Button Command="{Binding OpenMapSelectionCommand}" CommandParameter="single" Style="{StaticResource MenuButton}" Content="{x:Static resx:Resources.StartSinglePlayerGame}" />
+        <Button Command="{Binding OpenMapSelectionCommand}" CommandParameter="multiplayer" Style="{StaticResource MenuButton}" Content="{x:Static resx:Resources.StartMultiPlayerGame}" />
+        <Button Command="{Binding OpenGameLobbyCommand}" Style="{StaticResource MenuButton}" Content="{x:Static resx:Resources.JoinMultiPlayerGame}" />
+        <Button Command="{Binding StartMapEditorCommand}" Style="{StaticResource MenuButton}" Content="{x:Static resx:Resources.MapEditor}" />
+        <Button Command="{Binding OpenSettingsCommand}" Style="{StaticResource MenuButton}" Content="{x:Static resx:Resources.Settings}" />
     </StackPanel>
 </UserControl>

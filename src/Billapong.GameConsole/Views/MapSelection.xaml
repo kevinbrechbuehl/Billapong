@@ -6,6 +6,7 @@
              xmlns:views="clr-namespace:Billapong.GameConsole.Views"
              xmlns:viewModels="clr-namespace:Billapong.GameConsole.ViewModels"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:resx="clr-namespace:Billapong.GameConsole.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
@@ -40,7 +41,7 @@
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListBox">
-                                            <TextBlock Text="No maps found"/>
+                                            <TextBlock Text="{x:Static resx:Resources.NoMapsFound}"/>
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>
@@ -55,7 +56,7 @@
                 </ListBox.ItemTemplate>
             </ListBox>
 
-            <TextBlock DockPanel.Dock="Top" Visibility="{Binding Path=IsDataLoading, Converter={StaticResource BooleanToVisibility}}" HorizontalAlignment="Center" VerticalAlignment="Center">Searching for maps...</TextBlock>
+            <TextBlock DockPanel.Dock="Top" Visibility="{Binding Path=IsDataLoading, Converter={StaticResource BooleanToVisibility}}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Static resx:Resources.SearchMaps}" />
         </DockPanel>
 
         <Separator Grid.Column="1">
@@ -73,7 +74,7 @@
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="0" Command="{Binding NavigateBackCommand}" Visibility="{Binding BackButtonVisibility}" Style="{StaticResource NavigationButton}" Content="{Binding Path=BackButtonContent, FallbackValue=Previous view}"/>
-                <Button Grid.Column="2" Command="{Binding OpenGameCommand}" Style="{StaticResource NavigationButton}" Content="Start game"/>
+                <Button Grid.Column="2" Command="{Binding OpenGameCommand}" Style="{StaticResource NavigationButton}" Content="{x:Static resx:Resources.StartGame}"/>
             </Grid>
         </DockPanel>
     </Grid>

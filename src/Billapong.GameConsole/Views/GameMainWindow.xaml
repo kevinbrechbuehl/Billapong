@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:viewModels="clr-namespace:Billapong.GameConsole.ViewModels"
         xmlns:views="clr-namespace:Billapong.GameConsole.Views"
-        Title="Billapong" Height="{Binding WindowHeight}" MinHeight="{Binding WindowHeight}" MaxHeight="{Binding WindowHeight}" Width="{Binding WindowWidth}" MinWidth="{Binding WindowWidth}" MaxWidth="{Binding WindowWidth}">
+        xmlns:resx="clr-namespace:Billapong.GameConsole.Properties"
+        Title="{x:Static resx:Resources.ApplicationTitle}" Height="{Binding WindowHeight}" MinHeight="{Binding WindowHeight}" MaxHeight="{Binding WindowHeight}" Width="{Binding WindowWidth}" MinWidth="{Binding WindowWidth}" MaxWidth="{Binding WindowWidth}">
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewModels:GameMenuViewModel}">
             <views:GameMenu />

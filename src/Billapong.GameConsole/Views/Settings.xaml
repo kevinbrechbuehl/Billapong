@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:resx="clr-namespace:Billapong.GameConsole.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <DockPanel LastChildFill="False">
@@ -18,7 +19,7 @@
         
             <Label Grid.Row="0" Grid.Column="0">Spielername</Label>
             <TextBox Grid.Row="0" Grid.Column="1" Height="20" Text="{Binding PlayerName}" />
-            <Button Grid.Row="1" Grid.Column="1" Height="20" Command="{Binding SaveSettingsCommand}">Save</Button>
+            <Button Grid.Row="1" Grid.Column="1" Height="20" Command="{Binding SaveSettingsCommand}" Content="{x:Static resx:Resources.Save}" />
         </Grid>
 
         <Grid DockPanel.Dock="Bottom">

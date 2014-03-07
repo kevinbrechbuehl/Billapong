@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:m="clr-namespace:Billapong.Contract.Data.GamePlay;assembly=Billapong.Contract"
+             xmlns:resx="clr-namespace:Billapong.GameConsole.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Name="GameLobbyUserControl">
     <UserControl.Resources>
@@ -23,7 +24,7 @@
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListBox">
-                                            <TextBlock Text="No open games found"/>
+                                            <TextBlock Text="{x:Static resx:Resources.NoOpenGamesFound}"/>
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>
@@ -46,11 +47,11 @@
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="0" Command="{Binding NavigateBackCommand}" Visibility="{Binding BackButtonVisibility}" Style="{StaticResource NavigationButton}" Content="{Binding Path=BackButtonContent, FallbackValue=Previous view}"/>
-                <Button Grid.Column="2" Command="{Binding RefreshGamesCommand}" Style="{StaticResource NavigationButton}" Content="Refresh"/>
-                <Button Grid.Column="3" Command="{Binding JoinGameCommand}" Style="{StaticResource NavigationButton}" Content="Join game"/>
+                <Button Grid.Column="2" Command="{Binding RefreshGamesCommand}" Style="{StaticResource NavigationButton}" Content="{x:Static resx:Resources.Refresh}"/>
+                <Button Grid.Column="3" Command="{Binding JoinGameCommand}" Style="{StaticResource NavigationButton}" Content="{x:Static resx:Resources.JoinGame}"/>
             </Grid>
 
-            <TextBlock DockPanel.Dock="Top" Visibility="{Binding Path=IsDataLoading, Converter={StaticResource BooleanToVisibility}}" HorizontalAlignment="Center" VerticalAlignment="Center">Searching for open games...</TextBlock>
+            <TextBlock DockPanel.Dock="Top" Visibility="{Binding Path=IsDataLoading, Converter={StaticResource BooleanToVisibility}}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Static resx:Resources.SearchOpenGames}" />
         </DockPanel>
     </Grid>
 </UserControl>

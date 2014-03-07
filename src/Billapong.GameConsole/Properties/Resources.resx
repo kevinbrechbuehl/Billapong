@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ApplicationTitle" xml:space="preserve">
+    <value>Billapong</value>
+  </data>
   <data name="BackToMenu" xml:space="preserve">
     <value>Back to menu</value>
   </data>
@@ -144,8 +147,50 @@
   <data name="GameWonMessage" xml:space="preserve">
     <value>Game ended. You won! :)</value>
   </data>
+  <data name="JoinGame" xml:space="preserve">
+    <value>Join game</value>
+  </data>
   <data name="JoiningGameMessage" xml:space="preserve">
     <value>Joining game. Please wait...</value>
+  </data>
+  <data name="JoinMultiPlayerGame" xml:space="preserve">
+    <value>Join multiplayer game</value>
+  </data>
+  <data name="MapEditor" xml:space="preserve">
+    <value>Map editor</value>
+  </data>
+  <data name="NoMapsFound" xml:space="preserve">
+    <value>No maps found</value>
+  </data>
+  <data name="NoOpenGamesFound" xml:space="preserve">
+    <value>No open games found</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="SearchMaps" xml:space="preserve">
+    <value>Searching for maps...</value>
+  </data>
+  <data name="SearchOpenGames" xml:space="preserve">
+    <value>Searching for open games...</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="StartGame" xml:space="preserve">
+    <value>Start game</value>
+  </data>
+  <data name="StartMultiPlayerGame" xml:space="preserve">
+    <value>Start multiplayer game</value>
+  </data>
+  <data name="StartSinglePlayerGame" xml:space="preserve">
+    <value>Start singleplayer game</value>
+  </data>
+  <data name="StartSinglePlayerTraining" xml:space="preserve">
+    <value>Start singleplayer training</value>
   </data>
   <data name="UnexpectedGameError" xml:space="preserve">
     <value>An unexpected error occured. The game will now cancel</value>
