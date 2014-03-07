@@ -57,6 +57,7 @@
 
         /// <summary>
         /// Calculates the intersection between a line and a sphere.
+        /// Warning: It does not work, if the line start is inside the sphere
         /// </summary>
         /// <param name="sphereCenter">The center point of the sphere</param>
         /// <param name="radius">The radius of the sphere.</param>
@@ -67,38 +68,71 @@
         /// <returns>The intersection. 0 = no intersection, 1 = one intersection, 3 = two intersections</returns>
         public static int CalculateLineSphereIntersection(Point sphereCenter, double radius, Point lineStart, Point lineEnd, out Point? firstIntersection, out Point? secondIntersection)
         {
+            firstIntersection = null;
+            secondIntersection = null;
+
             double t;
             var dx = lineEnd.X - lineStart.X;
             var dy = lineEnd.Y - lineStart.Y;
 
             var a = (dx * dx) + (dy * dy);
             var b = 2 * ((dx * (lineStart.X - sphereCenter.X)) + (dy * (lineStart.Y - sphereCenter.Y)));
-            var c = ((lineStart.X - sphereCenter.X) * (lineStart.X - sphereCenter.X)) + ((lineStart.Y - sphereCenter.Y) * (lineStart.Y - sphereCenter.Y)) - (radius * radius);
+            var c = ((lineStart.X - sphereCenter.X) * (lineStart.X - sphereCenter.X))
+                    + ((lineStart.Y - sphereCenter.Y) * (lineStart.Y - sphereCenter.Y)) - (radius * radius);
 
             var det = (b * b) - (4 * a * c);
-            if ((Math.Abs(a) < 0.001) || (det < 0))
+            if ((Math.Abs(a) < 0.0000001) || (det < 0))
             {
                 // No intersection
-                firstIntersection = null;
-                secondIntersection = null;
                 return 0;
             }
 
-            if (Math.Abs(det) < 0.001)
+            if (Math.Abs(det) < 0.0000001)
             {
-                // One intersection
+                // One possible intersection
                 t = -b / (2 * a);
-                firstIntersection = new Point(lineStart.X + (t * dx), lineStart.Y + (t * dy));
-                secondIntersection = null;
-                return 1;
+
+                // t must be greater or equal zero. Otherwise the intersection was on the wrong direction of the ray
+                if (t >= 0)
+                {
+                    firstIntersection = new Point(lineStart.X + (t * dx), lineStart.Y + (t * dy));
+                    return 1;
+                }
+
+                return 0;
             }
 
-            // Two intersections
+            // Two possible intersections
             t = (-b + Math.Sqrt(det)) / (2 * a);
-            firstIntersection = new Point(lineStart.X + (t * dx), lineStart.Y + (t * dy));
-            t = (float)((-b - Math.Sqrt(det)) / (2 * a));
-            secondIntersection = new Point(lineStart.X + (t * dx), lineStart.Y + (t * dy));
-            return 2;
+
+            // t must be greater or equal zero. Otherwise the intersection was on the wrong direction of the ray
+            if (t >= 0)
+            {
+                firstIntersection = new Point(lineStart.X + (t * dx), lineStart.Y + (t * dy));
+
+                t = (float)((-b - Math.Sqrt(det)) / (2 * a));
+                if (t < 0)
+                {
+                    return 1;
+                }
+
+                secondIntersection = new Point(lineStart.X + (t * dx), lineStart.Y + (t * dy));
+
+                // Check, whether the distance of the second intersection is longer to the line start than the first intersection
+                if (lineStart.DistanceTo(secondIntersection.Value) > lineStart.DistanceTo(firstIntersection.Value))
+                {
+                    return 2;
+                }
+
+                // Switch the intersections because they are in the wrong order
+                var tempIntersection = firstIntersection;
+                firstIntersection = secondIntersection;
+                secondIntersection = tempIntersection;
+
+                return 2;
+            }
+
+            return 0;
         }
     }
 }
