@@ -168,20 +168,19 @@ namespace Billapong.MapEditor.ViewModels
 
                 this.GameWindows = windows;
             }
-            catch (FaultException<CallbackNotValidException> ex)
+            catch (FaultException<CallbackNotValidException>)
             {
                 this.HandleInvalidCallback();
             }
             catch (ServerUnavailableException ex)
             {
-                Tracer.Error("MapEditViewModel :: ctor() :: Server not available", ex);
-                this.ShutdownApplication(Resources.ServerUnavailable);
+                this.HandleServerException(ex);
             }
         }
 
-        public override void CloseCallback()
+        public override async void CloseCallback()
         {
-            Tracer.Debug("MapEditViewModel :: Close callback retrieved");
+            await Tracer.Debug("MapEditViewModel :: Close callback retrieved");
 
             try
             {
@@ -189,7 +188,7 @@ namespace Billapong.MapEditor.ViewModels
             }
             catch (ServerUnavailableException ex)
             {
-                Tracer.Error("MapEditViewModel :: CloseCallback() :: Server not available", ex);
+                this.HandleServerException(ex, true);
             }
         }
 
@@ -284,20 +283,19 @@ namespace Billapong.MapEditor.ViewModels
 
         private async void SaveName()
         {
-            Tracer.Info(string.Format("MapEditViewModel :: Call SaveName() and update name of map id '{0}' to '{1}", this.map.Id, this.MapName));
+            await Tracer.Info(string.Format("MapEditViewModel :: Call SaveName() and update name of map id '{0}' to '{1}", this.map.Id, this.MapName));
             
             try
             {
                 await this.proxy.UpdateNameAsync(this.map.Id, this.MapName);
             }
-            catch (FaultException<CallbackNotValidException> ex)
+            catch (FaultException<CallbackNotValidException>)
             {
                 this.HandleInvalidCallback();
             }
             catch (ServerUnavailableException ex)
             {
-                Tracer.Error("MapEditViewModel :: SaveName() :: Server not available", ex);
-                this.ShutdownApplication(Resources.ServerUnavailable);
+                this.HandleServerException(ex);
             } 
         }
 
@@ -305,25 +303,24 @@ namespace Billapong.MapEditor.ViewModels
         {
             if (!this.IsPlayable || this.IsMapPlayable())
             {
-                Tracer.Info(string.Format("MapEditViewModel :: Call ToggleIsPlayable() and set to {0}", this.IsPlayable));
+                await Tracer.Info(string.Format("MapEditViewModel :: Call ToggleIsPlayable() and set to {0}", this.IsPlayable));
                 
                 try
                 {
                     await this.proxy.UpdateIsPlayableAsync(this.map.Id, this.IsPlayable);
                 }
-                catch (FaultException<CallbackNotValidException> ex)
+                catch (FaultException<CallbackNotValidException>)
                 {
                     this.HandleInvalidCallback();
                 }
                 catch (ServerUnavailableException ex)
                 {
-                    Tracer.Error("MapEditViewModel :: ToggleIsPlayable() :: Server not available", ex);
-                    this.ShutdownApplication(Resources.ServerUnavailable);
+                    this.HandleServerException(ex);
                 }   
             }
             else
             {
-                Tracer.Debug("MapEditViewModel :: ToggleIsPlayable() :: Map is currently not playable");
+                await Tracer.Debug("MapEditViewModel :: ToggleIsPlayable() :: Map is currently not playable");
                 MessageBox.Show(string.Format(Resources.MapIsNotPlayable, Environment.NewLine), Resources.ErrorTitle, MessageBoxButton.OK, MessageBoxImage.Warning);
                 this.IsPlayable = false;
             }
@@ -354,7 +351,7 @@ namespace Billapong.MapEditor.ViewModels
                     var holeOnField = gameWindow.Holes.FirstOrDefault(hole => hole.X == coordX && hole.Y == coordY);
                     if (holeOnField != null)
                     {
-                        Tracer.Info(
+                        await Tracer.Info(
                             string.Format(
                                 "MapEditViewModel :: Remove hole '{0}' on window '{1}' on map '{2}'",
                                 holeOnField.Id,
@@ -364,7 +361,7 @@ namespace Billapong.MapEditor.ViewModels
                     }
                     else
                     {
-                        Tracer.Info(
+                        await Tracer.Info(
                             string.Format(
                                 "MapEditViewModel :: Add hole on coords '{0}/{1}' to window '{2}' on map '{3}'",
                                 coordX,
@@ -378,7 +375,7 @@ namespace Billapong.MapEditor.ViewModels
                 {
                     if (gameWindow.IsChecked)
                     {
-                        Tracer.Info(
+                        await Tracer.Info(
                             string.Format(
                                 "MapEditViewModel :: Remove window '{0}' from map '{1}'",
                                 gameWindow.Id,
@@ -387,7 +384,7 @@ namespace Billapong.MapEditor.ViewModels
                     }
                     else
                     {
-                        Tracer.Info(
+                        await Tracer.Info(
                             string.Format(
                                 "MapEditViewModel :: Add windows on coords '{0}/{1}' to map '{2}",
                                 gameWindow.X,
@@ -397,14 +394,13 @@ namespace Billapong.MapEditor.ViewModels
                     }
                 }
             }
-            catch (FaultException<CallbackNotValidException> ex)
+            catch (FaultException<CallbackNotValidException>)
             {
                 this.HandleInvalidCallback();
             }
             catch (ServerUnavailableException ex)
             {
-                Tracer.Error("MapEditViewModel :: GameWindowClicked() :: Server not available", ex);
-                this.ShutdownApplication(Resources.ServerUnavailable);
+                this.HandleServerException(ex);
             }
         }
 

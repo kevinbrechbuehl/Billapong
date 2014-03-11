@@ -15,7 +15,7 @@
     /// <summary>
     /// The tracing controller
     /// </summary>
-    public class TracingController : Controller
+    public class TracingController : ControllerBase
     {
         /// <summary>
         /// The index action which shows the tracing entries from the server's database.
@@ -60,7 +60,7 @@
         {
             try
             {
-                Tracer.Info("Refreshing log entries");
+                await Tracer.Info("Refreshing log entries");
 
                 var proxy = new AdministrationServiceClient();
                 return this.PartialView(proxy.GetLogMessages(new LogListener
@@ -72,7 +72,7 @@
             }
             catch (Exception ex)
             {
-                Tracer.Error("Error while retrieving log entries", ex);
+                this.HandleException("Error while retrieving log entries", ex);
             }
 
             return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
@@ -86,7 +86,7 @@
         {
             try
             {
-                Tracer.Info("Clearing log entries");
+                await Tracer.Info("Clearing log entries");
 
                 var proxy = new AdministrationServiceClient();
                 proxy.ClearLog();
@@ -94,7 +94,7 @@
             }
             catch (Exception ex)
             {
-                Tracer.Error("Error while clearing log", ex);
+                this.HandleException("Error while clearing log", ex);
             }
             
             return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);

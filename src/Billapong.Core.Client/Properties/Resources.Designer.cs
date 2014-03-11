@@ -70,6 +70,15 @@ namespace Billapong.Core.Client.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Server is unavailable. Please start the server and restart your application..
+        /// </summary>
+        internal static string ServerUnavailable {
+            get {
+                return ResourceManager.GetString("ServerUnavailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unexpected error.
         /// </summary>
         internal static string UnexpectedError {

@@ -90,7 +90,7 @@
         /// </summary>
         public static async Task Shutdown()
         {
-            Tracer.Info(string.Format("Shutdown tracing for component '{0}'", Current.component));
+            await Tracer.Info(string.Format("Shutdown tracing for component '{0}'", Current.component));
             await Current.SendMessagesInQueue();
             Current.isInitialized = false;
         }

@@ -1,7 +1,9 @@
 ﻿namespace Billapong.Core.Client.UI
 {
     using System.Windows;
+    using Billapong.Core.Client.Exceptions;
     using Billapong.Core.Client.Properties;
+    using Billapong.Core.Client.Tracing;
 
     /// <summary>
     /// Provides basic functionality to view models
@@ -36,7 +38,7 @@
         /// Shutdowns the application on an error and show a messagebox before.
         /// </summary>
         /// <param name="message">The message.</param>
-        public virtual void ShutdownApplication(string message = "")
+        protected virtual void ShutdownApplication(string message = "")
         {
             if (string.IsNullOrWhiteSpace(message))
             {
@@ -45,6 +47,15 @@
 
             MessageBox.Show(message, Resources.Error, MessageBoxButton.OK, MessageBoxImage.Error);
             Application.Current.Shutdown();
+        }
+
+        protected virtual async void HandleServerException(ServerUnavailableException ex, bool withoutShutdown = false)
+        {
+            await Tracer.Error("Server not available", ex);
+            if (!withoutShutdown)
+            {
+                this.ShutdownApplication(Resources.ServerUnavailable);   
+            }
         }
     }
 }
