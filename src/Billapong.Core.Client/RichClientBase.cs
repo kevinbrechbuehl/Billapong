@@ -5,6 +5,7 @@
     using System.ServiceModel;
     using System.ServiceModel.Channels;
     using System.Threading.Tasks;
+    using Billapong.Contract.Exceptions;
     using Billapong.Core.Client.Exceptions;
 
     /// <summary>
@@ -31,6 +32,10 @@
             {
                 this.ValidateProxy();
                 delegatedAction();
+            }
+            catch (FaultException<CallbackNotValidException> ex)
+            {
+                throw;
             }
             catch (EndpointNotFoundException ex)
             {

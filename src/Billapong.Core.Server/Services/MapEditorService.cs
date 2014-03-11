@@ -4,7 +4,7 @@
     using System.Configuration;
     using System.Linq;
     using System.ServiceModel;
-
+    using Billapong.Contract.Exceptions;
     using Billapong.Core.Server.Tracing;
 
     using Contract.Data.Map;
@@ -84,40 +84,43 @@
 
         public void UpdateName(long mapId, string name)
         {
-            // todo (breck1): verify if current callback is still attached, throw exception if not (for each method here)
-            // todo (breck1): NICHT VERGESSEN IM CONTRACT DIE FAULTEXCEPTION HINZUZUFÜGEN
-            
             Tracer.Debug(string.Format("MapEditorService :: UpdateName() called with mapId={0}, name={1}", mapId, name));
+            this.VerifyCallback(mapId);
             MapController.Current.UpdateName(mapId, name);
         }
 
         public void UpdateIsPlayable(long mapId, bool isPlayable)
         {
             Tracer.Debug(string.Format("MapEditorService :: UpdateIsPlayable() called with mapId={0}, isPlayable={1}", mapId, isPlayable));
+            this.VerifyCallback(mapId);
             MapController.Current.UpdateIsPlayable(mapId, isPlayable);
         }
 
         public void AddWindow(long mapId, int coordX, int coordY)
         {
             Tracer.Debug(string.Format("MapEditorService :: AddWindow() called with mapId={0}, coordX={1}, coordY={2}", mapId, coordX, coordY));
+            this.VerifyCallback(mapId);
             MapController.Current.AddWindow(mapId, coordX, coordY);
         }
 
         public void RemoveWindow(long mapId, long windowId)
         {
             Tracer.Debug(string.Format("MapEditorService :: RemoveWindow() called with mapId={0}, windowId={1}", mapId, windowId));
+            this.VerifyCallback(mapId);
             MapController.Current.RemoveWindow(mapId, windowId);
         }
 
         public void AddHole(long mapId, long windowId, int coordX, int coordY)
         {
             Tracer.Debug(string.Format("MapEditorService :: AddHole() called with mapId={0}, windowId={1} coordX={2}, coordY={3}", mapId, windowId, coordX, coordY));
+            this.VerifyCallback(mapId);
             MapController.Current.AddHole(mapId, windowId, coordX, coordY);
         }
 
         public void RemoveHole(long mapId, long windowId, long holeId)
         {
             Tracer.Debug(string.Format("MapEditorService :: RemoveHole() called with mapId={0}, windowId={1}, holeId={2}", mapId, windowId, holeId));
+            this.VerifyCallback(mapId);
             MapController.Current.RemoveHole(mapId, windowId, holeId);
         }
 
@@ -131,6 +134,14 @@
         {
             Tracer.Debug(string.Format("MapEditorService :: UnregisterCallback() called with mapId={0}", mapId));
             MapController.Current.UnregisterCallback(mapId, this.GetCallback());
+        }
+
+        private void VerifyCallback(long mapId)
+        {
+            if (!MapController.Current.IsCallbackRegistered(mapId, this.GetCallback()))
+            {
+                throw new FaultException<CallbackNotValidException>(new CallbackNotValidException(), "Callback not valid");
+            }
         }
 
         /// <summary>
