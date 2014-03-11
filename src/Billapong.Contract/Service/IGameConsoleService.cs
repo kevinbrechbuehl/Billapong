@@ -91,5 +91,13 @@
         /// <param name="score">The score.</param>
         [OperationContract(Name = "AddHighScore")]
         void AddHighScore(long mapId, string playerName, int score);
+
+        /// <summary>
+        /// Determines whether a specific game is still running and callbacks are valid.
+        /// </summary>
+        /// <param name="gameId">The game identifier.</param>
+        /// <returns>Boolean value if game is still running and valid</returns>
+        [OperationContract(Name = "IsGameRunning")]
+        bool IsGameRunning(Guid gameId);
     }
 }
