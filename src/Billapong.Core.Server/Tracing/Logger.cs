@@ -110,7 +110,7 @@
                     messages = messages.Take(numberOfMessages);
                 }
 
-                return messages;
+                return messages.ToList();
             }
         }
 
