@@ -268,15 +268,6 @@ namespace Billapong.MapEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Server is currently not available. Please start the server and restart the map editor..
-        /// </summary>
-        public static string ServerUnavailable {
-            get {
-                return ResourceManager.GetString("ServerUnavailable", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Settings:.
         /// </summary>
         public static string SettingsDoublePoint {

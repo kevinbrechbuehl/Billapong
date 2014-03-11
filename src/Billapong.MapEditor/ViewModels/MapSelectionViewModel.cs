@@ -25,7 +25,7 @@
         /// </summary>
         private bool isDataLoading;
 
-        private readonly MapEditorServiceClient proxy;
+        private MapEditorServiceClient proxy;
 
         /// <summary>
         /// Gets or sets a value indicating whether the view data is loading.
@@ -83,14 +83,19 @@
 
         public MapSelectionViewModel()
         {
+            this.Initialize();
+        }
+
+        private async void Initialize()
+        {
             this.proxy = new MapEditorServiceClient();
             this.Maps = new ObservableCollection<Map>();
-            this.LoadMaps();
+            await this.LoadMaps();
         }
 
         private async Task LoadMaps()
         {
-            Tracer.Info("MapSelectionViewModel :: refresh maps");
+            await Tracer.Info("MapSelectionViewModel :: refresh maps");
 
             this.IsDataLoading = true;
 
@@ -105,8 +110,7 @@
             }
             catch (ServerUnavailableException ex)
             {
-                Tracer.Error("MapSelectionViewModel :: LoadMaps() :: Server not available", ex);
-                this.ShutdownApplication(Resources.ServerUnavailable);
+                this.HandleServerException(ex);
             }
 
             this.IsDataLoading = false;
@@ -114,7 +118,7 @@
 
         private async Task DeleteMap(long id)
         {
-            Tracer.Info(string.Format("MapSelectionViewModel :: Delete map with id '{0}'", id));
+            await Tracer.Info(string.Format("MapSelectionViewModel :: Delete map with id '{0}'", id));
 
             try
             {
@@ -123,8 +127,7 @@
             }
             catch (ServerUnavailableException ex)
             {
-                Tracer.Error("MapSelectionViewModel :: DeleteMap() :: Server not available", ex);
-                this.ShutdownApplication(Resources.ServerUnavailable);
+                this.HandleServerException(ex);
             }
         }
 
@@ -153,7 +156,7 @@
 
         private async void CreateNewMap()
         {
-            Tracer.Info("MapSelectionViewModel :: Create new map");
+            await Tracer.Info("MapSelectionViewModel :: Create new map");
 
             try
             {
@@ -164,8 +167,7 @@
             }
             catch (ServerUnavailableException ex)
             {
-                Tracer.Error("MapSelectionViewModel :: CreateNewMap() :: Server not available", ex);
-                this.ShutdownApplication(Resources.ServerUnavailable);
+                this.HandleServerException(ex);
             }
         }
 

@@ -99,6 +99,7 @@
     </Compile>
     <Compile Include="App_Start\Tracing.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\HighScoreController.cs" />
     <Compile Include="Controllers\HomeController.cs" />

@@ -14,7 +14,7 @@ namespace Billapong.Administration.Controllers
     using Core.Client.Tracing;
     using Service;
 
-    public class HighScoreController : Controller
+    public class HighScoreController : ControllerBase
     {
         public ActionResult Index()
         {
@@ -25,14 +25,14 @@ namespace Billapong.Administration.Controllers
         {
             try
             {
-                Tracer.Info("Refreshing highscores of all maps");
+                await Tracer.Info("Refreshing highscores of all maps");
 
                 var proxy = new AdministrationServiceClient();
                 return this.PartialView("ScoresTable", new ScoresViewModel {ShowDetailColumn = true, Scores = proxy.GetMapHighScores()});
             }
             catch (Exception ex)
             {
-                Tracer.Error("Error while retrieving the highscores", ex);
+                this.HandleException("Error while retrieving the highscores", ex);
             }
 
             return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
@@ -47,14 +47,14 @@ namespace Billapong.Administration.Controllers
         {
             try
             {
-                Tracer.Info(string.Format("Refreshing scores of map with id '{0}'", id));
+                await Tracer.Info(string.Format("Refreshing scores of map with id '{0}'", id));
 
                 var proxy = new AdministrationServiceClient();
                 return this.PartialView("ScoresTable", new ScoresViewModel { Scores = proxy.GetMapScores(id) });
             }
             catch (Exception ex)
             {
-                Tracer.Error(string.Format("Error while retrieving the scores for map '{0}'", id), ex);
+                this.HandleException(string.Format("Error while retrieving the scores for map '{0}'", id), ex);
             }
 
             return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);

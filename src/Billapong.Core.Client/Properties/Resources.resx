@@ -120,6 +120,9 @@
   <data name="Error" xml:space="preserve">
     <value>Error</value>
   </data>
+  <data name="ServerUnavailable" xml:space="preserve">
+    <value>Server is unavailable. Please start the server and restart your application.</value>
+  </data>
   <data name="UnexpectedError" xml:space="preserve">
     <value>Unexpected error</value>
   </data>

@@ -186,9 +186,6 @@
   <data name="SelectionModeDoublePoint" xml:space="preserve">
     <value>Selection Mode:</value>
   </data>
-  <data name="ServerUnavailable" xml:space="preserve">
-    <value>Server is currently not available. Please start the server and restart the map editor.</value>
-  </data>
   <data name="SettingsDoublePoint" xml:space="preserve">
     <value>Settings:</value>
   </data>

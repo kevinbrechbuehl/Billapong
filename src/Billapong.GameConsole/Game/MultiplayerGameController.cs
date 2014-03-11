@@ -130,7 +130,7 @@
                 }
                 catch (Exception ex)
                 {
-                    Tracer.Error(ex.Message, ex);
+                    this.LogError(ex);
                     this.ErrorOccurred(this, null);
                 }
             }
@@ -139,6 +139,15 @@
                 // Fire the RoundEnded event if the server already sent the appropriate event
                 this.OnRoundEnded(this.currentRoundEndedArguments);
             }
+        }
+
+        /// <summary>
+        /// Logs the error to the tracing service.
+        /// </summary>
+        /// <param name="ex">The exception.</param>
+        private async void LogError(Exception ex)
+        {
+            await Tracer.Error(ex.Message, ex);
         }
 
         /// <summary>

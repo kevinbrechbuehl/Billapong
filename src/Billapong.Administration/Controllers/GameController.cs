@@ -7,28 +7,29 @@ using System.Web.Mvc;
 namespace Billapong.Administration.Controllers
 {
     using System.Net;
+    using System.Threading.Tasks;
     using Core.Client.Tracing;
     using Service;
 
-    public class GameController : Controller
+    public class GameController : ControllerBase
     {
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult Games()
+        public async Task<ActionResult> Games()
         {
             try
             {
-                //Tracer.Debug("Refreshing games");
+                await Tracer.Debug("Refreshing games");
                 
                 var proxy = new AdministrationServiceClient();
                 return this.PartialView(proxy.GetGames());
             }
             catch (Exception ex)
             {
-                //Tracer.Error("Error while retrieving the games", ex);
+                this.HandleException("Error while retrieving the games", ex);
             }
 
             return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
