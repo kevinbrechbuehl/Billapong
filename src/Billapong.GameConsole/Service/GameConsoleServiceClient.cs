@@ -215,6 +215,18 @@
         }
 
         /// <summary>
+        /// Determines whether a specific game is still running and callbacks are valid.
+        /// </summary>
+        /// <param name="gameId">The game identifier.</param>
+        /// <returns>
+        /// Boolean value if game is still running and valid
+        /// </returns>
+        public bool IsGameRunning(Guid gameId)
+        {
+            return this.Execute(() => this.Proxy.IsGameRunning(gameId));
+        }
+
+        /// <summary>
         /// Adds the high score asynchronous.
         /// </summary>
         /// <param name="mapId">The map identifier.</param>

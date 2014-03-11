@@ -144,6 +144,9 @@
   <data name="Holes" xml:space="preserve">
     <value>Holes</value>
   </data>
+  <data name="InvalidCallback" xml:space="preserve">
+    <value>Your callback is invalid, please reopen the map editing window.</value>
+  </data>
   <data name="IsPlayable" xml:space="preserve">
     <value>Is Active</value>
   </data>

@@ -142,6 +142,15 @@ namespace Billapong.MapEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your callback is invalid, please reopen the map editing window..
+        /// </summary>
+        public static string InvalidCallback {
+            get {
+                return ResourceManager.GetString("InvalidCallback", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Is Active.
         /// </summary>
         public static string IsPlayable {

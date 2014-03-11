@@ -1,11 +1,12 @@
 ﻿namespace Billapong.Core.Client
 {
+    using Billapong.Contract.Exceptions;
+    using Billapong.Core.Client.Exceptions;
     using System;
     using System.Diagnostics;
     using System.ServiceModel;
     using System.ServiceModel.Channels;
     using System.Threading.Tasks;
-    using Billapong.Core.Client.Exceptions;
 
     /// <summary>
     /// Basic functionality for WCF clients
@@ -32,22 +33,9 @@
                 this.ValidateProxy();
                 delegatedAction();
             }
-            catch (EndpointNotFoundException ex)
-            {
-                throw new ServerUnavailableException(ex);
-            }
-            catch (CommunicationException ex)
-            {
-                throw new ServerUnavailableException(ex);
-            }
-            catch (InvalidOperationException ex)
-            {
-                throw new ServerUnavailableException(ex);
-            }
             catch (Exception ex)
             {
-                Trace.TraceError(string.Format("Error while executing WCF request: {0}{1}", ex.Message, ex.StackTrace));
-                throw;
+                this.HandleException(ex);
             }
         }
 
@@ -64,22 +52,10 @@
                 this.ValidateProxy();
                 return delegatedFunction();
             }
-            catch (EndpointNotFoundException ex)
-            {
-                throw new ServerUnavailableException(ex);
-            }
-            catch (CommunicationException ex)
-            {
-                throw new ServerUnavailableException(ex);
-            }
-            catch (InvalidOperationException ex)
-            {
-                throw new ServerUnavailableException(ex); 
-            }
             catch (Exception ex)
             {
-                Trace.TraceError(string.Format("Error while executing WCF request: {0}{1}", ex.Message, ex.StackTrace));
-                throw;
+                this.HandleException(ex);
+                return default(TResult);
             }
         }
 
@@ -145,6 +121,32 @@
         {
             this.Proxy = this.CreateChannel();
             ((IChannel)this.Proxy).Open();
+        }
+
+        /// <summary>
+        /// Handles the exception.
+        /// </summary>
+        /// <param name="ex">The exception which was thrown.</param>
+        private void HandleException(Exception ex)
+        {
+            Trace.TraceError(string.Format("Error while executing WCF request: {0}{1}", ex.Message, ex.StackTrace));
+            
+            // faultexception -> rethrow
+            if (ex is FaultException)
+            {
+                throw ex;
+            }
+            
+            // communication exception where the server has some troubles
+            if (ex is EndpointNotFoundException
+                || ex is CommunicationException
+                || ex is InvalidOperationException)
+            {
+                throw new ServerUnavailableException(ex);
+            }
+
+            // rethrow all other stuff
+            throw ex;
         }
     }
 }

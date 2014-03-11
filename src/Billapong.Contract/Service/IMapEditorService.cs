@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.ServiceModel;
+    using Billapong.Contract.Exceptions;
     using Data.Map;
 
     /// <summary>
@@ -44,6 +45,7 @@
         /// <param name="mapId">The map identifier.</param>
         /// <param name="name">The name.</param>
         [OperationContract(Name = "UpdateName")]
+        [FaultContract(typeof(CallbackNotValidException))]
         void UpdateName(long mapId, string name);
 
         /// <summary>
@@ -52,6 +54,7 @@
         /// <param name="mapId">The map identifier.</param>
         /// <param name="isPlayable">if set to <c>true</c> the map is playable.</param>
         [OperationContract(Name = "UpdateIsPlayable")]
+        [FaultContract(typeof(CallbackNotValidException))]
         void UpdateIsPlayable(long mapId, bool isPlayable);
 
         /// <summary>
@@ -61,6 +64,7 @@
         /// <param name="coordX">The coord x.</param>
         /// <param name="coordY">The coord y.</param>
         [OperationContract(Name = "AddWindow")]
+        [FaultContract(typeof(CallbackNotValidException))]
         void AddWindow(long mapId, int coordX, int coordY);
 
         /// <summary>
@@ -69,6 +73,7 @@
         /// <param name="mapId">The map identifier.</param>
         /// <param name="windowId">The window identifier.</param>
         [OperationContract(Name = "RemoveWindow")]
+        [FaultContract(typeof(CallbackNotValidException))]
         void RemoveWindow(long mapId, long windowId);
 
         /// <summary>
@@ -79,6 +84,7 @@
         /// <param name="coordX">The coord x.</param>
         /// <param name="coordY">The coord y.</param>
         [OperationContract(Name = "AddHole")]
+        [FaultContract(typeof(CallbackNotValidException))]
         void AddHole(long mapId, long windowId, int coordX, int coordY);
 
         /// <summary>
@@ -88,6 +94,7 @@
         /// <param name="windowId">The window identifier.</param>
         /// <param name="holeId">The hole identifier.</param>
         [OperationContract(Name = "RemoveHole")]
+        [FaultContract(typeof(CallbackNotValidException))]
         void RemoveHole(long mapId, long windowId, long holeId);
 
         /// <summary>

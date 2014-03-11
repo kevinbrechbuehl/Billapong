@@ -281,6 +281,42 @@
             }
         }
 
+        /// <summary>
+        /// Determines whether a specific game is still running and callbacks are valid.
+        /// </summary>
+        /// <param name="gameId">The game identifier.</param>
+        /// <returns>
+        /// Boolean value if game is still running and valid
+        /// </returns>
+        public bool IsGameRunning(Guid gameId)
+        {
+            Game game = null;
+            
+            try
+            {
+                game = this.GetGame(gameId);
+                if (game == null) return false;
+
+                if (game.Status == GameStatus.Playing
+                    && game.Players != null
+                    && game.Players.Length == 2
+                    && this.CheckCallbacks(game))
+                {
+                    return true;
+                }
+
+                // remove the game from collection
+                this.RemoveGame(game.Id);
+                return false;
+            }
+            catch (Exception)
+            {
+                // do nothing
+            }
+
+            return false;
+        }
+
         private void SaveHighScore(Game game)
         {
             var now = DateTime.Now;
@@ -428,7 +464,7 @@
                 }
             }
 
-            // remote the game from collection
+            // remove the game from collection
             this.RemoveGame(game.Id);
         }
 
@@ -451,6 +487,8 @@
         /// <returns>true if ever callback is open, false if one of them is broken</returns>
         private bool CheckCallbacks(Game game)
         {
+            if (game == null || game.Players == null) return false;
+
             foreach (var player in game.Players)
             {
                 if (player == null) continue;

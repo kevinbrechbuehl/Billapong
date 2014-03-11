@@ -121,6 +121,18 @@
         }
 
         /// <summary>
+        /// Determines whether a specific game is still running and callbacks are valid.
+        /// </summary>
+        /// <param name="gameId">The game identifier.</param>
+        /// <returns>
+        /// Boolean value if game is still running and valid
+        /// </returns>
+        public bool IsGameRunning(Guid gameId)
+        {
+            return GameController.Current.IsGameRunning(gameId);
+        }
+
+        /// <summary>
         /// Ends the round.
         /// </summary>
         /// <param name="gameId">The game identifier.</param>

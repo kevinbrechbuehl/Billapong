@@ -138,6 +138,22 @@
         }
 
         /// <summary>
+        /// Determines whether a callback is registered to a specific map.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <param name="callback">The callback.</param>
+        /// <returns>Boolean value if the callback for the map is registered or not</returns>
+        public bool IsCallbackRegistered(long mapId, IMapEditorCallback callback)
+        {
+            lock (CallbackLockObject)
+            {
+                if (!this.editors.ContainsKey(mapId)) return false;
+                var editor = this.editors[mapId];
+                return editor.Callbacks.Contains(callback);
+            }
+        }
+
+        /// <summary>
         /// Updates the name.
         /// </summary>
         /// <param name="mapId">The map identifier.</param>
