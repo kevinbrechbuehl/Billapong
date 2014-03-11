@@ -10,9 +10,7 @@
     using System.Windows.Media.Animation;
     using System.Windows.Shapes;
     using Animation;
-
     using Billapong.GameConsole.Game;
-
     using Configuration;
     using Models;
 
@@ -69,6 +67,7 @@
             this.Width = GameConfiguration.GameWindowWidth;
             this.Height = GameConfiguration.GameWindowHeight;
             this.InitializeQueueLine();
+            this.Cursor = Cursors.No;
         }
 
         /// <summary>
@@ -203,6 +202,7 @@
             if (canvas.ClickCommand.CanExecute(mousePosition))
             {
                 canvas.HideQueueLine();
+                canvas.Cursor = Cursors.No;
                 canvas.ClickCommand.Execute(mousePosition);
             }
         }
@@ -250,6 +250,8 @@
                 if (GameManager.Current.CurrentGame.LocalPlayer.CurrentPlayerState == Player.PlayerState.BallPlaced) 
                 {
                     this.ShowQueueLine();
+                    this.Cursor = Cursors.Arrow;
+
                 }
             }
             else if (this.Ball == null && this.ballPath != null)
