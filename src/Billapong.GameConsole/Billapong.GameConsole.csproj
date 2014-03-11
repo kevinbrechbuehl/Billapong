@@ -60,6 +60,7 @@
     <Compile Include="Converter\Map\MapConverter.cs" />
     <Compile Include="Converter\PlayerStateToVisibilityConverter.cs" />
     <Compile Include="Game\CalculationHelpers.cs" />
+    <Compile Include="Game\GameHelpers.cs" />
     <Compile Include="Game\GameManager.cs" />
     <Compile Include="Game\IGameController.cs" />
     <Compile Include="Game\MultiplayerGameController.cs" />

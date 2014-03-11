@@ -5,7 +5,6 @@
     using System.Linq;
     using Billapong.GameConsole.Game;
     using Billapong.GameConsole.Properties;
-
     using Configuration;
     using Converter.Map;
     using Core.Client.UI;
@@ -195,22 +194,29 @@
                 }
             }
 
-            // todo (mathp2): Implement behaviour for the single player mode
-            switch (this.gameType)
+            if (this.gameType == GameConfiguration.GameType.MultiPlayerGame)
             {
-                case GameConfiguration.GameType.SinglePlayerTraining:
-                    var game = new Game();
-                    game.Init(new Guid(), this.SelectedMap, null, true, true, GameConfiguration.GameType.SinglePlayerTraining);
-                    var gameStateViewModel = new GameStateViewModel(game);
-                    GameManager.Current.StartGame(game, gameStateViewModel);
-                    nextWindow = gameStateViewModel;
-                    break;
-                case GameConfiguration.GameType.MultiPlayerGame:
-                    var loadingScreenViewModel = new LoadingScreenViewModel(Resources.WaitingForOpponent, GameConfiguration.GameType.MultiPlayerGame, true);
-                    GameConsoleContext.Current.GameConsoleCallback.GameStarted += loadingScreenViewModel.StartGame;
-                    loadingScreenViewModel.CurrentGameId = await GameConsoleContext.Current.GameConsoleServiceClient.OpenGameAsync(this.SelectedMap.Id, this.WindowSelectionViewModel.SelectedWindows.Select(x => x.Id), Properties.Settings.Default.PlayerName);
-                    nextWindow = loadingScreenViewModel;
-                    break;
+                var loadingScreenViewModel = new LoadingScreenViewModel(Resources.WaitingForOpponent, GameConfiguration.GameType.MultiPlayerGame, true);
+                GameConsoleContext.Current.GameConsoleCallback.GameStarted += loadingScreenViewModel.StartGame;
+                loadingScreenViewModel.CurrentGameId = await GameConsoleContext.Current.GameConsoleServiceClient.OpenGameAsync(this.SelectedMap.Id, this.WindowSelectionViewModel.SelectedWindows.Select(x => x.Id), Settings.Default.PlayerName);
+                nextWindow = loadingScreenViewModel;
+            }
+            else
+            {
+                var game = new Game();
+                if (this.gameType == GameConfiguration.GameType.SinglePlayerTraining)
+                {
+                    game.Init(Guid.NewGuid(), this.SelectedMap, null, true, true, GameConfiguration.GameType.SinglePlayerTraining);
+                }
+                else
+                {
+                    game.Init(Guid.NewGuid(), this.SelectedMap, "José (Computer)", true, true, GameConfiguration.GameType.SinglePlayerGame);
+                }
+
+                var gameStateViewModel = new GameStateViewModel(game);
+                nextWindow = gameStateViewModel;
+
+                GameManager.Current.StartGame(game, gameStateViewModel);
             }
 
             this.SwitchWindowContent(nextWindow);

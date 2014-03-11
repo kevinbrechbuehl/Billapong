@@ -7,10 +7,8 @@
     using System.Windows;
     using System.Windows.Media;
     using Animation;
-
     using Billapong.GameConsole.Properties;
     using Billapong.GameConsole.Service;
-
     using Configuration;
     using Core.Client.Tracing;
     using Models;
@@ -404,29 +402,16 @@
         /// </summary>
         private void PlaceBallOnGameField()
         {
-            var possibleStartWindows = this.gameWindowViewModels.Where(x => x.Window.IsOwnWindow).ToArray();
-            var random = new Random(DateTime.Now.GetHashCode());
-            var randomWindow = possibleStartWindows.ElementAt(random.Next(0, possibleStartWindows.Count()));
-
-            var positionFound = false;
-            var pointX = 0;
-            var pointY = 0;
-
-            // todo (mathp2): Possible endless loop if a map has a hole on every position. Performance is also not very good (many repetitions).
-            while (!positionFound)
+            var possibleStartWindows = this.gameWindowViewModels.Where(x => x.Window.IsOwnWindow).Select(x => x.Window).ToArray();
+            var randomWindow = GameHelpers.GetRandomWindow(possibleStartWindows);
+            if (randomWindow != null)
             {
-                var x = random.Next(0, GameConfiguration.GameGridSize);
-                var y = random.Next(0, GameConfiguration.GameGridSize);
-
-                if (randomWindow.Holes.FirstOrDefault(hole => hole.X == x && hole.Y == y) == null)
+                Point? ballPosition = GameHelpers.GetRandomBallPosition(randomWindow);
+                if (ballPosition != null)
                 {
-                    pointX = x;
-                    pointY = y;
-                    positionFound = true;
+                    this.gameController.PlaceBallOnGameField(randomWindow.Id, ballPosition.Value);
                 }
             }
-
-            this.gameController.PlaceBallOnGameField(randomWindow.Window.Id, new Point(pointX, pointY));
         }
 
         /// <summary>

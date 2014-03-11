@@ -251,7 +251,6 @@
                 {
                     this.ShowQueueLine();
                     this.Cursor = Cursors.Arrow;
-
                 }
             }
             else if (this.Ball == null && this.ballPath != null)
