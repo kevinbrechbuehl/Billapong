@@ -1,13 +1,15 @@
 ﻿namespace Billapong.MapEditor.ViewModels
 {
+    using System;
     using System.Collections.ObjectModel;
     using System.Diagnostics;
     using System.Linq;
+    using System.ServiceModel;
     using System.ServiceModel.Channels;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Windows;
-
+    using Billapong.Core.Client.Exceptions;
     using Billapong.Core.Client.Tracing;
     using Billapong.MapEditor.Properties;
 
@@ -89,30 +91,48 @@
         private async Task LoadMaps()
         {
             Tracer.Info("MapSelectionViewModel :: refresh maps");
-            
+
             this.IsDataLoading = true;
-            var maps = await this.proxy.GetMapsAsync();
-            this.Maps.Clear();
-            foreach (var map in maps)
+
+            try
             {
-                this.Maps.Add(map.ToEntity());
+                var maps = await this.proxy.GetMapsAsync();
+                this.Maps.Clear();
+                foreach (var map in maps)
+                {
+                    this.Maps.Add(map.ToEntity());
+                }
+            }
+            catch (ServerUnavailableException ex)
+            {
+                Tracer.Error("MapSelectionViewModel :: LoadMaps() :: Server not available", ex);
+                this.ShutdownApplication(Resources.ServerUnavailable);
             }
 
             this.IsDataLoading = false;
         }
 
-        private void DeleteMap(long id)
+        private async Task DeleteMap(long id)
         {
             Tracer.Info(string.Format("MapSelectionViewModel :: Delete map with id '{0}'", id));
-            this.proxy.DeleteMap(id);
-            this.LoadMaps();
+
+            try
+            {
+                await this.proxy.DeleteMapAsync(id);
+                await this.LoadMaps();
+            }
+            catch (ServerUnavailableException ex)
+            {
+                Tracer.Error("MapSelectionViewModel :: DeleteMap() :: Server not available", ex);
+                this.ShutdownApplication(Resources.ServerUnavailable);
+            }
         }
 
-        private void DeleteMap(Map map)
+        private async void DeleteMap(Map map)
         {
             if (MessageBox.Show(string.Format(Resources.DeleteMapQuestion, ((Map)map).Name), Resources.ConfirmationTitle, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                this.DeleteMap(map.Id);
+                await this.DeleteMap(map.Id);
             }
         }
 
@@ -134,16 +154,24 @@
         private async void CreateNewMap()
         {
             Tracer.Info("MapSelectionViewModel :: Create new map");
-            
-            var map = await this.proxy.CreateMapAsync();
-            var entity = map.ToEntity();
-            this.Maps.Add(entity);
-            this.EditMap(entity);
+
+            try
+            {
+                var map = await this.proxy.CreateMapAsync();
+                var entity = map.ToEntity();
+                this.Maps.Add(entity);
+                this.EditMap(entity);
+            }
+            catch (ServerUnavailableException ex)
+            {
+                Tracer.Error("MapSelectionViewModel :: CreateNewMap() :: Server not available", ex);
+                this.ShutdownApplication(Resources.ServerUnavailable);
+            }
         }
 
-        private void RefreshMaps()
+        private async void RefreshMaps()
         {
-            this.LoadMaps();
+            await this.LoadMaps();
         }
     }
 }

@@ -5,6 +5,7 @@
     using System.ServiceModel;
     using System.ServiceModel.Channels;
     using System.Threading.Tasks;
+    using Billapong.Core.Client.Exceptions;
 
     /// <summary>
     /// Basic functionality for WCF clients
@@ -31,6 +32,18 @@
                 this.ValidateProxy();
                 delegatedAction();
             }
+            catch (EndpointNotFoundException ex)
+            {
+                throw new ServerUnavailableException(ex);
+            }
+            catch (CommunicationException ex)
+            {
+                throw new ServerUnavailableException(ex);
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw new ServerUnavailableException(ex);
+            }
             catch (Exception ex)
             {
                 Trace.TraceError(string.Format("Error while executing WCF request: {0}{1}", ex.Message, ex.StackTrace));
@@ -50,6 +63,18 @@
             {
                 this.ValidateProxy();
                 return delegatedFunction();
+            }
+            catch (EndpointNotFoundException ex)
+            {
+                throw new ServerUnavailableException(ex);
+            }
+            catch (CommunicationException ex)
+            {
+                throw new ServerUnavailableException(ex);
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw new ServerUnavailableException(ex); 
             }
             catch (Exception ex)
             {

@@ -21,6 +21,8 @@ namespace Billapong.MapEditor.Services
         public MapEditorServiceClient(IMapEditorCallback callback) : base(callback)
         {
         }
+
+        #region Synchronous
         
         public IEnumerable<Map> GetMaps()
         {
@@ -37,6 +39,55 @@ namespace Billapong.MapEditor.Services
             return this.Execute(() => this.Proxy.CreateMap());
         }
 
+        public void DeleteMap(long mapId)
+        {
+            this.Execute(() => this.Proxy.DeleteMap(mapId));
+        }
+
+        public void RegisterCallback(long mapId)
+        {
+            this.Execute(() => this.Proxy.RegisterCallback(mapId));
+        }
+
+        public void UnregisterCallback(long mapId)
+        {
+            this.Execute(() => this.Proxy.UnregisterCallback(mapId));
+        }
+
+        public void UpdateName(long mapId, string name)
+        {
+            this.Execute(() => this.Proxy.UpdateName(mapId, name));
+        }
+
+        public void UpdateIsPlayable(long mapId, bool isPlayable)
+        {
+            this.Execute(() => this.Proxy.UpdateIsPlayable(mapId, isPlayable));
+        }
+
+        public void AddWindow(long mapId, int coordX, int coordY)
+        {
+            this.Execute(() => this.Proxy.AddWindow(mapId, coordX, coordY));
+        }
+
+        public void RemoveWindow(long mapId, long windowId)
+        {
+            this.Execute(() => this.Proxy.RemoveWindow(mapId, windowId));
+        }
+
+        public void AddHole(long mapId, long windowId, int coordX, int coordY)
+        {
+            this.Execute(() => this.Proxy.AddHole(mapId, windowId, coordX, coordY));
+        }
+
+        public void RemoveHole(long mapId, long windowId, long holeId)
+        {
+            this.Execute(() => this.Proxy.RemoveHole(mapId, windowId, holeId));
+        }
+
+        #endregion
+
+        #region Asynchronous
+
         public async Task<IEnumerable<Map>> GetMapsAsync()
         {
             return await this.ExecuteAsync(() => this.Proxy.GetMaps());
@@ -52,49 +103,41 @@ namespace Billapong.MapEditor.Services
             return await this.ExecuteAsync(() => this.Proxy.CreateMap());
         }
 
-        public async void DeleteMap(long mapId)
+        public async Task DeleteMapAsync(long mapId)
         {
             await this.ExecuteAsync(() => this.Proxy.DeleteMap(mapId));
         }
 
-        public async void UpdateName(long mapId, string name)
+        public async Task UpdateNameAsync(long mapId, string name)
         {
             await this.ExecuteAsync(() => this.Proxy.UpdateName(mapId, name));
         }
 
-        public async void UpdateIsPlayable(long mapId, bool isPlayable)
+        public async Task UpdateIsPlayableAsync(long mapId, bool isPlayable)
         {
             await this.ExecuteAsync(() => this.Proxy.UpdateIsPlayable(mapId, isPlayable));
         }
 
-        public async void AddWindow(long mapId, int coordX, int coordY)
+        public async Task AddWindowAsync(long mapId, int coordX, int coordY)
         {
             await this.ExecuteAsync(() => this.Proxy.AddWindow(mapId, coordX, coordY));
         }
 
-        public async void RemoveWindow(long mapId, long windowId)
+        public async Task RemoveWindowAsync(long mapId, long windowId)
         {
             await this.ExecuteAsync(() => this.Proxy.RemoveWindow(mapId, windowId));
         }
 
-        public async void AddHole(long mapId, long windowId, int coordX, int coordY)
+        public async Task AddHoleAsync(long mapId, long windowId, int coordX, int coordY)
         {
             await this.ExecuteAsync(() => this.Proxy.AddHole(mapId, windowId, coordX, coordY));
         }
 
-        public async void RemoveHole(long mapId, long windowId, long holeId)
+        public async Task RemoveHoleAsync(long mapId, long windowId, long holeId)
         {
             await this.ExecuteAsync(() => this.Proxy.RemoveHole(mapId, windowId, holeId));
         }
 
-        public void RegisterCallback(long mapId)
-        {
-            this.Execute(() => this.Proxy.RegisterCallback(mapId));
-        }
-
-        public void UnregisterCallback(long mapId)
-        {
-            this.Execute(() => this.Proxy.UnregisterCallback(mapId));
-        }
+        #endregion
     }
 }

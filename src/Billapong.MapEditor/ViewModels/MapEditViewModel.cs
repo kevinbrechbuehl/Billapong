@@ -5,9 +5,11 @@ namespace Billapong.MapEditor.ViewModels
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.ServiceModel;
     using System.Windows.Navigation;
 
     using Billapong.Contract.Data.Map;
+    using Billapong.Core.Client.Exceptions;
     using Billapong.Core.Client.Tracing;
     using Billapong.MapEditor.Properties;
 
@@ -124,50 +126,66 @@ namespace Billapong.MapEditor.ViewModels
         {
             // Trace
             Tracer.Debug(string.Format("MapEditViewModel :: Calling new MapEditViewModel() with map id '{0}'", map.Id));
-            
-            // initialize
-            this.callback = new MapEditorCallback();
-            this.callback.NameUpdated += this.NameUpdated;
-            this.callback.IsPlayableUpdated += this.IsPlayableUpdated;
-            this.callback.WindowAdded += this.WindowAdded;
-            this.callback.WindowRemoved += this.WindowRemoved;
-            this.callback.HoleAdded += this.HoleAdded;
-            this.callback.HoleRemoved += this.HoleRemoved;
-            this.proxy = new MapEditorServiceClient(this.callback);
-            
-            // set map properties
-            this.map = map;
-            this.IsPlayable = map.IsPlayable;
-            this.MapName = map.Name;
 
-            // register the callback
-            this.proxy.RegisterCallback(map.Id);
-
-            // get the maps config and display it
-            var config = this.proxy.GetMapConfiguration();
-            var windows = new GameWindow[config.WindowRows][];
-            this.gridSize = GameWindowSize / config.HoleGrid;
-            this.HoleDiameter = GameWindowSize/config.HoleGrid;
-
-            for (var row = 0; row < windows.Length; row++)
+            try
             {
-                windows[row] = new GameWindow[config.WindowCols];
-                for (var col=0; col<windows[row].Length; col++)
-                {
-                    var mapWindow = this.map.Windows != null
-                        ? this.map.Windows.FirstOrDefault(item => item.X == col && item.Y == row)
-                        : null;
-                    windows[row][col] = new GameWindow(col, row, mapWindow, this.HoleDiameter);
-                }
-            }
+                // initialize
+                this.callback = new MapEditorCallback();
+                this.callback.NameUpdated += this.NameUpdated;
+                this.callback.IsPlayableUpdated += this.IsPlayableUpdated;
+                this.callback.WindowAdded += this.WindowAdded;
+                this.callback.WindowRemoved += this.WindowRemoved;
+                this.callback.HoleAdded += this.HoleAdded;
+                this.callback.HoleRemoved += this.HoleRemoved;
+                this.proxy = new MapEditorServiceClient(this.callback);
+            
+                // set map properties
+                this.map = map;
+                this.IsPlayable = map.IsPlayable;
+                this.MapName = map.Name;
 
-            this.GameWindows = windows;
+                // register the callback
+                this.proxy.RegisterCallback(map.Id);
+
+                // get the maps config and display it
+                var config = this.proxy.GetMapConfiguration();
+                var windows = new GameWindow[config.WindowRows][];
+                this.gridSize = GameWindowSize / config.HoleGrid;
+                this.HoleDiameter = GameWindowSize/config.HoleGrid;
+
+                for (var row = 0; row < windows.Length; row++)
+                {
+                    windows[row] = new GameWindow[config.WindowCols];
+                    for (var col=0; col<windows[row].Length; col++)
+                    {
+                        var mapWindow = this.map.Windows != null
+                            ? this.map.Windows.FirstOrDefault(item => item.X == col && item.Y == row)
+                            : null;
+                        windows[row][col] = new GameWindow(col, row, mapWindow, this.HoleDiameter);
+                    }
+                }
+
+                this.GameWindows = windows;
+            }
+            catch (ServerUnavailableException ex)
+            {
+                Tracer.Error("MapEditViewModel :: ctor() :: Server not available", ex);
+                this.ShutdownApplication(Resources.ServerUnavailable);
+            }
         }
 
         public override void CloseCallback()
         {
             Tracer.Debug("MapEditViewModel :: Close callback retrieved");
-            this.proxy.UnregisterCallback(this.map.Id);
+
+            try
+            {
+                this.proxy.UnregisterCallback(this.map.Id);
+            }
+            catch (ServerUnavailableException ex)
+            {
+                Tracer.Error("MapEditViewModel :: CloseCallback() :: Server not available", ex);
+            }
         }
 
         private void NameUpdated(object sender, UpdateNameEventArgs args)
@@ -259,18 +277,36 @@ namespace Billapong.MapEditor.ViewModels
             this.isWindowHolesSelectionMode = !isWindowHolesSelectionMode;
         }
 
-        private void SaveName()
+        private async void SaveName()
         {
             Tracer.Info(string.Format("MapEditViewModel :: Call SaveName() and update name of map id '{0}' to '{1}", this.map.Id, this.MapName));
-            this.proxy.UpdateName(this.map.Id, this.MapName);
+            
+            try
+            {
+                await this.proxy.UpdateNameAsync(this.map.Id, this.MapName);
+            }
+            catch (ServerUnavailableException ex)
+            {
+                Tracer.Error("MapEditViewModel :: SaveName() :: Server not available", ex);
+                this.ShutdownApplication(Resources.ServerUnavailable);
+            } 
         }
 
-        private void ToggleIsPlayable()
+        private async void ToggleIsPlayable()
         {
             if (!this.IsPlayable || this.IsMapPlayable())
             {
-                Tracer.Info(string.Format("MapEditViewModel :: Call ToggleIsPlayable() and set to {0}", this.IsPlayable));    
-                this.proxy.UpdateIsPlayable(this.map.Id, this.IsPlayable);   
+                Tracer.Info(string.Format("MapEditViewModel :: Call ToggleIsPlayable() and set to {0}", this.IsPlayable));
+                
+                try
+                {
+                    await this.proxy.UpdateIsPlayableAsync(this.map.Id, this.IsPlayable);
+                }
+                catch (ServerUnavailableException ex)
+                {
+                    Tracer.Error("MapEditViewModel :: ToggleIsPlayable() :: Server not available", ex);
+                    this.ShutdownApplication(Resources.ServerUnavailable);
+                }   
             }
             else
             {
@@ -280,46 +316,54 @@ namespace Billapong.MapEditor.ViewModels
             }
         }
 
-        private void GameWindowClicked(GameWindowClickedArgs args)
+        private async void GameWindowClicked(GameWindowClickedArgs args)
         {
             var point = args.Point;
             var gameWindow = args.GameWindow;
-            
-            if (this.isWindowHolesSelectionMode)
-            {
-                if (!gameWindow.IsChecked)
-                {
-                    MessageBox.Show(Resources.CannotAddHoles, Resources.ErrorTitle, MessageBoxButton.OK, MessageBoxImage.Information);
-                    return;
-                }
-                
-                var coordX = (int)(point.X / this.gridSize);
-                var coordY = (int)(point.Y / this.gridSize);
 
-                var holeOnField = gameWindow.Holes.FirstOrDefault(hole => hole.X == coordX && hole.Y == coordY);
-                if (holeOnField != null)
+            try
+            {
+                if (this.isWindowHolesSelectionMode)
                 {
-                    Tracer.Info(string.Format("MapEditViewModel :: Remove hole '{0}' on window '{1}' on map '{2}'", holeOnField.Id, gameWindow.Id, this.map.Id));
-                    this.proxy.RemoveHole(this.map.Id, gameWindow.Id, holeOnField.Id);
+                    if (!gameWindow.IsChecked)
+                    {
+                        MessageBox.Show(Resources.CannotAddHoles, Resources.ErrorTitle, MessageBoxButton.OK, MessageBoxImage.Information);
+                        return;
+                    }
+
+                    var coordX = (int)(point.X / this.gridSize);
+                    var coordY = (int)(point.Y / this.gridSize);
+
+                    var holeOnField = gameWindow.Holes.FirstOrDefault(hole => hole.X == coordX && hole.Y == coordY);
+                    if (holeOnField != null)
+                    {
+                        Tracer.Info(string.Format("MapEditViewModel :: Remove hole '{0}' on window '{1}' on map '{2}'", holeOnField.Id, gameWindow.Id, this.map.Id));
+                        await this.proxy.RemoveHoleAsync(this.map.Id, gameWindow.Id, holeOnField.Id);
+                    }
+                    else
+                    {
+                        Tracer.Info(string.Format("MapEditViewModel :: Add hole on coords '{0}/{1}' to window '{2}' on map '{3}'", coordX, coordY, gameWindow.Id, this.map.Id));
+                        await this.proxy.AddHoleAsync(this.map.Id, gameWindow.Id, coordX, coordY);
+                    }
                 }
                 else
                 {
-                    Tracer.Info(string.Format("MapEditViewModel :: Add hole on coords '{0}/{1}' to window '{2}' on map '{3}'", coordX, coordY, gameWindow.Id, this.map.Id));
-                    this.proxy.AddHole(this.map.Id, gameWindow.Id, coordX, coordY);
+                    if (gameWindow.IsChecked)
+                    {
+                        Tracer.Info(string.Format("MapEditViewModel :: Remove window '{0}' from map '{1}'", gameWindow.Id, this.map.Id));
+                        await this.proxy.RemoveWindowAsync(this.map.Id, gameWindow.Id);
+                    }
+                    else
+                    {
+                        Tracer.Info(string.Format("MapEditViewModel :: Add windows on coords '{0}/{1}' to map '{2}", gameWindow.X, gameWindow.Y, this.map.Id));
+                        await this.proxy.AddWindowAsync(this.map.Id, gameWindow.X, gameWindow.Y);
+                    }
                 }
             }
-            else
+            catch (ServerUnavailableException ex)
             {
-                if (gameWindow.IsChecked)
-                {
-                    Tracer.Info(string.Format("MapEditViewModel :: Remove window '{0}' from map '{1}'", gameWindow.Id, this.map.Id));
-                    this.proxy.RemoveWindow(this.map.Id, gameWindow.Id);
-                }
-                else
-                {
-                    Tracer.Info(string.Format("MapEditViewModel :: Add windows on coords '{0}/{1}' to map '{2}", gameWindow.X, gameWindow.Y, this.map.Id));
-                    this.proxy.AddWindow(this.map.Id, gameWindow.X, gameWindow.Y);
-                }
+                Tracer.Error("MapEditViewModel :: GameWindowClicked() :: Server not available", ex);
+                this.ShutdownApplication(Resources.ServerUnavailable);
             }
         }
 

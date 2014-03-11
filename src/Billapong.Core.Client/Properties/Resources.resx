@@ -117,82 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Actions" xml:space="preserve">
-    <value>Actions</value>
-  </data>
-  <data name="CannotAddHoles" xml:space="preserve">
-    <value>You can't add holes here, please activate the game window first</value>
-  </data>
-  <data name="ConfirmationTitle" xml:space="preserve">
-    <value>Confirmation</value>
-  </data>
-  <data name="CreateNewMap" xml:space="preserve">
-    <value>Create new map</value>
-  </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Delete</value>
-  </data>
-  <data name="DeleteMapQuestion" xml:space="preserve">
-    <value>Are you sure you want to delete the map '{0}'?</value>
-  </data>
-  <data name="Edit" xml:space="preserve">
-    <value>Edit</value>
-  </data>
-  <data name="ErrorTitle" xml:space="preserve">
+  <data name="Error" xml:space="preserve">
     <value>Error</value>
   </data>
-  <data name="Holes" xml:space="preserve">
-    <value>Holes</value>
-  </data>
-  <data name="IsPlayable" xml:space="preserve">
-    <value>Is Active</value>
-  </data>
-  <data name="LoadingMaps" xml:space="preserve">
-    <value>Loading maps, please wait...</value>
-  </data>
-  <data name="MapEditTitle" xml:space="preserve">
-    <value>Billapong - Map Editor - Edit Map</value>
-  </data>
-  <data name="MapIsNotPlayable" xml:space="preserve">
-    <value>Map is currently not valid. Please verify the following rules:{0}{0}- You have at least one active window{0}- Each window must be connected to another window{0}- You have at least one hole</value>
-  </data>
-  <data name="MapNotExist" xml:space="preserve">
-    <value>Map does not exist anymore!</value>
-  </data>
-  <data name="MapSelectionTitle" xml:space="preserve">
-    <value>Billapong - Map Editor - Map Selection</value>
-  </data>
-  <data name="MapWindows" xml:space="preserve">
-    <value>Map Windows</value>
-  </data>
-  <data name="Name" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="NameDoublePoint" xml:space="preserve">
-    <value>Name:</value>
-  </data>
-  <data name="Playable" xml:space="preserve">
-    <value>Playable</value>
-  </data>
-  <data name="RefreshList" xml:space="preserve">
-    <value>Refresh list</value>
-  </data>
-  <data name="Save" xml:space="preserve">
-    <value>Save</value>
-  </data>
-  <data name="SelectionModeDoublePoint" xml:space="preserve">
-    <value>Selection Mode:</value>
-  </data>
-  <data name="ServerUnavailable" xml:space="preserve">
-    <value>Server is currently not available. Please start the server and restart the map editor.</value>
-  </data>
-  <data name="SettingsDoublePoint" xml:space="preserve">
-    <value>Settings:</value>
-  </data>
-  <data name="WindowHoles" xml:space="preserve">
-    <value>Window Holes</value>
-  </data>
-  <data name="Windows" xml:space="preserve">
-    <value>Windows</value>
+  <data name="UnexpectedError" xml:space="preserve">
+    <value>Unexpected error</value>
   </data>
 </root>

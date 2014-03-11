@@ -4,8 +4,10 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
+    using System.ServiceModel;
     using System.ServiceModel.Channels;
     using System.Threading.Tasks;
+    using Billapong.Core.Client.Exceptions;
     using Contract.Data.Tracing;
     using Component = Contract.Data.Tracing.Component;
 
@@ -214,7 +216,14 @@
                 this.logMessages.Clear();
             }
 
-            await this.proxy.LogAsync(messages);
+            try
+            {
+                await this.proxy.LogAsync(messages);
+            }
+            catch (ServerUnavailableException ex)
+            {
+                Trace.TraceError("Server not available: " + ex.Message);
+            }
         }
     }
 }
