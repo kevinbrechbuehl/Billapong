@@ -1,6 +1,7 @@
 ﻿namespace Billapong.GameConsole.Game
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using System.Windows;
@@ -20,9 +21,29 @@
         private readonly TimeSpan computerThinkingSimulationTime = TimeSpan.FromSeconds(2);
 
         /// <summary>
+        /// The windows which can be used for setting the ball for the computer
+        /// </summary>
+        private readonly List<Models.Window> computerWindows = null;
+
+        /// <summary>
         /// Number of bounces
         /// </summary>
         private int bounceCount;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SinglePlayerGameController"/> class.
+        /// </summary>
+        public SinglePlayerGameController()
+        {
+            // Get all usable windows for the computer
+            this.computerWindows = GameManager.Current.CurrentGame.Map.Windows.Where(x => !x.IsOwnWindow).ToList();
+
+            // If the player sees all windows, the computer has to use the same windows
+            if (!this.computerWindows.Any())
+            {
+                this.computerWindows = GameManager.Current.CurrentGame.Map.Windows.ToList();
+            }
+        }
 
         /// <summary>
         /// Occurs when ball is placed on the game field
@@ -185,14 +206,15 @@
         /// <returns>The task</returns>
         private async Task ComputerStartNewRound()
         {
-            // Place the ball on a random position within the windows that belongs to the computer
-            var possibleStartWindows = GameManager.Current.CurrentGame.Map.Windows.Where(x => x.IsOwnWindow);
-            var randomWindow = GameHelpers.GetRandomWindow(possibleStartWindows);
+            // Choose a random window out of the possible windows
+            var randomWindow = GameHelpers.GetRandomWindow(this.computerWindows);
             if (randomWindow != null)
             {
+                // Set the ball on a free grid part
                 var ballPosition = GameHelpers.GetRandomBallPosition(randomWindow);
                 if (ballPosition != null)
                 {
+                    // Place the ball on the selected window
                     this.PlaceBallOnGameField(randomWindow.Id, ballPosition.Value);
 
                     // Simulate "thinking" time :)
