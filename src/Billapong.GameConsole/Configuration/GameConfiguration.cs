@@ -30,7 +30,7 @@
         /// <summary>
         /// The hole diameter
         /// </summary>
-        public const double HoleDiameter = GameWindowWidth / GameGridSize;
+        public const double HoleDiameter = GameWindowWidth / (double)GameGridSize;
 
         /// <summary>
         /// The ball diameter
