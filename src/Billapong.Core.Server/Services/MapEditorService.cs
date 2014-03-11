@@ -84,6 +84,8 @@
 
         public void UpdateName(long mapId, string name)
         {
+            // todo (breck1): verify if current callback is still attached, throw exception if not (for each method here)
+            
             Tracer.Debug(string.Format("MapEditorService :: UpdateName() called with mapId={0}, name={1}", mapId, name));
             MapController.Current.UpdateName(mapId, name);
         }
