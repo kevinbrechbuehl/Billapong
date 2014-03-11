@@ -1,6 +1,7 @@
 ﻿namespace Billapong.Core.Client.UI
 {
     using System;
+    using System.Linq;
     using System.Windows;
 
     public class WindowManager
@@ -21,6 +22,20 @@
             if (windowType == null) return null;
 
             return Activator.CreateInstance(windowType) as Window;
+        }
+
+        public void Close(ViewModelBase viewModel)
+        {
+            var view = this.FindWindow(viewModel);
+            if (view != null)
+            {
+                view.Close();
+            }
+        }
+
+        private Window FindWindow(ViewModelBase viewModel)
+        {
+            return Application.Current.Windows.Cast<Window>().FirstOrDefault(window => ReferenceEquals(window.DataContext, viewModel));
         }
     }
 }

@@ -411,6 +411,7 @@ namespace Billapong.MapEditor.ViewModels
         private void HandleInvalidCallback()
         {
             MessageBox.Show(Resources.InvalidCallback, Resources.ErrorTitle, MessageBoxButton.OK, MessageBoxImage.Error);
+            this.WindowManager.Close(this);
         }
 
         private bool IsMapPlayable()
