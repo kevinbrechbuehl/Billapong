@@ -292,7 +292,7 @@
                         {
                             new Hole { X = 1, Y = 1 },
                             new Hole { X = 3, Y = 2 },
-                            new Hole { X = 15, Y = 15 }
+                            new Hole { X = 14, Y = 14 }
                         }
                     },
                     new Window
