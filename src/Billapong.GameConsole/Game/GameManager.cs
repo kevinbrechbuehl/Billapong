@@ -280,7 +280,7 @@
         /// </summary>
         private void OpenGameField()
         {
-            const int WindowBorderOffset = 2;
+            const int WindowBorderOffset = 1;
 
             double maxWindowRow = this.CurrentGame.Map.Windows.Max(window => window.Y);
             double maxWindowCol = this.CurrentGame.Map.Windows.Max(window => window.X);
