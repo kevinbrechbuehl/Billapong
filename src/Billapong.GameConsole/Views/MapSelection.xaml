@@ -17,13 +17,21 @@
     </UserControl.Resources>
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="410"/>
         </Grid.ColumnDefinitions>
 
-        <DockPanel Grid.Column="0">
+        <StackPanel Grid.Row="0">
+            <TextBlock FontWeight="Bold" Margin="5 5 0 0" Text="{x:Static resx:Resources.MapSelectionStepOne}" />
+        </StackPanel>
+
+        <DockPanel Grid.Row="1" Grid.Column="0">
             <ListBox ItemsSource="{Binding Maps}" SelectedItem="{Binding SelectedMap}" DockPanel.Dock="Top" BorderThickness="0">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
@@ -59,14 +67,14 @@
             <TextBlock DockPanel.Dock="Top" Visibility="{Binding Path=IsDataLoading, Converter={StaticResource BooleanToVisibility}}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Static resx:Resources.SearchMaps}" />
         </DockPanel>
 
-        <Separator Grid.Column="1">
+        <Separator Grid.RowSpan="2" Grid.Column="1">
             <Separator.LayoutTransform>
                 <RotateTransform Angle="90" />
             </Separator.LayoutTransform>
         </Separator>
 
-        <DockPanel Grid.Column="2" LastChildFill="False">
-            <ContentPresenter Content="{Binding WindowSelectionViewModel}" Width="408" Height="309" DockPanel.Dock="Top" />
+        <DockPanel Grid.RowSpan="2"  Grid.Column="2" LastChildFill="False">
+            <ContentPresenter Content="{Binding WindowSelectionViewModel}" Width="408" Height="330" DockPanel.Dock="Top" />
             <Grid DockPanel.Dock="Bottom">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" />

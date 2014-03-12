@@ -196,6 +196,24 @@ namespace Billapong.GameConsole.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 1. Choose map.
+        /// </summary>
+        public static string MapSelectionStepOne {
+            get {
+                return ResourceManager.GetString("MapSelectionStepOne", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 2. Choose windows.
+        /// </summary>
+        public static string MapSelectionStepTwo {
+            get {
+                return ResourceManager.GetString("MapSelectionStepTwo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No maps found.
         /// </summary>
         public static string NoMapsFound {
@@ -318,6 +336,17 @@ namespace Billapong.GameConsole.Properties {
         public static string WaitingForOpponent {
             get {
                 return ResourceManager.GetString("WaitingForOpponent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have to choose at least one window.
+        ///If you play against an opponent, he sees all unselected windows.
+        ///But if you choose all windows, the opponent sees them too..
+        /// </summary>
+        public static string WindowSellectionToolTip {
+            get {
+                return ResourceManager.GetString("WindowSellectionToolTip", resourceCulture);
             }
         }
     }

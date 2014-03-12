@@ -32,7 +32,7 @@
         /// <param name="gameType">Type of the game.</param>
         public MapSelectionViewModel(GameConfiguration.GameType gameType)
         {
-            this.WindowHeight = 380;
+            this.WindowHeight = 410;
             this.WindowWidth = 700;
             this.BackButtonContent = Resources.BackToMenu;
 

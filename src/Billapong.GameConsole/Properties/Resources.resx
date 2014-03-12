@@ -204,4 +204,15 @@
   <data name="SelectAll" xml:space="preserve">
     <value>Select all</value>
   </data>
+  <data name="MapSelectionStepOne" xml:space="preserve">
+    <value>1. Choose map</value>
+  </data>
+  <data name="MapSelectionStepTwo" xml:space="preserve">
+    <value>2. Choose windows</value>
+  </data>
+  <data name="WindowSellectionToolTip" xml:space="preserve">
+    <value>You have to choose at least one window.
+If you play against an opponent, he sees all unselected windows.
+But if you choose all windows, the opponent sees them too.</value>
+  </data>
 </root>

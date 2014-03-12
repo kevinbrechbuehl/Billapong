@@ -5,10 +5,23 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:Billapong.GameConsole.ViewModels"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:resx="clr-namespace:Billapong.GameConsole.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Name="WindowSelectionUserControl">
 
-    <Border BorderThickness="1" BorderBrush="Black" Margin="5">
+    <StackPanel>
+        <Label FontWeight="Bold" Padding="0" Margin="5 0 0 0">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Text="{x:Static resx:Resources.MapSelectionStepTwo}" />
+                <Label Foreground="Gray">(?)
+                    <Label.ToolTip>
+                        <TextBlock Text="{x:Static resx:Resources.WindowSellectionToolTip}" />
+                    </Label.ToolTip>
+                </Label>
+            </StackPanel>
+        </Label>
+
+        <Border BorderThickness="1" BorderBrush="Black" Margin="5">
         <ItemsControl ItemsSource="{Binding GameWindows}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -53,4 +66,5 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
     </Border>
+    </StackPanel>
 </UserControl>
