@@ -42,8 +42,6 @@ namespace Billapong.MapEditor.Models
 
         public int Y { get; private set; }
 
-        private Brush background;
-
         public Brush Background
         {
             get
@@ -56,8 +54,6 @@ namespace Billapong.MapEditor.Models
                 this.SetValue(value);
             }
         }
-
-        private bool isChecked;
 
         public bool IsChecked
         {
