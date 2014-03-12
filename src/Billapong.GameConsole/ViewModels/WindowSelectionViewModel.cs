@@ -98,6 +98,36 @@
         protected Map Map { get; private set; }
 
         /// <summary>
+        /// Selects all windows.
+        /// </summary>
+        public void SelectAllWindows()
+        {
+            this.ChangeWindowSelection(true);
+        }
+
+        /// <summary>
+        /// Deselects all windows.
+        /// </summary>
+        public void DeselectAllWindows()
+        {
+            this.ChangeWindowSelection(false);
+        }
+
+        /// <summary>
+        /// Changes the window selection.
+        /// </summary>
+        /// <param name="select">if set to <c>true</c> all windows get selected.</param>
+        private void ChangeWindowSelection(bool select)
+        {
+            foreach (var window in this.GameWindows.SelectMany(row => row.Where(window => window.IsClickable)))
+            {
+                window.IsChecked = @select;
+            }
+
+            this.WindowSelectionChanged(this, null);
+        }
+
+        /// <summary>
         /// Gets called when a window is clicked
         /// </summary>
         /// <param name="window">The window.</param>

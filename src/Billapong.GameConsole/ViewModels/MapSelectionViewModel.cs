@@ -93,7 +93,18 @@
         /// <value>
         /// The selected map.
         /// </value>
-        public Map SelectedMap { get; set; }
+        public Map SelectedMap 
+        {
+            get
+            {
+                return this.GetValue<Map>();
+            }
+
+            set
+            {
+                this.SetValue(value);
+            } 
+        }
 
         /// <summary>
         /// Gets the map selection changed command.
@@ -124,12 +135,62 @@
         }
 
         /// <summary>
+        /// Gets the select all windows command.
+        /// </summary>
+        /// <value>
+        /// The select all windows command.
+        /// </value>
+        public DelegateCommand SelectAllWindowsCommand
+        {
+            get
+            {
+                return new DelegateCommand(this.SelectAllWindows);
+            }
+        }
+
+        /// <summary>
+        /// Gets the deselect all windows command.
+        /// </summary>
+        /// <value>
+        /// The deselect all windows command.
+        /// </value>
+        public DelegateCommand DeselectAllWindowsCommand
+        {
+            get
+            {
+                return new DelegateCommand(this.DeselectAllWindows);
+            }
+        }
+
+        /// <summary>
         /// Gets called when the selected map changes
         /// </summary>
         private void MapSelectionChanged()
         {
             this.WindowSelectionViewModel = new WindowSelectionViewModel(this.SelectedMap);
             this.WindowSelectionViewModel.WindowSelectionChanged += this.WindowSelectionChanged;
+        }
+
+        /// <summary>
+        /// Selects all windows.
+        /// </summary>
+        private void SelectAllWindows()
+        {
+            if (this.WindowSelectionViewModel != null)
+            {
+                this.WindowSelectionViewModel.SelectAllWindows();
+            }
+        }
+
+        /// <summary>
+        /// Deselects all windows.
+        /// </summary>
+        private void DeselectAllWindows()
+        {
+            if (this.WindowSelectionViewModel != null)
+            {
+                this.WindowSelectionViewModel.DeselectAllWindows();
+            }
         }
 
         /// <summary>

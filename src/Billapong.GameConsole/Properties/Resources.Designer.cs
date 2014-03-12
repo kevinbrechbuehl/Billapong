@@ -97,6 +97,15 @@ namespace Billapong.GameConsole.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Deselect all.
+        /// </summary>
+        public static string DeselectAll {
+            get {
+                return ResourceManager.GetString("DeselectAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
         public static string Error {
@@ -237,6 +246,15 @@ namespace Billapong.GameConsole.Properties {
         public static string SearchOpenGames {
             get {
                 return ResourceManager.GetString("SearchOpenGames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select all.
+        /// </summary>
+        public static string SelectAll {
+            get {
+                return ResourceManager.GetString("SelectAll", resourceCulture);
             }
         }
         

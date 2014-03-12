@@ -198,4 +198,10 @@
   <data name="WaitingForOpponent" xml:space="preserve">
     <value>Waiting for opponent...</value>
   </data>
+  <data name="DeselectAll" xml:space="preserve">
+    <value>Deselect all</value>
+  </data>
+  <data name="SelectAll" xml:space="preserve">
+    <value>Select all</value>
+  </data>
 </root>

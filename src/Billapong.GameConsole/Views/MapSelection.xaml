@@ -72,9 +72,14 @@
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Command="{Binding NavigateBackCommand}" Visibility="{Binding BackButtonVisibility}" Style="{StaticResource NavigationButton}" Content="{Binding Path=BackButtonContent, FallbackValue=Previous view}"/>
-                <Button Grid.Column="2" Command="{Binding OpenGameCommand}" Style="{StaticResource NavigationButton}" Content="{x:Static resx:Resources.StartGame}"/>
+                <Button Grid.Column="0" Command="{Binding NavigateBackCommand}" Visibility="{Binding BackButtonVisibility}" Style="{StaticResource NavigationButton}" Content="{Binding Path=BackButtonContent}"/>
+                <Button Grid.Column="2" Command="{Binding SelectAllWindowsCommand}" Visibility="{Binding SelectedMap, Converter={StaticResource NullToVisibilityConverter}}" Style="{StaticResource NavigationButton}" Content="{x:Static resx:Resources.SelectAll}" />
+                <Button Grid.Column="3" Command="{Binding DeselectAllWindowsCommand}" Visibility="{Binding SelectedMap, Converter={StaticResource NullToVisibilityConverter}}" Style="{StaticResource NavigationButton}" Content="{x:Static resx:Resources.DeselectAll}" />
+                <Button Grid.Column="5" Command="{Binding OpenGameCommand}" Style="{StaticResource NavigationButton}" Content="{x:Static resx:Resources.StartGame}"/>
             </Grid>
         </DockPanel>
     </Grid>
