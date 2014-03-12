@@ -12,7 +12,7 @@
         /// <summary>
         /// The values
         /// </summary>
-        private Dictionary<string, object> values = new Dictionary<string, object>();
+        private readonly Dictionary<string, object> values = new Dictionary<string, object>();
 
         /// <summary>
         /// Occurs when a property value changes.
@@ -32,6 +32,7 @@
             {
                 value = default(T);
             }
+
             return (T)value;
         }
 
