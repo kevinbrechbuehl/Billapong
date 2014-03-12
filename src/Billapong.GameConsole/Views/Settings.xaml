@@ -18,7 +18,7 @@
             </Grid.ColumnDefinitions>
         
             <Label Grid.Row="0" Grid.Column="0">Spielername</Label>
-            <TextBox Grid.Row="0" Grid.Column="1" Height="20" Text="{Binding PlayerName}" />
+            <TextBox Grid.Row="0" Grid.Column="1" Height="20" Text="{Binding PlayerName, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             <Button Grid.Row="1" Grid.Column="1" Height="20" Command="{Binding SaveSettingsCommand}" Content="{x:Static resx:Resources.Save}" />
         </Grid>
 

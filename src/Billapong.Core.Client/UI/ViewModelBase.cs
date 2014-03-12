@@ -64,9 +64,9 @@
         {
             get
             {
-                var message = string.Empty;
+                string message;
                 this.validationMessages.TryGetValue(columnName, out message);
-                return message;
+                return message ?? string.Empty;
             }
         }
 
@@ -114,8 +114,7 @@
         {
             this.validationMessages.Clear();
             this.DirtyAllValues();
-            this.OnPropertyChanged("Error");
-            this.OnPropertyChanged("HasValidationErrors");
+            this.OnPropertyChanged(GetPropertyName(() => this.HasValidationErrors));
         }
 
         /// <summary>
@@ -128,8 +127,7 @@
             var propertyName = GetPropertyName(expression);
             this.validationMessages[propertyName] = null;
             this.OnPropertyChanged(propertyName);
-            this.OnPropertyChanged("Error");
-            this.OnPropertyChanged("HasValidationErrors");
+            this.OnPropertyChanged(GetPropertyName(() => this.HasValidationErrors));
         }
 
         /// <summary>
@@ -143,8 +141,7 @@
             var propertyName = GetPropertyName(expression);
             this.validationMessages[propertyName] = value;
             this.OnPropertyChanged(propertyName);
-            this.OnPropertyChanged("Error");
-            this.OnPropertyChanged("HasValidationErrors");
+            this.OnPropertyChanged(GetPropertyName(() => this.HasValidationErrors));
         }
 
         /// <summary>
@@ -156,9 +153,9 @@
         protected string GetValidationMessage<T>(Expression<Func<T>> expression)
         {
             var propertyName = GetPropertyName(expression);
-            var message = string.Empty;
+            string message;
             this.validationMessages.TryGetValue(propertyName, out message);
-            return message;
+            return message ?? string.Empty;
         }
 
         /// <summary>

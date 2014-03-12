@@ -9,6 +9,11 @@
     public class SettingsViewModel : MainWindowContentViewModelBase
     {
         /// <summary>
+        /// The save settings command
+        /// </summary>
+        private DelegateCommand saveSettingsCommand;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SettingsViewModel"/> class.
         /// </summary>
         public SettingsViewModel()
@@ -36,6 +41,7 @@
             set
             {
                 this.SetValue(value);
+                this.ValidateSettings();
             }
         }
 
@@ -49,19 +55,36 @@
         {
             get
             {
-                return new DelegateCommand(this.SaveSettings);
+                return this.saveSettingsCommand ?? (this.saveSettingsCommand = new DelegateCommand(this.SaveSettings, () => !this.HasValidationErrors));
             }
+        }
+
+        /// <summary>
+        /// Validates the settings.
+        /// </summary>
+        private void ValidateSettings()
+        {
+            this.ClearAllValidationMessages();
+
+            if (string.IsNullOrWhiteSpace(this.PlayerName))
+            {
+                this.SetValidationMessage(() => this.PlayerName, "The player name is required");
+            }
+
+            this.SaveSettingsCommand.RaiseCanExecuteChanged();
         }
 
         /// <summary>
         /// Saves the settings.
         /// </summary>
-        public void SaveSettings()
+        private void SaveSettings()
         {
-            Settings.Default.PlayerName = this.PlayerName;
-            Settings.Default.Save();
-
-            this.NavigateBack();
+            if (!this.HasValidationErrors) 
+            {
+                Settings.Default.PlayerName = this.PlayerName;
+                Settings.Default.Save();
+                this.NavigateBack();
+            }
         }
     }
 }
