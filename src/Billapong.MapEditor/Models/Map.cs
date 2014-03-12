@@ -12,64 +12,53 @@ namespace Billapong.MapEditor.Models
     {
         public long Id { get; set; }
 
-        private string name;
-
         public string Name
         {
             get
             {
-                return this.name;
+                return this.GetValue<string>();
             }
 
             set
             {
-                this.name = value;
-                OnPropertyChanged();
+                this.SetValue(value);
             }
         }
 
-        private bool isPlayable;
         public bool IsPlayable
         {
             get
             {
-                return this.isPlayable;
+                return this.GetValue<bool>();
             }
 
             set
             {
-                this.isPlayable = value;
-                OnPropertyChanged();
+                this.SetValue(value);
             }
         }
-
-        private int numberOfWindows;
 
         public int NumberOfWindows
         {
             get
             {
-                return this.numberOfWindows;
+                return this.GetValue<int>();
             }
             set
             {
-                this.numberOfWindows = value;
-                this.OnPropertyChanged();
+                this.SetValue(value);
             }
         }
-
-        private int numberOfHoles;
 
         public int NumberOfHoles
         {
             get
             {
-                return this.numberOfHoles;
+                return this.GetValue<int>();
             }
             set
             {
-                this.numberOfHoles = value;
-                this.OnPropertyChanged();
+                this.SetValue(value);
             }
         }
 

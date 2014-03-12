@@ -20,11 +20,6 @@
 
     public class MapSelectionViewModel : ViewModelBase
     {
-        /// <summary>
-        /// The is data loading
-        /// </summary>
-        private bool isDataLoading;
-
         private MapEditorServiceClient proxy;
 
         /// <summary>
@@ -37,13 +32,12 @@
         {
             get
             {
-                return this.isDataLoading;
+                return this.GetValue<bool>();
             }
 
             set
             {
-                this.isDataLoading = value;
-                OnPropertyChanged();
+                this.SetValue(value);
             }
         }
 

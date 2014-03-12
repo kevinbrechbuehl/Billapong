@@ -22,16 +22,6 @@
         private readonly GameConfiguration.GameType gameType;
 
         /// <summary>
-        /// The is data loading
-        /// </summary>
-        private bool isDataLoading;
-
-        /// <summary>
-        /// The window selection view model
-        /// </summary>
-        private WindowSelectionViewModel windowSelectionViewModel;
-
-        /// <summary>
         /// The open game command
         /// </summary>
         private DelegateCommand openGameCommand;
@@ -61,13 +51,12 @@
         {
             get
             {
-                return this.windowSelectionViewModel;
+                return this.GetValue<WindowSelectionViewModel>();
             }
 
             private set
             {
-                this.windowSelectionViewModel = value;
-                this.OnPropertyChanged();
+                this.SetValue(value);
             }
         }
 
@@ -81,13 +70,12 @@
         {
             get
             {
-                return this.isDataLoading;
+                return this.GetValue<bool>();
             }
 
             set
             {
-                this.isDataLoading = value;
-                this.OnPropertyChanged();
+                this.SetValue(value);
             }
         }
 
@@ -175,7 +163,7 @@
         /// <returns>The determination result</returns>
         private bool CanOpenGame()
         {
-            return this.windowSelectionViewModel != null && this.windowSelectionViewModel.SelectedWindows.Any();
+            return this.WindowSelectionViewModel != null && this.WindowSelectionViewModel.SelectedWindows.Any();
         }
 
         /// <summary>

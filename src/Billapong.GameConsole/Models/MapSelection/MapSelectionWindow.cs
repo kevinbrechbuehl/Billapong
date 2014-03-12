@@ -12,16 +12,6 @@
     public class MapSelectionWindow : NotificationObject
     {
         /// <summary>
-        /// The background
-        /// </summary>
-        private Brush background;
-
-        /// <summary>
-        /// Indicates whether the window is checked
-        /// </summary>
-        private bool isChecked;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="MapSelectionWindow"/> class.
         /// </summary>
         /// <param name="x">The x.</param>
@@ -93,13 +83,13 @@
         {
             get
             {
-                return this.background;
+                /* todo (mathp2): Rewrite from brush to hex code */
+                return this.GetValue<Brush>();
             }
 
             private set
             {
-                this.background = value;
-                this.OnPropertyChanged();
+                this.SetValue(value);            
             }
         }
 
@@ -113,12 +103,12 @@
         {
             get
             {
-                return this.isChecked;
+                return this.GetValue<bool>();
             }
 
             set
             {
-                this.isChecked = value;
+                this.SetValue(value);
                 this.SetBackground();
             }
         }
@@ -136,7 +126,7 @@
         /// </summary>
         private void SetBackground()
         {
-            if (this.isChecked)
+            if (this.IsChecked)
             {
                 this.Background = Brushes.LightBlue;
             }

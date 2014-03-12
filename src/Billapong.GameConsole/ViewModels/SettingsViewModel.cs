@@ -1,7 +1,6 @@
 ﻿namespace Billapong.GameConsole.ViewModels
 {
     using Billapong.GameConsole.Properties;
-
     using Core.Client.UI;
 
     /// <summary>
@@ -9,11 +8,6 @@
     /// </summary>
     public class SettingsViewModel : MainWindowContentViewModelBase
     {
-        /// <summary>
-        /// The player name
-        /// </summary>
-        private string playerName;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsViewModel"/> class.
         /// </summary>
@@ -36,13 +30,12 @@
         {
             get
             {
-                return this.playerName;
+                return this.GetValue<string>();
             }
 
             set
             {
-                this.playerName = value;
-                this.OnPropertyChanged();
+                this.SetValue(value);
             }
         }
 

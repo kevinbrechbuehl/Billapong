@@ -2,9 +2,7 @@
 {
     using System;
     using System.Windows;
-
     using Billapong.GameConsole.Properties;
-
     using Configuration;
     using Game;
     using Models;
@@ -25,11 +23,6 @@
         /// The game type
         /// </summary>
         private readonly GameConfiguration.GameType gameType;
-
-        /// <summary>
-        /// The loading message
-        /// </summary>
-        private string loadingMessage;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LoadingScreenViewModel" /> class.
@@ -65,13 +58,12 @@
         {
             get
             {
-                return this.loadingMessage;
+                return this.GetValue<string>();
             }
 
             private set
             {
-                this.loadingMessage = value;
-                this.OnPropertyChanged();
+                this.SetValue(value);
             }
         }
 

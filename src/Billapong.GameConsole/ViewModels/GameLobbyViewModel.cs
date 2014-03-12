@@ -18,19 +18,9 @@
     public class GameLobbyViewModel : MainWindowContentViewModelBase
     {
         /// <summary>
-        /// The selected lobby game
-        /// </summary>
-        private LobbyGame selectedLobbyGame;
-
-        /// <summary>
         /// The join game command
         /// </summary>
         private DelegateCommand joinGameCommand;
-
-        /// <summary>
-        /// The is data loading
-        /// </summary>
-        private bool isDataLoading;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GameLobbyViewModel"/> class.
@@ -54,13 +44,12 @@
         {
             get
             {
-                return this.selectedLobbyGame;
+                return this.GetValue<LobbyGame>();
             }
 
             set
             {
-                this.selectedLobbyGame = value;
-                this.OnPropertyChanged();
+                this.SetValue(value);
                 this.JoinGameCommand.RaiseCanExecuteChanged();
             }
         }
@@ -75,13 +64,12 @@
         {
             get
             {
-                return this.isDataLoading;
+                return this.GetValue<bool>();
             }
 
             set
             {
-                this.isDataLoading = value;
-                this.OnPropertyChanged();
+                this.SetValue(value);
             }
         }
 

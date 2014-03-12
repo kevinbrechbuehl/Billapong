@@ -9,21 +9,6 @@
     public class GameMainWindowViewModel : ViewModelBase
     {
         /// <summary>
-        /// The current view
-        /// </summary>
-        private object currentView;
-
-        /// <summary>
-        /// The window height
-        /// </summary>
-        private int windowHeight;
-
-        /// <summary>
-        /// The window width
-        /// </summary>
-        private int windowWidth;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="GameMainWindowViewModel"/> class.
         /// </summary>
         public GameMainWindowViewModel()
@@ -41,13 +26,12 @@
         {
             get
             {
-                return this.currentView;
+                return this.GetValue<object>();
             }
 
             private set
             {
-                this.currentView = value;
-                this.OnPropertyChanged();
+                this.SetValue(value);
             }
         }
 
@@ -61,13 +45,12 @@
         {
             get
             {
-                return this.windowHeight;
+                return this.GetValue<int>();
             }
 
             private set 
             {
-                this.windowHeight = value;
-                this.OnPropertyChanged();
+                this.SetValue(value);
             }
         }
 
@@ -81,13 +64,12 @@
         {
             get
             {
-                return this.windowWidth;
+                return this.GetValue<int>();
             }
             
             private set
             {
-                this.windowWidth = value;
-                this.OnPropertyChanged();
+                this.SetValue(value);
             }
         }
 

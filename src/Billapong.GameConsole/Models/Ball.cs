@@ -10,16 +10,6 @@
     public class Ball : NotificationObject
     {
         /// <summary>
-        /// The position
-        /// </summary>
-        private Point position;
-
-        /// <summary>
-        /// The color
-        /// </summary>
-        private Color color;
-
-        /// <summary>
         /// Gets the diameter.
         /// </summary>
         /// <value>
@@ -57,13 +47,12 @@
         {
             get
             {
-                return this.position;
+                return this.GetValue<Point>();
             }
 
             set
             {
-                this.position = value;
-                this.OnPropertyChanged();
+                this.SetValue(value);
             }
         }
 
@@ -77,13 +66,12 @@
         {
             get
             {
-                return this.color;
+                return this.GetValue<Color>();
             }
 
             set
             {
-                this.color = value;
-                this.OnPropertyChanged();
+                this.SetValue(value);
             }
         }
     }

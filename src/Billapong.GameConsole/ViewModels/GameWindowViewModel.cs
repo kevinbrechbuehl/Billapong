@@ -22,16 +22,6 @@
         private readonly Window window;
 
         /// <summary>
-        /// The ball
-        /// </summary>
-        private Ball ball;
-
-        /// <summary>
-        /// The ball animation task
-        /// </summary>
-        private BallAnimationTask ballAnimationTask;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="GameWindowViewModel"/> class.
         /// </summary>
         /// <param name="window">The window.</param>
@@ -88,13 +78,12 @@
         {
             get
             {
-                return this.ball;
+                return this.GetValue<Ball>();
             }
 
             private set
             {
-                this.ball = value;
-                this.OnPropertyChanged();
+                this.SetValue(value);
             }
         }
 
@@ -108,13 +97,12 @@
         {
             get
             {
-                return this.ballAnimationTask;
+                return this.GetValue<BallAnimationTask>();
             }
 
             set
             {
-                this.ballAnimationTask = value;
-                this.OnPropertyChanged();
+                this.SetValue(value);
             }
         }
 

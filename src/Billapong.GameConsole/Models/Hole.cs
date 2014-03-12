@@ -1,6 +1,5 @@
 ﻿namespace Billapong.GameConsole.Models
 {
-    using System;
     using System.Windows;
     using Configuration;
     using Core.Client.UI;
@@ -10,16 +9,6 @@
     /// </summary>
     public class Hole : NotificationObject
     {
-        /// <summary>
-        /// The left position
-        /// </summary>
-        private double left;
-
-        /// <summary>
-        /// The top position
-        /// </summary>
-        private double top;
-
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>
@@ -34,7 +23,19 @@
         /// <value>
         /// The x coordinate.
         /// </value>
-        public int X { get; set; }
+        public int X 
+        {    
+            get
+            {
+                return this.GetValue<int>();
+            }
+
+            set
+            {
+                this.SetValue(value);
+                this.Left = this.Diameter * value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the y coordinate.
@@ -42,7 +43,19 @@
         /// <value>
         /// The y coordinate.
         /// </value> 
-        public int Y { get; set; }
+        public int Y 
+        {
+            get
+            {
+                return this.GetValue<int>();
+            }
+
+            set
+            {
+                this.SetValue(value);
+                this.Top = this.Diameter * value;
+            }
+        }
 
         /// <summary>
         /// Gets the diameter.
@@ -82,18 +95,12 @@
         {
             get
             {
-                if (Math.Abs(this.left) < 0.001)
-                {
-                    this.left = this.Diameter * this.X;
-                }
-
-                return this.left;
+                return this.GetValue<double>();
             }
 
             set
             {
-                this.left = value;
-                this.OnPropertyChanged();
+                this.SetValue(value);
             }
         }
 
@@ -107,18 +114,12 @@
         {
             get
             {
-                if (Math.Abs(this.top) < 0.001)
-                {
-                    this.top = this.Diameter * this.Y;
-                }
-
-                return this.top;
+                return this.GetValue<double>();
             }
 
             set
             {
-                this.top = value;
-                this.OnPropertyChanged();
+                this.SetValue(value);
             }
         }
 
@@ -132,7 +133,7 @@
         {
             get
             {
-                return new Point(this.Left + this.Radius, this.top + this.Radius);
+                return new Point(this.Left + this.Radius, this.Top + this.Radius);
             }
         }
     }

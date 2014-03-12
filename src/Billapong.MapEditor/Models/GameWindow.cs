@@ -48,13 +48,12 @@ namespace Billapong.MapEditor.Models
         {
             get
             {
-                return this.background;
+                return this.GetValue<Brush>();
             }
 
             private set
             {
-                this.background = value;
-                OnPropertyChanged();
+                this.SetValue(value);
             }
         }
 
@@ -64,13 +63,13 @@ namespace Billapong.MapEditor.Models
         {
             get
             {
-                return this.isChecked;
+                return this.GetValue<bool>();
             }
 
             set
             {
-                this.isChecked = value;
-                this.Background = this.isChecked ? Brushes.LightBlue : Brushes.LightGray;
+                this.SetValue(value);
+                this.Background = this.GetValue<bool>() ? Brushes.LightBlue : Brushes.LightGray;
             }
         }
 

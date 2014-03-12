@@ -9,21 +9,6 @@
     public class Player : NotificationObject
     {
         /// <summary>
-        /// The score
-        /// </summary>
-        private int score;
-
-        /// <summary>
-        /// The round state
-        /// </summary>
-        private PlayerState playerState;
-
-        /// <summary>
-        /// The color brush
-        /// </summary>
-        private SolidColorBrush colorBrush;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="Player" /> class.
         /// </summary>
         /// <param name="name">The name.</param>
@@ -36,6 +21,7 @@
             this.IsFirstPlayer = isFirstPlayer;
             this.IsLocalPlayer = isLocalPlayer;
             this.HasFirstTurn = hasFirstTurn;
+            this.PlayerColor = this.IsFirstPlayer ? Colors.Red : Colors.Blue;
         }
 
         /// <summary>
@@ -107,7 +93,7 @@
         public bool HasFirstTurn { get; private set; }
 
         /// <summary>
-        /// Gets the color of the player.
+        /// Gets or sets the color of the player.
         /// </summary>
         /// <value>
         /// The color of the player.
@@ -116,7 +102,14 @@
         {
             get
             {
-                return this.IsFirstPlayer ? Colors.Red : Colors.Blue;
+                // todo (mathp2): Get rid of the color type
+                return this.GetValue<Color>();
+            }
+
+            set
+            {
+                this.SetValue(value);
+                this.ColorBrush = new SolidColorBrush(value);
             }
         }
 
@@ -130,18 +123,13 @@
         {
             get
             {
-                if (this.colorBrush == null)
-                {
-                    this.ColorBrush = new SolidColorBrush(this.PlayerColor);    
-                }
-
-                return this.colorBrush;
+                // todo (mathp2): Get rid of the SolidColorBrush type
+                return this.GetValue<SolidColorBrush>();
             }
 
             private set
             {
-                this.colorBrush = value;
-                this.OnPropertyChanged();
+                this.SetValue(value);
             }
         }
 
@@ -155,13 +143,12 @@
         {
             get
             {
-                return this.playerState;
+                return this.GetValue<PlayerState>();
             }
 
             set
             {
-                this.playerState = value;
-                this.OnPropertyChanged();
+                this.SetValue(value);
             }
         }
 
@@ -175,13 +162,12 @@
         {
             get
             {
-                return this.score; 
+                return this.GetValue<int>();
             }
 
             set
             {
-                this.score = value;
-                this.OnPropertyChanged();
+                this.SetValue(value);
             }
         }
     }

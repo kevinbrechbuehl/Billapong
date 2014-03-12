@@ -12,16 +12,6 @@
     public class GameStateViewModel : MainWindowContentViewModelBase
     {
         /// <summary>
-        /// The status message
-        /// </summary>
-        private string statusMessage;
-
-        /// <summary>
-        /// The action button text
-        /// </summary>
-        private string actionButtonText;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="GameStateViewModel"/> class.
         /// </summary>
         /// <param name="game">The game.</param>
@@ -64,13 +54,12 @@
         {
             get
             {
-                return this.statusMessage;
+                return this.GetValue<string>();
             }
 
             set
             {
-                this.statusMessage = value;
-                this.OnPropertyChanged();
+                this.SetValue(value);
             } 
         }
 
@@ -84,13 +73,12 @@
         {
             get
             {
-                return this.actionButtonText;
+                return this.GetValue<string>();
             }
 
             set
             {
-                this.actionButtonText = value;
-                this.OnPropertyChanged();
+                this.SetValue(value);
             }
         }
 

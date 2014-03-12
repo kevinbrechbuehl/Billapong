@@ -37,53 +37,44 @@ namespace Billapong.MapEditor.ViewModels
 
         private readonly double gridSize;
 
-        private double holeDiameter;
-
         public double HoleDiameter
         {
             get
             {
-                return this.holeDiameter;
+                return this.GetValue<double>();
             }
 
             set
             {
-                this.holeDiameter = value;
-                OnPropertyChanged();
+                this.SetValue(value);
             }
         }
-
-        private bool isPlayable;
 
         public bool IsPlayable
         {
             get
             {
-                return this.isPlayable;
+                return this.GetValue<bool>();
             }
 
             set
             {
-                this.isPlayable = value;
                 this.map.IsPlayable = value;
-                OnPropertyChanged();
+                this.SetValue(value);
             }
         }
-
-        private string mapName;
 
         public string MapName
         {
             get
             {
-                return this.mapName;
+                return this.GetValue<string>();
             }
 
             set
             {
-                this.mapName = value;
                 this.map.Name = value;
-                OnPropertyChanged();
+                this.SetValue(value);
             }
         }
 

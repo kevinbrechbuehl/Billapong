@@ -11,9 +11,12 @@
     public class Game : NotificationObject
     {
         /// <summary>
-        /// The current round
+        /// Initializes a new instance of the <see cref="Game"/> class.
         /// </summary>
-        private int currentRound = 1;
+        public Game()
+        {
+            this.CurrentRound = 1;
+        }
 
         /// <summary>
         /// Defines the possible game states
@@ -94,13 +97,12 @@
         {
             get
             {
-                return this.currentRound;
+                return this.GetValue<int>();
             }
 
             set
             {
-                this.currentRound = value;
-                this.OnPropertyChanged();
+                this.SetValue(value);
             } 
         }
 
