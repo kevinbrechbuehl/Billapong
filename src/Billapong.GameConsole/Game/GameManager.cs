@@ -127,7 +127,7 @@
         /// <param name="stateViewModel">The state view model.</param>
         public void StartGame(Game game, GameStateViewModel stateViewModel)
         {
-            Application.Current.MainWindow.Closing += this.OnWindowClosing;
+            //Application.Current.MainWindow.Closing += this.OnWindowClosing;
 
             this.PrepareNewGame();
             this.CurrentGame = game;
@@ -508,6 +508,7 @@
         private void EndLocalGame()
         {
             Application.Current.MainWindow.Closing -= this.OnWindowClosing;
+            GameConsoleContext.Current.StopKeepGameAlive();
             this.CurrentGame.CurrentGameState = Game.GameState.Ended;
             this.gameStateViewModel.EndGame();
             this.CloseGameField();

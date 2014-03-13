@@ -219,6 +219,18 @@
         }
 
         /// <summary>
+        /// Adds the high score asynchronous.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <param name="playerName">Name of the player.</param>
+        /// <param name="score">The score.</param>
+        /// <returns>The task</returns>
+        public async Task AddHighScoreAsync(long mapId, string playerName, int score)
+        {
+            await this.ExecuteAsync(() => this.Proxy.AddHighScore(mapId, playerName, score));
+        }
+
+        /// <summary>
         /// Determines whether a specific game is still running and callbacks are valid.
         /// </summary>
         /// <param name="gameId">The game identifier.</param>
@@ -231,15 +243,13 @@
         }
 
         /// <summary>
-        /// Adds the high score asynchronous.
+        /// Determines whether a specific game is still running and callbacks are valid.
         /// </summary>
-        /// <param name="mapId">The map identifier.</param>
-        /// <param name="playerName">Name of the player.</param>
-        /// <param name="score">The score.</param>
+        /// <param name="gameId">The game identifier.</param>
         /// <returns>The task</returns>
-        public async Task AddHighScoreAsync(long mapId, string playerName, int score)
+        public async Task<bool> IsGameRunningAsync(Guid gameId)
         {
-            await this.ExecuteAsync(() => this.Proxy.AddHighScore(mapId, playerName, score));
+            return await this.ExecuteAsync(() => this.Proxy.IsGameRunning(gameId));
         }
     }
 }

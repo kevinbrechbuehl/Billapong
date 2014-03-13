@@ -25,6 +25,8 @@
         /// </summary>
         private readonly GameConfiguration.GameType gameType;
 
+        private Guid currentGameId;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="LoadingScreenViewModel" /> class.
         /// </summary>
@@ -49,7 +51,17 @@
         /// <value>
         /// The current game identifier.
         /// </value>
-        public Guid CurrentGameId { get; set; }
+        public Guid CurrentGameId {
+            get
+            {
+                return this.currentGameId;
+            }
+            set
+            {
+                this.currentGameId = value;
+                GameConsoleContext.Current.StartKeepGameAlive(value);
+            } 
+        }
 
         /// <summary>
         /// Gets the loading message.

@@ -319,6 +319,14 @@
                 game = this.GetGame(gameId);
                 if (game == null) return false;
 
+                if (game.Status == GameStatus.Open 
+                    && game.Players != null 
+                    && game.Players[0] != null
+                    && this.CheckCallbacks(game))
+                {
+                    return true;
+                }
+
                 if (game.Status == GameStatus.Playing
                     && game.Players != null
                     && game.Players.Length == 2

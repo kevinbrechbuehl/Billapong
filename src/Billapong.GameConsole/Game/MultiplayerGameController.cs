@@ -41,6 +41,7 @@
             GameConsoleContext.Current.GameConsoleCallback.RoundStarted += this.OnRoundStarted;
             GameConsoleContext.Current.GameConsoleCallback.RoundEnded += this.OnRoundEnded;
             GameConsoleContext.Current.GameConsoleCallback.GameCancelled += this.OnGameCanceled;
+            GameConsoleContext.Current.RunningGameDisappeared += this.OnGameDisappeared;
         }
 
         /// <summary>
@@ -304,6 +305,17 @@
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public void OnGameCanceled(object sender, EventArgs args)
         {
+            this.GameCanceled(this, null);
+        }
+
+        /// <summary>
+        /// Called when the keep alive detected, that the current game is not running anymore
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        private void OnGameDisappeared(object sender, EventArgs args)
+        {
+            Tracer.Info("The running game is no longer available on the server or there was a communication error. The local game will cancel now.");
             this.GameCanceled(this, null);
         }
 
