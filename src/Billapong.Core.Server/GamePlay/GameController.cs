@@ -222,7 +222,7 @@
         /// <param name="directionY">The direction y.</param>
         public void StartRound(Guid gameId, double directionX, double directionY)
         {
-            var game = this.GetGame(gameId, true);
+            var game = this.GetGame(gameId);
             Task.Run(() => this.StartRoundCallback(game, directionX, directionY));
         }
 
@@ -512,15 +512,10 @@
         /// <param name="gameId">The game identifier.</param>
         /// <returns></returns>
         /// <exception cref="FaultException{GameNotFoundException}">Game not found</exception>
-        private Game GetGame(Guid gameId, bool exception = false)
+        private Game GetGame(Guid gameId)
         {
             lock (LockObject)
             {
-                if (exception)
-                {
-                    throw new FaultException<GameNotFoundException>(new GameNotFoundException(gameId), "Game not found");
-                }
-
                 if (!this.games.ContainsKey(gameId))
                 {
                     throw new FaultException<GameNotFoundException>(new GameNotFoundException(gameId), "Game not found");
