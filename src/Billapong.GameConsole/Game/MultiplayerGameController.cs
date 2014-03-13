@@ -157,7 +157,7 @@
         {
             try
             {
-                await GameConsoleContext.Current.GameConsoleServiceClient.CancelGameAsync(GameManager.Current.CurrentGame.GameId);
+                await GameConsoleContext.Current.GameConsoleServiceClient.CancelGameAsync(GameManager.Current.CurrentGame.GameId, GameManager.Current.CurrentGame.LocalPlayer.IsFirstPlayer, true);
             }
             catch (Exception ex)
             {

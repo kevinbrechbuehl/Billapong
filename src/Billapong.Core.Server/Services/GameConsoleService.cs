@@ -81,9 +81,11 @@
         /// Cancels a game.
         /// </summary>
         /// <param name="gameId">The game identifier.</param>
-        public void CancelGame(Guid gameId)
+        /// <param name="isFirstPlayer">if set to <c>true</c> the player who asked to cancel the game is the first player.</param>
+        /// <param name="sendCallback">if set to <c>true</c> the calling player does not want a callback (mostly because he closed the game).</param>
+        public void CancelGame(Guid gameId, bool isFirstPlayer, bool sendCallback)
         {
-            GameController.Current.CancelGame(gameId);
+            GameController.Current.CancelGame(gameId, isFirstPlayer, sendCallback);
         }
 
         /// <summary>

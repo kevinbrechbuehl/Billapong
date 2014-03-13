@@ -52,8 +52,10 @@
         /// Cancels a game.
         /// </summary>
         /// <param name="gameId">The game identifier.</param>
+        /// <param name="isFirstPlayer">if set to <c>true</c> the player who asked to cancel the game is the first player.</param>
+        /// <param name="sendCallback">if set to <c>true</c> the calling player does not want a callback (mostly because he closed the game).</param>
         [OperationContract(Name = "CancelGame")]
-        void CancelGame(Guid gameId);
+        void CancelGame(Guid gameId, bool isFirstPlayer, bool sendCallback);
 
         /// <summary>
         /// Sets the start point.

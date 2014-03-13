@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
     using System.Threading.Tasks;
     using System.Windows;
@@ -126,6 +127,8 @@
         /// <param name="stateViewModel">The state view model.</param>
         public void StartGame(Game game, GameStateViewModel stateViewModel)
         {
+            Application.Current.MainWindow.Closing += this.OnWindowClosing;
+
             this.PrepareNewGame();
             this.CurrentGame = game;
             this.CurrentGame.CurrentGameState = Game.GameState.Running;
@@ -164,7 +167,7 @@
         /// </summary>
         public void CancelGame()
         {
-            if (this.gameController != null && this.CurrentGame.CurrentGameState == Game.GameState.Running)
+            if (this.CurrentGame.CurrentGameState == Game.GameState.Running)
             {
                 this.gameController.CancelGame();
             }
@@ -244,6 +247,19 @@
             distanceScore *= 10;
 
             return Convert.ToInt32((wallHits + 1) * distanceScore);
+        }
+
+        /// <summary>
+        /// Called when the window is closing
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="CancelEventArgs"/> instance containing the event data.</param>
+        private async void OnWindowClosing(object sender, CancelEventArgs args)
+        {
+            if (this.CurrentGame.CurrentGameState == Game.GameState.Running)
+            {
+                await GameConsoleContext.Current.GameConsoleServiceClient.CancelGameAsync(this.CurrentGame.GameId, this.CurrentGame.LocalPlayer.IsFirstPlayer, false);
+            }
         }
 
         /// <summary>
@@ -491,6 +507,7 @@
         /// </summary>
         private void EndLocalGame()
         {
+            Application.Current.MainWindow.Closing -= this.OnWindowClosing;
             this.CurrentGame.CurrentGameState = Game.GameState.Ended;
             this.gameStateViewModel.EndGame();
             this.CloseGameField();

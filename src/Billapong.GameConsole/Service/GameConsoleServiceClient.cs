@@ -117,19 +117,23 @@
         /// Cancels a game.
         /// </summary>
         /// <param name="gameId">The game identifier.</param>
-        public void CancelGame(Guid gameId)
+        /// <param name="isFirstPlayer">if set to <c>true</c> the player who cancels the game is the first player.</param>
+        /// <param name="sendCallback">if set to <c>true</c> the player who cancels the game does not want to get a callback (mainly because he closes the window).</param>
+        public void CancelGame(Guid gameId, bool isFirstPlayer, bool sendCallback)
         {
-           this.Execute(() => this.Proxy.CancelGame(gameId));
+           this.Execute(() => this.Proxy.CancelGame(gameId, isFirstPlayer, sendCallback));
         }
 
         /// <summary>
         /// Cancels a game asynchronous.
         /// </summary>
-        /// <param name="gameId">The game identifier.</param>
+        /// <param name="gameId">The game identifier.</param> 
+        /// <param name="isFirstPlayer">if set to <c>true</c> the player who cancels the game is the first player.</param>
+        /// <param name="sendCallback">if set to <c>true</c> the player who cancels the game does not want to get a callback (mainly because he closes the window).</param>
         /// <returns>The task</returns>
-        public async Task CancelGameAsync(Guid gameId)
+        public async Task CancelGameAsync(Guid gameId, bool isFirstPlayer, bool sendCallback)
         {
-            await this.ExecuteAsync(() => this.Proxy.CancelGame(gameId));
+            await this.ExecuteAsync(() => this.Proxy.CancelGame(gameId, isFirstPlayer, sendCallback));
         }
 
         /// <summary>

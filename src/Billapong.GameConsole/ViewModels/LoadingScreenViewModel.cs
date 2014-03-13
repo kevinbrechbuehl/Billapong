@@ -1,6 +1,7 @@
 ﻿namespace Billapong.GameConsole.ViewModels
 {
     using System;
+    using System.ComponentModel;
     using System.Windows;
     using Billapong.GameConsole.Properties;
     using Configuration;
@@ -38,6 +39,8 @@
             this.BackButtonContent = Resources.Cancel;
             this.gameType = gameType;
             this.isGameOwner = isGameOwner;
+
+            Application.Current.MainWindow.Closing += this.OnWindowClosing;
         }
 
         /// <summary>
@@ -84,6 +87,7 @@
             GameConsoleContext.Current.GameConsoleCallback.GameStarted -= this.StartGame;
 
             this.SwitchWindowContent(gameStateViewModel);
+            Application.Current.MainWindow.Closing -= this.OnWindowClosing;
         }
 
         /// <summary>
@@ -95,7 +99,7 @@
             {
                 if (this.CurrentGameId != Guid.Empty)
                 {
-                    GameConsoleContext.Current.GameConsoleServiceClient.CancelGame(this.CurrentGameId);
+                    GameConsoleContext.Current.GameConsoleServiceClient.CancelGame(this.CurrentGameId, this.isGameOwner, false);
                 }
 
                 base.NavigateBack();
@@ -104,6 +108,19 @@
             {
                 MessageBox.Show(ex.Message, Resources.Error);
                 this.ReturnToMenu();
+            }
+        }
+
+        /// <summary>
+        /// Called when the user closes the main window.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="CancelEventArgs"/> instance containing the event data.</param>
+        protected async void OnWindowClosing(object sender, CancelEventArgs args)
+        {
+            if (!this.CurrentGameId.Equals(Guid.Empty)) 
+            {
+                await GameConsoleContext.Current.GameConsoleServiceClient.CancelGameAsync(this.CurrentGameId, this.isGameOwner, false);
             }
         }
     }

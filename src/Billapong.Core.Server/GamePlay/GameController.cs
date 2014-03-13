@@ -180,7 +180,11 @@
         /// Cancels the game with a specific id.
         /// </summary>
         /// <param name="gameId">The game identifier.</param>
-        public void CancelGame(Guid gameId)
+        /// <param name="isFirstPlayer">if set to <c>true</c> the player who asked to cancel the game is the first player.</param>
+        /// <param name="sendCallback">if set to <c>true</c> the calling player does not want a callback (mostly because he closed the game).</param>
+        /// <exception cref="FaultException{GameNotFoundException}">Game not found</exception>
+        /// <exception cref="GameNotFoundException">Game not found</exception>
+        public void CancelGame(Guid gameId, bool isFirstPlayer, bool sendCallback)
         {
             Game game = null;
             GameStatus previousGameState;
@@ -194,6 +198,20 @@
                 game = this.games[gameId];
                 previousGameState = game.Status;
                 game.Status = GameStatus.Canceled;
+
+                if (!sendCallback)
+                {
+                    if (isFirstPlayer)
+                    {
+                        // remove the first player from the game to prevent a callback
+                        game.Players[0] = null;
+                    }
+                    else
+                    {
+                        // remove the second player of the game to prevent a callback
+                        game.Players[1] = null;
+                    }
+                }
             }
 
             if (previousGameState == GameStatus.Playing) { 
