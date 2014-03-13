@@ -183,6 +183,7 @@
         public void CancelGame(Guid gameId)
         {
             Game game = null;
+            GameStatus previousGameState;
             lock (LockObject)
             {
                 if (!this.games.ContainsKey(gameId))
@@ -191,10 +192,13 @@
                 }
 
                 game = this.games[gameId];
+                previousGameState = game.Status;
                 game.Status = GameStatus.Canceled;
             }
 
-            Task.Run(() => this.CancelGameCallback(game));
+            if (previousGameState == GameStatus.Playing) { 
+                Task.Run(() => this.CancelGameCallback(game));
+            }
         }
 
         /// <summary>
