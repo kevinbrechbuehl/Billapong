@@ -38,6 +38,22 @@
             }
         }
 
+        public string message;
+
+        public string Message
+        {
+            get
+            {
+                return this.message;
+            }
+
+            set
+            {
+                this.message = value;
+                this.OnPropertyChanged();
+            }
+        }
+
         public DelegateCommand LoginCommand
         {
             get
@@ -65,7 +81,7 @@
 
         private void LoginFailed()
         {
-            MessageBox.Show(Resources.LoginFailed, Resources.ErrorTitle, MessageBoxButton.OK, MessageBoxImage.Error);
+            this.Message = Resources.LoginFailed;
         }
     }
 }
