@@ -58,6 +58,7 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="Session\SessionServiceClient.cs" />
     <Compile Include="Tracing\Tracer.cs" />
     <Compile Include="Tracing\TracingServiceClient.cs" />
     <Compile Include="UI\Converter\BooleanConverter.cs" />

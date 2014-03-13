@@ -57,6 +57,7 @@
     <Compile Include="Model\Map\Map.cs" />
     <Compile Include="Model\Map\Window.cs" />
     <Compile Include="Model\IEntity.cs" />
+    <Compile Include="Model\Session\User.cs" />
     <Compile Include="Model\Tracing\LogMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <ExcludeFromStyleCop>true</ExcludeFromStyleCop>

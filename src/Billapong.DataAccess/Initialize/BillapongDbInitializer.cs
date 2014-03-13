@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Data.Entity;
+    using Billapong.DataAccess.Model.Session;
     using Model.Map;
 
     /// <summary>
@@ -15,6 +16,8 @@
         /// <param name="context">The context.</param>
         protected override void Seed(BillapongDbContext context)
         {
+            #region Add Maps
+
             var simpleMap = new Map
             {
                 Name = "Simple Map",
@@ -384,6 +387,22 @@
             context.Maps.Add(doughnutMap);
             context.Maps.Add(unplayableMap);
             context.SaveChanges();
+
+            # endregion
+
+            #region Add Users
+
+            // password -> "editor"
+            var editor = new User { Username = "editor", Password = "5aee9dbd2a188839105073571bee1b1f", Role = 1 };
+
+            // password -> "admin"
+            var admin = new User { Username = "admin", Password = "21232f297a57a5a743894a0e4a801fc3", Role = 2 };
+
+            context.Users.Add(editor);
+            context.Users.Add(admin);
+            context.SaveChanges();
+
+            #endregion
         }
     }
 }

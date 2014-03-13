@@ -124,6 +124,15 @@ namespace Billapong.MapEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter username and password.
+        /// </summary>
+        public static string EnterUsernameAndPassword {
+            get {
+                return ResourceManager.GetString("EnterUsernameAndPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
         public static string ErrorTitle {
@@ -273,6 +282,15 @@ namespace Billapong.MapEditor.Properties {
         public static string Playable {
             get {
                 return ResourceManager.GetString("Playable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please wait ....
+        /// </summary>
+        public static string PleaseWait {
+            get {
+                return ResourceManager.GetString("PleaseWait", resourceCulture);
             }
         }
         

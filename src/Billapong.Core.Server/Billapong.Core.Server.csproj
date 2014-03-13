@@ -58,7 +58,9 @@
     <Compile Include="Services\AdministrationService.cs" />
     <Compile Include="Services\GameConsoleService.cs" />
     <Compile Include="Services\MapEditorService.cs" />
+    <Compile Include="Services\SessionService.cs" />
     <Compile Include="Services\TracingService.cs" />
+    <Compile Include="Session\SessionController.cs" />
     <Compile Include="Tracing\Logger.cs" />
     <Compile Include="Tracing\Tracer.cs" />
   </ItemGroup>

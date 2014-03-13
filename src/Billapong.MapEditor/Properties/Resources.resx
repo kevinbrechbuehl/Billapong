@@ -138,6 +138,9 @@
   <data name="Edit" xml:space="preserve">
     <value>Edit</value>
   </data>
+  <data name="EnterUsernameAndPassword" xml:space="preserve">
+    <value>Please enter username and password</value>
+  </data>
   <data name="ErrorTitle" xml:space="preserve">
     <value>Error</value>
   </data>
@@ -188,6 +191,9 @@
   </data>
   <data name="Playable" xml:space="preserve">
     <value>Playable</value>
+  </data>
+  <data name="PleaseWait" xml:space="preserve">
+    <value>Please wait ...</value>
   </data>
   <data name="RefreshList" xml:space="preserve">
     <value>Refresh list</value>

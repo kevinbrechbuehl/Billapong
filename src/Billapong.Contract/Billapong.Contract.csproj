@@ -46,6 +46,7 @@
     <Compile Include="Data\GamePlay\LobbyGame.cs" />
     <Compile Include="Data\Map\HighScore.cs" />
     <Compile Include="Data\Map\MapConfiguration.cs" />
+    <Compile Include="Data\Session\Role.cs" />
     <Compile Include="Data\Tracing\Component.cs" />
     <Compile Include="Data\Map\Hole.cs" />
     <Compile Include="Data\Map\Map.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="Exceptions\CallbackNotValidException.cs" />
     <Compile Include="Exceptions\GameNotFoundException.cs" />
     <Compile Include="Exceptions\GameNotOpenException.cs" />
+    <Compile Include="Exceptions\LoginFailedException.cs" />
     <Compile Include="Exceptions\MapNotFoundException.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -67,6 +69,7 @@
     <Compile Include="Service\IGameConsoleService.cs" />
     <Compile Include="Service\IMapEditorCallback.cs" />
     <Compile Include="Service\IMapEditorService.cs" />
+    <Compile Include="Service\ISessionService.cs" />
     <Compile Include="Service\ITracingService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
