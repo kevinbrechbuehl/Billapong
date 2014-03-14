@@ -67,9 +67,10 @@
 
         public static string GetPasswordHash(string password)
         {
+            var salted = string.Join("_", password, Salt);
             using (var md5 = MD5.Create())
             {
-                var hash = md5.ComputeHash(Encoding.UTF8.GetBytes(password));
+                var hash = md5.ComputeHash(Encoding.UTF8.GetBytes(salted));
                 var stringBuilder = new StringBuilder();
                 foreach (var element in hash)
                 {

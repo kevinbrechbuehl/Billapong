@@ -393,10 +393,10 @@
             #region Add Users
 
             // password -> "editor"
-            var editor = new User { Username = "editor", Password = "5aee9dbd2a188839105073571bee1b1f", Role = 1 };
+            var editor = new User { Username = "editor", Password = "bb9b8f8d3a391c0dea800f443bcc30b3", Role = 1 };
 
             // password -> "admin"
-            var admin = new User { Username = "admin", Password = "21232f297a57a5a743894a0e4a801fc3", Role = 2 };
+            var admin = new User { Username = "admin", Password = "d814b50c5f5b08f40ae2b0699b0143c4", Role = 2 };
 
             context.Users.Add(editor);
             context.Users.Add(admin);
