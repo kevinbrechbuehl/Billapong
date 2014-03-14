@@ -1,7 +1,6 @@
 ﻿namespace Billapong.GameConsole.Service
 {
     using System;
-    using System.Diagnostics;
     using System.Timers;
     using Billapong.Core.Client.Helper;
     using Billapong.Core.Client.Tracing;
@@ -27,6 +26,11 @@
         private GameConsoleCallback gameConsoleCallback;
 
         /// <summary>
+        /// The keep alive interval
+        /// </summary>
+        private const double KeepAliveInterval = 30000;
+
+        /// <summary>
         /// The current game identifier
         /// </summary>
         private Guid currentGameId;
@@ -41,8 +45,7 @@
         /// </summary>
         private GameConsoleContext()
         {
-            this.keepAliveTimer = new Timer();
-            this.keepAliveTimer.Interval = 10000;
+            this.keepAliveTimer = new Timer { Interval = KeepAliveInterval };
             this.keepAliveTimer.Elapsed += this.KeepGameAlive;
         }
 
