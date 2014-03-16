@@ -12,51 +12,42 @@
 
     public class LoginViewModel : ViewModelBase
     {
-        private string username;
-
         public string Username
         {
             get
             {
-                return this.username;
+                return this.GetValue<string>();
             }
 
             set
             {
-                this.username = value;
-                OnPropertyChanged();
+                this.SetValue(value);
             }
         }
-
-        private string password;
 
         public string Password
         {
             get
             {
-                return this.password;
+                return this.GetValue<string>();
             }
 
             set
             {
-                this.password = value;
-                OnPropertyChanged();
+                this.SetValue(value);
             }
         }
-
-        private string message;
 
         public string Message
         {
             get
             {
-                return this.message;
+                return this.GetValue<string>();
             }
 
             set
             {
-                this.message = value;
-                this.OnPropertyChanged();
+                this.SetValue(value);
             }
         }
 
