@@ -3,6 +3,7 @@
     using System;
     using System.ComponentModel;
     using System.Windows;
+    using Billapong.Core.Client.Exceptions;
     using Billapong.GameConsole.Properties;
     using Configuration;
     using Game;
@@ -116,6 +117,10 @@
 
                 base.NavigateBack();
             }
+            catch (ServerUnavailableException ex)
+            {
+                this.HandleServerException(ex);
+            }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, Resources.Error);
@@ -132,7 +137,18 @@
         {
             if (!this.CurrentGameId.Equals(Guid.Empty)) 
             {
-                await GameConsoleContext.Current.GameConsoleServiceClient.CancelGameAsync(this.CurrentGameId, this.isGameOwner, false);
+                try
+                {
+                    await
+                        GameConsoleContext.Current.GameConsoleServiceClient.CancelGameAsync(
+                            this.CurrentGameId,
+                            this.isGameOwner,
+                            false);
+                }
+                catch (ServerUnavailableException ex)
+                {
+                    this.HandleServerException(ex);
+                }
             }
         }
     }

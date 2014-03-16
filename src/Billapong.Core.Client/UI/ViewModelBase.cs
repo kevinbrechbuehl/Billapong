@@ -6,6 +6,7 @@
     using System.Linq.Expressions;
     using System.Windows;
     using Billapong.Core.Client.Exceptions;
+    using Billapong.Core.Client.Helper;
     using Billapong.Core.Client.Properties;
     using Billapong.Core.Client.Tracing;
 
@@ -84,13 +85,7 @@
         /// <param name="message">The message.</param>
         protected virtual void ShutdownApplication(string message = null)
         {
-            if (string.IsNullOrWhiteSpace(message))
-            {
-                message = Resources.UnexpectedError;
-            }
-
-            MessageBox.Show(message, Resources.Error, MessageBoxButton.OK, MessageBoxImage.Error);
-            Application.Current.Shutdown();
+            ApplicationHelpers.ShutdownApplication(message);
         }
 
         /// <summary>
@@ -98,13 +93,9 @@
         /// </summary>
         /// <param name="ex">The ex.</param>
         /// <param name="withoutShutdown">if set to <c>true</c> the application does not shut down.</param>
-        protected virtual async void HandleServerException(ServerUnavailableException ex, bool withoutShutdown = false)
+        protected virtual void HandleServerException(ServerUnavailableException ex, bool withoutShutdown = false)
         {
-            await Tracer.Error("Server not available", ex);
-            if (!withoutShutdown)
-            {
-                this.ShutdownApplication(Resources.ServerUnavailable);   
-            }
+            ApplicationHelpers.HandleServerException(ex, withoutShutdown);
         }
 
         /// <summary>

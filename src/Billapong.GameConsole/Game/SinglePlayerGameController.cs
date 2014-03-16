@@ -169,10 +169,10 @@
                 }
                 catch (Exception ex)
                 {
-                    Tracer.Error(ex.Message, ex);
+                    this.LogError(ex.Message, ex);
                 }
 
-                Tracer.ProcessQueuedMessages();
+                await Tracer.ProcessQueuedMessages();
             }
             else 
             {
@@ -224,6 +224,16 @@
                     this.StartRound(GameHelpers.GetRandomBallDirection(randomWindow, ballPosition.Value));
                 }
             }
+        }
+
+        /// <summary>
+        /// Logs the error.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <param name="ex">The ex.</param>
+        private async void LogError(string message, Exception ex)
+        {
+            await Tracer.Error(message, ex);
         }
     }
 }

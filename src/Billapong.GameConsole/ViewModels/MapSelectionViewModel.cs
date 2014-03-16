@@ -3,6 +3,7 @@
     using System;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using Billapong.Core.Client.Exceptions;
     using Billapong.GameConsole.Game;
     using Billapong.GameConsole.Properties;
     using Configuration;
@@ -199,10 +200,18 @@
         private async void LoadMaps()
         {
             this.IsDataLoading = true;
-            var maps = await GameConsoleContext.Current.GameConsoleServiceClient.GetMapsAsync();
-            foreach (var map in maps)
+
+            try
             {
-                this.Maps.Add(map.ToEntity());
+                var maps = await GameConsoleContext.Current.GameConsoleServiceClient.GetMapsAsync();
+                foreach (var map in maps)
+                {
+                    this.Maps.Add(map.ToEntity());
+                }
+            }
+            catch (ServerUnavailableException ex)
+            {
+                this.HandleServerException(ex);
             }
 
             this.IsDataLoading = false;
@@ -247,7 +256,15 @@
             {
                 var loadingScreenViewModel = new LoadingScreenViewModel(Resources.WaitingForOpponent, GameConfiguration.GameType.MultiPlayerGame, true);
                 GameConsoleContext.Current.GameConsoleCallback.GameStarted += loadingScreenViewModel.StartGame;
-                loadingScreenViewModel.CurrentGameId = await GameConsoleContext.Current.GameConsoleServiceClient.OpenGameAsync(this.SelectedMap.Id, this.WindowSelectionViewModel.SelectedWindows.Select(x => x.Id), Settings.Default.PlayerName);
+                try
+                {
+                    loadingScreenViewModel.CurrentGameId = await GameConsoleContext.Current.GameConsoleServiceClient.OpenGameAsync(this.SelectedMap.Id, this.WindowSelectionViewModel.SelectedWindows.Select(x => x.Id), Settings.Default.PlayerName);
+                }
+                catch (ServerUnavailableException ex)
+                {
+                    this.HandleServerException(ex);
+                }
+
                 nextWindow = loadingScreenViewModel;
             }
             else

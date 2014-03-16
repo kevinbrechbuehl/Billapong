@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="CallbackClientBase.cs" />
     <Compile Include="Exceptions\ServerUnavailableException.cs" />
+    <Compile Include="Helper\ApplicationHelpers.cs" />
     <Compile Include="Helper\ThreadContext.cs" />
     <Compile Include="ICallback.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

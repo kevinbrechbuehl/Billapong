@@ -2,6 +2,7 @@
 {
     using System;
     using System.Timers;
+    using Billapong.Core.Client.Exceptions;
     using Billapong.Core.Client.Helper;
     using Billapong.Core.Client.Tracing;
 
@@ -134,9 +135,14 @@
                 {  
                     isGameRunning = await this.gameConsoleServiceClient.IsGameRunningAsync(this.currentGameId);
                 }
+                catch (ServerUnavailableException ex)
+                {
+                    ApplicationHelpers.HandleServerException(ex);
+                    return;
+                }
                 catch (Exception ex)
                 {
-                    Tracer.Error(ex.Message, ex);
+                    this.LogError(ex.Message, ex);
                     ThreadContext.InvokeOnUiThread(() => this.RunningGameDisappeared(this, null));
                     this.keepAliveTimer.Stop();
                     return;
@@ -144,15 +150,25 @@
 
                 if (isGameRunning)
                 {
-                    Tracer.Debug(string.Format("Sent keepalive for the game with the id {0}. Game is still running.", this.currentGameId));
+                    await Tracer.Debug(string.Format("Sent keepalive for the game with the id {0}. Game is still running.", this.currentGameId));
                 }
                 else
                 {
-                    Tracer.Debug(string.Format("Sent keepalive for the game with the id {0}. Game is no longer running.", this.currentGameId));
+                    await Tracer.Debug(string.Format("Sent keepalive for the game with the id {0}. Game is no longer running.", this.currentGameId));
                     ThreadContext.InvokeOnUiThread(() => this.RunningGameDisappeared(this, null));
                     this.keepAliveTimer.Stop();
                 }
             }
+        }
+
+        /// <summary>
+        /// Logs the error.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <param name="ex">The ex.</param>
+        private async void LogError(string message, Exception ex)
+        {
+            await Tracer.Error(message, ex);
         }
     }
 }

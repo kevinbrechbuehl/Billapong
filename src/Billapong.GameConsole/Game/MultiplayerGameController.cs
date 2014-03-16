@@ -2,6 +2,9 @@
 {
     using System;
     using System.Windows;
+    using Billapong.Core.Client.Exceptions;
+    using Billapong.Core.Client.Helper;
+    using Billapong.GameConsole.Properties;
     using Core.Client.Tracing;
     using Models;
     using Models.Events;
@@ -84,9 +87,13 @@
                     position.X,
                     position.Y);
             }
+            catch (ServerUnavailableException ex)
+            {
+                ApplicationHelpers.HandleServerException(ex);
+            }
             catch (Exception ex)
             {
-                this.HandleError(ex);
+                this.HandleException(ex);
             }
         }
 
@@ -104,9 +111,13 @@
                         direction.X,
                         direction.Y);
             }
+            catch (ServerUnavailableException ex)
+            {
+                ApplicationHelpers.HandleServerException(ex);
+            }
             catch (Exception ex)
             {
-                this.HandleError(ex);
+                this.HandleException(ex);
             }
         }
 
@@ -128,6 +139,10 @@
                         GameManager.Current.CurrentGame.GameId,
                         firstPlayer,
                         score);
+                }
+                catch (ServerUnavailableException ex)
+                {
+                    ApplicationHelpers.HandleServerException(ex);
                 }
                 catch (Exception ex)
                 {
@@ -160,10 +175,14 @@
             {
                 await GameConsoleContext.Current.GameConsoleServiceClient.CancelGameAsync(GameManager.Current.CurrentGame.GameId, GameManager.Current.CurrentGame.LocalPlayer.IsFirstPlayer, true);
             }
+            catch (ServerUnavailableException ex)
+            {
+                ApplicationHelpers.HandleServerException(ex);
+            }
             catch (Exception ex)
             {
                 // We log the error and close the game, but we do not resend the CancelGame command because it failed already
-                this.HandleError(ex, false);
+                this.HandleException(ex, false);
             }
         }
 
@@ -200,7 +219,7 @@
         /// Gets called when the server sent the RoundEnded event and the local player is ready for the next round
         /// </summary>
         /// <param name="args">The <see cref="RoundEndedEventArgs"/> instance containing the event data.</param>
-        public void OnRoundEnded(RoundEndedEventArgs args)
+        public async void OnRoundEnded(RoundEndedEventArgs args)
         {
             GameManager.Current.CurrentGame.CurrentPlayer.Score = args.Score;
             GameManager.Current.CurrentGame.CurrentPlayer.CurrentPlayerState = Player.PlayerState.OpponentsTurn;
@@ -275,8 +294,7 @@
                     }
                 }
 
-                Tracer.ProcessQueuedMessages();
-
+                await Tracer.ProcessQueuedMessages();
                 this.GameEndCleanup();
             }
 
@@ -313,9 +331,9 @@
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="args">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-        private void OnGameDisappeared(object sender, EventArgs args)
+        private async void OnGameDisappeared(object sender, EventArgs args)
         {
-            Tracer.Info("The running game is no longer available on the server or there was a communication error. The local game will cancel now.");
+            await Tracer.Info("The running game is no longer available on the server or there was a communication error. The local game will cancel now.");
             this.GameCanceled(this, null);
         }
 
@@ -324,9 +342,9 @@
         /// </summary>
         /// <param name="ex">The ex.</param>
         /// <param name="sendCancelCommandToServer">if set to <c>true</c> the CancelGame command is sent to the server.</param>
-        private void HandleError(Exception ex, bool sendCancelCommandToServer = true)
+        private async void HandleException(Exception ex, bool sendCancelCommandToServer = true)
         {
-            Tracer.Error(ex.Message, ex);
+            await Tracer.Error(ex.Message, ex);
             if (sendCancelCommandToServer)
             {
                 this.CancelGame();

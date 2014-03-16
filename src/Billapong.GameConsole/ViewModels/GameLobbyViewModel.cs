@@ -3,7 +3,7 @@
     using System.Collections.ObjectModel;
     using System.ServiceModel;
     using System.Windows;
-
+    using Billapong.Core.Client.Exceptions;
     using Billapong.GameConsole.Properties;
 
     using Configuration;
@@ -139,6 +139,10 @@
             {
                 MessageBox.Show(Resources.GameAlreadyOpened, Resources.Error);
             }
+            catch (ServerUnavailableException ex)
+            {
+                this.HandleServerException(ex);
+            }
         }
 
         /// <summary>
@@ -148,10 +152,18 @@
         {
             this.IsDataLoading = true;
             this.OpenGames.Clear();
-            var games = await GameConsoleContext.Current.GameConsoleServiceClient.GetLobbyGamesAsync();
-            foreach (var game in games)
+
+            try
             {
-                this.OpenGames.Add(game);
+                var games = await GameConsoleContext.Current.GameConsoleServiceClient.GetLobbyGamesAsync();
+                foreach (var game in games)
+                {
+                    this.OpenGames.Add(game);
+                }    
+            }
+            catch (ServerUnavailableException ex)
+            {
+                this.HandleServerException(ex);
             }
 
             this.IsDataLoading = false;
