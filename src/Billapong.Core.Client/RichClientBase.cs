@@ -1,6 +1,8 @@
 ﻿namespace Billapong.Core.Client
 {
+    using System.Windows.Navigation;
     using Billapong.Contract.Exceptions;
+    using Billapong.Core.Client.Authentication;
     using Billapong.Core.Client.Exceptions;
     using System;
     using System.Diagnostics;
@@ -14,6 +16,20 @@
     /// <typeparam name="TService">The type of the service.</typeparam>
     public class RichClientBase<TService>
     {
+        /// <summary>
+        /// The authentication provider
+        /// </summary>
+        private readonly AuthenticationProvider authenticationProvider;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RichClientBase{TService}"/> class.
+        /// </summary>
+        /// <param name="authenticationProvider">The authentication provider if login is needed.</param>
+        public RichClientBase(AuthenticationProvider authenticationProvider = null)
+        {
+            this.authenticationProvider = authenticationProvider;
+        }
+        
         /// <summary>
         /// Gets the proxy.
         /// </summary>
@@ -84,9 +100,26 @@
         /// Creates the channel.
         /// </summary>
         /// <returns>The proxy</returns>
-        protected virtual TService CreateChannel()
+        protected TService CreateChannel()
         {
-            return new ChannelFactory<TService>("*").CreateChannel();
+            var channelFactory = this.CreateChannelFactory();
+            
+            // add authentication to the message headers
+            if (this.authenticationProvider != null)
+            {
+                channelFactory.Endpoint.EndpointBehaviors.Add(new AuthenticationMessageBehavior(this.authenticationProvider.SessionId));
+            }
+    
+            return channelFactory.CreateChannel();
+        }
+
+        /// <summary>
+        /// Creates the channel factory.
+        /// </summary>
+        /// <returns>Channgel factory of type TService</returns>
+        protected virtual ChannelFactory<TService> CreateChannelFactory()
+        {
+            return new ChannelFactory<TService>("*");
         }
 
         /// <summary>

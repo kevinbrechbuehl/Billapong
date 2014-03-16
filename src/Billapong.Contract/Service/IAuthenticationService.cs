@@ -2,14 +2,14 @@
 {
     using System;
     using System.ServiceModel;
-    using Billapong.Contract.Data.Session;
+    using Billapong.Contract.Data.Authentication;
     using Billapong.Contract.Exceptions;
 
     /// <summary>
     /// Contract for the session management.
     /// </summary>
-    [ServiceContract(Name = "Session", Namespace = Globals.ServiceContractNamespaceName)]
-    public interface ISessionService
+    [ServiceContract(Name = "Authentication", Namespace = Globals.ServiceContractNamespaceName)]
+    public interface IAuthenticationService
     {
         /// <summary>
         /// Login to the service with specific user.

@@ -9,6 +9,7 @@
     using System.Threading;
     using System.Threading.Tasks;
     using System.Windows;
+    using Billapong.Core.Client.Authentication;
     using Billapong.Core.Client.Exceptions;
     using Billapong.Core.Client.Tracing;
     using Billapong.MapEditor.Properties;
@@ -24,6 +25,8 @@
         /// The is data loading
         /// </summary>
         private bool isDataLoading;
+
+        private readonly Guid sessionId;
 
         private MapEditorServiceClient proxy;
 
@@ -81,14 +84,15 @@
             }
         }
 
-        public MapSelectionViewModel()
+        public MapSelectionViewModel(Guid sessionId)
         {
+            this.sessionId = sessionId;
             this.Initialize();
         }
 
         private async void Initialize()
         {
-            this.proxy = new MapEditorServiceClient();
+            this.proxy = new MapEditorServiceClient(this.sessionId);
             this.Maps = new ObservableCollection<Map>();
             await this.LoadMaps();
         }
@@ -151,7 +155,7 @@
                 return;
             }
 
-            this.WindowManager.Open(new MapEditViewModel(mapToEdit));
+            this.WindowManager.Open(new MapEditViewModel(mapToEdit, this.sessionId));
         }
 
         private async void CreateNewMap()

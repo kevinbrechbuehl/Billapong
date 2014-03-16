@@ -4,6 +4,7 @@
     using System.Configuration;
     using System.Linq;
     using System.ServiceModel;
+    using Billapong.Contract.Data.Authentication;
     using Billapong.Contract.Exceptions;
     using Billapong.Core.Server.Tracing;
 
@@ -15,6 +16,7 @@
     /// <summary>
     /// Service implementation for the map editor.
     /// </summary>
+    [Authentication.Authentication(Role.Editor)]
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class MapEditorService : IMapEditorService
     {

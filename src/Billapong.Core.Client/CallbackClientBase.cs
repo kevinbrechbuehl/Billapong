@@ -1,6 +1,7 @@
 ﻿namespace Billapong.Core.Client
 {
     using System.ServiceModel;
+    using Billapong.Core.Client.Authentication;
 
     /// <summary>
     /// Base implementation for a callback service client
@@ -13,7 +14,8 @@
         /// Initializes a new instance of the <see cref="CallbackClientBase{TService, TCallback}"/> class.
         /// </summary>
         /// <param name="callback">The callback.</param>
-        public CallbackClientBase(TCallback callback)
+        /// <param name="authenticationProvider">The authentication provider if login is needed</param>
+        public CallbackClientBase(TCallback callback, AuthenticationProvider authenticationProvider = null) : base(authenticationProvider)
         {
             this.Callback = callback;
         }
@@ -27,12 +29,12 @@
         public TCallback Callback { get; private set; }
 
         /// <summary>
-        /// Creates the channel.
+        /// Creates the channel factory.
         /// </summary>
-        /// <returns>The client.</returns>
-        protected override TService CreateChannel()
+        /// <returns>Channgel factory of type TService</returns>
+        protected override ChannelFactory<TService> CreateChannelFactory()
         {
-            return new DuplexChannelFactory<TService>(this.Callback, "*").CreateChannel();
+            return new DuplexChannelFactory<TService>(this.Callback, "*");
         }
     }
 }

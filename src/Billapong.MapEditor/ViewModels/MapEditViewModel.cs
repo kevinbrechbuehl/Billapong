@@ -123,7 +123,7 @@ namespace Billapong.MapEditor.ViewModels
             }
         }
 
-        public MapEditViewModel(Map map)
+        public MapEditViewModel(Map map, Guid sessionId)
         {
             // Trace
             Tracer.Debug(string.Format("MapEditViewModel :: Calling new MapEditViewModel() with map id '{0}'", map.Id));
@@ -138,7 +138,7 @@ namespace Billapong.MapEditor.ViewModels
                 this.callback.WindowRemoved += this.WindowRemoved;
                 this.callback.HoleAdded += this.HoleAdded;
                 this.callback.HoleRemoved += this.HoleRemoved;
-                this.proxy = new MapEditorServiceClient(this.callback);
+                this.proxy = new MapEditorServiceClient(this.callback, sessionId);
             
                 // set map properties
                 this.map = map;

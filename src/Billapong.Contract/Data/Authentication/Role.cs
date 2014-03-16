@@ -1,4 +1,4 @@
-﻿namespace Billapong.Contract.Data.Session
+﻿namespace Billapong.Contract.Data.Authentication
 {
     using System.Runtime.Serialization;
 

@@ -1,12 +1,12 @@
-﻿namespace Billapong.Core.Server.Session
+﻿namespace Billapong.Core.Server.Authentication
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Security.Cryptography;
     using System.ServiceModel;
     using System.Text;
-    using System.Threading;
-    using Billapong.Contract.Data.Session;
+    using Billapong.Contract.Data.Authentication;
     using Billapong.Contract.Exceptions;
     using Billapong.DataAccess.Model.Session;
     using Billapong.DataAccess.Repository;
@@ -14,8 +14,12 @@
     public class SessionController
     {
         private const string Salt = "B1ll4p0ng";
+
+        private static readonly object LockObject = new object();
         
-        private readonly IRepository<User> userRepository; 
+        private readonly IRepository<User> userRepository;
+
+        private readonly IDictionary<Role, IList<Guid>> sessionStore; 
 
         #region Singleton Implementation
 
@@ -33,6 +37,11 @@
         private SessionController()
         {
             this.userRepository = new Repository<User>();
+            this.sessionStore = new Dictionary<Role, IList<Guid>>
+                                    {
+                                        { Role.Administrator, new List<Guid>() },
+                                        { Role.Editor, new List<Guid>() }
+                                    };
         }
 
         /// <summary>
@@ -57,12 +66,32 @@
                 throw new FaultException<LoginFailedException>(new LoginFailedException(username), "Login failed");
             }
 
-            return Guid.NewGuid();
+            var sessionId = Guid.NewGuid();
+            lock (LockObject)
+            {
+                this.sessionStore[role].Add(sessionId);    
+            }
+            
+            return sessionId;
         }
 
         public void Logout(Guid sessionId)
         {
+            lock (LockObject)
+            {
+                foreach (var store in this.sessionStore.Values)
+                {
+                    store.Remove(sessionId);
+                }
+            }
+        }
 
+        public bool IsValidSession(Guid sessionId, Role role)
+        {
+            lock (LockObject)
+            {
+                return this.sessionStore[role].Contains(sessionId);
+            }
         }
 
         public static string GetPasswordHash(string password)

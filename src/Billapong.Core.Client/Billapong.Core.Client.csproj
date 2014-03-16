@@ -45,6 +45,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Authentication\AuthenticationMessageBehavior.cs" />
+    <Compile Include="Authentication\AuthenticationMessageInspector.cs" />
+    <Compile Include="Authentication\AuthenticationProvider.cs" />
     <Compile Include="CallbackClientBase.cs" />
     <Compile Include="Exceptions\ServerUnavailableException.cs" />
     <Compile Include="Helper\ThreadContext.cs" />
@@ -58,7 +61,7 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="Session\SessionServiceClient.cs" />
+    <Compile Include="Authentication\AuthenticationServiceClient.cs" />
     <Compile Include="Tracing\Tracer.cs" />
     <Compile Include="Tracing\TracingServiceClient.cs" />
     <Compile Include="UI\Converter\BooleanConverter.cs" />

@@ -2,15 +2,15 @@
 {
     using System;
     using System.ServiceModel;
-    using Billapong.Contract.Data.Session;
+    using Billapong.Contract.Data.Authentication;
     using Billapong.Contract.Service;
-    using Billapong.Core.Server.Session;
+    using Billapong.Core.Server.Authentication;
 
     /// <summary>
     /// Implementation of the session management service.
     /// </summary>
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
-    public class SessionService : ISessionService
+    public class AuthenticationService : IAuthenticationService
     {
         /// <summary>
         /// Login to the service with specific user.

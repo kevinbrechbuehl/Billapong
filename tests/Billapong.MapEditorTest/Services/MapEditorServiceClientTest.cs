@@ -36,7 +36,8 @@ namespace Billapong.MapEditorTest.Services
         public void GetMapsTest()
         {
             // arrange
-            var service = new MapEditorServiceClient();
+            // todo (breck1): fix test because we need a valid session id here
+            var service = new MapEditorServiceClient(Guid.NewGuid());
 
             // act
             var maps = service.GetMaps().ToList();

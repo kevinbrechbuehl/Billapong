@@ -3,9 +3,9 @@
     using System;
     using System.ServiceModel;
     using System.Windows;
-    using Billapong.Contract.Data.Session;
+    using Billapong.Contract.Data.Authentication;
     using Billapong.Contract.Exceptions;
-    using Billapong.Core.Client.Session;
+    using Billapong.Core.Client.Authentication;
     using Billapong.Core.Client.Tracing;
     using Billapong.Core.Client.UI;
     using Billapong.MapEditor.Properties;
@@ -60,7 +60,7 @@
             }
         }
 
-        private readonly SessionServiceClient proxy;
+        private readonly AuthenticationServiceClient proxy;
 
         public DelegateCommand LoginCommand
         {
@@ -72,7 +72,7 @@
 
         public LoginViewModel()
         {
-            this.proxy = new SessionServiceClient();
+            this.proxy = new AuthenticationServiceClient();
         }
 
         private async void Login()
@@ -100,9 +100,7 @@
 
         private void LoginSuccessfull(Guid sessionId)
         {
-            // todo (breck1): mach irgendwas mit der sessionid
-            
-            this.WindowManager.Open(new MapSelectionViewModel());
+            this.WindowManager.Open(new MapSelectionViewModel(sessionId));
             //this.WindowManager.Close(this); // todo (breck1): sollte schliessen, geht aber nicht da sonst auch das andere fenster schliesst
         }
 

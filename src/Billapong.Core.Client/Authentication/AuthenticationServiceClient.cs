@@ -1,11 +1,11 @@
-﻿namespace Billapong.Core.Client.Session
+﻿namespace Billapong.Core.Client.Authentication
 {
     using System;
     using System.Threading.Tasks;
-    using Billapong.Contract.Data.Session;
+    using Billapong.Contract.Data.Authentication;
     using Billapong.Contract.Service;
 
-    public class SessionServiceClient : RichClientBase<ISessionService>, ISessionService
+    public class AuthenticationServiceClient : RichClientBase<IAuthenticationService>, IAuthenticationService
     {
         public Guid Login(string username, string password, Role role)
         {
