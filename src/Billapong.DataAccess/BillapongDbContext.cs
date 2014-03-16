@@ -1,6 +1,7 @@
 ﻿namespace Billapong.DataAccess
 {
     using System.Data.Entity;
+    using Billapong.DataAccess.Model.Session;
     using Model.Map;
     using Model.Tracing;
 
@@ -32,6 +33,14 @@
         /// The high scores.
         /// </value>
         public DbSet<HighScore> HighScores { get; set; }
+
+        /// <summary>
+        /// Gets or sets the users.
+        /// </summary>
+        /// <value>
+        /// The users.
+        /// </value>
+        public DbSet<User> Users { get; set; }
 
         /// <summary>
         /// This method is called when the model for a derived context has been initialized, but

@@ -7,18 +7,20 @@ using System.Threading.Tasks;
 namespace Billapong.MapEditor.Services
 {
     using System.Threading;
-
+    using Billapong.Core.Client.Authentication;
     using Contract.Data.Map;
     using Contract.Service;
     using Core.Client;
 
     public class MapEditorServiceClient : CallbackClientBase<IMapEditorService, IMapEditorCallback>, IMapEditorService
     {
-        public MapEditorServiceClient() : base(new MapEditorCallback())
+        public MapEditorServiceClient(Guid sessionId)
+            : this(new MapEditorCallback(), sessionId)
         {
         }
 
-        public MapEditorServiceClient(IMapEditorCallback callback) : base(callback)
+        public MapEditorServiceClient(IMapEditorCallback callback,  Guid sessionId)
+            : base(callback, new AuthenticationProvider(sessionId))
         {
         }
 

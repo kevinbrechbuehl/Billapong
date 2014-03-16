@@ -19,5 +19,15 @@
         /// The exception contract namespace name
         /// </summary>
         public const string ExceptionContractNamespaceName = "http://billapong.net/ExceptionContracts";
+
+        /// <summary>
+        /// The headers namespace name
+        /// </summary>
+        public const string HeadersNamespaceName = "http://billapong.net/Headers";
+
+        /// <summary>
+        /// The header session identifier key
+        /// </summary>
+        public const string HeaderSessionIdKey = "SessionId";
     }
 }

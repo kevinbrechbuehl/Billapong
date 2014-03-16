@@ -66,9 +66,13 @@
     <Compile Include="Models\GameWindow.cs" />
     <Compile Include="Services\MapEditorCallback.cs" />
     <Compile Include="Services\MapEditorServiceClient.cs" />
+    <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MapEditViewModel.cs" />
     <Compile Include="ViewModels\MapSelectionViewModel.cs" />
     <Compile Include="Views\GameFieldCanvas.cs" />
+    <Compile Include="Views\LoginView.xaml.cs">
+      <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MapEditView.xaml.cs">
       <DependentUpon>MapEditView.xaml</DependentUpon>
     </Compile>
@@ -79,6 +83,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\LoginView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MapEditView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -138,6 +138,9 @@
   <data name="Edit" xml:space="preserve">
     <value>Edit</value>
   </data>
+  <data name="EnterUsernameAndPassword" xml:space="preserve">
+    <value>Please enter username and password</value>
+  </data>
   <data name="ErrorTitle" xml:space="preserve">
     <value>Error</value>
   </data>
@@ -152,6 +155,15 @@
   </data>
   <data name="LoadingMaps" xml:space="preserve">
     <value>Loading maps, please wait...</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="LoginFailed" xml:space="preserve">
+    <value>Login failed!</value>
+  </data>
+  <data name="LoginTitle" xml:space="preserve">
+    <value>Billapong - Map Editor - Login</value>
   </data>
   <data name="MapEditTitle" xml:space="preserve">
     <value>Billapong - Map Editor - Edit Map</value>
@@ -174,8 +186,14 @@
   <data name="NameDoublePoint" xml:space="preserve">
     <value>Name:</value>
   </data>
+  <data name="PasswordLabel" xml:space="preserve">
+    <value>Password:</value>
+  </data>
   <data name="Playable" xml:space="preserve">
     <value>Playable</value>
+  </data>
+  <data name="PleaseWait" xml:space="preserve">
+    <value>Please wait ...</value>
   </data>
   <data name="RefreshList" xml:space="preserve">
     <value>Refresh list</value>
@@ -188,6 +206,9 @@
   </data>
   <data name="SettingsDoublePoint" xml:space="preserve">
     <value>Settings:</value>
+  </data>
+  <data name="UsernameLabel" xml:space="preserve">
+    <value>Username:</value>
   </data>
   <data name="WindowHoles" xml:space="preserve">
     <value>Window Holes</value>

@@ -21,8 +21,16 @@
 
     public class MapSelectionViewModel : ViewModelBase
     {
+<<<<<<< HEAD
+=======
+        /// <summary>
+        /// The is data loading
+        /// </summary>
+        private bool isDataLoading;
+
         private readonly Guid sessionId;
 
+>>>>>>> login
         private MapEditorServiceClient proxy;
 
         /// <summary>

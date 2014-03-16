@@ -28,7 +28,7 @@
             #endif
 
             // load the main window
-            (new WindowManager()).Open(new MapSelectionViewModel());
+            (new WindowManager()).Open(new LoginViewModel());
 
             // add events
             this.DispatcherUnhandledException += this.App_DispatcherUnhandledException;

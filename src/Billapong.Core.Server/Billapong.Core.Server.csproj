@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Authentication\AuthenticationMessageBehavior.cs" />
+    <Compile Include="Authentication\AuthenticationMessageInspector.cs" />
     <Compile Include="Converter\GamePlay\GameConverter.cs" />
     <Compile Include="Converter\Map\HighScoreConverter.cs" />
     <Compile Include="Converter\Map\MapConverter.cs" />
@@ -58,7 +60,10 @@
     <Compile Include="Services\AdministrationService.cs" />
     <Compile Include="Services\GameConsoleService.cs" />
     <Compile Include="Services\MapEditorService.cs" />
+    <Compile Include="Services\AuthenticationService.cs" />
     <Compile Include="Services\TracingService.cs" />
+    <Compile Include="Authentication\AuthenticationAttribute.cs" />
+    <Compile Include="Authentication\SessionController.cs" />
     <Compile Include="Tracing\Logger.cs" />
     <Compile Include="Tracing\Tracer.cs" />
   </ItemGroup>
