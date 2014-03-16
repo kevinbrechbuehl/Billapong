@@ -12,9 +12,19 @@
     public class GameConsoleContext
     {
         /// <summary>
+        /// The keep alive interval
+        /// </summary>
+        private const double KeepAliveInterval = 30000;
+
+        /// <summary>
         /// The singleton instance
         /// </summary>
         private static readonly GameConsoleContext Instance = new GameConsoleContext();
+
+        /// <summary>
+        /// The keep alive timer
+        /// </summary>
+        private readonly Timer keepAliveTimer;
 
         /// <summary>
         /// The game console service client
@@ -27,19 +37,9 @@
         private GameConsoleCallback gameConsoleCallback;
 
         /// <summary>
-        /// The keep alive interval
-        /// </summary>
-        private const double KeepAliveInterval = 30000;
-
-        /// <summary>
         /// The current game identifier
         /// </summary>
         private Guid currentGameId;
-
-        /// <summary>
-        /// The keep alive timer
-        /// </summary>
-        private readonly Timer keepAliveTimer;
 
         /// <summary>
         /// Prevents a default instance of the <see cref="GameConsoleContext"/> class from being created.
@@ -53,7 +53,7 @@
         /// <summary>
         /// The running game disappeared event handler
         /// </summary>
-        public EventHandler RunningGameDisappeared = delegate { };
+        public event EventHandler RunningGameDisappeared = delegate { };
 
         /// <summary>
         /// Gets the singleton instance.
@@ -119,7 +119,6 @@
         {
             this.keepAliveTimer.Stop();
         }
-
 
         /// <summary>
         /// Keeps the game alive.

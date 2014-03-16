@@ -26,6 +26,9 @@
         /// </summary>
         private readonly GameConfiguration.GameType gameType;
 
+        /// <summary>
+        /// The current game identifier
+        /// </summary>
         private Guid currentGameId;
 
         /// <summary>
@@ -52,11 +55,13 @@
         /// <value>
         /// The current game identifier.
         /// </value>
-        public Guid CurrentGameId {
+        public Guid CurrentGameId 
+        {
             get
             {
                 return this.currentGameId;
             }
+
             set
             {
                 this.currentGameId = value;

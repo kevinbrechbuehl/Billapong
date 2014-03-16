@@ -158,15 +158,6 @@
         }
 
         /// <summary>
-        /// Logs the error to the tracing service.
-        /// </summary>
-        /// <param name="ex">The exception.</param>
-        private async void LogError(Exception ex)
-        {
-            await Tracer.Error(ex.Message, ex);
-        }
-
-        /// <summary>
         /// Cancels the game.
         /// </summary>
         public async void CancelGame()
@@ -324,6 +315,15 @@
         public void OnGameCanceled(object sender, EventArgs args)
         {
             this.GameCanceled(this, null);
+        }
+
+        /// <summary>
+        /// Logs the error to the tracing service.
+        /// </summary>
+        /// <param name="ex">The exception.</param>
+        private async void LogError(Exception ex)
+        {
+            await Tracer.Error(ex.Message, ex);
         }
 
         /// <summary>
