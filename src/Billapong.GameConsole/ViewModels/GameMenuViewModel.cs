@@ -1,6 +1,10 @@
 ﻿namespace Billapong.GameConsole.ViewModels
 {
     using System.Diagnostics;
+    using System.IO;
+    using System.ServiceModel.Description;
+    using System.Windows;
+    using Billapong.GameConsole.Properties;
     using Configuration;
     using Core.Client.UI;
 
@@ -129,9 +133,53 @@
         /// </summary>
         private void StartMapEditor()
         {
-            // todo (mathp2): We need to make a difference between visual studio and the final deployment
-            var startInfo = new ProcessStartInfo(@"..\..\..\Billapong.MapEditor\bin\Debug\Billapong.MapEditor.exe");
-            Process.Start(startInfo);
+            var mapEditorExecutablePath = this.FindMapEditorExecutablePath();
+            if (!string.IsNullOrWhiteSpace(mapEditorExecutablePath))
+            {
+                var startInfo = new ProcessStartInfo(@"..\..\..\Billapong.MapEditor\bin\Debug\Billapong.MapEditor.exe");
+                Process.Start(startInfo);
+            }
+            else
+            {
+                MessageBox.Show(
+                    "Cannot find the map editor executable",
+                    Resources.Error,
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
         }
+
+        /// <summary>
+        /// Finds the map editor executable path.
+        /// </summary>
+        /// <returns>The executable path or null</returns>
+        private string FindMapEditorExecutablePath()
+        {
+            string path = null;
+            const string MapEditorExecutable = "Billapong.MapEditor.exe";
+
+            // Check for the file in the same folder as the current application
+            if (File.Exists(MapEditorExecutable))
+            {
+                path = MapEditorExecutable;
+            }
+            else
+            {
+                // Check for the executable within the visual studio solution based on DEBUG and RELEASE build
+                var buildFolderType = "Release";
+
+                #if DEBUG
+                    buildFolderType = "Debug";
+                #endif
+
+                var testPath = string.Format(@"..\..\..\Billapong.MapEditor\bin\{0}\{1}", buildFolderType, MapEditorExecutable);
+                if (File.Exists(testPath))
+                {
+                    path = testPath;
+                }
+            }
+
+            return path;
+        }    
     }
 }
