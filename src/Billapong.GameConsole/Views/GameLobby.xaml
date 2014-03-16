@@ -24,7 +24,7 @@
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListBox">
-                                            <TextBlock Text="{x:Static resx:Resources.NoOpenGamesFound}"/>
+                                            <TextBlock Margin="5 5 0 0" Text="{x:Static resx:Resources.NoOpenGamesFound}"/>
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>
