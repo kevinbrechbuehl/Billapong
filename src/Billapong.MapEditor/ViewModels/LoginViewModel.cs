@@ -1,8 +1,10 @@
 ﻿namespace Billapong.MapEditor.ViewModels
 {
     using System;
+    using System.Security;
     using System.ServiceModel;
     using System.Windows;
+    using System.Windows.Controls;
     using Billapong.Contract.Data.Authentication;
     using Billapong.Contract.Exceptions;
     using Billapong.Core.Client.Authentication;
@@ -13,19 +15,6 @@
     public class LoginViewModel : ViewModelBase
     {
         public string Username
-        {
-            get
-            {
-                return this.GetValue<string>();
-            }
-
-            set
-            {
-                this.SetValue(value);
-            }
-        }
-
-        public string Password
         {
             get
             {
@@ -53,11 +42,11 @@
 
         private readonly AuthenticationServiceClient proxy;
 
-        public DelegateCommand LoginCommand
+        public DelegateCommand<PasswordBox> LoginCommand
         {
             get
             {
-                return new DelegateCommand(this.Login);
+                return new DelegateCommand<PasswordBox>(this.Login);
             }
         }
 
@@ -66,10 +55,12 @@
             this.proxy = new AuthenticationServiceClient();
         }
 
-        private async void Login()
+        private async void Login(PasswordBox passwordBox)
         {
+            var password = passwordBox.Password;
+            
             // check for empty strings
-            if (string.IsNullOrWhiteSpace(this.Username) || string.IsNullOrWhiteSpace(this.Password))
+            if (string.IsNullOrWhiteSpace(this.Username) || string.IsNullOrWhiteSpace(password))
             {
                 this.Message = Resources.EnterUsernameAndPassword;
                 return;
@@ -80,7 +71,7 @@
                 this.Message = Resources.PleaseWait;
                 
                 // try to login user
-                var sessionId = await this.proxy.LoginAsync(this.Username, this.Password, Role.Editor);
+                var sessionId = await this.proxy.LoginAsync(this.Username, password, Role.Editor);
                 this.LoginSuccessfull(sessionId);
             }
             catch (FaultException<LoginFailedException> ex)

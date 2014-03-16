@@ -20,9 +20,11 @@
         <TextBox Grid.Column="1" Grid.Row="0" Margin="0,0,0,10" Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
         <TextBlock Text="{x:Static resx:Resources.PasswordLabel}" Grid.Column="0" Grid.Row="1" />
-        <TextBox Grid.Column="1" Grid.Row="1" Margin="0,0,0,10" Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <PasswordBox Grid.Column="1" Grid.Row="1" Margin="0,0,0,10" Name="txtPassword" />
 
-        <Button IsDefault="True" Content="{x:Static resx:Resources.Login}" Margin="0,0,0,10" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Command="{Binding LoginCommand}" />
+        <Button IsDefault="True" Content="{x:Static resx:Resources.Login}" Margin="0,0,0,10" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"
+                Command="{Binding LoginCommand}"
+                CommandParameter="{Binding ElementName=txtPassword}" />
 
         <TextBlock Text="{Binding Message}" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" />
     </Grid>
