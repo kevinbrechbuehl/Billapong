@@ -154,6 +154,7 @@
             this.gameController.GameCanceled += this.CancelGame;
             this.gameController.ErrorOccurred += this.ErrorOccurred;
 
+            this.gameController.StartGame();
             this.OpenGameField();
 
             if (this.CurrentGame.LocalPlayer.HasFirstTurn)
@@ -186,7 +187,7 @@
             }
 
             var logMessage = string.Format(
-                "Game Id: {2}{5}Player: {0}{5}Map: {1}{5}Round: {3}{5}Message: {4}",
+                "Game Id: {0}{5}Player: {1}{5}Map: {2}{5}Round: {3}{5}Message: {4}",
                 this.CurrentGame.GameId,
                 this.CurrentGame.CurrentPlayer.Name,
                 this.CurrentGame.Map.Name,
@@ -490,6 +491,7 @@
         {
             if (args.GameEnded)
             {
+                this.gameController.EndGame();
                 this.EndLocalGame();
             }
             else
@@ -540,13 +542,7 @@
         {
             if (this.ballAnimationTaskQueue == null || this.ballAnimationTaskQueue.Count == 0)
             {
-                if (this.CurrentGame.CurrentPlayer.IsLocalPlayer) 
-                {
-                    this.LogMessage(string.Format("Player '{0}' finished round {1} with a round score of {2} points", this.CurrentGame.CurrentPlayer.Name, this.CurrentGame.CurrentRound, this.CurrentGame.CurrentRoundScore), Tracer.Info);
-                }
-
                 this.gameController.EndRound(this.CurrentGame.CurrentPlayer.IsFirstPlayer, this.CurrentGame.CurrentRoundScore);
-
                 return;
             }
 

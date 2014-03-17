@@ -73,6 +73,19 @@
         public event EventHandler ErrorOccurred = delegate { };
 
         /// <summary>
+        /// Can be used to log something at the start of the game
+        /// </summary>
+        public void StartGame()
+        {
+            if (GameManager.Current.CurrentGame.CurrentPlayer.IsLocalPlayer)
+            {
+                GameManager.Current.LogMessage(
+                    string.Format("Starting a new multiplayer game against {0}", GameManager.Current.CurrentGame.Opponent.Name),
+                    Tracer.Info);
+            }
+        }
+
+        /// <summary>
         /// Places the ball on game field.
         /// </summary>
         /// <param name="windowId">The window identifier.</param>
@@ -81,6 +94,13 @@
         {
             try
             {
+                GameManager.Current.LogMessage(
+                string.Format(
+                    "Placed ball in window with id {0} on position {1}",
+                    windowId,
+                    position),
+                Tracer.Debug);
+
                 await GameConsoleContext.Current.GameConsoleServiceClient.SetStartPointAsync(
                     GameManager.Current.CurrentGame.GameId,
                     windowId,
@@ -105,6 +125,10 @@
         {
             try
             {
+                GameManager.Current.LogMessage(
+                    string.Format("Started round with ball direction {0}", direction),
+                    Tracer.Debug);
+
                 await
                     GameConsoleContext.Current.GameConsoleServiceClient.StartRoundAsync(
                         GameManager.Current.CurrentGame.GameId,
@@ -135,6 +159,10 @@
             {
                 try
                 {
+                    GameManager.Current.LogMessage(
+                        string.Format("Finished round with a score of {0}", score),
+                        Tracer.Debug);
+
                     await GameConsoleContext.Current.GameConsoleServiceClient.EndRoundAsync(
                         GameManager.Current.CurrentGame.GameId,
                         firstPlayer,
@@ -158,12 +186,82 @@
         }
 
         /// <summary>
+        /// Can be used to log something at the end of a game
+        /// </summary>
+        public async void EndGame()
+        {
+            if (GameManager.Current.CurrentGame.CurrentPlayer.IsLocalPlayer)
+            {
+                const string WonLogMessage =
+                    "The game ended. {0} won the game with a score of {1} points against {2} with a score of {3}";
+                if (GameManager.Current.CurrentGame.LocalPlayer.Score > GameManager.Current.CurrentGame.Opponent.Score)
+                {
+                    GameManager.Current.CurrentGame.LocalPlayer.CurrentPlayerState = Player.PlayerState.Won;
+                    GameManager.Current.CurrentGame.Opponent.CurrentPlayerState = Player.PlayerState.Lost;
+
+                    if (GameManager.Current.CurrentGame.CurrentPlayer.IsLocalPlayer)
+                    {
+                        GameManager.Current.LogMessage(
+                            string.Format(
+                                WonLogMessage,
+                                GameManager.Current.CurrentGame.LocalPlayer.Name,
+                                GameManager.Current.CurrentGame.LocalPlayer.Score,
+                                GameManager.Current.CurrentGame.Opponent.Name,
+                                GameManager.Current.CurrentGame.Opponent.Score),
+                            Tracer.Info);
+                    }
+                }
+                else if (GameManager.Current.CurrentGame.LocalPlayer.Score
+                         < GameManager.Current.CurrentGame.Opponent.Score)
+                {
+                    GameManager.Current.CurrentGame.LocalPlayer.CurrentPlayerState = Player.PlayerState.Lost;
+                    GameManager.Current.CurrentGame.Opponent.CurrentPlayerState = Player.PlayerState.Won;
+
+                    if (GameManager.Current.CurrentGame.CurrentPlayer.IsLocalPlayer)
+                    {
+                        GameManager.Current.LogMessage(
+                            string.Format(
+                                WonLogMessage,
+                                GameManager.Current.CurrentGame.Opponent.Name,
+                                GameManager.Current.CurrentGame.Opponent.Score,
+                                GameManager.Current.CurrentGame.LocalPlayer.Name,
+                                GameManager.Current.CurrentGame.LocalPlayer.Score),
+                            Tracer.Info);
+                    }
+                }
+                else
+                {
+                    GameManager.Current.CurrentGame.LocalPlayer.CurrentPlayerState = Player.PlayerState.Draw;
+                    GameManager.Current.CurrentGame.Opponent.CurrentPlayerState = Player.PlayerState.Draw;
+
+                    if (GameManager.Current.CurrentGame.CurrentPlayer.IsLocalPlayer)
+                    {
+                        GameManager.Current.LogMessage(
+                            string.Format(
+                                "The game ended. {0} and {1} played a draw with a score of {2}",
+                                GameManager.Current.CurrentGame.LocalPlayer.Name,
+                                GameManager.Current.CurrentGame.Opponent.Name,
+                                GameManager.Current.CurrentGame.LocalPlayer.Score),
+                            Tracer.Info);
+                    }
+                }
+
+                await Tracer.ProcessQueuedMessages();
+                this.GameEndCleanup();
+            }
+        }
+
+        /// <summary>
         /// Cancels the game.
         /// </summary>
         public async void CancelGame()
         {
             try
             {
+                GameManager.Current.LogMessage(
+                    string.Format("Canceled the game"),
+                    Tracer.Info);
+
                 await GameConsoleContext.Current.GameConsoleServiceClient.CancelGameAsync(GameManager.Current.CurrentGame.GameId, GameManager.Current.CurrentGame.LocalPlayer.IsFirstPlayer, true);
             }
             catch (ServerUnavailableException ex)
@@ -228,65 +326,6 @@
                 GameManager.Current.CurrentGame.CurrentPlayer = game.CurrentPlayer == game.LocalPlayer
                     ? game.Opponent
                     : game.LocalPlayer;
-            }
-            else
-            {
-                const string WonLogMessage = "The game ended. {0} won the game with a score of {1} points against {2} with a score of {3}";
-                if (GameManager.Current.CurrentGame.LocalPlayer.Score >
-                    GameManager.Current.CurrentGame.Opponent.Score)
-                {
-                    GameManager.Current.CurrentGame.LocalPlayer.CurrentPlayerState = Player.PlayerState.Won;
-                    GameManager.Current.CurrentGame.Opponent.CurrentPlayerState = Player.PlayerState.Lost;
-
-                    if (GameManager.Current.CurrentGame.CurrentPlayer.IsLocalPlayer)
-                    {
-                        GameManager.Current.LogMessage(
-                            string.Format(
-                                WonLogMessage,
-                                GameManager.Current.CurrentGame.LocalPlayer.Name,
-                                GameManager.Current.CurrentGame.LocalPlayer.Score,
-                                GameManager.Current.CurrentGame.Opponent.Name,
-                                GameManager.Current.CurrentGame.Opponent.Score),
-                            Tracer.Info);
-                    }
-                }
-                else if (GameManager.Current.CurrentGame.LocalPlayer.Score <
-                            GameManager.Current.CurrentGame.Opponent.Score)
-                {
-                    GameManager.Current.CurrentGame.LocalPlayer.CurrentPlayerState = Player.PlayerState.Lost;
-                    GameManager.Current.CurrentGame.Opponent.CurrentPlayerState = Player.PlayerState.Won;
-
-                    if (GameManager.Current.CurrentGame.CurrentPlayer.IsLocalPlayer)
-                    {
-                        GameManager.Current.LogMessage(
-                            string.Format(
-                                WonLogMessage, 
-                                GameManager.Current.CurrentGame.Opponent.Name,
-                                GameManager.Current.CurrentGame.Opponent.Score,
-                                GameManager.Current.CurrentGame.LocalPlayer.Name,
-                                GameManager.Current.CurrentGame.LocalPlayer.Score), 
-                                Tracer.Info);
-                    }
-                }
-                else
-                {
-                    GameManager.Current.CurrentGame.LocalPlayer.CurrentPlayerState = Player.PlayerState.Draw;
-                    GameManager.Current.CurrentGame.Opponent.CurrentPlayerState = Player.PlayerState.Draw;
-
-                    if (GameManager.Current.CurrentGame.CurrentPlayer.IsLocalPlayer)
-                    {
-                        GameManager.Current.LogMessage(
-                            string.Format(
-                                "The game ended. {0} and {1} played a draw with a score of {2}",
-                                GameManager.Current.CurrentGame.LocalPlayer.Name,
-                                GameManager.Current.CurrentGame.Opponent.Name,
-                                GameManager.Current.CurrentGame.LocalPlayer.Score), 
-                                Tracer.Info);
-                    }
-                }
-
-                await Tracer.ProcessQueuedMessages();
-                this.GameEndCleanup();
             }
 
             this.RoundEnded(this, args);
