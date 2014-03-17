@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows;
+    using Billapong.Core.Client.Tracing;
     using Billapong.GameConsole.Configuration;
     using Window = Billapong.GameConsole.Models.Window;
 
@@ -73,9 +74,9 @@
         /// <returns>
         /// The direction
         /// </returns>
-        public static Vector GetRandomBallDirection(Models.Window window, Point ballPosition, int maxCalculationSteps = 2000)
+        public static Vector GetRandomBallDirection(Window window, Point ballPosition, int maxCalculationSteps = 2000)
         {
-            int directionsCalculated = 0;
+            var directionsCalculated = 0;
             var random = new Random(DateTime.Now.GetHashCode());
             while (true)
             {
@@ -116,6 +117,7 @@
                     // Cancel the check because we have an intersection
                     if (intersection > 0)
                     {
+                        Tracer.Debug(string.Format("GameHelpers :: GetRandomBallDirection :: Found an intersection between click position {0}, direction {1} and hole position {2}", clickPosition, direction, hole.CenterPosition));
                         intersectionFound = true;
                         break;
                     }
@@ -124,6 +126,7 @@
                 // Return the current direction if there was no valid direction within the defined tries
                 if (directionsCalculated == maxCalculationSteps)
                 {
+                    Tracer.Debug(string.Format("GameHelpers :: GetRandomBallDirection :: Returning direction {0} because the amount of tries is reached", direction));
                     return direction;
                 }
 
@@ -133,6 +136,7 @@
                     continue;
                 }
 
+                Tracer.Debug(string.Format("GameHelpers :: GetRandomBallDirection :: Returning direction {0} after {1} tries", direction, directionsCalculated));
                 return direction;
             }
         }
