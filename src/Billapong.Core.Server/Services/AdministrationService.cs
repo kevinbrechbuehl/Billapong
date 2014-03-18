@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.ServiceModel;
+    using Billapong.Contract.Data.Authentication;
     using Contract.Data.GamePlay;
     using Contract.Data.Map;
     using Contract.Data.Tracing;
@@ -18,6 +19,7 @@
     /// <summary>
     /// Administration service implementation
     /// </summary>
+    [Authentication.Authentication(Role.Administrator)]
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
     public class AdministrationService : IAdministrationService
     {
@@ -30,7 +32,6 @@
         /// </returns>
         public IEnumerable<LogMessage> GetLogMessages(LogListener logListener)
         {
-            // todo (breck1): This should only be possible if administrator role is authenticated
             Tracer.Debug("AdministrationService :: GetLogMessages() called");
             return Logger.Current.GetLogMessages(logListener.LogLevel, logListener.Component, logListener.NumberOfMessages).Select(message => message.ToContract()).ToList();
         }
@@ -40,7 +41,6 @@
         /// </summary>
         public void ClearLog()
         {
-            // todo (breck1): This should only be possible if administrator role is authenticated
             Tracer.Debug("AdministrationService :: ClearLog() called");
             Logger.Current.ClearLog();
         }
@@ -51,7 +51,6 @@
         /// <returns>All current available games on the server</returns>
         public IEnumerable<Game> GetGames()
         {
-            // todo (breck1): This should only be possible if administrator role is authenticated
             Tracer.Debug("AdministrationService :: GetGames() called");
             return GameController.Current.GetAllGames().Select(game => game.ToContract());
         }
@@ -64,7 +63,6 @@
         /// </returns>
         public IEnumerable<HighScore> GetMapHighScores()
         {
-            // todo (breck1): This should only be possible if administrator role is authenticated
             Tracer.Debug("AdministrationService :: GetMapHighScores() called");
             return MapController.Current.GetHighScores().Select(score => score.ToContract());
         }
@@ -78,7 +76,6 @@
         /// </returns>
         public IEnumerable<HighScore> GetMapScores(long mapId)
         {
-            // todo (breck1): This should only be possible if administrator role is authenticated
             Tracer.Debug(string.Format("AdministrationService :: GetMapScores() called with mapId={0}", mapId));
             return MapController.Current.GetHighScores(mapId).Select(score => score.ToContract());
         }

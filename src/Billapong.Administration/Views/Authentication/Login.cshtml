@@ -1,0 +1,33 @@
+﻿@model Billapong.Administration.Models.Authentication.LoginViewModel
+
+@{
+    ViewBag.Title = @Global.LoginTitle;
+    ViewBag.IsLogin = true;
+}
+
+<div class="login @string.Format(Model.HasErrors ? "loginerror" : string.Empty)">
+    
+    <div class="validation">
+        @Html.ValidationSummary()
+    </div>
+
+    <div class="loginform">
+        @using (Html.BeginForm())
+        {
+            <div class="field">
+                @Html.LabelFor(model => model.Username)
+                @Html.TextBoxFor(model => model.Username, new { @class = "textbox" })
+            </div>
+
+            <div class="field">
+                @Html.LabelFor(model => model.Password)
+                @Html.PasswordFor(model => model.Password, new { @class = "textbox" })
+            </div>
+
+            <div class="field">
+                <input type="submit" value="@Global.Login" class="button" />
+            </div>
+        }
+    </div>
+</div>
+

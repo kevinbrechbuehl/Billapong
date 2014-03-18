@@ -21,6 +21,14 @@
         margin-left: 15em;
     }
 
+    .error {
+        color: red;
+    }
+
+    .center {
+        text-align: center;
+    }
+
     h1 {
         font-size: 250%;
     }
@@ -47,10 +55,6 @@
 
     a img {
         border:0;
-    }
-
-    .error {
-        color: red;
     }
 
     /* ----- NAVIGATION ----- */
@@ -141,5 +145,39 @@
         vertical-align: top;
         border-bottom: 1px solid gray;
         padding: 5px;
+    }
+
+    /* ----- LOGIN ----- */
+    .logincontent {
+        margin: 0 auto;
+        width: 400px;
+    }
+
+    .login {
+        border: 1px solid #c0c0c0;
+        padding: 5px;
+    }
+
+    .loginerror {
+        border: 1px solid red;
+    }
+
+    .loginform .field {
+        padding: 5px;
+    }
+
+    .loginform label {
+        display: block;
+        float: left;
+        margin-top: 3px;
+        width: 90px;
+    }
+
+    .loginform .textbox {
+        width: 280px;
+    }
+
+    .loginform .button {
+        margin-left: 90px;
     }
 }

@@ -7,12 +7,12 @@
 </head>
 <body>
 
-    <div class="logo">
+    <div class="logo @string.Format(@ViewBag.IsLogin == true ? "center" : string.Empty)">
         <a href="~/">
             <pre>
  ____ ___ _     _        _    ____   ___  _   _  ____
 | __ )_ _| |   | |      / \  |  _ \ / _ \| \ | |/ ___|
-|  _ \| || |   | |     / _ \ | |_) | | | |  \| | |  _
+|  _ \| || |   | |     / _ \ | |_) | | | |  \| | |  _ 
 | |_) | || |___| |___ / ___ \|  __/| |_| | |\  | |_| |
 |____/___|_____|_____/_/   \_\_|    \___/|_| \_|\____|
             </pre>
@@ -20,19 +20,23 @@
     </div>
 
     <div class="wrapper">
-        <div class="navigation">
-            <ul id="nav">
-                <li>@Html.MenuLink(@Global.HomeTitle, "Index", "Home")</li>
-                <li>@Html.MenuLink(@Global.GamesTitle, "Index", "Game")</li>
-                <li>@Html.MenuLink(@Global.TracingTitle, "Index", "Tracing")</li>
-                <li>@Html.MenuLink(@Global.HighScoresTitle, "Index", "HighScore")</li>
-            </ul>
-        </div>
+        @if (ViewBag.IsLogin != true)
+        {
+            <div class="navigation">
+                <ul id="nav">
+                    <li>@Html.MenuLink(@Global.HomeTitle, "Index", "Home")</li>
+                    <li>@Html.MenuLink(@Global.GamesTitle, "Index", "Game")</li>
+                    <li>@Html.MenuLink(@Global.TracingTitle, "Index", "Tracing")</li>
+                    <li>@Html.MenuLink(@Global.HighScoresTitle, "Index", "HighScore")</li>
+                    <li>@Html.MenuLink(@Global.LogoutTitle, "Logout", "Authentication")</li>
+                </ul>
+            </div>
+        }
 
-        <div class="content">
+        <div class="content @string.Format(@ViewBag.IsLogin == true ? "logincontent" : string.Empty)">
             <h1>@ViewBag.Title</h1>
 
-            @RenderBody()     
+            @RenderBody()
         </div>
     </div>
     
