@@ -142,6 +142,15 @@ namespace Billapong.Administration.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred. Please try again later..
+        /// </summary>
+        public static string ErrorOccurredInline {
+            get {
+                return ResourceManager.GetString("ErrorOccurredInline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Game Id.
         /// </summary>
         public static string GameId {
@@ -214,6 +223,33 @@ namespace Billapong.Administration.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Login.
+        /// </summary>
+        public static string Login {
+            get {
+                return ResourceManager.GetString("Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login Failed.
+        /// </summary>
+        public static string LoginFailed {
+            get {
+                return ResourceManager.GetString("LoginFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login.
+        /// </summary>
+        public static string LoginTitle {
+            get {
+                return ResourceManager.GetString("LoginTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Log Level.
         /// </summary>
         public static string LogLevel {
@@ -241,6 +277,15 @@ namespace Billapong.Administration.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Logout.
+        /// </summary>
+        public static string LogoutTitle {
+            get {
+                return ResourceManager.GetString("LogoutTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Map name.
         /// </summary>
         public static string MapName {
@@ -255,6 +300,15 @@ namespace Billapong.Administration.Resources {
         public static string NumberOfEntriesLabel {
             get {
                 return ResourceManager.GetString("NumberOfEntriesLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password:.
+        /// </summary>
+        public static string PasswordLabel {
+            get {
+                return ResourceManager.GetString("PasswordLabel", resourceCulture);
             }
         }
         
@@ -327,6 +381,15 @@ namespace Billapong.Administration.Resources {
         public static string TracingTitle {
             get {
                 return ResourceManager.GetString("TracingTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username:.
+        /// </summary>
+        public static string UsernameLabel {
+            get {
+                return ResourceManager.GetString("UsernameLabel", resourceCulture);
             }
         }
     }

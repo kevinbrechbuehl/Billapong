@@ -1,6 +1,8 @@
 ﻿namespace Billapong.Administration.Service
 {
+    using System;
     using System.Collections.Generic;
+    using Billapong.Core.Client.Authentication;
     using Contract.Data.GamePlay;
     using Contract.Data.Map;
     using Contract.Data.Tracing;
@@ -12,6 +14,12 @@
     /// </summary>
     public class AdministrationServiceClient : RichClientBase<IAdministrationService>, IAdministrationService
     {
+        public AdministrationServiceClient(Guid sessionId)
+            : base(new AuthenticationProvider(sessionId))
+        {
+            
+        }
+        
         /// <summary>
         /// Gets the log messages from the database.
         /// </summary>

@@ -27,6 +27,19 @@
             }
         }
 
+        public string Password
+        {
+            get
+            {
+                return this.GetValue<string>();
+            }
+
+            set
+            {
+                this.SetValue(value);
+            }
+        }
+
         public string Message
         {
             get
@@ -42,11 +55,11 @@
 
         private readonly AuthenticationServiceClient proxy;
 
-        public DelegateCommand<PasswordBox> LoginCommand
+        public DelegateCommand LoginCommand
         {
             get
             {
-                return new DelegateCommand<PasswordBox>(this.Login);
+                return new DelegateCommand(this.Login);
             }
         }
 
@@ -55,12 +68,10 @@
             this.proxy = new AuthenticationServiceClient();
         }
 
-        private async void Login(PasswordBox passwordBox)
+        private async void Login()
         {
-            var password = passwordBox.Password;
-            
             // check for empty strings
-            if (string.IsNullOrWhiteSpace(this.Username) || string.IsNullOrWhiteSpace(password))
+            if (string.IsNullOrWhiteSpace(this.Username) || string.IsNullOrWhiteSpace(this.Password))
             {
                 this.Message = Resources.EnterUsernameAndPassword;
                 return;
@@ -71,7 +82,7 @@
                 this.Message = Resources.PleaseWait;
                 
                 // try to login user
-                var sessionId = await this.proxy.LoginAsync(this.Username, password, Role.Editor);
+                var sessionId = await this.proxy.LoginAsync(this.Username, this.Password, Role.Editor);
                 this.LoginSuccessfull(sessionId);
             }
             catch (FaultException<LoginFailedException> ex)

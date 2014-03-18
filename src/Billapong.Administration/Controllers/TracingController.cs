@@ -7,6 +7,7 @@
     using System.Threading.Tasks;
     using System.Web;
     using System.Web.Mvc;
+    using Billapong.Administration.Authorization;
     using Contract.Data.Tracing;
     using Core.Client.Tracing;
     using Models.Tracing;
@@ -21,6 +22,7 @@
         /// The index action which shows the tracing entries from the server's database.
         /// </summary>
         /// <returns>The result view.</returns>
+        [ServiceAuthorize]
         public ActionResult Index()
         {
             var model = new IndexViewModel();
@@ -56,13 +58,14 @@
         /// <param name="logLevel">The log level.</param>
         /// <param name="numberOfEntries">The number of entries.</param>
         /// <returns>Partial view with a table containing all requested log entries</returns>
+        [ServiceAuthorize]
         public async Task<ActionResult> Entries(Component component = Component.All, LogLevel logLevel = LogLevel.Debug, int numberOfEntries = 0)
         {
             try
             {
                 await Tracer.Info("Refreshing log entries");
 
-                var proxy = new AdministrationServiceClient();
+                var proxy = new AdministrationServiceClient(AuthenticationHelper.GetSessionId());
                 return this.PartialView(proxy.GetLogMessages(new LogListener
                 {
                     Component = component,
@@ -82,13 +85,14 @@
         /// Clears this instance.
         /// </summary>
         /// <returns>Http status code for the result.</returns>
+        [ServiceAuthorize]
         public async Task<ActionResult> Clear()
         {
             try
             {
                 await Tracer.Info("Clearing log entries");
 
-                var proxy = new AdministrationServiceClient();
+                var proxy = new AdministrationServiceClient(AuthenticationHelper.GetSessionId());
                 proxy.ClearLog();
                 return new HttpStatusCodeResult(HttpStatusCode.OK);
             }
