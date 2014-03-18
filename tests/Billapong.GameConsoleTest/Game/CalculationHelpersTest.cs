@@ -5,6 +5,9 @@
     using Billapong.GameConsole.Game;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+    /// <summary>
+    /// Tests for the CalculationHelpers class
+    /// </summary>
     [TestClass]
     public class CalculationHelpersTest
     {
@@ -48,6 +51,9 @@
 
         #region GetLineIntersection Method
 
+        /// <summary>
+        /// Calculates the line intersection between two lines.
+        /// </summary>
         [TestMethod]
         public void CalculateLineIntersectionBetweenTwoLines()
         {
@@ -92,6 +98,9 @@
             Assert.IsNull(intersection);
         }
 
+        /// <summary>
+        /// Calculates the line intersection between two parallel lines.
+        /// </summary>
         [TestMethod]
         public void CalculateLineIntersectionBetweenTwoParallelLines()
         {
@@ -112,6 +121,9 @@
             Assert.IsNull(intersection);
         }
 
+        /// <summary>
+        /// Calculates the line intersection between two not crossing lines.
+        /// </summary>
         [TestMethod]
         public void CalculateLineIntersectionBetweenTwoNotCrossingLines()
         {

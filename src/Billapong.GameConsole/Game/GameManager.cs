@@ -209,8 +209,9 @@
                 return 0;
             }
 
-            int wallHits = 0;
+            var wallHits = 0;
             double ballDistance = 0;
+            var holeHit = false;
 
             foreach (var task in ballAnimationQueue)
             {
@@ -227,20 +228,33 @@
                         wallHits++;
                     }
                 }
+
+                if (task.IntersectsWithHole)
+                {
+                    holeHit = true;
+                }
             }
 
-            return CalculateRoundScore(wallHits, ballDistance, GameConfiguration.GameWindowWidth);
+            return CalculateRoundScore(wallHits, ballDistance, GameConfiguration.GameWindowWidth, holeHit);
         }
 
         /// <summary>
-        /// Calculates the round score.
+        /// Calculates the round score. If the ball does not hit a hole, the round score is zero.
         /// </summary>
         /// <param name="wallHits">The wall hits.</param>
         /// <param name="ballDistance">The ball distance.</param>
         /// <param name="gameWindowLength">Length of the game window.</param>
-        /// <returns>The calculated score</returns>
-        private static int CalculateRoundScore(int wallHits, double ballDistance, int gameWindowLength)
+        /// <param name="hitsHole">if set to <c>true</c> the ball hits a hole.</param>
+        /// <returns>
+        /// The calculated score
+        /// </returns>
+        private static int CalculateRoundScore(int wallHits, double ballDistance, int gameWindowLength, bool hitsHole)
         {
+            if (!hitsHole)
+            {
+                return 0;
+            }
+
             // Normalize the score of the distance to ensure the same score over different window sizes
             var distanceScore = ballDistance / gameWindowLength;
 
@@ -441,14 +455,7 @@
             var viewModel = this.gameWindowViewModels.FirstOrDefault(x => x.Window.Id == args.WindowId);
             if (viewModel != null)
             {
-                const double GridElementSize = GameConfiguration.GameWindowWidth / (double)GameConfiguration.GameGridSize;
-
-                var positionX = (GridElementSize * args.Position.X) +
-                                ((GridElementSize - GameConfiguration.BallDiameter) / 2) + (GameConfiguration.BallDiameter / 2);
-                var positionY = (GridElementSize * args.Position.Y) +
-                                ((GridElementSize - GameConfiguration.BallDiameter) / 2) + (GameConfiguration.BallDiameter / 2);
-                var position = new Point(positionX, positionY);
-
+                var position = GameHelpers.GetBallPositionFromGridCoordinates(args.Position);
                 this.CurrentGame.CurrentBallPosition = position;
                 this.CurrentGame.CurrentWindow = viewModel.Window;
                 this.CurrentGame.CurrentPlayer.CurrentPlayerState = Player.PlayerState.BallPlaced;
@@ -582,12 +589,12 @@
             while (!isLastAnimation)
             {
                 // Ensure an end of the animation
-                // todo (mathp2): Probably by cumulated time instead of steps?
                 stepCounter++;
                 if (stepCounter == 30)
                 {
                     isLastAnimation = true;
                     currentTask.IsLastAnimation = true;
+                    currentTask.IntersectsWithHole = false;
                 }
 
                 var borderPositionCorrection = new Point();
@@ -624,7 +631,7 @@
                 Point? intersectionPosition = null;
                 Models.Window neighbourWindow = null;
 
-                /* todo (mathp2): We need a better way to get a point outside of the window */
+                // Generate a point outside of the window
                 var intersectionTestPoint = currentBallPosition + (currentDirection * 1000);
 
                 // Check for hole intersection
@@ -772,6 +779,7 @@
                     if (currentIntersection == Intersection.Hole)
                     {
                         currentTask.IsLastAnimation = true;
+                        currentTask.IntersectsWithHole = true;
                         animationQueue.Enqueue(currentTask);
                         return animationQueue;
                     }

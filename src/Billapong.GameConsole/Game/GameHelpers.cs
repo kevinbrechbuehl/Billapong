@@ -42,26 +42,25 @@
                 return null;
             }
 
-            var positionFound = false;
-            Point? ballPosition = null;
-            var random = new Random(DateTime.Now.GetHashCode());
-         
-            // todo (mathp2): Possible endless loop if a map has a hole on every position. Performance is also not very good (many repetitions).
-            while (!positionFound)
+            var validBallPositions = new List<int[]>();
+
+            for (var row = 0; row < GameConfiguration.GameGridSize; row++)
             {
-                var x = random.Next(0, GameConfiguration.GameGridSize);
-                var y = random.Next(0, GameConfiguration.GameGridSize);
-
-                if (window.Holes.FirstOrDefault(hole => hole.X == x && hole.Y == y) != null)
+                for (var column = 0; column < GameConfiguration.GameGridSize; column++)
                 {
-                    continue;
+                    if (window.Holes.FirstOrDefault(hole => hole.X == row && hole.Y == column) == null)
+                    {
+                        validBallPositions.Add(new[] { row, column });
+                    }
                 }
-
-                ballPosition = new Point(x, y);
-                positionFound = true;
             }
 
-            return ballPosition;
+            if (!validBallPositions.Any()) return null;
+
+            var random = new Random(DateTime.Now.GetHashCode());
+            var randomBallPosition = validBallPositions.ElementAt(random.Next(0, validBallPositions.Count));
+            
+            return new Point(randomBallPosition[0], randomBallPosition[1]);
         }
 
         /// <summary>
@@ -97,7 +96,7 @@
                 }
 
                 // Create a fake point outside of the window in the ball direction
-                var intersectionTestPoint = ballPosition + (direction * 1000);
+                var intersectionTestPoint = ballPosition + (direction * 10);
                 var intersectionFound = false;
 
                 // Check for an intersection between the ball and a hole in the set direction
@@ -117,7 +116,7 @@
                     // Cancel the check because we have an intersection
                     if (intersection > 0)
                     {
-                        Tracer.Debug(string.Format("GameHelpers :: GetRandomBallDirection :: Found an intersection between click position {0}, direction {1} and hole position {2}", clickPosition, direction, hole.CenterPosition));
+                        Tracer.Debug(string.Format("GameHelpers :: GetRandomBallDirection :: Found an intersection between click position {0}, ball position {1}, direction {2} and hole position {3}", clickPosition, ballPosition, direction, hole.CenterPosition));
                         intersectionFound = true;
                         break;
                     }
@@ -139,6 +138,21 @@
                 Tracer.Debug(string.Format("GameHelpers :: GetRandomBallDirection :: Returning direction {0} after {1} tries", direction, directionsCalculated));
                 return direction;
             }
+        }
+
+        /// <summary>
+        /// Calculates the ball position based on grid coordinates.
+        /// </summary>
+        /// <param name="gridCoordinates">The grid coordinates.</param>
+        /// <returns>The calculated point</returns>
+        public static Point GetBallPositionFromGridCoordinates(Point gridCoordinates)
+        {
+            var positionX = (GameConfiguration.GameGridElementSize * gridCoordinates.X) +
+                            ((GameConfiguration.GameGridElementSize - GameConfiguration.BallDiameter) / 2) + (GameConfiguration.BallDiameter / 2);
+            var positionY = (GameConfiguration.GameGridElementSize * gridCoordinates.Y) +
+                            ((GameConfiguration.GameGridElementSize - GameConfiguration.BallDiameter) / 2) + (GameConfiguration.BallDiameter / 2);
+
+            return new Point(positionX, positionY);
         }
     }
 }

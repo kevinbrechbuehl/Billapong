@@ -250,7 +250,7 @@
                     await Task.Delay(this.computerThinkingSimulationTime);
 
                     // Start the round in a direction which does not end up in a hole within the initial move
-                    this.StartRound(GameHelpers.GetRandomBallDirection(randomWindow, ballPosition.Value));
+                    this.StartRound(GameHelpers.GetRandomBallDirection(randomWindow, GameHelpers.GetBallPositionFromGridCoordinates(ballPosition.Value)));
                 }
             }
         }
