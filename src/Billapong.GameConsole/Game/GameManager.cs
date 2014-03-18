@@ -455,14 +455,7 @@
             var viewModel = this.gameWindowViewModels.FirstOrDefault(x => x.Window.Id == args.WindowId);
             if (viewModel != null)
             {
-                const double GridElementSize = GameConfiguration.GameWindowWidth / (double)GameConfiguration.GameGridSize;
-
-                var positionX = (GridElementSize * args.Position.X) +
-                                ((GridElementSize - GameConfiguration.BallDiameter) / 2) + (GameConfiguration.BallDiameter / 2);
-                var positionY = (GridElementSize * args.Position.Y) +
-                                ((GridElementSize - GameConfiguration.BallDiameter) / 2) + (GameConfiguration.BallDiameter / 2);
-                var position = new Point(positionX, positionY);
-
+                var position = GameHelpers.GetBallPositionFromGridCoordinates(args.Position);
                 this.CurrentGame.CurrentBallPosition = position;
                 this.CurrentGame.CurrentWindow = viewModel.Window;
                 this.CurrentGame.CurrentPlayer.CurrentPlayerState = Player.PlayerState.BallPlaced;

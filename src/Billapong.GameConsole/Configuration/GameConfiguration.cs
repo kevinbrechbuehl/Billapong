@@ -23,6 +23,11 @@
         public const int GameGridSize = 15;
 
         /// <summary>
+        /// The game grid element size
+        /// </summary>
+        public const double GameGridElementSize = GameWindowWidth / (double)GameGridSize;
+
+        /// <summary>
         /// The base animation duration in milliseconds
         /// </summary>
         public const double BaseAnimationDuration = 1000;
@@ -30,7 +35,7 @@
         /// <summary>
         /// The hole diameter
         /// </summary>
-        public const double HoleDiameter = GameWindowWidth / (double)GameGridSize;
+        public const double HoleDiameter = GameGridElementSize;
 
         /// <summary>
         /// The ball diameter
