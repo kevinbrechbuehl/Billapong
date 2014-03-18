@@ -2,6 +2,7 @@
 {
     using System;
     using System.Windows;
+    using Billapong.Core.Client.Tracing;
     using Models.Events;
 
     /// <summary>
@@ -35,12 +36,28 @@
         public event EventHandler ErrorOccurred = delegate { };
 
         /// <summary>
+        /// Can be used to log something at the start of the game
+        /// </summary>
+        public void StartGame()
+        {
+            GameManager.Current.LogMessage(
+                    string.Format("Starting a new singleplayer training"),
+                    Tracer.Info);
+        }
+
+        /// <summary>
         /// Places the ball on game field.
         /// </summary>
         /// <param name="windowId">The window identifier.</param>
         /// <param name="position">The position.</param>
         public void PlaceBallOnGameField(long windowId, Point position)
         {
+            GameManager.Current.LogMessage(
+                string.Format(
+                    "Placed ball in window with id {0} on position {1}",
+                    windowId,
+                    position),
+                Tracer.Debug);
             var eventArgs = new BallPlacedOnGameFieldEventArgs(windowId, position);
             this.BallPlacedOnGameField(this, eventArgs);
         }
@@ -51,6 +68,9 @@
         /// <param name="direction">The direction.</param>
         public void StartRound(Vector direction)
         {
+            GameManager.Current.LogMessage(
+                string.Format("Started round with ball direction {0}", direction),
+                Tracer.Debug);
             var eventArgs = new RoundStartedEventArgs(direction);
             this.RoundStarted(this, eventArgs);
         }
@@ -62,6 +82,9 @@
         /// <param name="score">The score.</param>
         public void EndRound(bool firstPlayer, int score)
         {
+            GameManager.Current.LogMessage(
+                string.Format("Finished round with a score of {0}", score),
+                Tracer.Debug);
             GameManager.Current.CurrentGame.CurrentRound++;
             GameManager.Current.CurrentGame.CurrentPlayer.Score += score;
             var eventArgs = new RoundEndedEventArgs(score, false);
@@ -69,10 +92,20 @@
         }
 
         /// <summary>
+        /// Can be used to log something at the end of a game (Does not happen in this mode ;))
+        /// </summary>
+        public void EndGame()
+        {
+        }
+
+        /// <summary>
         /// Cancels the game.
         /// </summary>
         public void CancelGame()
         {
+            GameManager.Current.LogMessage(
+                string.Format("Canceled the game"),
+                Tracer.Debug);
             this.GameCanceled(this, null);
         }
     }

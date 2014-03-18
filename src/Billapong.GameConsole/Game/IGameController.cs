@@ -35,6 +35,11 @@
         event EventHandler ErrorOccurred;
 
         /// <summary>
+        /// Can be used to log something at the start of the game
+        /// </summary>
+        void StartGame();
+
+        /// <summary>
         /// Places the ball on game field.
         /// </summary>
         /// <param name="windowId">The window identifier.</param>
@@ -53,6 +58,11 @@
         /// <param name="firstPlayer">if set to <c>true</c> [first player].</param>
         /// <param name="score">The score.</param>
         void EndRound(bool firstPlayer, int score);
+
+        /// <summary>
+        /// Can be used to log something at the end of a game
+        /// </summary>
+        void EndGame();
 
         /// <summary>
         /// Cancels the game.
