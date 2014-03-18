@@ -35,86 +35,78 @@ $(document).ready(function () {
 
 });
 
+function initAjaxRequest(panelId) {
+    $("#" + panelId + " .loading").show();
+    $("#" + panelId + " .result").hide();
+    $("#" + panelId + " .error").hide();
+}
+
+function success(panelId) {
+    $("#" + panelId + " .loading").hide();
+    $("#" + panelId + " .result").show();
+    $("#" + panelId + " .error").hide();
+}
+
+function fail(panelId) {
+    $("#" + panelId + " .loading").hide();
+    $("#" + panelId + " .result").hide();
+    $("#" + panelId + " .error").show();
+}
+
 function refreshMapScores() {
-    $("#mapscores .loading").show();
-    $("#mapscores .result").hide();
-    $("#mapscores .error").hide();
+    initAjaxRequest("mapscores");
 
     var url = "/highscore/MapScores/" + $("#mapscores").attr("mapId");
     $.get(url, function (data) {
         $("#mapscores .result").html(data);
     }).done(function () {
-        $("#mapscores .loading").hide();
-        $("#mapscores .error").hide();
-        $("#mapscores .result").show();
+        success("mapscores");
     }).fail(function () {
-        $("#mapscores .loading").hide();
-        $("#mapscores .error").show();
-        $("#mapscores .result").hide();
+        fail("mapscores");
     });
 }
 
 function refreshMapHighScores() {
-    $("#maphighscores .loading").show();
-    $("#maphighscores .result").hide();
-    $("#maphighscores .error").hide();
+    initAjaxRequest("maphighscores");
 
     var url = "/highscore/maphighscores";
     $.get(url, function (data) {
         $("#maphighscores .result").html(data);
     }).done(function () {
-        $("#maphighscores .loading").hide();
-        $("#maphighscores .error").hide();
-        $("#maphighscores .result").show();
+        success("maphighscores");
     }).fail(function () {
-        $("#maphighscores .loading").hide();
-        $("#maphighscores .error").show();
-        $("#maphighscores .result").hide();
+        fail("maphighscores");
     });
 }
 
 function refreshGames() {
-    $("#games .loading").show();
-    $("#games .result").hide();
-    $("#games .error").hide();
+    initAjaxRequest("games");
     
     var url = "/game/games";
     $.get(url, function (data) {
         $("#games .result").html(data);
     }).done(function () {
-        $("#games .loading").hide();
-        $("#games .error").hide();
-        $("#games .result").show();
+        success("games");
     }).fail(function () {
-        $("#games .loading").hide();
-        $("#games .error").show();
-        $("#games .result").hide();
+        fail("games");
     });
 }
 
 function refreshLogEntries() {
-    $("#tracing .loading").show();
-    $("#tracing .result").hide();
-    $("#tracing .error").hide();
+    initAjaxRequest("tracing");
 
     var url = "/tracing/entries?logLevel=" + $("#LogLevelId").val() + "&component=" + $("#ComponentId").val() + "&numberOfEntries=" + $("#NumberOfEntriesId").val();
     $.get(url, function (data) {
         $("#tracing .result").html(data);
-    }).done(function() {
-        $("#tracing .loading").hide();
-        $("#tracing .error").hide();
-        $("#tracing .result").show();
+    }).done(function () {
+        success("tracing");
     }).fail(function () {
-        $("#tracing .loading").hide();
-        $("#tracing .error").show();
-        $("#tracing .result").hide();
+        fail("tracing");
     });
 }
 
 function clearLog() {
-    $("#tracing .loading").show();
-    $("#tracing .result").hide();
-    $("#tracing .error").hide();
+    initAjaxRequest("tracing");
 
     var url = "/tracing/clear";
     $.get(url, function (data) {
@@ -122,9 +114,7 @@ function clearLog() {
     }).done(function () {
         refreshLogEntries();
     }).fail(function () {
-        $("#tracing .loading").hide();
-        $("#tracing .error").show();
-        $("#tracing .result").hide();
+        fail("tracing");
     });
 }
 
