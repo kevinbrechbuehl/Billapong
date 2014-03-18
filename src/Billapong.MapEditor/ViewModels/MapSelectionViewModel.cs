@@ -84,6 +84,11 @@
             this.Initialize();
         }
 
+        public override void CloseCallback()
+        {
+            Application.Current.Shutdown();
+        }
+
         private async void Initialize()
         {
             this.proxy = new MapEditorServiceClient(this.sessionId);

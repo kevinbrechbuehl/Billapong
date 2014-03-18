@@ -83,7 +83,7 @@
         private void LoginSuccessfull(Guid sessionId)
         {
             this.WindowManager.Open(new MapSelectionViewModel(sessionId));
-            //this.WindowManager.Close(this); // todo (breck1): sollte schliessen, geht aber nicht da sonst auch das andere fenster schliesst
+            this.WindowManager.Close(this);
         }
 
         private async void LoginFailed(Exception ex)

@@ -32,7 +32,7 @@
 
             // add events
             this.DispatcherUnhandledException += this.App_DispatcherUnhandledException;
-            this.ShutdownMode = ShutdownMode.OnMainWindowClose;
+            //this.ShutdownMode = ShutdownMode.OnMainWindowClose;
 
             // initialize config
             try
