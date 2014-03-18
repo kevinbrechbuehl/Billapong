@@ -1,16 +1,16 @@
 ﻿namespace Billapong.Core.Server.GamePlay
 {
-    using Contract.Exceptions;
-    using Contract.Service;
-    using Converter.Map;
-    using DataAccess.Model.Map;
-    using DataAccess.UnitOfWork;
     using System;
     using System.Collections.Generic;
     using System.Configuration;
     using System.Linq;
     using System.ServiceModel;
     using System.Threading.Tasks;
+    using Contract.Exceptions;
+    using Contract.Service;
+    using Converter.Map;
+    using DataAccess.Model.Map;
+    using DataAccess.UnitOfWork;
 
     /// <summary>
     /// Game controller for handling the gameplay
@@ -61,7 +61,7 @@
             }
 
             // set number of total rounds * 2, because both players play their rounds and each incerement always by 1
-            this.numberOfTotalRounds = this.numberOfTotalRounds*2;
+            this.numberOfTotalRounds = this.numberOfTotalRounds * 2;
         }
 
         /// <summary>
@@ -214,7 +214,8 @@
                 }
             }
 
-            if (previousGameState == GameStatus.Playing) { 
+            if (previousGameState == GameStatus.Playing)
+            { 
                 Task.Run(() => this.CancelGameCallback(game));
             }
         }
@@ -347,6 +348,10 @@
             return false;
         }
 
+        /// <summary>
+        /// Saves the high score to the database.
+        /// </summary>
+        /// <param name="game">The game.</param>
         private void SaveHighScore(Game game)
         {
             var now = DateTime.Now;
@@ -523,7 +528,7 @@
             {
                 if (player == null) continue;
                 var callback = player.Callback;
-                if (callback == null || ((ICommunicationObject) callback).State != CommunicationState.Opened)
+                if (callback == null || ((ICommunicationObject)callback).State != CommunicationState.Opened)
                 {
                     return false;
                 }
@@ -536,8 +541,7 @@
         /// Gets the game.
         /// </summary>
         /// <param name="gameId">The game identifier.</param>
-        /// <returns></returns>
-        /// <exception cref="FaultException{GameNotFoundException}">Game not found</exception>
+        /// <returns>The game instance</returns>
         private Game GetGame(Guid gameId)
         {
             lock (LockObject)

@@ -2,28 +2,41 @@
 {
     using System;
     using System.Collections.ObjectModel;
-    using System.Diagnostics;
     using System.Linq;
-    using System.ServiceModel;
-    using System.ServiceModel.Channels;
-    using System.Threading;
     using System.Threading.Tasks;
     using System.Windows;
-    using Billapong.Core.Client.Authentication;
     using Billapong.Core.Client.Exceptions;
     using Billapong.Core.Client.Tracing;
     using Billapong.MapEditor.Properties;
-
     using Converter;
     using Core.Client.UI;
     using Models;
     using Services;
 
+    /// <summary>
+    /// Map selection view model.
+    /// </summary>
     public class MapSelectionViewModel : ViewModelBase
     {
+        /// <summary>
+        /// The session identifier
+        /// </summary>
         private readonly Guid sessionId;
 
+        /// <summary>
+        /// The map editor service proxy
+        /// </summary>
         private MapEditorServiceClient proxy;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MapSelectionViewModel"/> class.
+        /// </summary>
+        /// <param name="sessionId">The session identifier.</param>
+        public MapSelectionViewModel(Guid sessionId)
+        {
+            this.sessionId = sessionId;
+            this.Initialize();
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether the view data is loading.
@@ -44,8 +57,20 @@
             }
         }
 
+        /// <summary>
+        /// Gets the maps.
+        /// </summary>
+        /// <value>
+        /// The maps.
+        /// </value>
         public ObservableCollection<Map> Maps { get; private set; }
 
+        /// <summary>
+        /// Gets the create new map command.
+        /// </summary>
+        /// <value>
+        /// The create new map command.
+        /// </value>
         public DelegateCommand CreateNewMapCommand
         {
             get
@@ -54,6 +79,12 @@
             }
         }
 
+        /// <summary>
+        /// Gets the refresh maps command.
+        /// </summary>
+        /// <value>
+        /// The refresh maps command.
+        /// </value>
         public DelegateCommand RefreshMapsCommand
         {
             get
@@ -62,6 +93,12 @@
             }
         }
 
+        /// <summary>
+        /// Gets the delete map command.
+        /// </summary>
+        /// <value>
+        /// The delete map command.
+        /// </value>
         public DelegateCommand<Map> DeleteMapCommand
         {
             get
@@ -70,6 +107,12 @@
             }
         }
 
+        /// <summary>
+        /// Gets the edit map command.
+        /// </summary>
+        /// <value>
+        /// The edit map command.
+        /// </value>
         public DelegateCommand<Map> EditMapCommand
         {
             get
@@ -78,17 +121,17 @@
             }
         }
 
-        public MapSelectionViewModel(Guid sessionId)
-        {
-            this.sessionId = sessionId;
-            this.Initialize();
-        }
-
+        /// <summary>
+        /// Gets called when the connected view closes
+        /// </summary>
         public override void CloseCallback()
         {
             Application.Current.Shutdown();
         }
 
+        /// <summary>
+        /// Initializes this map.
+        /// </summary>
         private async void Initialize()
         {
             this.proxy = new MapEditorServiceClient(this.sessionId);
@@ -96,6 +139,10 @@
             await this.LoadMaps();
         }
 
+        /// <summary>
+        /// Loads the maps from the database.
+        /// </summary>
+        /// <returns>Async task</returns>
         private async Task LoadMaps()
         {
             await Tracer.Info("MapSelectionViewModel :: refresh maps");
@@ -119,6 +166,11 @@
             this.IsDataLoading = false;
         }
 
+        /// <summary>
+        /// Deletes the map by id.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>Async task</returns>
         private async Task DeleteMap(long id)
         {
             await Tracer.Info(string.Format("MapSelectionViewModel :: Delete map with id '{0}'", id));
@@ -134,6 +186,10 @@
             }
         }
 
+        /// <summary>
+        /// Deletes the map.
+        /// </summary>
+        /// <param name="map">The map.</param>
         private async void DeleteMap(Map map)
         {
             if (MessageBox.Show(string.Format(Resources.DeleteMapQuestion, ((Map)map).Name), Resources.ConfirmationTitle, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
@@ -142,6 +198,10 @@
             }
         }
 
+        /// <summary>
+        /// Edits the map and open map editing window.
+        /// </summary>
+        /// <param name="map">The map.</param>
         private async void EditMap(Map map)
         {
             // refresh maps for getting correct versions
@@ -157,6 +217,9 @@
             this.WindowManager.Open(new MapEditViewModel(mapToEdit, this.sessionId));
         }
 
+        /// <summary>
+        /// Creates a new map.
+        /// </summary>
         private async void CreateNewMap()
         {
             await Tracer.Info("MapSelectionViewModel :: Create new map");
@@ -174,6 +237,9 @@
             }
         }
 
+        /// <summary>
+        /// Refreshes the maps.
+        /// </summary>
         private async void RefreshMaps()
         {
             await this.LoadMaps();

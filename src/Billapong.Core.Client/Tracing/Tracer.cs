@@ -80,6 +80,7 @@
         /// Initializes the tracer and load the configuration.
         /// </summary>
         /// <param name="component">The component name.</param>
+        /// <returns>Async task</returns>
         public static async Task Initialize(Component component)
         {
             await Current.InitializeConfig(component);
@@ -88,6 +89,7 @@
         /// <summary>
         /// Shutdown the tracing. Send all messages in the queue to the server.
         /// </summary>
+        /// <returns>Async task</returns>
         public static async Task Shutdown()
         {
             await Tracer.Info(string.Format("Shutdown tracing for component '{0}'", Current.component));
@@ -99,6 +101,7 @@
         /// Logs a debug message
         /// </summary>
         /// <param name="message">The message.</param>
+        /// <returns>Async task</returns>
         public static async Task Debug(string message)
         {
             Trace.TraceInformation("DEBUG: {0}", message);
@@ -109,6 +112,7 @@
         /// Logs an info message
         /// </summary>
         /// <param name="message">The message.</param>
+        /// <returns>Async task</returns>
         public static async Task Info(string message)
         {
             Trace.TraceInformation("INFO: {0}", message);
@@ -119,6 +123,7 @@
         /// Logs a warning message
         /// </summary>
         /// <param name="message">The message.</param>
+        /// <returns>Async task</returns>
         public static async Task Warn(string message)
         {
             Trace.TraceWarning(message);
@@ -130,6 +135,7 @@
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="exception">The exception.</param>
+        /// <returns>Async task</returns>
         public static async Task Error(string message, Exception exception = null)
         {
             if (exception != null)
@@ -144,6 +150,7 @@
         /// <summary>
         /// Processes the queued messages.
         /// </summary>
+        /// <returns>Async task</returns>
         public static async Task ProcessQueuedMessages()
         {
             await Current.SendMessagesInQueue();
@@ -153,6 +160,7 @@
         /// Initializes the configuration.
         /// </summary>
         /// <param name="component">The component name.</param>
+        /// <returns>Async task</returns>
         private async Task InitializeConfig(Component component)
         {
             this.component = component;
@@ -172,6 +180,7 @@
         /// </summary>
         /// <param name="logLevel">The log level.</param>
         /// <param name="message">The message.</param>
+        /// <returns>Async task</returns>
         private async Task Log(LogLevel logLevel, string message)
         {
             if ((int)logLevel >= (int)this.logLevel)
@@ -199,6 +208,7 @@
         /// <summary>
         /// Sends the messages in the queue to the server.
         /// </summary>
+        /// <returns>Async task</returns>
         private async Task SendMessagesInQueue()
         {
             var messages = new List<LogMessage>();

@@ -16,8 +16,6 @@
         /// <param name="context">The context.</param>
         protected override void Seed(BillapongDbContext context)
         {
-            #region Add Maps
-
             var simpleMap = new Map
             {
                 Name = "Simple Map",
@@ -388,10 +386,6 @@
             context.Maps.Add(unplayableMap);
             context.SaveChanges();
 
-            # endregion
-
-            #region Add Users
-
             // password -> "editor"
             var editor = new User { Username = "editor", Password = "bb9b8f8d3a391c0dea800f443bcc30b3", Role = 1 };
 
@@ -401,8 +395,6 @@
             context.Users.Add(editor);
             context.Users.Add(admin);
             context.SaveChanges();
-
-            #endregion
         }
     }
 }

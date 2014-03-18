@@ -2,6 +2,9 @@
 {
     using System.ComponentModel.DataAnnotations;
 
+    /// <summary>
+    /// The user entity.
+    /// </summary>
     public class User : IEntity
     {
         /// <summary>

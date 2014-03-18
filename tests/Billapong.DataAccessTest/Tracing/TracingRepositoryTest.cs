@@ -2,9 +2,7 @@
 {
     using System;
     using System.Linq;
-
     using Billapong.Tests.Common;
-
     using DataAccess.Model.Tracing;
     using DataAccess.Repository;
     using Microsoft.VisualStudio.TestTools.UnitTesting;

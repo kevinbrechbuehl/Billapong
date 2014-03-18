@@ -14,10 +14,13 @@
     /// </summary>
     public class AdministrationServiceClient : RichClientBase<IAdministrationService>, IAdministrationService
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AdministrationServiceClient"/> class.
+        /// </summary>
+        /// <param name="sessionId">The session identifier.</param>
         public AdministrationServiceClient(Guid sessionId)
             : base(new AuthenticationProvider(sessionId))
         {
-            
         }
         
         /// <summary>

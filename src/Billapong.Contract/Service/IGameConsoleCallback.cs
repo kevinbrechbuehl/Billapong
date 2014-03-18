@@ -1,9 +1,9 @@
 ﻿namespace Billapong.Contract.Service
 {
     using System;
-    using Data.Map;
     using System.Collections.Generic;
     using System.ServiceModel;
+    using Data.Map;
 
     /// <summary>
     /// Callback service for the game console.

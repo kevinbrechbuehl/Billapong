@@ -4,6 +4,9 @@
     using Model.Map;
     using Repository;
 
+    /// <summary>
+    /// Unit of work pattern implementation.
+    /// </summary>
     public class UnitOfWork : IUnitOfWork
     {
         /// <summary>
@@ -11,6 +14,9 @@
         /// </summary>
         private bool disposed;
 
+        /// <summary>
+        /// The database context
+        /// </summary>
         private BillapongDbContext context;
 
         /// <summary>
@@ -41,7 +47,7 @@
         /// </value>
         public IRepository<Map> MapRepository
         {
-            get { return this.mapRepository ?? ( this.mapRepository = new Repository<Map>(this.Context)); }
+            get { return this.mapRepository ?? (this.mapRepository = new Repository<Map>(this.Context)); }
         }
 
         /// <summary>

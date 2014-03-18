@@ -1,5 +1,8 @@
 ﻿namespace Billapong.MapEditor.Models
 {
+    /// <summary>
+    /// Hole model.
+    /// </summary>
     public class Hole
     {
         /// <summary>
@@ -26,21 +29,39 @@
         /// </value> 
         public int Y { get; set; }
 
+        /// <summary>
+        /// Gets or sets the diameter.
+        /// </summary>
+        /// <value>
+        /// The diameter.
+        /// </value>
         public double Diameter { get; set; }
 
+        /// <summary>
+        /// Gets the left.
+        /// </summary>
+        /// <value>
+        /// The left.
+        /// </value>
         public double Left
         {
             get
             {
-                return this.X*this.Diameter;
+                return this.X * this.Diameter;
             }
         }
 
+        /// <summary>
+        /// Gets the top.
+        /// </summary>
+        /// <value>
+        /// The top.
+        /// </value>
         public double Top
         {
             get
             {
-                return this.Y*this.Diameter;
+                return this.Y * this.Diameter;
             }
         }
     }

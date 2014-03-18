@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Billapong.MapEditorTest.Services
+﻿namespace Billapong.MapEditorTest.Services
 {
+    using System.Linq;
     using System.ServiceModel;
     using Billapong.Contract.Data.Authentication;
     using Billapong.Core.Client.Authentication;
@@ -14,13 +9,26 @@ namespace Billapong.MapEditorTest.Services
     using Billapong.Tests.Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+    /// <summary>
+    /// Tests the map editor with a service client.
+    /// </summary>
     [TestClass]
     public class MapEditorServiceClientTest : TestBase
     {
-        private readonly static ServiceHost MapEditorService = new ServiceHost(typeof(MapEditorService));
+        /// <summary>
+        /// The map editor service
+        /// </summary>
+        private static readonly ServiceHost MapEditorService = new ServiceHost(typeof(MapEditorService));
 
-        private readonly static ServiceHost AuthenticationService = new ServiceHost(typeof(AuthenticationService));
+        /// <summary>
+        /// The authentication service
+        /// </summary>
+        private static readonly ServiceHost AuthenticationService = new ServiceHost(typeof(AuthenticationService));
 
+        /// <summary>
+        /// Starts the service hosts.
+        /// </summary>
+        /// <param name="testContext">The test context.</param>
         [ClassInitialize]
         public static void StartService(TestContext testContext)
         {
@@ -28,6 +36,26 @@ namespace Billapong.MapEditorTest.Services
             AuthenticationService.Open();
         }
 
+        /// <summary>
+        /// Ends the service hosts.
+        /// </summary>
+        [ClassCleanup]
+        public static void EndService()
+        {
+            if (MapEditorService.State == CommunicationState.Opened)
+            {
+                MapEditorService.Close();
+            }
+
+            if (AuthenticationService.State == CommunicationState.Opened)
+            {
+                AuthenticationService.Close();
+            }
+        }
+
+        /// <summary>
+        /// Gets the maps.
+        /// </summary>
         [TestMethod]
         public void GetMapsTest()
         {
@@ -43,20 +71,6 @@ namespace Billapong.MapEditorTest.Services
             Assert.IsTrue(maps.Count > 1);
             Assert.IsTrue(maps.First().Windows.Count == 1);
             Assert.IsTrue(maps.First().Windows.First().Holes.Count == 3);
-        }
-
-        [ClassCleanup]
-        public static void EndService()
-        {
-            if (MapEditorService.State == CommunicationState.Opened)
-            {
-                MapEditorService.Close();
-            }
-
-            if (AuthenticationService.State == CommunicationState.Opened)
-            {
-                AuthenticationService.Close();
-            }
         }
     }
 }

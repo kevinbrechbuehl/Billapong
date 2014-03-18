@@ -1,17 +1,13 @@
 ﻿namespace Billapong.Core.Server.Map
 {
-    using System;
-
-    using Billapong.Core.Server.Tracing;
-
-    using Contract.Exceptions;
-    using Contract.Service;
-    using DataAccess.Model.Map;
-    using DataAccess.Repository;
     using System.Collections.Generic;
     using System.Linq;
     using System.ServiceModel;
     using System.Threading.Tasks;
+    using Billapong.Core.Server.Tracing;
+    using Contract.Exceptions;
+    using Contract.Service;
+    using DataAccess.Model.Map;
     using DataAccess.UnitOfWork;
 
     /// <summary>
@@ -198,7 +194,7 @@
         public void AddWindow(long mapId, int coordX, int coordY)
         {
             Map map;
-            var window = new Window {X = coordX, Y = coordY};
+            var window = new Window { X = coordX, Y = coordY };
             lock (WriterLockObject)
             {
                 map = this.GetMap(mapId);
@@ -253,7 +249,7 @@
         /// <param name="coordY">The coord y.</param>
         public void AddHole(long mapId, long windowId, int coordX, int coordY)
         {
-            var hole = new Hole {X = coordX, Y = coordY};
+            var hole = new Hole { X = coordX, Y = coordY };
             Window window;
             lock (WriterLockObject)
             {
@@ -345,6 +341,10 @@
             }
         }
 
+        /// <summary>
+        /// Gets the high scores.
+        /// </summary>
+        /// <returns>The highscore of each map</returns>
         public IEnumerable<HighScore> GetHighScores()
         {
             return this.unitOfWork.MapRepository.Get()
@@ -353,6 +353,11 @@
                 .ToList();
         }
 
+        /// <summary>
+        /// Gets the high scores for a specific map.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <returns>All scores for specific map</returns>
         public IEnumerable<HighScore> GetHighScores(long mapId)
         {
             return this.unitOfWork.HighScoreRepository
@@ -472,7 +477,7 @@
 
                 foreach (var callback in editor.Callbacks.ToList())
                 {
-                    if (((ICommunicationObject) callback).State != CommunicationState.Opened)
+                    if (((ICommunicationObject)callback).State != CommunicationState.Opened)
                     {
                         editor.Callbacks.Remove(callback);
                         continue;

@@ -1,27 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-
-namespace Billapong.Administration.Controllers
+﻿namespace Billapong.Administration.Controllers
 {
+    using System;
     using System.Net;
-    using System.ServiceModel;
     using System.Threading.Tasks;
+    using System.Web.Mvc;
     using Billapong.Administration.Authorization;
-    using Billapong.Contract.Exceptions;
     using Core.Client.Tracing;
     using Service;
 
+    /// <summary>
+    /// Game MVC controller
+    /// </summary>
     public class GameController : ControllerBase
     {
+        /// <summary>
+        /// Index action of the controller.
+        /// </summary>
+        /// <returns>The view.</returns>
         [ServiceAuthorize]
         public ActionResult Index()
         {
-            return View();
+            return this.View();
         }
 
+        /// <summary>
+        /// Action for returning current games.
+        /// </summary>
+        /// <returns>The view with all the games</returns>
         [ServiceAuthorize]
         public async Task<ActionResult> Games()
         {
@@ -39,5 +44,5 @@ namespace Billapong.Administration.Controllers
 
             return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
         }
-	}
+    }
 }

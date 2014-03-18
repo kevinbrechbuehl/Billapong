@@ -1,27 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-
-namespace Billapong.MapEditor.Views
+﻿namespace Billapong.MapEditor.Views
 {
+    using System.Windows;
+
     /// <summary>
     /// Interaction logic for MapEdit.xaml
     /// </summary>
     public partial class MapEditView : Window
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MapEditView"/> class.
+        /// </summary>
         public MapEditView()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

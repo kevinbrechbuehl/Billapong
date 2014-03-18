@@ -1,20 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Billapong.Core.Server.Tracing
+﻿namespace Billapong.Core.Server.Tracing
 {
+    using System;
     using System.Configuration;
     using System.Diagnostics;
-
     using Billapong.Contract.Data.Tracing;
 
+    /// <summary>
+    /// Tracer class
+    /// </summary>
     public class Tracer
     {
-        private static LogLevel LogLevel;
-        
+        /// <summary>
+        /// The log level
+        /// </summary>
+        private static readonly LogLevel LogLevel;
+
+        /// <summary>
+        /// Initializes static members of the <see cref="Tracer" /> class.
+        /// </summary>
         static Tracer()
         {
             if (!Enum.TryParse(ConfigurationManager.AppSettings["Tracing.LogLevel"], out LogLevel))
@@ -69,6 +72,11 @@ namespace Billapong.Core.Server.Tracing
             Log(LogLevel.Error, message);
         }
 
+        /// <summary>
+        /// Logs the specified message to the database.
+        /// </summary>
+        /// <param name="logLevel">The log level.</param>
+        /// <param name="message">The message.</param>
         private static void Log(LogLevel logLevel, string message)
         {
             if ((int)logLevel >= (int)LogLevel)
