@@ -308,7 +308,7 @@
         /// Gets called when the server sent the RoundEnded event and the local player is ready for the next round
         /// </summary>
         /// <param name="args">The <see cref="RoundEndedEventArgs"/> instance containing the event data.</param>
-        public async void OnRoundEnded(RoundEndedEventArgs args)
+        public void OnRoundEnded(RoundEndedEventArgs args)
         {
             GameManager.Current.CurrentGame.CurrentPlayer.Score = args.Score;
             GameManager.Current.CurrentGame.CurrentPlayer.CurrentPlayerState = Player.PlayerState.OpponentsTurn;
