@@ -35,19 +35,15 @@
             var b = firstLineEnd - firstLineStart;
             var d = secondLineEnd - secondLineStart;
             var delta = (b.X * d.Y) - (b.Y * d.X);
-
-            // check for parallel lines (inifite intersection point)
-            if (Math.Abs(delta) < 0) return null;
-
             var c = secondLineStart - firstLineStart;
             var t = ((c.X * d.Y) - (c.Y * d.X)) / delta;
-            if (t < 0 || t > 1)
+            if (double.IsNaN(t) || t < 0 || t > 1)
             {
                 return null;
             }
 
             var u = ((c.X * b.Y) - (c.Y * b.X)) / delta;
-            if (u < 0 || u > 1)
+            if (double.IsNaN(u) || u < 0 || u > 1)
             {
                 return null;
             }
