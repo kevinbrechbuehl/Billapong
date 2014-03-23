@@ -42,9 +42,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Game\CalculationHelpersTest.cs" />
+    <Compile Include="Game\GameHelpersTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Billapong.Core.Client\Billapong.Core.Client.csproj">
+      <Project>{2998C75F-9555-4732-B440-1766F55B7543}</Project>
+      <Name>Billapong.Core.Client</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Billapong.GameConsole\Billapong.GameConsole.csproj">
       <Project>{9D2A3ED9-E7F8-4A4F-A34F-0B4421C70CB7}</Project>
       <Name>Billapong.GameConsole</Name>
