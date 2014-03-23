@@ -215,4 +215,10 @@
 If you play against an opponent, he sees all unselected windows.
 But if you choose all windows, the opponent sees them too.</value>
   </data>
+  <data name="GameOwner" xml:space="preserve">
+    <value>Game Owner</value>
+  </data>
+  <data name="Map" xml:space="preserve">
+    <value>Map</value>
+  </data>
 </root>

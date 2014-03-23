@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:m="clr-namespace:Billapong.Contract.Data.GamePlay;assembly=Billapong.Contract"
              xmlns:resx="clr-namespace:Billapong.GameConsole.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Name="GameLobbyUserControl">
@@ -12,9 +11,9 @@
     </UserControl.Resources>
     <Grid>
         <DockPanel>
-            <ListBox ItemsSource="{Binding OpenGames}" SelectedItem="{Binding SelectedLobbyGame, Mode=TwoWay}" DockPanel.Dock="Top">
-                <ListBox.Style>
-                    <Style TargetType="ListBox">
+            <ListView ItemsSource="{Binding OpenGames}" SelectedItem="{Binding SelectedLobbyGame, Mode=TwoWay}" DockPanel.Dock="Top">
+                <ListView.Style>
+                    <Style TargetType="ListView">
                         <Style.Triggers>
                             <MultiDataTrigger>
                                 <MultiDataTrigger.Conditions>
@@ -31,14 +30,15 @@
                             </MultiDataTrigger>
                         </Style.Triggers>
                     </Style>
-                </ListBox.Style>
-                <ListBox.Resources>
-                    <DataTemplate DataType="{x:Type  m:LobbyGame}">
-                        <TextBlock Text="{Binding Map}" />
-                    </DataTemplate>
-                </ListBox.Resources>
-            </ListBox>
-            
+                </ListView.Style>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="{x:Static resx:Resources.Map}" DisplayMemberBinding="{Binding Map}" />
+                        <GridViewColumn Header="{x:Static resx:Resources.GameOwner}" DisplayMemberBinding="{Binding Username}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
             <Grid DockPanel.Dock="Bottom">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" />
