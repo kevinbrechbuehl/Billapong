@@ -75,6 +75,11 @@
         /// </returns>
         public static Vector GetRandomBallDirection(Window window, Point ballPosition, int maxCalculationSteps = 2000)
         {
+            if (window == null)
+            {
+                throw new ArgumentNullException("window");
+            }
+
             var directionsCalculated = 0;
             var random = new Random(DateTime.Now.GetHashCode());
             while (true)
