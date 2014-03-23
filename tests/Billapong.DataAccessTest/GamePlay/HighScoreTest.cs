@@ -41,7 +41,7 @@
         }
 
         /// <summary>
-        /// Gets a map instance.
+        /// Test to get the map out of a highscore.
         /// </summary>
         [TestMethod]
         public void GetMapInstance()
