@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-
-namespace Billapong.Administration.Controllers
+﻿namespace Billapong.Administration.Controllers
 {
+    using System;
     using System.ServiceModel;
     using System.Threading.Tasks;
+    using System.Web.Mvc;
     using Billapong.Administration.Authorization;
     using Billapong.Administration.Models.Authentication;
     using Billapong.Contract.Data.Authentication;
@@ -15,13 +11,25 @@ namespace Billapong.Administration.Controllers
     using Billapong.Core.Client.Authentication;
     using Billapong.Core.Client.Tracing;
 
+    /// <summary>
+    /// MVC controller for authentication (login/logout).
+    /// </summary>
     public class AuthenticationController : ControllerBase
     {
+        /// <summary>
+        /// Login action.
+        /// </summary>
+        /// <returns>The view.</returns>
         public ActionResult Login()
         {
             return this.View(new LoginViewModel());
         }
 
+        /// <summary>
+        /// Login action for http post.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>The view if login failed, redirect action if login was ok</returns>
         [HttpPost]
         public async Task<ActionResult> Login(LoginViewModel model)
         {
@@ -63,10 +71,14 @@ namespace Billapong.Administration.Controllers
             return this.View(model);
         }
 
+        /// <summary>
+        /// Logouts the user.
+        /// </summary>
+        /// <returns>Redirect to root page</returns>
         public ActionResult Logout()
         {
             AuthenticationHelper.SessionId = null;
             return this.RedirectToAction("Index", "Home");
         }
-	}
+    }
 }

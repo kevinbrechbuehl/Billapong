@@ -1,16 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Billapong.Core.Client.UI.Converter
+﻿namespace Billapong.Core.Client.UI.Converter
 {
     using System.Windows;
 
+    /// <summary>
+    /// Boolean to visibility converter.
+    /// </summary>
     public class BooleanToVisibilityConverter : BooleanConverter<Visibility>
     {
-        public BooleanToVisibilityConverter() :
-            base(Visibility.Visible, Visibility.Collapsed) { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BooleanToVisibilityConverter"/> class.
+        /// </summary>
+        public BooleanToVisibilityConverter()
+            : base(Visibility.Visible, Visibility.Collapsed)
+        {
+        }
     }
 }

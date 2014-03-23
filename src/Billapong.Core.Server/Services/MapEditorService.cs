@@ -68,6 +68,12 @@
             };
         }
 
+        /// <summary>
+        /// Creates a new map.
+        /// </summary>
+        /// <returns>
+        /// The newly created map
+        /// </returns>
         public Map CreateMap()
         {
             Tracer.Debug("MapEditorService :: CreateMap() called");
@@ -84,6 +90,11 @@
             MapController.Current.DeleteMap(mapId);
         }
 
+        /// <summary>
+        /// Updates the name.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <param name="name">The name.</param>
         public void UpdateName(long mapId, string name)
         {
             Tracer.Debug(string.Format("MapEditorService :: UpdateName() called with mapId={0}, name={1}", mapId, name));
@@ -91,6 +102,11 @@
             MapController.Current.UpdateName(mapId, name);
         }
 
+        /// <summary>
+        /// Updates the is playable.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <param name="isPlayable">if set to <c>true</c> the map is playable.</param>
         public void UpdateIsPlayable(long mapId, bool isPlayable)
         {
             Tracer.Debug(string.Format("MapEditorService :: UpdateIsPlayable() called with mapId={0}, isPlayable={1}", mapId, isPlayable));
@@ -98,6 +114,12 @@
             MapController.Current.UpdateIsPlayable(mapId, isPlayable);
         }
 
+        /// <summary>
+        /// Adds the window.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <param name="coordX">The coord x.</param>
+        /// <param name="coordY">The coord y.</param>
         public void AddWindow(long mapId, int coordX, int coordY)
         {
             Tracer.Debug(string.Format("MapEditorService :: AddWindow() called with mapId={0}, coordX={1}, coordY={2}", mapId, coordX, coordY));
@@ -105,6 +127,11 @@
             MapController.Current.AddWindow(mapId, coordX, coordY);
         }
 
+        /// <summary>
+        /// Removes the window.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <param name="windowId">The window identifier.</param>
         public void RemoveWindow(long mapId, long windowId)
         {
             Tracer.Debug(string.Format("MapEditorService :: RemoveWindow() called with mapId={0}, windowId={1}", mapId, windowId));
@@ -112,6 +139,13 @@
             MapController.Current.RemoveWindow(mapId, windowId);
         }
 
+        /// <summary>
+        /// Adds the hole.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <param name="windowId">The window identifier.</param>
+        /// <param name="coordX">The coord x.</param>
+        /// <param name="coordY">The coord y.</param>
         public void AddHole(long mapId, long windowId, int coordX, int coordY)
         {
             Tracer.Debug(string.Format("MapEditorService :: AddHole() called with mapId={0}, windowId={1} coordX={2}, coordY={3}", mapId, windowId, coordX, coordY));
@@ -119,6 +153,12 @@
             MapController.Current.AddHole(mapId, windowId, coordX, coordY);
         }
 
+        /// <summary>
+        /// Removes the hole.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <param name="windowId">The window identifier.</param>
+        /// <param name="holeId">The hole identifier.</param>
         public void RemoveHole(long mapId, long windowId, long holeId)
         {
             Tracer.Debug(string.Format("MapEditorService :: RemoveHole() called with mapId={0}, windowId={1}, holeId={2}", mapId, windowId, holeId));
@@ -126,18 +166,30 @@
             MapController.Current.RemoveHole(mapId, windowId, holeId);
         }
 
+        /// <summary>
+        /// Registers the callback.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
         public void RegisterCallback(long mapId)
         {
             Tracer.Debug(string.Format("MapEditorService :: RegisterCallback() called with mapId={0}", mapId));
             MapController.Current.RegisterCallback(mapId, this.GetCallback());
         }
 
+        /// <summary>
+        /// Unregisters the callback.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
         public void UnregisterCallback(long mapId)
         {
             Tracer.Debug(string.Format("MapEditorService :: UnregisterCallback() called with mapId={0}", mapId));
             MapController.Current.UnregisterCallback(mapId, this.GetCallback());
         }
 
+        /// <summary>
+        /// Verifies the callback.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
         private void VerifyCallback(long mapId)
         {
             if (!MapController.Current.IsCallbackRegistered(mapId, this.GetCallback()))

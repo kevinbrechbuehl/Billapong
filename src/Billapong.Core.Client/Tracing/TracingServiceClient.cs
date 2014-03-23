@@ -41,6 +41,10 @@
             return this.Execute(() => this.Proxy.GetConfig());
         }
 
+        /// <summary>
+        /// Gets the configuration asynchronous.
+        /// </summary>
+        /// <returns>Async task for the configuration</returns>
         public async Task<TracingConfiguration> GetConfigAsync()
         {
             return await this.ExecuteAsync(() => this.Proxy.GetConfig());

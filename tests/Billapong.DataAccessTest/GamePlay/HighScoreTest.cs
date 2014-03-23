@@ -1,25 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Billapong.DataAccessTest.GamePlay
+﻿namespace Billapong.DataAccessTest.GamePlay
 {
-    using System.Data.Entity;
-
-    using Billapong.DataAccess;
-    using Billapong.DataAccess.Initialize;
+    using System;
+    using System.Linq;
     using Billapong.Tests.Common;
-
     using DataAccess.Model.Map;
-    using DataAccess.Repository;
     using DataAccess.UnitOfWork;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+    /// <summary>
+    /// Test Highscores
+    /// </summary>
     [TestClass]
     public class HighScoreTest : TestBase
     {
+        /// <summary>
+        /// Test adding a highscore to the database.
+        /// </summary>
         [TestMethod]
         public void AddHighScoreTest()
         {
@@ -44,6 +40,9 @@ namespace Billapong.DataAccessTest.GamePlay
             Assert.IsTrue(count + 1 == newCount, "Highscore was not saved correctly.");
         }
 
+        /// <summary>
+        /// Test to get the map out of a highscore.
+        /// </summary>
         [TestMethod]
         public void GetMapInstance()
         {

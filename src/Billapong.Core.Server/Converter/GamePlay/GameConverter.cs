@@ -1,7 +1,15 @@
 ﻿namespace Billapong.Core.Server.Converter.GamePlay
 {
+    /// <summary>
+    /// Convert game instances.
+    /// </summary>
     public static class GameConverter
     {
+        /// <summary>
+        /// To the lobby contract.
+        /// </summary>
+        /// <param name="source">The source.</param>
+        /// <returns>Lobby game instance</returns>
         public static Contract.Data.GamePlay.LobbyGame ToLobbyContract(this Server.GamePlay.Game source)
         {
             return new Contract.Data.GamePlay.LobbyGame
@@ -12,6 +20,11 @@
             };
         }
 
+        /// <summary>
+        /// To the contract.
+        /// </summary>
+        /// <param name="source">The source.</param>
+        /// <returns>Contract game instance</returns>
         public static Contract.Data.GamePlay.Game ToContract(this Server.GamePlay.Game source)
         {
             var game = new Contract.Data.GamePlay.Game()

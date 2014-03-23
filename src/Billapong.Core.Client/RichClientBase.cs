@@ -1,14 +1,12 @@
 ﻿namespace Billapong.Core.Client
 {
-    using System.Windows.Navigation;
-    using Billapong.Contract.Exceptions;
-    using Billapong.Core.Client.Authentication;
-    using Billapong.Core.Client.Exceptions;
     using System;
     using System.Diagnostics;
     using System.ServiceModel;
     using System.ServiceModel.Channels;
     using System.Threading.Tasks;
+    using Billapong.Core.Client.Authentication;
+    using Billapong.Core.Client.Exceptions;
 
     /// <summary>
     /// Basic functionality for WCF clients

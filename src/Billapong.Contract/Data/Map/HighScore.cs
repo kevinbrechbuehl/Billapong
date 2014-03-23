@@ -3,6 +3,9 @@
     using System;
     using System.Runtime.Serialization;
 
+    /// <summary>
+    /// Highscore data contract.
+    /// </summary>
     [DataContract(Name = "HighScore", Namespace = Globals.DataContractNamespaceName)]
     public class HighScore
     {

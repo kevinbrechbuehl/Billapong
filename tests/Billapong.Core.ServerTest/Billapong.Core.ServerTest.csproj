@@ -46,6 +46,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -60,8 +61,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Authentication\SessionControllerTest.cs" />
+    <Compile Include="Converter\Map\MapConverterTest.cs" />
+    <Compile Include="Map\MapControllerTest.cs" />
     <Compile Include="Services\GameConsoleServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\MapUtilTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Billapong.Contract\Billapong.Contract.csproj">
@@ -72,6 +77,10 @@
       <Project>{18f67450-c79b-4ebf-a0ad-23b3d87151f1}</Project>
       <Name>Billapong.Core.Server</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\Billapong.DataAccess\Billapong.DataAccess.csproj">
+      <Project>{80157a62-73ec-4a78-bfd7-422ff16e49a8}</Project>
+      <Name>Billapong.DataAccess</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Billapong.Tests.Common\Billapong.Tests.Common.csproj">
       <Project>{01b1bb11-276b-4ec9-87bc-e8387c5b8c98}</Project>
       <Name>Billapong.Tests.Common</Name>
@@ -81,6 +90,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

@@ -1,12 +1,12 @@
 ﻿namespace Billapong.Core.Server.Services
 {
-    using Billapong.Contract.Data.Tracing;
-    using Billapong.Contract.Service;
     using System;
     using System.Collections.Generic;
     using System.Configuration;
     using System.Linq;
     using System.ServiceModel;
+    using Billapong.Contract.Data.Tracing;
+    using Billapong.Contract.Service;
     using Tracing;
 
     /// <summary>

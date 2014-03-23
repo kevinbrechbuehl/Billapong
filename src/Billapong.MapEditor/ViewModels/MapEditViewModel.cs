@@ -1,119 +1,62 @@
-﻿using System.Linq;
-
-namespace Billapong.MapEditor.ViewModels
+﻿namespace Billapong.MapEditor.ViewModels
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
     using System.ServiceModel;
-    using System.Windows.Navigation;
-
-    using Billapong.Contract.Data.Map;
+    using System.Windows;
     using Billapong.Contract.Exceptions;
     using Billapong.Core.Client.Exceptions;
     using Billapong.Core.Client.Tracing;
     using Billapong.MapEditor.Properties;
-
-    using Converter;
     using Core.Client.UI;
     using Models;
     using Models.Events;
     using Models.Parameters;
     using Services;
-    using System.Windows;
-
     using Hole = Billapong.MapEditor.Models.Hole;
     using Map = Billapong.MapEditor.Models.Map;
 
+    /// <summary>
+    /// Map editing view model.
+    /// </summary>
     public class MapEditViewModel : ViewModelBase
     {
+        /// <summary>
+        /// The game window size
+        /// </summary>
         public const double GameWindowSize = 200;
 
+        /// <summary>
+        /// The map
+        /// </summary>
         private readonly Map map;
 
+        /// <summary>
+        /// The map editor service proxy
+        /// </summary>
         private readonly MapEditorServiceClient proxy;
 
+        /// <summary>
+        /// The map editor callback instance
+        /// </summary>
         private readonly MapEditorCallback callback;
 
+        /// <summary>
+        /// The grid size
+        /// </summary>
         private readonly double gridSize;
 
-        public double HoleDiameter
-        {
-            get
-            {
-                return this.GetValue<double>();
-            }
-
-            set
-            {
-                this.SetValue(value);
-            }
-        }
-
-        public bool IsPlayable
-        {
-            get
-            {
-                return this.GetValue<bool>();
-            }
-
-            set
-            {
-                this.map.IsPlayable = value;
-                this.SetValue(value);
-            }
-        }
-
-        public string MapName
-        {
-            get
-            {
-                return this.GetValue<string>();
-            }
-
-            set
-            {
-                this.map.Name = value;
-                this.SetValue(value);
-            }
-        }
-
+        /// <summary>
+        /// Boolean value if window holes are current selection modes
+        /// </summary>
         private bool isWindowHolesSelectionMode;
 
-        public GameWindow[][] GameWindows { get; private set; }
-
-        public DelegateCommand SaveNameCommand
-        {
-            get
-            {
-                return new DelegateCommand(this.SaveName);
-            }
-        }
-
-        public DelegateCommand ToggleIsPlayableCommand
-        {
-            get
-            {
-                return new DelegateCommand(this.ToggleIsPlayable);
-            }
-        }
-
-        public DelegateCommand ToggleSelectionModeCommand
-        {
-            get
-            {
-                return new DelegateCommand(this.ToggleSelectionMode);
-            }
-        }
-
-        public DelegateCommand<GameWindowClickedArgs> GameWindowClickedCommand
-        {
-            get
-            {
-                return new DelegateCommand<GameWindowClickedArgs>(this.GameWindowClicked);
-            }
-        }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MapEditViewModel"/> class.
+        /// </summary>
+        /// <param name="map">The map.</param>
+        /// <param name="sessionId">The session identifier.</param>
         public MapEditViewModel(Map map, Guid sessionId)
         {
             // Trace
@@ -130,7 +73,7 @@ namespace Billapong.MapEditor.ViewModels
                 this.callback.HoleAdded += this.HoleAdded;
                 this.callback.HoleRemoved += this.HoleRemoved;
                 this.proxy = new MapEditorServiceClient(this.callback, sessionId);
-            
+
                 // set map properties
                 this.map = map;
                 this.IsPlayable = map.IsPlayable;
@@ -143,12 +86,12 @@ namespace Billapong.MapEditor.ViewModels
                 var config = this.proxy.GetMapConfiguration();
                 var windows = new GameWindow[config.WindowRows][];
                 this.gridSize = GameWindowSize / config.HoleGrid;
-                this.HoleDiameter = GameWindowSize/config.HoleGrid;
+                this.HoleDiameter = GameWindowSize / config.HoleGrid;
 
                 for (var row = 0; row < windows.Length; row++)
                 {
                     windows[row] = new GameWindow[config.WindowCols];
-                    for (var col=0; col<windows[row].Length; col++)
+                    for (var col = 0; col < windows[row].Length; col++)
                     {
                         var mapWindow = this.map.Windows != null
                             ? this.map.Windows.FirstOrDefault(item => item.X == col && item.Y == row)
@@ -169,6 +112,132 @@ namespace Billapong.MapEditor.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets or sets the hole diameter.
+        /// </summary>
+        /// <value>
+        /// The hole diameter.
+        /// </value>
+        public double HoleDiameter
+        {
+            get
+            {
+                return this.GetValue<double>();
+            }
+
+            set
+            {
+                this.SetValue(value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the map is playable.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if the map is playable; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsPlayable
+        {
+            get
+            {
+                return this.GetValue<bool>();
+            }
+
+            set
+            {
+                this.map.IsPlayable = value;
+                this.SetValue(value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the name of the map.
+        /// </summary>
+        /// <value>
+        /// The name of the map.
+        /// </value>
+        public string MapName
+        {
+            get
+            {
+                return this.GetValue<string>();
+            }
+
+            set
+            {
+                this.map.Name = value;
+                this.SetValue(value);
+            }
+        }
+
+        /// <summary>
+        /// Gets the game windows.
+        /// </summary>
+        /// <value>
+        /// The game windows.
+        /// </value>
+        public GameWindow[][] GameWindows { get; private set; }
+
+        /// <summary>
+        /// Gets the save name command.
+        /// </summary>
+        /// <value>
+        /// The save name command.
+        /// </value>
+        public DelegateCommand SaveNameCommand
+        {
+            get
+            {
+                return new DelegateCommand(this.SaveName);
+            }
+        }
+
+        /// <summary>
+        /// Gets the toggle is playable command.
+        /// </summary>
+        /// <value>
+        /// The toggle is playable command.
+        /// </value>
+        public DelegateCommand ToggleIsPlayableCommand
+        {
+            get
+            {
+                return new DelegateCommand(this.ToggleIsPlayable);
+            }
+        }
+
+        /// <summary>
+        /// Gets the toggle selection mode command.
+        /// </summary>
+        /// <value>
+        /// The toggle selection mode command.
+        /// </value>
+        public DelegateCommand ToggleSelectionModeCommand
+        {
+            get
+            {
+                return new DelegateCommand(this.ToggleSelectionMode);
+            }
+        }
+
+        /// <summary>
+        /// Gets the game window clicked command.
+        /// </summary>
+        /// <value>
+        /// The game window clicked command.
+        /// </value>
+        public DelegateCommand<GameWindowClickedArgs> GameWindowClickedCommand
+        {
+            get
+            {
+                return new DelegateCommand<GameWindowClickedArgs>(this.GameWindowClicked);
+            }
+        }
+
+        /// <summary>
+        /// Gets called when the connected view closes
+        /// </summary>
         public override async void CloseCallback()
         {
             await Tracer.Debug("MapEditViewModel :: Close callback retrieved");
@@ -183,16 +252,31 @@ namespace Billapong.MapEditor.ViewModels
             }
         }
 
+        /// <summary>
+        /// Updates the name.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="UpdateNameEventArgs"/> instance containing the event data.</param>
         private void NameUpdated(object sender, UpdateNameEventArgs args)
         {
             this.MapName = args.Name;
         }
 
+        /// <summary>
+        /// Updates the is playable flag.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="UpdateIsPlayableEventArgs"/> instance containing the event data.</param>
         private void IsPlayableUpdated(object sender, UpdateIsPlayableEventArgs args)
         {
             this.IsPlayable = args.IsPlayable;
         }
 
+        /// <summary>
+        /// Window bas been added
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="GameWindowEventArgs"/> instance containing the event data.</param>
         private void WindowAdded(object sender, GameWindowEventArgs args)
         {
             var gameWindow = this.GameWindows[args.Y][args.X];
@@ -211,6 +295,11 @@ namespace Billapong.MapEditor.ViewModels
             this.map.Windows.Add(window);
         }
 
+        /// <summary>
+        /// Window has been removed.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="GameWindowEventArgs"/> instance containing the event data.</param>
         private void WindowRemoved(object sender, GameWindowEventArgs args)
         {
             var gameWindow = this.GameWindows[args.Y][args.X];
@@ -228,6 +317,11 @@ namespace Billapong.MapEditor.ViewModels
             }
         }
 
+        /// <summary>
+        /// Hole has been added.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="GameHoleClickedEventArgs"/> instance containing the event data.</param>
         private void HoleAdded(object sender, GameHoleClickedEventArgs args)
         {
             var gameWindow = this.GameWindows[args.WindowY][args.WindowX];
@@ -244,6 +338,11 @@ namespace Billapong.MapEditor.ViewModels
             }
         }
 
+        /// <summary>
+        /// Hole has been removed.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="GameHoleClickedEventArgs"/> instance containing the event data.</param>
         private void HoleRemoved(object sender, GameHoleClickedEventArgs args)
         {
             var gameWindow = this.GameWindows[args.WindowY][args.WindowX];
@@ -267,11 +366,17 @@ namespace Billapong.MapEditor.ViewModels
             }
         }
 
+        /// <summary>
+        /// Toggles the selection mode.
+        /// </summary>
         private void ToggleSelectionMode()
         {
-            this.isWindowHolesSelectionMode = !isWindowHolesSelectionMode;
+            this.isWindowHolesSelectionMode = !this.isWindowHolesSelectionMode;
         }
 
+        /// <summary>
+        /// Saves the name to the server.
+        /// </summary>
         private async void SaveName()
         {
             await Tracer.Info(string.Format("MapEditViewModel :: Call SaveName() and update name of map id '{0}' to '{1}", this.map.Id, this.MapName));
@@ -290,6 +395,9 @@ namespace Billapong.MapEditor.ViewModels
             } 
         }
 
+        /// <summary>
+        /// Toggles the is playable flag on the server.
+        /// </summary>
         private async void ToggleIsPlayable()
         {
             if (!this.IsPlayable || this.IsMapPlayable())
@@ -317,6 +425,10 @@ namespace Billapong.MapEditor.ViewModels
             }
         }
 
+        /// <summary>
+        /// Handle the game window click event (add/remove window/hole).
+        /// </summary>
+        /// <param name="args">The arguments.</param>
         private async void GameWindowClicked(GameWindowClickedArgs args)
         {
             var point = args.Point;
@@ -395,12 +507,19 @@ namespace Billapong.MapEditor.ViewModels
             }
         }
 
+        /// <summary>
+        /// Handles if callback gets invalid.
+        /// </summary>
         private void HandleInvalidCallback()
         {
             MessageBox.Show(Resources.InvalidCallback, Resources.ErrorTitle, MessageBoxButton.OK, MessageBoxImage.Error);
             this.WindowManager.Close(this);
         }
 
+        /// <summary>
+        /// Determines whether the curent map configuration if valid.
+        /// </summary>
+        /// <returns>Boolean value if the map config is valid or not</returns>
         private bool IsMapPlayable()
         {
             var graph = this.GetActiveGraph();
@@ -409,6 +528,10 @@ namespace Billapong.MapEditor.ViewModels
                 && this.GameWindows.All(windows => windows.Where(window => window.IsChecked).All(window => graph.Contains(window.Id)));
         }
 
+        /// <summary>
+        /// Gets the graph with all active windows.
+        /// </summary>
+        /// <returns>List with ative windows based on the neighbors graph</returns>
         private IList<long> GetActiveGraph()
         {
             for (var row = 0; row < this.GameWindows.Length; row++)
@@ -424,6 +547,13 @@ namespace Billapong.MapEditor.ViewModels
             return Enumerable.Empty<long>().ToList();
         }
 
+        /// <summary>
+        /// Gets the active windows graph.
+        /// </summary>
+        /// <param name="graph">The graph.</param>
+        /// <param name="row">The row.</param>
+        /// <param name="col">The col.</param>
+        /// <returns>List with ative windows based on the neighbors graph</returns>
         private IList<long> GetActiveGraph(IList<long> graph, int row, int col)
         {
             graph.Add(this.GameWindows[row][col].Id);

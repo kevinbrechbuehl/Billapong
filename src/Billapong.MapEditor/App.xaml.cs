@@ -32,7 +32,6 @@
 
             // add events
             this.DispatcherUnhandledException += this.App_DispatcherUnhandledException;
-            //this.ShutdownMode = ShutdownMode.OnMainWindowClose;
 
             // initialize config
             try
@@ -51,7 +50,6 @@
                     MessageBoxImage.Error);
                 this.Shutdown();
             }
-            
         }
 
         /// <summary>

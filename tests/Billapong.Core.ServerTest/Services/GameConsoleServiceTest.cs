@@ -7,9 +7,15 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Server.Services;
 
+    /// <summary>
+    /// Tests for game console service
+    /// </summary>
     [TestClass]
     public class GameConsoleServiceTest : TestBase
     {
+        /// <summary>
+        /// Gets the maps.
+        /// </summary>
         [TestMethod]
         public void GetMapsTest()
         {
@@ -25,6 +31,9 @@
             Assert.IsTrue(maps.First().Windows.First().Holes.Count == 3);
         }
 
+        /// <summary>
+        /// Gets the map by id.
+        /// </summary>
         [TestMethod]
         public void GetMapByIdTest()
         {

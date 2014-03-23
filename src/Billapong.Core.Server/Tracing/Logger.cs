@@ -14,14 +14,14 @@
     public class Logger
     {
         /// <summary>
-        /// The repository
-        /// </summary>
-        private readonly IRepository<LogMessage> repository;
-
-        /// <summary>
         /// The lock object
         /// </summary>
         private static readonly object LockObject = new object();
+        
+        /// <summary>
+        /// The repository
+        /// </summary>
+        private readonly IRepository<LogMessage> repository;
 
         #region Singleton Implementation
 
@@ -92,7 +92,7 @@
         {
             lock (LockObject)
             {
-                var messages = this.repository.Get(filter: message => message.LogLevel >= (int) logLevel);
+                var messages = this.repository.Get(filter: message => message.LogLevel >= (int)logLevel);
 
                 // filter component
                 if (component != Component.All)

@@ -1,17 +1,14 @@
 ﻿namespace Billapong.Core.Server.Map
 {
-    using System;
-
-    using Billapong.Core.Server.Tracing;
-
-    using Contract.Exceptions;
-    using Contract.Service;
-    using DataAccess.Model.Map;
-    using DataAccess.Repository;
     using System.Collections.Generic;
     using System.Linq;
     using System.ServiceModel;
     using System.Threading.Tasks;
+    using Billapong.Core.Server.Tracing;
+    using Billapong.Core.Server.Utilities;
+    using Contract.Exceptions;
+    using Contract.Service;
+    using DataAccess.Model.Map;
     using DataAccess.UnitOfWork;
 
     /// <summary>
@@ -178,7 +175,7 @@
                 // verify if current map is really playable
                 if (isPlayable)
                 {
-                    isPlayable = this.IsPlayable(map);
+                    isPlayable = MapUtil.IsPlayable(map);
                 }
 
                 map.IsPlayable = isPlayable;
@@ -198,7 +195,7 @@
         public void AddWindow(long mapId, int coordX, int coordY)
         {
             Map map;
-            var window = new Window {X = coordX, Y = coordY};
+            var window = new Window { X = coordX, Y = coordY };
             lock (WriterLockObject)
             {
                 map = this.GetMap(mapId);
@@ -253,7 +250,7 @@
         /// <param name="coordY">The coord y.</param>
         public void AddHole(long mapId, long windowId, int coordX, int coordY)
         {
-            var hole = new Hole {X = coordX, Y = coordY};
+            var hole = new Hole { X = coordX, Y = coordY };
             Window window;
             lock (WriterLockObject)
             {
@@ -345,6 +342,10 @@
             }
         }
 
+        /// <summary>
+        /// Gets the high scores.
+        /// </summary>
+        /// <returns>The highscore of each map</returns>
         public IEnumerable<HighScore> GetHighScores()
         {
             return this.unitOfWork.MapRepository.Get()
@@ -353,6 +354,11 @@
                 .ToList();
         }
 
+        /// <summary>
+        /// Gets the high scores for a specific map.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <returns>All scores for specific map</returns>
         public IEnumerable<HighScore> GetHighScores(long mapId)
         {
             return this.unitOfWork.HighScoreRepository
@@ -472,7 +478,7 @@
 
                 foreach (var callback in editor.Callbacks.ToList())
                 {
-                    if (((ICommunicationObject) callback).State != CommunicationState.Opened)
+                    if (((ICommunicationObject)callback).State != CommunicationState.Opened)
                     {
                         editor.Callbacks.Remove(callback);
                         continue;
@@ -520,7 +526,7 @@
         /// <param name="map">The map.</param>
         private void VerifyIsPlayable(Map map)
         {
-            if (!map.IsPlayable || this.IsPlayable(map)) return;
+            if (!map.IsPlayable || MapUtil.IsPlayable(map)) return;
 
             lock (WriterLockObject)
             {
@@ -529,63 +535,6 @@
             }
 
             this.SendUpdateIsPlayableCallback(map.Id, false);
-        }
-
-        /// <summary>
-        /// Determines whether the specified map is playable.
-        /// </summary>
-        /// <param name="map">The map.</param>
-        /// <returns>True if map is playable, false otherwise</returns>
-        private bool IsPlayable(Map map)
-        {
-            if (map.Windows.Count == 0) return false;
-            if (map.Windows.Count == 1) return true;
-            if (map.Windows.Sum(window => window.Holes.Count) == 0) return false;
-
-            var graph = this.GetActiveGraph(map, new List<long>(), map.Windows.First());
-            return map.Windows.All(window => graph.Contains(window.Id));
-        }
-
-        /// <summary>
-        /// Gets the graph with all active windows.
-        /// </summary>
-        /// <param name="map">The map.</param>
-        /// <param name="graph">The graph.</param>
-        /// <param name="window">The window.</param>
-        /// <returns>List with all window id's based on the graph</returns>
-        private IList<long> GetActiveGraph(Map map, IList<long> graph, Window window)
-        {
-            graph.Add(window.Id);
-
-            // neighbor to the right is active
-            var sibling = map.Windows.FirstOrDefault(neighbor => neighbor.X == window.X + 1 && neighbor.Y == window.Y);
-            if (sibling != null && !graph.Contains(sibling.Id))
-            {
-                graph = this.GetActiveGraph(map, graph, sibling);
-            }
-
-            // neighbor to the left is active
-            sibling = map.Windows.FirstOrDefault(neighbor => neighbor.X == window.X - 1 && neighbor.Y == window.Y);
-            if (sibling != null && !graph.Contains(sibling.Id))
-            {
-                graph = this.GetActiveGraph(map, graph, sibling);
-            }
-
-            // neighbor below is active
-            sibling = map.Windows.FirstOrDefault(neighbor => neighbor.X == window.X && neighbor.Y == window.Y + 1);
-            if (sibling != null && !graph.Contains(sibling.Id))
-            {
-                graph = this.GetActiveGraph(map, graph, sibling);
-            }
-
-            // neightbor above is active
-            sibling = map.Windows.FirstOrDefault(neighbor => neighbor.X == window.X && neighbor.Y == window.Y - 1);
-            if (sibling != null && !graph.Contains(sibling.Id))
-            {
-                graph = this.GetActiveGraph(map, graph, sibling);
-            }
-
-            return graph;
         }
     }
 }

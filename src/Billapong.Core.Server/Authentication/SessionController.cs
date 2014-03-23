@@ -11,14 +11,29 @@
     using Billapong.DataAccess.Model.Session;
     using Billapong.DataAccess.Repository;
 
+    /// <summary>
+    /// Controller for session management
+    /// </summary>
     public class SessionController
     {
+        /// <summary>
+        /// The salt for password hashing
+        /// </summary>
         private const string Salt = "B1ll4p0ng";
 
+        /// <summary>
+        /// The lock object
+        /// </summary>
         private static readonly object LockObject = new object();
-        
+
+        /// <summary>
+        /// The user repository
+        /// </summary>
         private readonly IRepository<User> userRepository;
 
+        /// <summary>
+        /// The session store
+        /// </summary>
         private readonly IDictionary<Role, IList<Guid>> sessionStore; 
 
         #region Singleton Implementation
@@ -54,6 +69,13 @@
 
         #endregion
 
+        /// <summary>
+        /// Logins the specified username.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <param name="password">The password.</param>
+        /// <param name="role">The role.</param>
+        /// <returns>Session id for this login</returns>
         public Guid Login(string username, string password, Role role)
         {
             var hash = GetPasswordHash(password);
@@ -75,6 +97,10 @@
             return sessionId;
         }
 
+        /// <summary>
+        /// Logouts the specified session identifier.
+        /// </summary>
+        /// <param name="sessionId">The session identifier.</param>
         public void Logout(Guid sessionId)
         {
             lock (LockObject)
@@ -86,6 +112,12 @@
             }
         }
 
+        /// <summary>
+        /// Determines whether The given session is valid.
+        /// </summary>
+        /// <param name="sessionId">The session identifier.</param>
+        /// <param name="role">The role.</param>
+        /// <returns>Boolean value if session is valid</returns>
         public bool IsValidSession(Guid sessionId, Role role)
         {
             lock (LockObject)
@@ -94,7 +126,12 @@
             }
         }
 
-        public static string GetPasswordHash(string password)
+        /// <summary>
+        /// Gets the hash for a password.
+        /// </summary>
+        /// <param name="password">The password.</param>
+        /// <returns>Generated password hash</returns>
+        private static string GetPasswordHash(string password)
         {
             var salted = string.Join("_", password, Salt);
             using (var md5 = MD5.Create())

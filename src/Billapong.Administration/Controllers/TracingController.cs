@@ -5,7 +5,6 @@
     using System.Linq;
     using System.Net;
     using System.Threading.Tasks;
-    using System.Web;
     using System.Web.Mvc;
     using Billapong.Administration.Authorization;
     using Contract.Data.Tracing;
@@ -28,11 +27,11 @@
             var model = new IndexViewModel();
 
             // add loglevels
-            var logLevels = Enum.GetValues(typeof (LogLevel)).Cast<LogLevel>();
+            var logLevels = Enum.GetValues(typeof(LogLevel)).Cast<LogLevel>();
             model.LogLevelList = logLevels.Select(level => new SelectListItem { Text = level.ToString(), Value = ((int)level).ToString() });
 
             // add components
-            var components = Enum.GetValues(typeof (Component)).Cast<Component>();
+            var components = Enum.GetValues(typeof(Component)).Cast<Component>();
             model.ComponentList = components.Select(component => new SelectListItem { Text = component.ToString(), Value = component.ToString() });
 
             // add number of entries
@@ -82,7 +81,7 @@
         }
 
         /// <summary>
-        /// Clears this instance.
+        /// Clears the logs on the server..
         /// </summary>
         /// <returns>Http status code for the result.</returns>
         [ServiceAuthorize]
