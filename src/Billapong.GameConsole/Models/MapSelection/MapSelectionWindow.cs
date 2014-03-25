@@ -83,7 +83,6 @@
         {
             get
             {
-                /* todo (mathp2): Rewrite from brush to hex code */
                 return this.GetValue<Brush>();
             }
 

@@ -102,7 +102,6 @@
         {
             get
             {
-                // todo (mathp2): Get rid of the color type
                 return this.GetValue<Color>();
             }
 
@@ -123,7 +122,6 @@
         {
             get
             {
-                // todo (mathp2): Get rid of the SolidColorBrush type
                 return this.GetValue<SolidColorBrush>();
             }
 
